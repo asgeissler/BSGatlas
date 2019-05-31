@@ -1,0 +1,31 @@
+--- 
+title: "BSGatlas: Genetrack"
+author:
+  - name: Adrian Geissler
+    affiliation:
+    - &RTH Center for non-coding RNA in Technology and Health,
+      Department of Veterinary and Animal Sciences, University of Copenhagen,
+      Denmark
+  - name: Christian Anthon
+    affiliation: *RTH
+  - name: Stefan Seemann
+    affiliation: *RTH
+  - name: Jan Gorodkin
+    affiliation:
+    - *RTH
+    - Corresponding author
+date: "`r Sys.time()`"
+output:
+  BiocStyle::html_document:
+    self_contained: TRUE
+    toc_float: TRUE
+    css: pretty_table.css
+---
+
+
+```{r setup, include = FALSE}
+source('00_load.R')
+```
+
+# hello world
+
