@@ -42,4 +42,10 @@ which is based on a major annotation refinment
 We downloaded the annotation in the genbank format
 and parsed it with the bioconductor package `genbankr`.
 We used simple string matching, to infer more specific 
-non-coding RNA types, which 
+non-coding RNA types. For only
+`r refseq$noncoding %>% filter(type == 'unclear') %>% nrow`
+of the
+`r nrow(refseq$noncoding)` ncRNA genes it is not directly
+clear from the annotaiton itself what they are.
+(Maybe these can be refined in the merging)
+
