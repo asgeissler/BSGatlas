@@ -16,6 +16,9 @@ theme_set(theme_bw())
 library(GenomicRanges)
 library(Biostrings)
 
+library(genbankr)
+
+
 # helper for multicore processing
 library(parallel)
 
@@ -57,7 +60,7 @@ c(
 
 c(
   'collapse', 'combine', 'desc', 'filter', 'first', 'intersect', 'lag',
-  'rename', 'setdiff', 'setequal', 'slice', 'union'
+  'rename', 'setdiff', 'setequal', 'slice', 'union', 'group_rows'
 ) %>%
   map(conflict_prefer, 'dplyr')
 
