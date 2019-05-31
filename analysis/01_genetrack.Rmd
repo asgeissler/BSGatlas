@@ -26,6 +26,7 @@ output:
 ```{r setup, include = FALSE}
 source('00_load.R')
 
+load('01_refseq.rda')
 ```
 
 # Gene track
@@ -34,3 +35,11 @@ source('00_load.R')
 
 
 ```
+
+The newest refseq annotation is from `r refseq$date`,
+which is based on a major annotation refinment
+(Borriss R, et al. Microb Biotechnol. 2018).
+We downloaded the annotation in the genbank format
+and parsed it with the bioconductor package `genbankr`.
+We used simple string matching, to infer more specific 
+non-coding RNA types, which 

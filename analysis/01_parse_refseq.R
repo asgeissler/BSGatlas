@@ -2,16 +2,16 @@ source('analysis/00_load.R')
 
 source('scripts/frame_helpers.R')
 
-refseq <- readGenBank('data-raw/refseq.gb.gz')
+refseq.in <- readGenBank('data-raw/refseq.gb.gz')
 
 refseq <- list(
-  seq = getSeq(refseq),
-  seqinfo = seqinfo(refseq),
-  date =  genbankr::locus(refseq) %>%
+  seq = getSeq(refseq.in),
+  seqinfo = seqinfo(refseq.in),
+  date =  genbankr::locus(refseq.in) %>%
     strsplit(' ') %>%
     unlist() %>%
     `[`(length(.)),
-  coding = cds(refseq) %>%
+  coding = cds(refseq.in) %>%
     as.tibble %>%
     transmute(
       start, end, strand, name = gene, locus = locus_tag,
@@ -21,7 +21,7 @@ refseq <- list(
       ec = map(EC_number, clean_paste),
       type = ifelse(pseudo, 'putative', 'CDS') 
     ),
-  noncoding = otherFeatures(refseq) %>%
+  noncoding = otherFeatures(refseq.in) %>%
     as.tibble %>%
     transmute(
       start, end, strand, name = gene, locus = locus_tag,
@@ -34,9 +34,11 @@ refseq <- list(
         str_detect(title, 'T-box') ~ 'riboswitch',
         str_detect(title, 'tmRNA') ~ 'tmRNA',
         name == 'scr' ~ 'SRP',
-        # parsing description not clear
-        TRUE ~ 'ncRNA'
+        str_detect(title, 'putative') ~ 'putative',
+        str_detect(title, 'small') ~ 'small',
+        str_detect(title, 'antisense') ~ 'asRNA',
+        TRUE ~ 'unclear'
       )
     )
 )
-save(file = '01_refseq.rda', refseq)
+save(file = 'analysis/01_refseq.rda', refseq)
