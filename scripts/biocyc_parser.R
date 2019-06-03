@@ -6,21 +6,23 @@
 #   parse_entry(c('A - B', '/FOO', 'C - D', 'C - E')),
 #   c(A = 'B\nFOO', C = 'D;E')
 # )
+library(hashmap)
 parse_entry <- function(xs) {
   if(length(xs) == 0) return(list())
-  res <- list()
+  res <- hashmap('', '')
+  res$clear()
   lastKey <- NA
   lastValue <- NA
 
 
   # helper function to populate `res`
   add2res <- function(x, y) {
-    if (y %in% names(res)) {
+    if (res$has_key(x)) {
       # 1. that key occured before
-      res[[x]] <<- paste(res[[x]], y, sep=';')
+      res[[x]] <- paste(res[[x]], y, sep=';')
     } else {
       # 2. create new entry
-      res[[x]] <<- y
+      res[[x]] <- y
     }
   }
 
@@ -42,7 +44,7 @@ parse_entry <- function(xs) {
   }
   # safe last k, v tupple
   add2res(lastKey, lastValue)
-  return(res)
+  return(res$data())
 }
 
 

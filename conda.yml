@@ -211,6 +211,7 @@ dependencies:
   - r-gridgraphics=0.3_0=r351h6115d3f_1001
   - r-gtable=0.3.0=r351h6115d3f_0
   - r-gtools=3.8.1=r351h46e59ec_1002
+  - r-hashmap=0.2.2=r351h466af19_1000
   - r-haven=2.1.0=r351h466af19_0
   - r-hexbin=1.27.3=r351haf69682_0
   - r-highr=0.8=r351h6115d3f_0
