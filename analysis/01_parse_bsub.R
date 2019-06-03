@@ -97,17 +97,238 @@ coords <- bsub_raw$genes %>%
     fid = `PRODUCT`
   )
 
+dedup.go <- function(x) {
+  x %>%
+    strsplit(';') %>%
+    map(clean_paste) %>%
+    unlist
+}
+
 
 coding <- coords %>%
+  separate_rows(fid, sep = ';') %>%
   inner_join(
     bsub_raw$proteins %>%
       transmute(
         fid = `UNIQUE-ID`,
-        description = 'COMMON-NAME',
+        description = `COMMON-NAME`,
         mw = `MOLECULAR-WEIGHT-SEQ`,
-        go = `GO-TERMS`,
+        go = dedup.go(`GO-TERMS`),
         comment = COMMENT,
         cite = clean.pid(`CITATIONS`)
         ),
     'fid'
   )
+
+# Add ec numbers
+bsub_raw$enzrxns %>%
+  select(fid = ENZYME, react = REACTION) %>%
+  left_join(
+    bsub_raw$reactions %>%
+      select(ec = `EC-NUMBER`, react = `UNIQUE-ID`),
+    'react'
+  ) %>%
+  select(-react) -> ec.lookup
+
+
+coding %<>% left_join(ec.lookup, 'fid')
+
+coding %<>% select(- fid)
+
+coding %<>% merge_variants('locus')
+  
+coding %<>% mutate_at(c('start', 'end'), as.integer)
+
+ncRNA <- coords %>%
+  inner_join(
+    bsub_raw$rnas %>%
+      transmute(
+        fid = `UNIQUE-ID`,
+        description = `COMMON-NAME`,
+        comment = COMMENT,
+        type = TYPES,
+        cite = clean.pid(`CITATIONS`)
+        ),
+    'fid'
+  ) %>%
+  mutate(
+    type = case_when(
+      str_detect(type, 'tRNA') ~ 'tRNA',
+      str_detect(type, 'rRNA') ~ 'rRNA',
+      str_detect(description, 'antisense') ~ 'asRNA',
+      str_detect(description, 'scRNA') ~ 'SRP',
+      str_detect(description, 'tmRNA') ~ 'tmRNA',
+      str_detect(description, 'small') ~ 'small',
+      description %in% c('T-box', 'SAM') ~ 'riboswitch',
+      TRUE ~ 'unclear'
+    )
+  )
+
+ncRNA %<>% select(- fid)
+
+# coords %>%
+#   anti_join(coding, 'locus') %>%
+#   anti_join(ncRNA, 'locus')
+# we got all!
+
+bsub_raw$regulons %>%
+  transmute(
+    actor.id = `UNIQUE-ID`,
+    name = `COMMON-NAME`,
+    reg.ids = REGULATES,
+    cite = clean.pid(CITATIONS)
+  ) %>% 
+  separate_rows(reg.ids, sep = ';') %>%
+  left_join(
+    bsub_raw$regulation %>%
+      select(
+        reg.ids = `UNIQUE-ID`,
+        type = TYPES,
+        affected.id = `REGULATED-ENTITY`
+      ),
+    'reg.ids'
+  ) %>%
+  # ids are mixed, look up trans id
+  left_join(
+    bsub_raw$transunits %>%
+      select(trans.id = `UNIQUE-ID`, content = `COMPONENTS`) %>%
+      separate_rows(content, sep = ';'),
+    c('affected.id' = 'content')
+  ) %>%
+  mutate(trans.id = ifelse(is.na(trans.id), affected.id, trans.id)) %>%
+  select(- reg.ids, - affected.id) %>%
+  # now get content and keep only genes
+  left_join(
+    bsub_raw$transunits %>%
+      select(trans.id = `UNIQUE-ID`, locus = `COMPONENTS`) %>%
+      separate_rows(locus, sep = ';'),
+    c('trans.id')
+  ) %>%
+  semi_join(bind_rows(
+    select(coding, locus),
+    select(ncRNA, locus)
+  )) %>%
+  select(- trans.id) %>%
+  rename(affected = locus) %>%
+  # look up actor name
+  left_join(
+    bsub_raw$proteins %>%
+      select(actor.id = `UNIQUE-ID`, GENE, COMPONENTS) %>%
+      gather('foo', 'actor', GENE, COMPONENTS),
+    'actor.id'
+  ) %>%
+  # handle special cases for protein complexes
+  mutate(
+    actor = ifelse(foo == 'COMPONENTS', 
+                   strsplit(actor, '-') %>%
+                     map(1) %>%
+                     unlist(),
+                   actor)
+  ) %>%
+  select(actor, type, name, affected, cite) %>%
+  drop_na %>%
+  arrange(actor, type, name, affected) %>%
+  unique -> regulations
+
+
+terminator <- bsub_raw$terminators %>%
+  transmute(
+    id = `UNIQUE-ID`,
+    cite = clean.pid(CITATIONS),
+    start = `LEFT-END-POSITION` %>% as.numeric,
+    end = `RIGHT-END-POSITION` %>% as.numeric,
+    energy1 = str_replace(COMMENT,
+                          '^.*Free energy \\(in kcal/mol\\): (-[:digit:]+\\.[:digit:]+).*$',
+                          '\\1') %>% as.numeric,
+    energy2 = str_replace(COMMENT,
+                          '^.*Free energy (-[:digit:]+\\.[:digit:]+) kcal/mol.*$',
+                          '\\1') %>% as.numeric,
+    energy = case_when(
+      !is.na(energy1) ~ energy1,
+      !is.na(energy2) ~ energy2,
+      T ~ NA_real_
+    ),
+    wtf = COMMENT,
+    rho.independent = (TYPES == 'Rho-Independent-Terminators')
+  ) %>%
+  select(-wtf, -energy1, -energy2)
+
+
+# Determine boundaries for transcripts, and get strand
+bsub_raw$transunits %>%
+  transmute(
+    id = `UNIQUE-ID`,
+    content = COMPONENTS,
+    cite = clean.pid(CITATIONS)
+  ) %>%
+  separate_rows(content, sep = ';') %>%
+  left_join(
+    bind_rows(
+      transmute(TSSs, content = id, start = tss, end = tss, strand = ''),
+      transmute(coords, content = locus, start, end, strand),
+      transmute(terminator, content = id, start, end, strand = '')
+    ),
+    'content'
+  ) %>%
+  drop_na(start, end) %>%
+  group_by(id) %>%
+  summarize(
+    start = min(start),
+    end = max(end),
+    strand = clean_paste(strand)
+  ) -> trans.bounds
+
+# manual lookup
+trans.bounds %<>%
+  mutate(
+    change = strand == '',
+    start = ifelse(change, NA, start),
+    end = ifelse(change, NA, end),
+    strand = ifelse(change, '-', strand)
+  ) %>%
+  select(-change)
+
+# attach strand to terminator and TSSs
+
+TSSs %<>%
+  drop_na(tss) %>%
+  left_join(bsub_raw$promoters %>%
+              select(id = `UNIQUE-ID`, trans = `COMPONENT-OF`),
+            'id') %>%
+  separate_rows(trans, sep = ';') %>%
+  inner_join(select(trans.bounds, trans = id, strand), 'trans') %>%
+  select(tss, strand, sigma, name, cite)
+
+terminator %<>% 
+  left_join(bsub_raw$terminator %>%
+              select(id = `UNIQUE-ID`, trans = `COMPONENT-OF`),
+            'id') %>%
+  separate_rows(trans, sep = ';') %>%
+  inner_join(select(trans.bounds, trans = id, strand), 'trans') %>%
+  head
+  select(start, end, strand, energy, rho.independent, energy)
+
+bsub_raw$transunits %>%
+  transmute(
+    id = `UNIQUE-ID`,
+    genes = COMPONENTS,
+    cite = clean.pid(CITATIONS)
+  ) %>%
+  separate_rows(genes, sep = ';') %>%
+  semi_join(coords, c('genes' = 'locus')) %>%
+  merge_variants('id') %>%
+  left_join(trans.bounds, 'id') -> trans
+
+trans %<>% select(genes, cite, start, end, strand)
+
+bsubcyc <- list(
+  coding = coding,
+  noncoding = ncRNA,
+  regulation = regulations,
+  transunit = trans,
+  terminator = terminator,
+  TSS = TSSs,
+  cite = pubs
+)
+
+save(file = 'analysis/01_bsubcyc.rda', bsubcyc)
