@@ -15,8 +15,8 @@ refseq <- list(
     as.tibble %>%
     transmute(
       start, end, strand, name = gene, locus = locus_tag,
-      old_locus = old_locus_tag,
-      fnc = map(`function.`, clean_paste),
+      old_locus = old_locus_tag %>% unlist,
+      fnc = map(`function.`, clean_paste) %>% unlist,
       title = product,
       description = note,
       ec = map(EC_number, clean_paste),
@@ -26,8 +26,8 @@ refseq <- list(
     as.tibble %>%
     transmute(
       start, end, strand, name = gene, locus = locus_tag,
-      old_locus = old_locus_tag,
-      fnc = map(`function.`, clean_paste),
+      old_locus = old_locus_tag %>% unlist,
+      fnc = map(`function.`, clean_paste) %>% unlist,
       title = product,
       type = case_when(
         str_detect(locus, 'rRNA') ~ 'rRNA',
