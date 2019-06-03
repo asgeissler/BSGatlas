@@ -15,6 +15,7 @@ refseq <- list(
     as.tibble %>%
     transmute(
       start, end, strand, name = gene, locus = locus_tag,
+      old_locus = old_locus_tag,
       fnc = map(`function.`, clean_paste),
       title = product,
       description = note,
