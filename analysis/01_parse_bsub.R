@@ -10,6 +10,7 @@ files <- list.files(path) %>%
   set_names(strsplit(., '[.]') %>% map(1) %>% unlist) %>%
   keep(endsWith, suffix = '.dat.gz')
 
+
 dat <- file.path(path, files) %>%
   set_names(str_split(files, '[.]') %>% map(1) %>% unlist) %>%
   map(safely(parse_dat))
