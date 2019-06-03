@@ -51,4 +51,5 @@ clear from the annotaiton itself what they are.
 
 
 SubtiWiki downloaded on June 3, 2019
-BsubCyc version 38
+BsubCyc version 38 (release Aug 9, 2017)
+
