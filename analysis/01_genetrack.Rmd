@@ -49,3 +49,6 @@ of the
 clear from the annotaiton itself what they are.
 (Maybe these can be refined in the merging)
 
+
+SubtiWiki downloaded on June 3, 2019
+BsubCyc version 38
