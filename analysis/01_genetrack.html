@@ -1820,7 +1820,7 @@ div.tocify {
 <h1 class="title toc-ignore">BSGatlas: Genetrack</h1>
 <p class="author-name">Adrian Geissler<span class="affil-mark">1</span>, Christian Anthon<span class="affil-mark">1</span>, Stefan Seemann<span class="affil-mark">1</span> and Jan Gorodkin<span class="affil-mark">1,2</span></p>
 <p class="author-affiliation"><span class="affil-mark">1</span>Center for non-coding RNA in Technology and Health, Department of Veterinary and Animal Sciences, University of Copenhagen, Denmark<br><span class="affil-mark">2</span>Corresponding author</p>
-<h4 class="date">2019-05-31 17:57:24</h4>
+<h4 class="date">2019-06-04 16:14:25</h4>
 
 </div>
 
@@ -1839,6 +1839,57 @@ of the
 <span class="math inline">\(212\)</span> ncRNA genes it is not directly
 clear from the annotaiton itself what they are.
 (Maybe these can be refined in the merging)</p>
+<p>BsubCyc database
+version 38 (release Aug 9, 2017)
+has a more systems view representation,
+which comprises
+<span class="math inline">\(4,188\)</span> protein coding and
+<span class="math inline">\(184\)</span> non-coding genes and strucutres.
+<span class="math inline">\(574\)</span>
+experimenatly verifed and nucleotide resolution TSSs,
+<span class="math inline">\(6\)</span> experimentally verified terminator structures.
+The latter two provide clear transcribed boundaries for the some of the
+<span class="math inline">\(1,602\)</span> transcriptional units it describes.
+As meta-information it provides GO-terms and and indication of transcriptional
+relationships.
+In addition, the resource provides detailed metabolic and enzymatic reaction
+and pathway overview, which will not be considered here.</p>
+<p>The 3016 families of rfam 14.1 were used to create ncRNA and structure annotations
+based on conserved stucutre modles, as found by cmsearch v1.1.1.
+(TODO: Why a low search space)
+The search was conducted at three sensetiviy levels.
+The conservative level had a maximal E-value cut-off at 1e-6 and required a
+match score of at least the gathering score, a number provided for each
+family by rfam.
+At the medium level, the score requirement was reduced to half of the gathering
+score, and at the senseitive level the E-value requirement was
+relaxed to 10.
+Afterwards, over-lapping matches, possibly by different rfam family models,
+were combined and assigned to the family with the highest score.
+(<span class="citation">@CA</span> is that correct)
+Depending on the sensetivity level, the rfam based cmsearch identified
+between 214 and 265 non-coding genes and structures.</p>
+<p>The nicolas et al study conducted tiling-array experiments in
+<span class="math inline">\(271\)</span> different environmental condition.
+Within the resolution limit of the tiling-array, they
+identified
+<span class="math inline">\(3,242\)</span> TSSs and
+<span class="math inline">\(2,126\)</span> termination sites.
+Under consideration of these TSSs and termination sites, they identified
+<span class="math inline">\(1,583\)</span> novel transcribed regions.
+They attempted to classify these as UTRs or novel transcripts, which seems
+to have limitations (more later).
+They conducted a literature, and found
+<span class="math inline">\(81\)</span> of these regions as experimentally
+verified in the literature at that time.
+In addition, they found
+<span class="math inline">\(9\)</span> additional ncRNAs
+that weren’t found by the tiling array.
+Based on the comprehensive environmental conditions, they computed
+cluster of (anti-)correlated genes, and predicted
+<span class="math inline">\(597\)</span>
+asRNA-mRNA regulatory pairs.</p>
+<p>SubtiWiki downloaded on June 3, 2019</p>
 </div>
 
 

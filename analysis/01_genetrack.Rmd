@@ -27,14 +27,12 @@ output:
 source('00_load.R')
 
 load('01_refseq.rda')
+load('01_bsubcyc.rda')
+load('01_rfam.rda')
+load('01_nicolas.rda')
 ```
 
 # Gene track
-
-```{r, eval = FALSE}
-
-
-```
 
 The newest refseq annotation is from `r refseq$date`,
 which is based on a major annotation refinment
@@ -49,9 +47,23 @@ of the
 clear from the annotaiton itself what they are.
 (Maybe these can be refined in the merging)
 
+BsubCyc database
+version 38 (release Aug 9, 2017)
+has a more systems view representation,
+which comprises
+`r nrow(bsubcyc$coding)` protein coding and
+`r nrow(bsubcyc$noncoding)` non-coding genes and strucutres.
+`r nrow(bsubcyc$TSS)` 
+experimenatly verifed and nucleotide resolution TSSs,
+`r nrow(bsubcyc$terminator)` experimentally verified terminator structures.
+The latter two provide clear transcribed boundaries for the some of the
+`r nrow(bsubcyc$transunit)` transcriptional units it describes.
+As meta-information it provides GO-terms and and indication of transcriptional
+relationships. 
+In addition, the resource provides detailed metabolic and enzymatic reaction
+and pathway overview, which will not be considered here.
 
-SubtiWiki downloaded on June 3, 2019
-BsubCyc version 38 (release Aug 9, 2017)
+
 
 
 The 3016 families of rfam 14.1 were used to create ncRNA and structure annotations
@@ -67,6 +79,31 @@ relaxed to 10.
 Afterwards, over-lapping matches, possibly by different rfam family models,
 were combined and assigned to the family with the highest score.
 (@CA is that correct)
+Depending on the sensetivity level, the rfam based cmsearch identified
+between 214 and 265 non-coding genes and structures.
+
+
+The nicolas et al study conducted tiling-array experiments in
+`r nrow(nicolas$conditions)` different environmental condition.
+Within the resolution limit of the tiling-array, they
+identified
+`r nrow(nicolas$upshifts)` TSSs and
+`r nrow(nicolas$downshifts)` termination sites.
+Under consideration of these TSSs and termination sites, they identified
+`r nicolas$all.features %>% drop_na %>% nrow` novel transcribed regions.
+They attempted to classify these as UTRs or novel transcripts, which seems
+to have limitations (more later).
+They conducted a literature, and found
+`r nicolas$high$their.trusted %>% nrow` of these regions as experimentally
+verified in the literature at that time.
+In addition, they found
+`r nicolas$high$their.lit_review %>% nrow` additional ncRNAs
+that weren't found by the tiling array.
+Based on the comprehensive environmental conditions, they computed
+cluster of (anti-)correlated genes, and predicted
+`r nrow(nicolas$predicted.asRNA.targets)`
+asRNA-mRNA regulatory pairs.
 
 
 
+SubtiWiki downloaded on June 3, 2019
