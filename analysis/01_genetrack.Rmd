@@ -53,3 +53,20 @@ clear from the annotaiton itself what they are.
 SubtiWiki downloaded on June 3, 2019
 BsubCyc version 38 (release Aug 9, 2017)
 
+
+The 3016 families of rfam 14.1 were used to create ncRNA and structure annotations
+based on conserved stucutre modles, as found by cmsearch v1.1.1.
+(TODO: Why a low search space)
+The search was conducted at three sensetiviy levels.
+The conservative level had a maximal E-value cut-off at 1e-6 and required a
+match score of at least the gathering score, a number provided for each
+family by rfam.
+At the medium level, the score requirement was reduced to half of the gathering
+score, and at the senseitive level the E-value requirement was
+relaxed to 10.
+Afterwards, over-lapping matches, possibly by different rfam family models,
+were combined and assigned to the family with the highest score.
+(@CA is that correct)
+
+
+
