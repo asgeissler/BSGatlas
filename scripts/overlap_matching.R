@@ -89,7 +89,7 @@ overlap_matching <- function(x.tbl, y.tbl) {
       # the X5' to either the Y5' or in the antisense case the Y3'
       x5.dist = abs(x.5prime - ifelse(antisense, y.3prime, y.5prime)),
       # the X3' to either the Y3' or in the antisense case the Y5'
-      x3.dist = abs(x.5prime - ifelse(antisense, y.5prime, y.3prime))
+      x3.dist = abs(x.3prime - ifelse(antisense, y.5prime, y.3prime))
     )
   # Classify
   res %<>% mutate(
@@ -142,40 +142,71 @@ overlap_matching <- function(x.tbl, y.tbl) {
   assertthat::are_equal(
     0,
     res %>%
-      filter(2 * overlap != X.length + Y.length - X3.dist - X.5dist) %>%
+      filter(2 * overlap != x.length + y.length - x3.dist - x5.dist) %>%
       drop_na %>%
       nrow
   )
+  
+  # compute jaccard similarity
+  res %<>% mutate(jaccard = overlap / (x.length + y.length - overlap))
+  
+  # prettify
+  res %<>%
+    select(x, y, mode, antisense, overlap, jaccard, x5.dist, x3.dist,
+           starts_with('x.'), starts_with('y.')) %>%
+    # remove prime postions, not needed and bloats output
+    select(- c(x.5prime, x.3prime, y.5prime, y.3prime)) %>%
+    # and the placeholder
+    select(- c(x.seqnames, y.seqnames))
   return(res)
 }
 
 
 {
   test_x <- tribble(
-    ~id, ~start, ~stop, ~strand,
+    ~id, ~start, ~end, ~strand,
     'A',  1,  5, '+',
     'B', 20, 30, '+',
     'C', 25, 35, '-',
     'D', 40, 50, '+'
   )
   test_y <- tribble(
-    ~id, ~start, ~stop, ~strand,
+    ~id, ~start, ~end, ~strand,
     'a',  3,  7, '+',
     'b', 27, 28, '+',
     'c', 20, 30, '+',
     'd',  6,  9, '-'
   )
+#'  * the X5' to either the Y5' or in the antisense case the Y3'
+#'  * the X3' to either the Y3' or in the antisense case the Y5'
   test_res <- tribble(
-    ~x,  ~y,  ~mode,          ~antisense, ~x5.dist, ~x3.dist, ~overlap, ~y.length, ~y.length, ~jaccard,
+    ~x,  ~y,  ~mode,          ~antisense, ~x5.dist, ~x3.dist, ~overlap, ~x.length, ~y.length, ~jaccard,
     'A', 'a', "3-5_overlap",     FALSE,           2,       2,        3,         5,         5,  0.429,
-    'B', 'b', "contains",        FALSE,           7,       2,        2,        11,         2,  0.18,
-    'B', 'c', "equal",            TRUE,           0,       0,       11,        11,        11,   1,
-    'C', 'b', "5-5_overlap",      TRUE,           7,       2,        2,        11,         2,  0.18,
+    'B', 'b', "contains",        FALSE,           7,       2,        2,        11,         2,  0.182,
+    'B', 'c', "equal",           FALSE,           0,       0,       11,        11,        11,   1,
+    'C', 'b', "contains",         TRUE,           7,       2,        2,        11,         2,  0.182,
     'C', 'c', "3-3_overlap",      TRUE,           5,       5,        6,        11,        11,  0.375,
     'A',  NA, "without_overlap",  TRUE,          NA,      NA,       NA,         5,        NA,   NA,
+    'B',  NA, "without_overlap",  TRUE,          NA,      NA,       NA,        11,        NA,   NA,
+    'C',  NA, "without_overlap", FALSE,          NA,      NA,       NA,        11,        NA,   NA,
+    'D',  NA, "without_overlap", FALSE,          NA,      NA,       NA,        11,        NA,   NA,
+    'D',  NA, "without_overlap",  TRUE,          NA,      NA,       NA,        11,        NA,   NA,
     NA,  'a', "without_overlap",  TRUE,          NA,      NA,       NA,        NA,         5,  NA,
-    NA,  'c', "without_overlap", FALSE,          NA,      NA,       NA,        NA,        10,  NA,
     NA,  'd', "without_overlap",  TRUE,          NA,      NA,       NA,        NA,         4,  NA,
     NA,  'd', "without_overlap", FALSE,          NA,      NA,       NA,        NA,         4,  NA
+  )
+  
+  testthat::expect_equal(
+    overlap_matching(test_x, test_y) %>%
+      select(!! names(test_res)) %>%
+      arrange(x, y, mode, antisense) %>%
+      mutate_if(is.numeric, as.double) %>%
+      mutate_if(is.numeric, round, digits = 3),
+    test_res %>%
+      arrange(x, y, mode, antisense) %>%
+      mutate_if(is.numeric, round, digits = 3)
+    
+    # tibble does not support tolerance => reason for rounding
+    # tolerance = 0.001
   )
 }
