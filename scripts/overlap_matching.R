@@ -48,11 +48,105 @@
 #'     !Note: Each element X/Y could have two 'without_overlap', for both
 #'            sense and antisense case
 
-overlap_matching <- function(x, y) {
+overlap_matching <- function(x.tbl, y.tbl) {
+  x.tbl %<>% mutate(
+    seqnames = 'placeholder',
+    length = end - start + 1,
+    `5prime` = ifelse(strand == '+', start, end),
+    `3prime` = ifelse(strand == '+', end, start)
+  )
+  y.tbl %<>% mutate(
+    seqnames = 'placeholder',
+    length = end - start + 1,
+    `5prime` = ifelse(strand == '+', start, end),
+    `3prime` = ifelse(strand == '+', end, start)
+  )
+  x.range <- plyranges::as_granges(x.tbl)
+  y.range <- plyranges::as_granges(y.tbl)
   
+  # Find and ocmpute overlaps
+  res <- x.range %>%
+    plyranges::join_overlap_intersect(y.range) %>%
+    as_tibble %>%
+    select(x = id.x, y = id.y, overlap = width) %>%
+    # add start / end positions
+    left_join(
+      x.tbl %>%
+        set_names(paste0('x.', names(.))),
+      c('x' = 'x.id')
+    ) %>%
+    left_join(
+      y.tbl %>%
+        set_names(paste0('y.', names(.))),
+      c('y' = 'y.id')
+    ) %>%
+    mutate(
+      antisense = x.strand != y.strand
+    )
+  # Compute distances as described in function explanation
+  res %<>%
+    mutate(
+      # the X5' to either the Y5' or in the antisense case the Y3'
+      x5.dist = abs(x.5prime - ifelse(antisense, y.3prime, y.5prime)),
+      # the X3' to either the Y3' or in the antisense case the Y5'
+      x3.dist = abs(x.5prime - ifelse(antisense, y.5prime, y.3prime))
+    )
+  # Classify
+  res %<>% mutate(
+    mode = case_when(
+      # 1. Positions are equal, but possibly anti-sense
+      (x.start == y.start) & (x.end == y.end) ~ 'equal',
+      # 6. X fully contained in Y, but possibly antisense
+      (x.start >= y.start) & (x.end <= y.end) ~ 'contained_by',
+      # 7. contains
+      (x.start <= y.start) & (x.end >= y.end) ~ 'contains',
+      # 2. X 3' end overlaps Y 5' end
+      # 3. X 3' end overlaps Y 3' end
+      # 4. X 5' end overlaps Y 3' end
+      # 5. X 5' end overlaps Y 5' end
+      (x.start < y.start) & (x.end < y.end) &
+        (x.strand == '+') & (y.strand == '+') ~ '3-5_overlap',
+      (x.start < y.start) & (x.end < y.end) &
+        (x.strand == '-') & (y.strand == '-') ~ '5-3_overlap',
+      (x.start < y.start) & (x.end < y.end) &
+        (x.strand == '+') & (y.strand == '-') ~ '3-3_overlap',
+      (x.start < y.start) & (x.end < y.end) &
+        (x.strand == '-') & (y.strand == '+') ~ '5-5_overlap',
+      (x.start > y.start) & (x.end > y.end) &
+        (x.strand == '+') & (y.strand == '+') ~ '5-3_overlap',
+      (x.start > y.start) & (x.end > y.end) &
+        (x.strand == '-') & (y.strand == '-') ~ '3-5_overlap',
+      (x.start > y.start) & (x.end > y.end) &
+        (x.strand == '+') & (y.strand == '-') ~ '5-5_overlap',
+      (x.start > y.start) & (x.end > y.end) &
+        (x.strand == '-') & (y.strand == '+') ~ '3-3_overlap'
+    )
+  )
   
-  # Invariant distances and overlap should add up
+  # Add indications of non-overlap
+  x.sub <- x.tbl %>%
+    set_names(paste0('x.', names(.))) %>%
+    rename(x = x.id)
+  y.sub <- y.tbl %>%
+    set_names(paste0('y.', names(.))) %>%
+    rename(y = y.id)
+  all.sub <- bind_rows(x.sub, y.sub) %>%
+    crossing(antisense = c(TRUE, FALSE)) %>%
+    mutate(mode = 'without_overlap') %>%
+    anti_join(res, c('x', 'antisense')) %>%
+    anti_join(res, c('y', 'antisense'))
   
+  res %<>% bind_rows(all.sub)
+  
+  # Invariant: distances and overlap should add up
+  assertthat::are_equal(
+    0,
+    res %>%
+      filter(2 * overlap != X.length + Y.length - X3.dist - X.5dist) %>%
+      drop_na %>%
+      nrow
+  )
+  return(res)
 }
 
 
@@ -72,7 +166,7 @@ overlap_matching <- function(x, y) {
     'd',  6,  9, '-'
   )
   test_res <- tribble(
-    ~X,  ~Y,  ~mode,          ~antisense, ~X5.dist, ~X3.dist, ~overlap, ~X.length, ~Y.length, ~jaccard,
+    ~x,  ~y,  ~mode,          ~antisense, ~x5.dist, ~x3.dist, ~overlap, ~y.length, ~y.length, ~jaccard,
     'A', 'a', "3-5_overlap",     FALSE,           2,       2,        3,         5,         5,  0.429,
     'B', 'b', "contains",        FALSE,           7,       2,        2,        11,         2,  0.18,
     'B', 'c', "equal",            TRUE,           0,       0,       11,        11,        11,   1,
