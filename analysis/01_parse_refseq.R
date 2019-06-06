@@ -43,4 +43,18 @@ refseq <- list(
       )
     )
 )
+
+# special cases: 'BSU_20040', 'BSU_20060', 'BSU_35290'
+# Have joined coordinates: Make max span
+refseq$coding %<>%
+  mutate_at('ec', unlist) %>%
+  group_by(locus, strand, name, old_locus, fnc, title, description,
+           ec, type) %>%
+  summarize(
+    start = min(start),
+    end = max(end)
+  ) %>%
+  ungroup()
+  
+  
 save(file = 'analysis/01_refseq.rda', refseq)
