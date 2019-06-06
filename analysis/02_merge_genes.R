@@ -115,24 +115,9 @@ over <- overlap_matching(search, search) %>%
 
 
 over %>%
-  # mutate(
-  #   c.sum = map2(str_detect(x.type, 'coding'),
-  #                str_detect(y.type, 'coding'),
-  #                sum),
-  #   comparison = case_when(
-  #     c.sum == 2 ~ 'coding-coding overlap',
-  #     c.sum == 1 ~ 'coding-RNA overlap',
-  #     c.sum == 0 ~ 'RNA-RNA overlap'
-  #   )
-  # ) %>%
-  # drop_na(jaccard) %>%
-  # group_by(x) %>%
-  # top_n(1, jaccard) %>%
-  # ungroup %>%
   mutate(
     `jaccard similarity` = cut(jaccard, seq(0, 1, 0.1), include.lowest = TRUE)
   ) %>%
-  # pull(j.cut) %>% levels
   mutate_at(c('x.priority', 'y.priority'), function(i) {
     i %>% 
       as.character() %>%
@@ -148,7 +133,7 @@ over %>%
   }) %>%
   ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
   # ggsci::scale_fill_ucscgb() +
-  scale_fill_brewer(palette = 'RdBu', direction = -1) +
+  scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
   geom_bar() +
   xlab(NULL) +
   theme(axis.text.x=element_blank(),
@@ -164,3 +149,34 @@ over %>%
 ggsave(filename = 'analysis/02_level-overlaps.pdf',
        width = 25, height = 25, units = 'cm')
 
+
+over %>%
+  filter(jaccard > 0.8) %>%
+  mutate(
+    `jaccard similarity` = cut(jaccard, seq(0.8, 1, length.out = 10), include.lowest = TRUE)
+  ) %>%
+  mutate_at(c('x.priority', 'y.priority'), function(i) {
+    i %>% 
+      as.character() %>%
+      as.factor %>%
+      fct_recode(
+        'refseq coding' = '0',
+        'bsubcyc coding' = '1',
+        'conservative ncRNA\n(incl. refseq)' = '2',
+        'bsubcyc ncRNA' = '3',
+        'mediuam ncRNA' = '4',
+        'sensetive rfam' = '5'
+    )
+  }) %>%
+  ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
+  scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
+  geom_bar() +
+  xlab(NULL) +
+  theme(axis.text.x=element_blank(),
+      axis.ticks.x=element_blank()) +
+  facet_grid(x.priority ~ y.priority, scales = 'free') +
+  ggtitle('Comparison confidence levels', 
+          'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
+
+ggsave(filename = 'analysis/02_level-overlaps_high.pdf',
+       width = 25, height = 25, units = 'cm')
