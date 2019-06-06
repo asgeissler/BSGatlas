@@ -143,7 +143,7 @@ overlap_matching <- function(x.tbl, y.tbl) {
     0,
     res %>%
       filter(2 * overlap != x.length + y.length - x3.dist - x5.dist) %>%
-      drop_na %>%
+      drop_na(x, y) %>%
       nrow
   )
   
