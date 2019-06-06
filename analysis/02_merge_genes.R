@@ -490,12 +490,24 @@ stat.src_type <- stat %>%
   spread(type.equal, n, fill = 0)
 # how often has source coord the same as merged
 stat.src_coord <- stat %>%
+  # unif nsubcyc / rfam, which were considered separaetly 
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
   count(src, `gene type`, coord.equal) %>%
   mutate(coord.equal = ifelse(coord.equal, 'same coord', 'diff coord')) %>%
   spread(coord.equal, n, fill = 0)
 
 # general providence stat
 stat.src_genes <- merged_src %>%
+  # unif nsubcyc / rfam, which were considered separaetly 
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
   count(type, src) %>%
   rename(count = n, `gene type` = type)
 
