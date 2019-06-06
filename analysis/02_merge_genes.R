@@ -396,7 +396,7 @@ merged_src <- merge_map %>%
   
 merging <- list(
   merged_genes = merged_genes,
-  merged_strc = merged_src
+  merged_src = merged_src
 )
 
 # 7. Make statistics
@@ -404,8 +404,9 @@ stat <- merged_src %>%
   left_join(merged_genes, 'merged_id', suffix = c('', '.merged')) %>%
   mutate(type.equal  = type == type.merged,
          coord.equal = (start == start.merged) & (end == end.merged)) %>%
-  transmute(merged_id, src, priority, type.equal,
-           is.coding = type.merged %in% c('CDS', 'putative-non-coding'))
+  transmute(merged_id, src, priority, type.equal, coord.equal,
+            is.coding = type.merged %in% c('CDS', 'putative-non-coding'),
+           `gene type` = ifelse(is.coding, 'coding', 'non-coding'))
 
 p.src_count <- stat %>%
   count(merged_id, is.coding) %>%
@@ -461,3 +462,51 @@ cowplot::plot_grid(
   labels = 'auto'
 ) %>% ggsave(filename = 'analysis/02_merge_grid.pdf',
              width = 30, height = 10, units = 'cm')
+
+# how often is a gene specific in a source
+stat.src_uniq <- stat %>%
+  # unif nsubcyc / rfam, which were considered separaetly 
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
+  count(merged_id, `gene type`) %>%
+  filter(n == 1) %>%
+  left_join(stat) %>%
+  count(`gene type`, src) %>%
+  rename(uniq = n)
+
+# how often has source type the same as merged
+stat.src_type <- stat %>%
+  # unif nsubcyc / rfam, which were considered separaetly 
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
+  count(src, `gene type`, type.equal) %>%
+  mutate(type.equal = ifelse(type.equal, 'same type', 'diff type')) %>%
+  spread(type.equal, n, fill = 0)
+# how often has source coord the same as merged
+stat.src_coord <- stat %>%
+  count(src, `gene type`, coord.equal) %>%
+  mutate(coord.equal = ifelse(coord.equal, 'same coord', 'diff coord')) %>%
+  spread(coord.equal, n, fill = 0)
+
+# general providence stat
+stat.src_genes <- merged_src %>%
+  count(type, src) %>%
+  rename(count = n, `gene type` = type)
+
+# summary <-
+stat.src_coord %>%
+  left_join(stat.src_type) %>%
+  left_join(stat.src_uniq) %>%
+  head
+  gather('cmp', 'count', `same coord`, `diff coord`,
+         `diff coord`, `same coord`, uniq) %>%
+  unite('cmp', `gene type`, cmp) %>%
+  spread(src, count)
+  
+
