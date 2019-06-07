@@ -399,6 +399,8 @@ merging <- list(
   merged_src = merged_src
 )
 
+save(merging, file = 'analysis/02_merging.rda')
+
 # 7. Make statistics
 prots <- c('CDS', 'putative-coding')
 stat <- merged_src %>%
@@ -486,6 +488,11 @@ stat.src_uniq <- stat %>%
   filter(n == 1) %>%
   left_join(stat) %>%
   count(`gene type`, src) %>%
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
   rename(uniq = n)
 
 # how often has source type the same as merged
@@ -557,19 +564,152 @@ stat.src_genes <- merged_src %>%
   rename(count = n, `gene type` = type)
 
 # summary <-
-stat.src_coord %>%
+tmp <- stat.src_coord %>%
   left_join(stat.src_type,  c('src', 'gene type')) %>%
   left_join(stat.src_total,  c('src', 'gene type')) %>%
-  View
   left_join(stat.src_uniq,  c('src', 'gene type')) %>%
-  head
-  gather('cmp', 'count', `same coord`, `diff coord`,
-         `diff coord`, `same coord`, uniq) %>%
-  unite('cmp', `gene type`, cmp) %>%
-  spread(src, count)
+  left_join(stat.src_reclass,  c('src', 'gene type'))
+
+
+# make sure numbers add up before continuing
+assertthat::assert_that(with(tmp, `diff coord` + `same coord` == Total) %>% all)
+assertthat::assert_that(with(tmp, `diff type` + `same type` == Total) %>% all)
+
+# The coding part
+coding.part <- tmp %>%
+  filter(`gene type` == 'coding') %>%
+  left_join(
+    # stat on who is putative
+    stat.src_genes %>%
+      transmute(src, count, specific = `gene type`,
+                `gene type` = ifelse(`gene type` %in% prots, 'coding', 'non-coding')) %>%
+      filter(`gene type` == 'coding') %>%
+      spread(specific, count)
+  )
+assertthat::assert_that(with(coding.part, `CDS` + `putative-coding` == Total) %>%
+                          all(na.rm = TRUE))
   
-stat.src_total
-stat.src_reclass
-stat.src_uniq
+pct.helper <-function(i, total) {
+  sprintf('%s (%s %%)',
+          i,
+          round(i / total * 100) %>% as.character
+  )
+}
+coding.part2 <- coding.part %>%
+  replace_na(list(
+    'putative-coding' = 0
+  )) %>%
+  # special case in which a putative ncRNA has been re.classified as coding
+  filter(src != 'nicolas lower') %>%
+  transmute(
+    src,
+    'Protein Coding Genes' = Total,
+    'of these hypothetical' = pct.helper(`putative-coding`, Total),
+    'Merging refined coordinates of' = pct.helper(`diff coord`, Total),
+    'Merging removed hypothetical status for' = pct.helper(`diff type`, Total),
+    'Genes uniq to this resource' = ifelse(is.na(uniq),
+                                           '-',
+                                           pct.helper(`uniq`, Total))
+  ) %>%
+  # transpose
+  gather(... = - src) %>%
+  spread(src, value) %>%
+  arrange(desc(1:n()))
   
+  
+  
+  
+  
+
+# The non-coding part
+nc.part <- tmp %>%
+  filter(`gene type` == 'non-coding') %>%
+  left_join(
+    # stat on who is putative
+    stat.src_genes %>%
+      transmute(src, count, specific = `gene type`,
+                `gene type` = ifelse(`gene type` %in% prots, 'coding', 'non-coding')) %>%
+      filter(`gene type` == 'non-coding') %>%
+      spread(specific, count)
+  )
+assertthat::assert_that(with(
+  nc.part, pmap(list(
+    `putative-non-coding`, `putative ncRNA reclassified as coding`,
+    `asRNA`, `intron`, `putative-non-coding`, `riboswitch`, `ribozyme`,
+    `rRNA`, `sRNA`, `SRP`, `tmRNA`, `tRNA` 
+  ),  sum
+  ) == Total) %>%
+    all(na.rm = TRUE)
+)
+  
+nc.part2 <- nc.part %>%
+  mutate_at(c(
+    'putative-non-coding', 'asRNA', 'intron', 'riboswitch', 'ribozyme', 'rRNA',
+    'sRNA', 'SRP', 'tmRNA', 'tRNA'
+    ),
+    replace_na, 0
+  ) %>%
+  transmute(
+    src,
+    'Non-Coding Structures and Genes' = Total,
+    'of these predecited/hypothetical' = pct.helper(`putative-non-coding`, Total),
+    'specific ncRNA type known' = pmap(list(
+        `asRNA`, `intron`, `riboswitch`, `ribozyme`,
+        `rRNA`, `sRNA`, `SRP`, `tmRNA`, `tRNA` 
+      ),  sum) %>%
+      unlist %>%
+      pct.helper(Total),
+    'ribosomal RNA (rRNA)' = pct.helper(`rRNA`, Total),
+    'transfer RNA (tRNA)' = pct.helper(`tRNA`, Total),
+    'small regulatory RNA (sRNA)' = pct.helper(`sRNA`, Total),
+    'regulatory antisense RNA (asRNA)' = pct.helper(`asRNA`, Total),
+    'riboswitch' = pct.helper(`riboswitch`, Total),
+    'self-splicing intron' = pct.helper(intron, Total),
+    'other (ribozyme, SRP, tmRNA)' = pct.helper(ribozyme + SRP + tmRNA,
+                                                Total),
+    
+    
+    'Merging refined coordinates of' = pct.helper(`diff coord`, Total),
+    'Merging removed hypothetical status for' = pct.helper(`diff type`, Total),
+    'Merging reclassified putative ncRNA as coding' = ifelse(
+     is.na(`putative ncRNA reclassified as coding`),
+     '-',
+     `putative ncRNA reclassified as coding`
+    ),
+    'Genes uniq to this resource' = ifelse(is.na(uniq),
+                                           '-',
+                                           pct.helper(`uniq`, Total))
+  )
+
+# transpose and sort columns correctly
+nc.part3 <- nc.part2 %>%
+  gather(... = - src) %>%
+  spread(src, value) %>%
+  mutate_at('key', fct_relevel,
+            names(nc.part2) %>%
+              discard(`==`, 'src') %>%
+              unlist) %>%
+  arrange(key) %>%
+  mutate_at('key', as.character)
+  
+
+# Show full table
+bind_rows(coding.part2, nc.part3) %>%
+  mutate_all(replace_na, '-') %>%
+  select(
+    description = key,
+    RefSeq, BsubCyc, 
+    `Nicolas et al literature review` = `nicolas lit review`,
+    `Nicolas et al trusted predictions` = `nicolas trusted`,
+    `rfam (conservative)` = `rfam conservative`,
+    `rfam (medium)` = `rfam medium`,
+    `rfam (sensetive)` = `rfam sensetive`,
+    `Nicolas et al predictions` = `nicolas lower`
+  ) %>%
+  kable('latex', booktabs = TRUE) %>%
+  add_indent(c(2, 7, 9:15)) %>%
+  row_spec(5, hline_after = TRUE) %>%
+  kable_styling() -> tbl_tex
+
+write_lines(tbl_tex, path = 'analysis/02_stat.tex')
 
