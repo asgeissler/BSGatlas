@@ -742,3 +742,27 @@ tbl_tex %>%
   discard(str_detect, pattern = '\\{table\\}') %>%
   write_lines(path = 'analysis/02_stat.tex')
 
+
+# overlaps ofter mreging
+x <- merging$merged_genes %>%
+  rename(id = merged_id)
+final.over <- overlap_matching(x, x) %>%
+  filter(!antisense) %>%
+  filter(x < y) %>%
+  drop_na(jaccard)
+
+final.over %>%
+  # pull(jaccard) %>% summary
+  mutate(
+    class = case_when(
+       (x.type %in% prots) &  (y.type %in% prots) ~ 'protein-protein overlap',
+      !(x.type %in% prots) &  (y.type %in% prots) ~ 'RNA-protein overlap',
+       (x.type %in% prots) & !(y.type %in% prots) ~ 'RNA-protein overlap',
+      !(x.type %in% prots) & !(y.type %in% prots) ~ 'RNA-RNA overlap'
+    )
+  ) %>%
+  ggplot(aes(x = jaccard)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~class, scales = 'free')
+
+
