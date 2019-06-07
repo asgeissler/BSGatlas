@@ -348,7 +348,7 @@ merge_map %>%
 
 type.helper <- function(i) {
   if (identical(sort(i), c('asRNA', 'sRNA'))) {
-    'sRNA'
+    'asRNA'
   } else {
     assertthat::are_equal(1, length(i))
     i
@@ -421,7 +421,8 @@ stat <- merged_src %>%
     startsWith(src, 'rfam') ~ 'rfam',
     src %in% c("nicolas trusted", "nicolas lit review") ~ 'literature review',
     src == 'nicolas lower' ~ 'Nicolas et al predictions'
-  ))
+  )) %>%
+  unique
 
 p.src_count <- stat %>%
   count(merged_id, `gene type`) %>%
@@ -535,7 +536,8 @@ stat.src_genes <- merged_src %>%
     src %in% c("nicolas trusted", "nicolas lit review") ~ 'literature review',
     src == 'nicolas lower' ~ 'Nicolas et al predictions'
   )) %>%
-  select(merged_id, src, type)
+  select(merged_id, src, type) %>%
+  unique
   
 # as here is a multi source aggregation, I need to work on the type
 foo <- stat.src_genes %>%
