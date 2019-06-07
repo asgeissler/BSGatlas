@@ -537,18 +537,18 @@ stat.src_genes <- merged_src %>%
   )) %>%
   select(merged_id, src, type)
   
-# as here is a multi source comprisement, I need to work on the type
+# as here is a multi source aggregation, I need to work on the type
 foo <- stat.src_genes %>%
-  select(merged_id, type) %>%
+  select(merged_id, src, type) %>%
   filter(!str_detect(type, 'putative')) %>%
   unique %>%
-  group_by(merged_id) %>%
+  group_by(merged_id, src) %>%
   summarize_at('type', type.helper) %>%
   ungroup
   
 # now the actual stat
 stat.src_genes %<>%
-  left_join(foo, 'merged_id') %>%
+  left_join(foo, c('merged_id', 'src')) %>%
   mutate(type = ifelse(is.na(type.y), type.x, type.y)) %>%
   count(type, src) %>%
   rename(count = n, `gene type` = type)
