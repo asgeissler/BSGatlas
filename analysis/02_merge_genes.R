@@ -346,7 +346,7 @@ merge_map %>%
 #   select( - n) %>%
 #   left_join(foo) 
 
-helper <- function(i) {
+type.helper <- function(i) {
   if (identical(sort(i), c('asRNA', 'sRNA'))) {
     'sRNA'
   } else {
@@ -360,7 +360,7 @@ refined_type <- merge_map %>%
   filter(!str_detect(type, 'putative')) %>%
   unique %>%
   group_by(merged_name) %>%
-  summarize_at('type', helper) %>%
+  summarize_at('type', type.helper) %>%
   ungroup
 
 assertthat::are_equal(
@@ -528,8 +528,31 @@ stat.src_coord <- stat %>%
 
 # general providence stat
 stat.src_genes <- merged_src %>%
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    startsWith(src, 'rfam') ~ 'rfam',
+    src %in% c("nicolas trusted", "nicolas lit review") ~ 'literature review',
+    src == 'nicolas lower' ~ 'Nicolas et al predictions'
+  )) %>%
+  select(merged_id, src, type)
+  
+# as here is a multi source comprisement, I need to work on the type
+foo <- stat.src_genes %>%
+  select(merged_id, type) %>%
+  filter(!str_detect(type, 'putative')) %>%
+  unique %>%
+  group_by(merged_id) %>%
+  summarize_at('type', type.helper) %>%
+  ungroup
+  
+# now the actual stat
+stat.src_genes %<>%
+  left_join(foo, 'merged_id') %>%
+  mutate(type = ifelse(is.na(type.y), type.x, type.y)) %>%
   count(type, src) %>%
   rename(count = n, `gene type` = type)
+
 
 # summary <-
 tmp <- stat.src_coord %>%
@@ -661,6 +684,36 @@ nc.part3 <- nc.part2 %>%
   mutate_at('key', as.character)
   
 
+# stat for the final product
+foo <- merged_genes %>%
+  select(type) %>%
+  mutate(gene.type = ifelse(type %in% prots, 'total.coding', 'total.noncoding'))
+
+stat.bsgatlas <- foo %>%
+  count(gene.type) %>%
+  set_names(c('type', 'n')) %>%
+  bind_rows(count(foo, type)) %>%
+  spread(type, n) %>%
+  transmute(
+    src = 'BSGatlas',
+    'Protein Coding Genes' = total.coding,
+    'of these hypothetical' = pct.helper(`putative-non-coding`, total.coding),
+    
+    'Non-Coding Structures and Genes' = total.noncoding,
+    'of these predecited/hypothetical' = pct.helper(`putative-non-coding`, total.noncoding),
+    'ribosomal RNA (rRNA)' = pct.helper(`rRNA`, total.noncoding),
+    'transfer RNA (tRNA)' = pct.helper(`tRNA`, total.noncoding),
+    'small regulatory RNA (sRNA)' = pct.helper(`sRNA`, total.noncoding),
+    'regulatory antisense RNA (asRNA)' = pct.helper(`asRNA`, total.noncoding),
+    'riboswitch' = pct.helper(`riboswitch`, total.noncoding),
+    'self-splicing intron' = pct.helper(intron, total.noncoding),
+    'other (ribozyme, SRP, tmRNA)' = pct.helper(ribozyme + SRP + tmRNA,
+                                                total.noncoding)
+  ) %>%
+  gather(... = -src) %>%
+  spread(src, value) %>%
+  rename(description = key)
+
 # Show full table
 bind_rows(coding.part2, nc.part3) %>%
   mutate_all(replace_na, '-') %>%
@@ -672,6 +725,8 @@ bind_rows(coding.part2, nc.part3) %>%
     `rfam (various sensetivity levels)` = `rfam`,
     `Nicolas et al predictions`
   ) %>%
+  left_join(stat.bsgatlas) %>%
+  replace_na(list(BSGatlas = '-')) %>%
   kable('latex', booktabs = TRUE) %>%
   add_indent(c(2, 7, 9:15)) %>%
   row_spec(5, hline_after = TRUE) %>%
