@@ -400,18 +400,23 @@ merging <- list(
 )
 
 # 7. Make statistics
+prots <- c('CDS', 'putative-coding')
 stat <- merged_src %>%
   left_join(merged_genes, 'merged_id', suffix = c('', '.merged')) %>%
   mutate(type.equal  = type == type.merged,
+         # indicate of change from putative-coding to RNA classification
+         type.reclassRNA = (type %in% prots) & !(type.merged %in% prots),
+         # and the other way
+         type.reclassProt = !(type %in% prots) & (type.merged %in% prots),
          coord.equal = (start == start.merged) & (end == end.merged)) %>%
   transmute(merged_id, src, priority, type.equal, coord.equal,
-            is.coding = type.merged %in% c('CDS', 'putative-non-coding'),
+            type.reclassRNA, type.reclassProt,
+            is.coding = type.merged %in% prots,
            `gene type` = ifelse(is.coding, 'coding', 'non-coding'))
 
 p.src_count <- stat %>%
-  count(merged_id, is.coding) %>%
-  count(n, is.coding) %>%
-  mutate(`gene type` = ifelse(is.coding, 'coding', 'non-coding')) %>%
+  count(merged_id, `gene type`) %>%
+  count(n, `gene type`) %>%
   mutate_at(c('gene type', 'n'), as.factor) %>%
   right_join(expand(., `gene type`, `n`)) %>% 
   replace_na(list(nn = 0)) %>%
@@ -425,22 +430,28 @@ p.src_count <- stat %>%
 
 p.type_count <- merged_genes %>%
   mutate(type = case_when(
-    str_detect(type, 'putative') ~ type,
-    type == c('riboswitch', 'CDS') ~ type,
+    type %in% c('riboswitch', 'CDS', 'putative-coding',
+              'putative-non-coding') ~ type,
     TRUE ~ 'non-coding with known type (tRNA, sRNA, ...)'
   ) %>%
     fct_infreq) %>%
-  count(type) %>%
-  mutate(lab = round(n / nrow(merged_genes) * 100),
-         lab = ifelse(lab > 10,
-                      sprintf('%s %%', as.character(lab)),
-                      '')) %>%
+  pull(type) %>%
+  fct_count(prop = TRUE) %>% mutate(cs = rev(cumsum(rev(p)))) %>%
+  rename(type = f) %>%
+  mutate(
+    lab = round(p * 100),
+    lab = ifelse(lab >= 0,
+                 sprintf('%s %%', as.character(lab)),
+                 ''),
+    at = cs * sum(n) - n / 2
+  ) %>%
   ggplot(aes(x = '', y = n, fill = type)) +
   geom_bar(stat = 'identity') +
   ggsci::scale_fill_jama(name = NULL) +
-  coord_polar('y') +
-  geom_text(aes(y = n/2.5 + c(0, cumsum(n)[-length(n)]), 
-                label = lab), size=5,
+  coord_polar(theta = 'y') +
+  geom_label(aes(y = at,# + c(0, cumsum(n)[-length(n)]), 
+                x = c(1, 1, 1.3, 1.05, 0.8),
+                label = lab), size=3,
             color = 'white') +
   theme_minimal() +
   theme(
@@ -488,6 +499,40 @@ stat.src_type <- stat %>%
   count(src, `gene type`, type.equal) %>%
   mutate(type.equal = ifelse(type.equal, 'same type', 'diff type')) %>%
   spread(type.equal, n, fill = 0)
+
+# total number of genes per resource
+stat.src_total <- stat %>%
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
+  count(src, `gene type`) %>%
+  rename(Total = n)
+  
+
+# assert: both reclass can't happen at the same time
+assertthat::are_equal(
+  0, stat %>% filter(type.reclassProt, type.reclassRNA) %>% nrow
+)
+stat.src_reclass <- stat %>%
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    TRUE ~ src
+  )) %>%
+  count(src, type.reclassRNA, type.reclassProt) %>%
+  filter(type.reclassProt | type.reclassRNA) %>%
+  gather(... = c(type.reclassProt, type.reclassRNA)) %>%
+  filter(value) %>%
+  select(- value) %>%
+  mutate(key = ifelse(key == 'type.reclassProt',
+                      'non-coding%putative ncRNA reclassified as coding',
+                      'coding%putative coding reclassified as non-coding')) %>%
+  separate(key, c('gene type', 'desc'), sep = '%') %>%
+  spread(desc, n)
+
+
 # how often has source coord the same as merged
 stat.src_coord <- stat %>%
   # unif nsubcyc / rfam, which were considered separaetly 
@@ -513,12 +558,18 @@ stat.src_genes <- merged_src %>%
 
 # summary <-
 stat.src_coord %>%
-  left_join(stat.src_type) %>%
-  left_join(stat.src_uniq) %>%
+  left_join(stat.src_type,  c('src', 'gene type')) %>%
+  left_join(stat.src_total,  c('src', 'gene type')) %>%
+  View
+  left_join(stat.src_uniq,  c('src', 'gene type')) %>%
   head
   gather('cmp', 'count', `same coord`, `diff coord`,
          `diff coord`, `same coord`, uniq) %>%
   unite('cmp', `gene type`, cmp) %>%
   spread(src, count)
+  
+stat.src_total
+stat.src_reclass
+stat.src_uniq
   
 
