@@ -414,7 +414,14 @@ stat <- merged_src %>%
   transmute(merged_id, src, priority, type.equal, coord.equal,
             type.reclassRNA, type.reclassProt,
             is.coding = type.merged %in% prots,
-           `gene type` = ifelse(is.coding, 'coding', 'non-coding'))
+           `gene type` = ifelse(is.coding, 'coding', 'non-coding')) %>%
+  mutate(src = case_when(
+    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
+    startsWith(src, 'refseq') ~ 'RefSeq',
+    startsWith(src, 'rfam') ~ 'rfam',
+    src %in% c("nicolas trusted", "nicolas lit review") ~ 'literature review',
+    src == 'nicolas lower' ~ 'Nicolas et al predictions'
+  ))
 
 p.src_count <- stat %>%
   count(merged_id, `gene type`) %>%
@@ -478,42 +485,20 @@ cowplot::plot_grid(
 
 # how often is a gene specific in a source
 stat.src_uniq <- stat %>%
-  # unif nsubcyc / rfam, which were considered separaetly 
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(merged_id, `gene type`) %>%
   filter(n == 1) %>%
   left_join(stat) %>%
   count(`gene type`, src) %>%
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   rename(uniq = n)
 
 # how often has source type the same as merged
 stat.src_type <- stat %>%
-  # unif nsubcyc / rfam, which were considered separaetly 
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(src, `gene type`, type.equal) %>%
   mutate(type.equal = ifelse(type.equal, 'same type', 'diff type')) %>%
   spread(type.equal, n, fill = 0)
 
 # total number of genes per resource
 stat.src_total <- stat %>%
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(src, `gene type`) %>%
   rename(Total = n)
   
@@ -523,11 +508,6 @@ assertthat::are_equal(
   0, stat %>% filter(type.reclassProt, type.reclassRNA) %>% nrow
 )
 stat.src_reclass <- stat %>%
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(src, type.reclassRNA, type.reclassProt) %>%
   filter(type.reclassProt | type.reclassRNA) %>%
   gather(... = c(type.reclassProt, type.reclassRNA)) %>%
@@ -542,24 +522,12 @@ stat.src_reclass <- stat %>%
 
 # how often has source coord the same as merged
 stat.src_coord <- stat %>%
-  # unif nsubcyc / rfam, which were considered separaetly 
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(src, `gene type`, coord.equal) %>%
   mutate(coord.equal = ifelse(coord.equal, 'same coord', 'diff coord')) %>%
   spread(coord.equal, n, fill = 0)
 
 # general providence stat
 stat.src_genes <- merged_src %>%
-  # unif nsubcyc / rfam, which were considered separaetly 
-  mutate(src = case_when(
-    startsWith(src, 'bsubcyc') ~ 'BsubCyc',
-    startsWith(src, 'refseq') ~ 'RefSeq',
-    TRUE ~ src
-  )) %>%
   count(type, src) %>%
   rename(count = n, `gene type` = type)
 
@@ -600,7 +568,7 @@ coding.part2 <- coding.part %>%
     'putative-coding' = 0
   )) %>%
   # special case in which a putative ncRNA has been re.classified as coding
-  filter(src != 'nicolas lower') %>%
+  filter(src != 'Nicolas et al predictions') %>%
   transmute(
     src,
     'Protein Coding Genes' = Total,
@@ -696,20 +664,24 @@ nc.part3 <- nc.part2 %>%
 # Show full table
 bind_rows(coding.part2, nc.part3) %>%
   mutate_all(replace_na, '-') %>%
+  # names
   select(
     description = key,
     RefSeq, BsubCyc, 
-    `Nicolas et al literature review` = `nicolas lit review`,
-    `Nicolas et al trusted predictions` = `nicolas trusted`,
-    `rfam (conservative)` = `rfam conservative`,
-    `rfam (medium)` = `rfam medium`,
-    `rfam (sensetive)` = `rfam sensetive`,
-    `Nicolas et al predictions` = `nicolas lower`
+    `Literature Review` = `literature review`,
+    `rfam (various sensetivity levels)` = `rfam`,
+    `Nicolas et al predictions`
   ) %>%
   kable('latex', booktabs = TRUE) %>%
   add_indent(c(2, 7, 9:15)) %>%
   row_spec(5, hline_after = TRUE) %>%
   kable_styling() -> tbl_tex
 
-write_lines(tbl_tex, path = 'analysis/02_stat.tex')
+as_image(tbl_tex)
+
+tbl_tex %>%
+  str_split('\\n') %>%
+  unlist %>%
+  discard(str_detect, pattern = '\\{table\\}') %>%
+  write_lines(path = 'analysis/02_stat.tex')
 
