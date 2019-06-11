@@ -134,8 +134,8 @@ merging_stat$categorized.stat %>%
   kable('latex',
         caption = 'Comparison of the resources with the merged results, aggregated by category. The shown comparison statistics are relative to the gene annotation with the highest priority within each category',
         booktabs = TRUE) %>%
-  add_indent(c(3, 8, 10:16)) %>%
-  row_spec(6, hline_after = TRUE) %>%
+  add_indent(c(2, 7, 9:15)) %>%
+  row_spec(5, hline_after = TRUE) %>%
   kable_styling(latex_options = 'scale_down') -> tbl_tex
 
 as_image(tbl_tex)
