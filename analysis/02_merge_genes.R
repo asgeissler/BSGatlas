@@ -297,6 +297,7 @@ type.helper <- function(i) {
     'sRNA'
   } else {
     stopifnot(
+      # an ugly way to make the message appear
       assertthat::are_equal(1, length(i)) |
         {print(sprintf('unresolved type: %s', i)) ; FALSE}
     )

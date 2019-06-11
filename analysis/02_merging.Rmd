@@ -75,6 +75,8 @@ between RefSeq and BsubCyc are included.
 We identify all pairs of genes that fullfill this identity criteria.
 Using the concept of transitivity, we select group of genes that are identical
 via computation of components in a graph.
+Only exceptions are riboswitches that overlap known coding sequences, here
+these are kept separately.
 For each group, we collect the coordinates from the resource from the highest
 priority, or the union if there are multiple coordinates of equal confidence.
 
@@ -102,5 +104,22 @@ For each in coordinates overlapping pair of genes above a threshold
 Between each resourc
 Afterwards we identify pairs
 
+```{r}
+
+  left_join(stat.bsgatlas) %>%
+  replace_na(list(BSGatlas = '-')) %>%
+  kable('latex', booktabs = TRUE) %>%
+  add_indent(c(2, 7, 9:15)) %>%
+  row_spec(5, hline_after = TRUE) %>%
+  kable_styling() -> tbl_tex
+
+as_image(tbl_tex)
+
+tbl_tex %>%
+  str_split('\\n') %>%
+  unlist %>%
+  discard(str_detect, pattern = '\\{table\\}') %>%
+  write_lines(path = 'analysis/02_stat.tex')
+```
 
 
