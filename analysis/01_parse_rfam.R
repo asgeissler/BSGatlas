@@ -49,4 +49,7 @@ rfam %<>%
 rfam %<>%
   map(select, family, name, type, start, end, strand, evalue, score)
 
+rfam %<>%
+  map(mutate, id = paste0('row-', 1:n()))
+
 save(file = 'analysis/01_rfam.rda', rfam)
