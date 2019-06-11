@@ -83,10 +83,18 @@ identical.
 This cut-off is slightly lower than the observed trends, such
 that the overall sensetivity is larger and most corresponding pairs of genes
 between RefSeq and BsubCyc are included.
+Upon closer investigation of the RNA annotation, decided to further relax the
+condition to account for the overall lower quality.
+Thus, the relaxed identity exludes overlap between
+riboswitches and coding sequences, assumes a Jaccard similarity of
+at least 80%, or for overlaps between to RNA genes/structures of at
+least 50% or the special cased that one annotation is fully contained within
+the other. (Containment rule only for RNAs)
 
-We identified all pairs of genes that fullfill this identity criteria,
 with the exception of riboswitches that overlap known coding sequences.
 These are kept separate.
+
+We identified all pairs of genes that fullfill this identity criteria.
 Using the concept of transitivity, we select groups of genes that are identical
 via computation of components in a graph.
 For each group, we collect the coordinates from the resource from the highest

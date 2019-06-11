@@ -150,8 +150,14 @@ library(tidygraph)
 
 # 1. Identify group of who will be merged
 nodes <- transmute(search, n = 1:n(), name = id, priority)
+prots <- c('CDS', 'putative-coding')
 edges <- over %>%
-  filter(jaccard > 0.8) %>%
+  # relaxed contion, RNA-RNA overlap or fully contained
+  mutate(
+    rnarna = ! ((x.type %in% prots) | (y.type %in% prots)),
+    relaxed = ((jaccard > 0.5) | str_detect(mode, 'contain')) & rnarna
+  ) %>%
+  filter(jaccard > 0.8 | relaxed) %>%
   select(from = x, to = y) %>%
   mutate(row = 1:n()) %>%
   gather('key', 'node', from, to) %>%
@@ -176,7 +182,7 @@ grph %>%
   as_tibble %>%
   count(priority, group) %>%
   spread(priority, n, fill = 0) %>%
-  count(`0`, `1`, `2`, `3`, `4`, `5`) %>%
+  count(`0`, `1`, `2`, `3`, `4`,) %>%
   arrange(desc(n)) %>%
   rename(
     'refseq coding' = `0`,
@@ -184,7 +190,7 @@ grph %>%
     'conservative ncRNA\n(incl. refseq)' = `2`,
     'bsubcyc ncRNA' = `3`,
     'mediuam ncRNA' = `4`,
-    'sensetive rfam' = `5`
+    # 'sensetive rfam' = `5`
   ) %>%
   View
 

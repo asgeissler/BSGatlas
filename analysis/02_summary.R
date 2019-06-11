@@ -448,11 +448,28 @@ final.over %>%
       !(x.type %in% prots) &  (y.type %in% prots) ~ 'RNA-protein overlap',
        (x.type %in% prots) & !(y.type %in% prots) ~ 'RNA-protein overlap',
       !(x.type %in% prots) & !(y.type %in% prots) ~ 'RNA-RNA overlap'
-    )
+    ),
+    `jaccard similarity` = cut(jaccard, seq(0, 1, 0.1), include.lowest = TRUE)
   ) %>%
-  ggplot(aes(x = jaccard)) +
-  geom_histogram(bins = 10) +
-  facet_wrap(~class, scales = 'free')
+  # select(x, y, jaccard, x.type, y.type, class, overlap, mode, x.length, y.length) %>%
+  # filter(jaccard > 0.1) %>%
+  # View
+  count(`jaccard similarity`, class) -> foo
+expand(foo, `jaccard similarity`, class) %>%
+  mutate(n = 0) -> bar
+foo %>%
+  bind_rows(bar %>% anti_join(foo, c('jaccard similarity', 'class'))) %>%
+  ggplot(aes(x = `jaccard similarity`, y = n, fill = `jaccard similarity`)) +
+  scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
+  geom_bar(stat='identity') +
+  xlab(NULL) +
+  theme(axis.text.x=element_blank(),
+      axis.ticks.x=element_blank()) +
+  facet_wrap( ~ class, scales = 'free') +
+  ggtitle('Comparison overlaps within the merged gene set')
+
+ggsave(filename = 'analysis/02_overlaps_merged.pdf',
+       width = 20, height = 10, units = 'cm')
 
 
 # investigation of loci
