@@ -3,102 +3,8 @@ source('analysis/00_load.R')
 
 source('scripts/overlap_matching.R')
 
+load('analysis/01_tomerge.rda')
 
-
-load('analysis/01_refseq.rda')
-load('analysis/01_bsubcyc.rda')
-load('analysis/01_rfam.rda')
-load('analysis/01_nicolas.rda')
-
-
-# Hierarchy
-# refseq coding
-
-# bsubcyc coding
-
-# nicolas lit review
-# nicolas trusted
-# rfam conservative
-# refseq noncoding
-# 
-# bsubcyc noncoding
-# 
-# rfam medium
-# nicolas lower
-# 
-# rfam sensetive
-
-data <- bind_rows(
-  transmute(refseq$coding,
-            priority = 0, src = 'refseq coding',
-            name,
-            id = locus, start, end, strand, type) %>%
-    mutate(type = ifelse(type == 'putative', 'putative-coding', type)),
-  
-  transmute(bsubcyc$coding,
-            priority = 1, src = 'bsubcyc coding',
-            id = locus, start, end, strand,
-            name,
-            type = ifelse(
-              str_detect(description, 'putative|predicted'),
-              'putative-coding',
-              'CDS'
-            )),
-  
-  transmute(nicolas$high$their.lit_review,
-            priority = 2, src = 'nicolas lit review',
-            name,
-            id = name, start, end, strand),
-  transmute(nicolas$high$their.trusted,
-            priority = 2, src = 'nicolas trusted',
-            name,
-            id = name, start, end, strand),
-  transmute(rfam$conservative,
-            name,
-            priority = 2, src = 'rfam conservative',
-            id = paste('row', 1:n()), start, end, strand, type),
-  transmute(refseq$noncoding,
-            name,
-            priority = 2, src = 'refseq noncoding',
-            id = locus, start, end, strand, type) %>%
-    mutate(type = ifelse(type %in% c('unclear', 'putative'),
-                         'putative-non-coding',
-                         type)),
-  
-  transmute(bsubcyc$noncoding,
-            name,
-            priority = 3, src = 'bsubcyc noncoding',
-            id = locus, start, end, strand, type),
-  
-  transmute(rfam$medium,
-            name,
-            priority = 4, src = 'rfam medium',
-            id = paste('row', 1:n()), start, end, strand, type),
-  transmute(nicolas$lower,
-            name,
-            priority = 4, src = 'nicolas lower',
-            id = name, start, end, strand),
-  
-  transmute(rfam$sensetive,
-            priority = 5, src = 'rfam sensetive',
-            name,
-            id = paste('row', 1:n()), start, end, strand, type)
-) %>%
-  mutate(type = case_when(
-    type == 'small' ~ 'sRNA',
-    type == 'unclear' ~ 'putative-non-coding',
-    type == 'snoRNA'  ~ 'putative-non-coding',
-    is.na(type)       ~ 'putative-non-coding',
-    TRUE ~ type
-  )) %>%
-  mutate_at(c('start', 'end', 'priority'), as.integer) %>%
-  mutate(seqnames = 'dummychr')
-
-data %>%
-  count(src, priority, type) %>%
-  transmute(foo = sprintf('%s (%s)', src, priority), type, n) %>%
-  spread(foo, n) %>%
-  View
 
 # Merging
 
@@ -765,4 +671,36 @@ final.over %>%
   geom_histogram(bins = 10) +
   facet_wrap(~class, scales = 'free')
 
+
+# investigation of loci
+merging$merged_src %>%
+  transmute(merged_id, coding = type %in% prots,
+            locus = str_remove_all(locus, '_')) %>%
+  unique %>%
+  count(merged_id, coding) %>%
+  rename(`count.loci` = n) %>%
+  # count(coding, count.loci)
+  # head
+  filter(count.loci > 1, coding) %>%
+  select(merged_id) %>%
+  left_join(merging$merged_src)
+# nothing: that should not have been merged
+  
+merging$merged_src %>%
+  transmute(merged_id, coding = type %in% prots,
+            locus = str_remove_all(locus, '_')) %>%
+  unique %>%
+  count(locus, coding) %>%
+  rename(`mergedgenes.per.loci` = n) %>%
+  count(coding, mergedgenes.per.loci)
+# 11 coding that might/should have been merged but weren't
+  # filter(mergedgenes.per.loci > 1, coding) %>%
+  # left_join(merging$merged_src %>%
+  #             mutate_at('locus', str_remove_all, '_'),
+  #           'locus') %>%
+  # select(locus, merged_id, src_locus) %>%
+  # arrange(locus) %>%
+  # left_join(over, c('src_locus' = 'x')) %>%
+  # select(locus, merged_id)
+  # View
 
