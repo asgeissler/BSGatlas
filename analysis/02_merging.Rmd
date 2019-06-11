@@ -1,0 +1,106 @@
+--- 
+title: "BSGatlas: Merging"
+author:
+  - name: Adrian Geissler
+    affiliation:
+    - &RTH Center for non-coding RNA in Technology and Health,
+      Department of Veterinary and Animal Sciences, University of Copenhagen,
+      Denmark
+  - name: Christian Anthon
+    affiliation: *RTH
+  - name: Stefan Seemann
+    affiliation: *RTH
+  - name: Jan Gorodkin
+    affiliation:
+    - *RTH
+    - Corresponding author
+date: "`r Sys.time()`"
+output:
+  BiocStyle::html_document:
+    self_contained: TRUE
+    toc_float: TRUE
+    css: pretty_table.css
+---
+
+
+```{r setup, include = FALSE}
+source('00_load.R')
+
+load('01_refseq.rda')
+load('01_bsubcyc.rda')
+load('01_rfam.rda')
+load('01_nicolas.rda')
+
+load('02_merging.rda')
+```
+
+# Merging
+
+We assigned to each resource a priority, indicating how much we trust these
+in comparison to the other available resources.
+We compared each pair of genes and overlap, and computed for each overlapping
+pair the Jaccard similarity.
+
+The pair of genes from RefSeq and BsubCyc that correspond to each other
+according to their loci identifiers are on average highly similar 
+(Jaccard > 99%)
+And only 11 pairs are less simililar that Jaccard < 90%,
+and only 5 gene pairs are less similiar than 80%.
+
+With respect to all resources,
+a histogram of these similarities with clear indication from which resouces
+the genes in the overlapping pair are is shown in:
+
+```{r}
+cowplot::plot_grid(
+  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps.pdf'),
+  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps_high.pdf'),
+  labels = c('[0,1]', '[0.8,1]')
+)
+```
+
+These distirbution shows that nearly all overlaps between coding genes
+are either very similiar (Jaccard > 97.8%) or very dissimilar (< 10%).
+The ncRNA gense tend to either overlap with a high similarity (> 90%) or
+not at all, a pattern persistent across all different level of 
+priorities.
+There is only a single pair of a low confidence, putative ncRNA and a coding
+gene.
+Therefore, we assume that two genes with a similarity above 80% are
+identical. 
+This cut-off is slightly lower  than the observed trends, such
+that the overall sensetivity is larger and most corresponding paris of genes
+between RefSeq and BsubCyc are included.
+
+We identify all pairs of genes that fullfill this identity criteria.
+Using the concept of transitivity, we select group of genes that are identical
+via computation of components in a graph.
+For each group, we collect the coordinates from the resource from the highest
+priority, or the union if there are multiple coordinates of equal confidence.
+
+For the used resources, we assigned the following confidence levels:
+
+Priority | Resource
+---------|-------------------------------------
+0        | Coding Genes from RefSeq
+1        | Coding Genes from BsubCyc
+2        | Non-Coding Genes from RefSeq
+2        | Conservative Rfam scan
+2        | Genes found in literature review by Nicolas et al
+2        | Tiling-array genes identified as trusted by Nicolas et al
+3        | Non-Coding Genes from BsubCyc
+3        | Riboswitch predictions from term-seq
+4        | Rfam scan with medium sensetive parameters
+4        | Genes found by the tiling array study 
+
+The most sensetive rfam set is not indluded in the merging, as
+we consider it as too sensetive.
+
+
+For each in coordinates overlapping pair of genes above a threshold
+(see below), we investigated
+Between each resourc
+Afterwards we identify pairs
+
+
+
