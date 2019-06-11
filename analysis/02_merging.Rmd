@@ -26,12 +26,9 @@ output:
 ```{r setup, include = FALSE}
 source('00_load.R')
 
-load('01_refseq.rda')
-load('01_bsubcyc.rda')
-load('01_rfam.rda')
-load('01_nicolas.rda')
 
 load('02_merging.rda')
+load('02_mergign_stat.rda')
 ```
 
 # Merging
@@ -43,42 +40,9 @@ pair the Jaccard similarity.
 
 The pair of genes from RefSeq and BsubCyc that correspond to each other
 according to their loci identifiers are on average highly similar 
-(Jaccard > 99%)
-And only 11 pairs are less simililar that Jaccard < 90%,
+(Jaccard > 99%);
+only 11 pairs are less simililar that Jaccard < 90%,
 and only 5 gene pairs are less similiar than 80%.
-
-With respect to all resources,
-a histogram of these similarities with clear indication from which resouces
-the genes in the overlapping pair are is shown in:
-
-```{r}
-cowplot::plot_grid(
-  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps.pdf'),
-  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps_high.pdf'),
-  labels = c('[0,1]', '[0.8,1]')
-)
-```
-
-These distirbution shows that nearly all overlaps between coding genes
-are either very similiar (Jaccard > 97.8%) or very dissimilar (< 10%).
-The ncRNA gense tend to either overlap with a high similarity (> 90%) or
-not at all, a pattern persistent across all different level of 
-priorities.
-There is only a single pair of a low confidence, putative ncRNA and a coding
-gene.
-Therefore, we assume that two genes with a similarity above 80% are
-identical. 
-This cut-off is slightly lower  than the observed trends, such
-that the overall sensetivity is larger and most corresponding paris of genes
-between RefSeq and BsubCyc are included.
-
-We identify all pairs of genes that fullfill this identity criteria.
-Using the concept of transitivity, we select group of genes that are identical
-via computation of components in a graph.
-Only exceptions are riboswitches that overlap known coding sequences, here
-these are kept separately.
-For each group, we collect the coordinates from the resource from the highest
-priority, or the union if there are multiple coordinates of equal confidence.
 
 For the used resources, we assigned the following confidence levels:
 
@@ -95,23 +59,63 @@ Priority | Resource
 4        | Rfam scan with medium sensetive parameters
 4        | Genes found by the tiling array study 
 
-The most sensetive rfam set is not indluded in the merging, as
-we consider it as too sensetive.
-
-
-For each in coordinates overlapping pair of genes above a threshold
-(see below), we investigated
-Between each resourc
-Afterwards we identify pairs
+With respect to all resources,
+a histogram of these similarities with clear indication resources priority
+the genes in the overlapping pair are is shown in:
 
 ```{r}
+cowplot::plot_grid(
+  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps.pdf'),
+  cowplot::ggdraw() + cowplot::draw_image('02_level-overlaps_high.pdf'),
+  labels = c('[0,1]', '[0.8,1]')
+)
+```
 
-  left_join(stat.bsgatlas) %>%
-  replace_na(list(BSGatlas = '-')) %>%
-  kable('latex', booktabs = TRUE) %>%
-  add_indent(c(2, 7, 9:15)) %>%
-  row_spec(5, hline_after = TRUE) %>%
-  kable_styling() -> tbl_tex
+These distirbution shows that nearly all overlaps between coding genes
+are either very similiar (Jaccard > 97.8%) or very dissimilar (< 10%).
+The ncRNA genes tend to either overlap with a high similarity (> 90%) or
+not at all, a pattern persistent across all different level of 
+priorities.
+There is only a single pair of a low confidence, putative ncRNA and a coding
+gene.
+Therefore, we assume that two genes with a similarity above 80% are
+identical. 
+This cut-off is slightly lower than the observed trends, such
+that the overall sensetivity is larger and most corresponding pairs of genes
+between RefSeq and BsubCyc are included.
+
+We identified all pairs of genes that fullfill this identity criteria,
+with the exception of riboswitches that overlap known coding sequences.
+These are kept separate.
+Using the concept of transitivity, we select groups of genes that are identical
+via computation of components in a graph.
+For each group, we collect the coordinates from the resource from the highest
+priority, or the union if there are multiple genes of equal priority.
+The outline for this approach is:
+
+```{r}
+cowplot::ggdraw() + cowplot::draw_image('outline_merge.png')
+```
+
+
+Afterwards, we found for each group the most specific type description across
+all priorities. In most cases, these are the type which is not putative.
+In only few cases we resolved ambiguioty by prefering the type description
+asRNA over sRNA, and sRNA over riboswitch.
+The latter ambiguoity comes from the term-seq resource, which did not
+investigate possible additional biological functions of
+partially transcribed RNAs.
+
+For all resources, the merging statistics are
+```{r individual}
+merging_stat$stat.all %>%
+  mutate_all(replace_na, '-') %>%
+  kable('latex',
+        caption = 'Comparison of the individual resources with the merged result',
+        booktabs = TRUE) %>%
+  add_indent(c(3, 8, 10:16)) %>%
+  row_spec(6, hline_after = TRUE) %>%
+  kable_styling(latex_options = 'scale_down') -> tbl_tex
 
 as_image(tbl_tex)
 
@@ -119,7 +123,27 @@ tbl_tex %>%
   str_split('\\n') %>%
   unlist %>%
   discard(str_detect, pattern = '\\{table\\}') %>%
-  write_lines(path = 'analysis/02_stat.tex')
+  write_lines(path = '02_stat_all.tex')
 ```
 
+
+
+```{r categorized}
+merging_stat$categorized.stat %>%
+  mutate_all(replace_na, '-') %>%
+  kable('latex',
+        caption = 'Comparison of the resources with the merged results, aggregated by category. The shown comparison statistics are relative to the gene annotation with the highest priority within each category',
+        booktabs = TRUE) %>%
+  add_indent(c(3, 8, 10:16)) %>%
+  row_spec(6, hline_after = TRUE) %>%
+  kable_styling(latex_options = 'scale_down') -> tbl_tex
+
+as_image(tbl_tex)
+
+tbl_tex %>%
+  str_split('\\n') %>%
+  unlist %>%
+  discard(str_detect, pattern = '\\{table\\}') %>%
+  write_lines(path = '02_stat_categorized.tex')
+```
 
