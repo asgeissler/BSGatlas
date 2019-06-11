@@ -30,6 +30,9 @@ load('01_refseq.rda')
 load('01_bsubcyc.rda')
 load('01_rfam.rda')
 load('01_nicolas.rda')
+load('01_dar-riboswitches.rda')
+
+load('01_tomerge.rda')
 ```
 
 # Gene track
@@ -67,8 +70,7 @@ and pathway overview, which will not be considered here.
 
 
 The 3016 families of rfam 14.1 were used to create ncRNA and structure annotations
-based on conserved stucutre modles, as found by cmsearch v1.1.1.
-(TODO: Why a low search space)
+based on conserved stucture models, as found by cmsearch v1.1.1.
 The search was conducted at three sensetiviy levels.
 The conservative level had a maximal E-value cut-off at 1e-6 and required a
 match score of at least the gathering score, a number provided for each
@@ -78,7 +80,6 @@ score, and at the senseitive level the E-value requirement was
 relaxed to 10.
 Afterwards, over-lapping matches, possibly by different rfam family models,
 were combined and assigned to the family with the highest score.
-(@CA is that correct)
 Depending on the sensetivity level, the rfam based cmsearch identified
 between 214 and 265 non-coding genes and structures.
 
@@ -104,4 +105,32 @@ cluster of (anti-)correlated genes, and predicted
 `r nrow(nicolas$predicted.asRNA.targets)`
 asRNA-mRNA regulatory pairs.
 
+Dar et al. conducted an
+investigation of ribowsitch induced transcription termination
+patterns with term-seq provided a set of
+`r dar_riboswitches %>% nrow`
+riboswitches and a clea indication of which gene they belong to.
+
+This table shows in details what each resource provide:
+
+```{r}
+stat <- to.merge$stat %>%
+  mutate_all(str_replace, '^-$', '--') %>%
+  mutate(type = case_when(
+    type == 'Total' ~ 'Total number',
+    type == 'CDS' ~ 'coding',
+    TRUE ~ type
+  )) %>%
+  select(`Gene Type` = type, RefSeq, BsubCyc, everything()) %>%
+  arrange(desc(as.numeric(RefSeq)))
+kable(stat)
+
+kableExtra::kable(stat, 'latex', booktabs = TRUE,
+                  caption = 'Overview over gene resources') %>%
+  kableExtra::kable_styling() %>%
+  str_split('\\n') %>%
+  unlist %>%
+  writeLines('01_summary_table.tex')
+  
+```
 

@@ -1820,7 +1820,7 @@ div.tocify {
 <h1 class="title toc-ignore">BSGatlas: Genetrack</h1>
 <p class="author-name">Adrian Geissler<span class="affil-mark">1</span>, Christian Anthon<span class="affil-mark">1</span>, Stefan Seemann<span class="affil-mark">1</span> and Jan Gorodkin<span class="affil-mark">1,2</span></p>
 <p class="author-affiliation"><span class="affil-mark">1</span>Center for non-coding RNA in Technology and Health, Department of Veterinary and Animal Sciences, University of Copenhagen, Denmark<br><span class="affil-mark">2</span>Corresponding author</p>
-<h4 class="date">2019-06-04 16:14:25</h4>
+<h4 class="date">2019-06-11 14:01:19</h4>
 
 </div>
 
@@ -1855,8 +1855,7 @@ relationships.
 In addition, the resource provides detailed metabolic and enzymatic reaction
 and pathway overview, which will not be considered here.</p>
 <p>The 3016 families of rfam 14.1 were used to create ncRNA and structure annotations
-based on conserved stucutre modles, as found by cmsearch v1.1.1.
-(TODO: Why a low search space)
+based on conserved stucture models, as found by cmsearch v1.1.1.
 The search was conducted at three sensetiviy levels.
 The conservative level had a maximal E-value cut-off at 1e-6 and required a
 match score of at least the gathering score, a number provided for each
@@ -1866,7 +1865,6 @@ score, and at the senseitive level the E-value requirement was
 relaxed to 10.
 Afterwards, over-lapping matches, possibly by different rfam family models,
 were combined and assigned to the family with the highest score.
-(<span class="citation">@CA</span> is that correct)
 Depending on the sensetivity level, the rfam based cmsearch identified
 between 214 and 265 non-coding genes and structures.</p>
 <p>The nicolas et al study conducted tiling-array experiments in
@@ -1889,7 +1887,466 @@ Based on the comprehensive environmental conditions, they computed
 cluster of (anti-)correlated genes, and predicted
 <span class="math inline">\(597\)</span>
 asRNA-mRNA regulatory pairs.</p>
-<p>SubtiWiki downloaded on June 3, 2019</p>
+<p>Dar et al. conducted an
+investigation of ribowsitch induced transcription termination
+patterns with term-seq provided a set of
+<span class="math inline">\(82\)</span>
+riboswitches and a clea indication of which gene they belong to.</p>
+<p>This table shows in details what each resource provide:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Gene Type
+</th>
+<th style="text-align:left;">
+RefSeq
+</th>
+<th style="text-align:left;">
+BsubCyc
+</th>
+<th style="text-align:left;">
+Dar et al. term-seq
+</th>
+<th style="text-align:left;">
+Nicolas et al. predictions
+</th>
+<th style="text-align:left;">
+Nicolas et al. trusted predictions
+</th>
+<th style="text-align:left;">
+Nicolas et al.’s literature review
+</th>
+<th style="text-align:left;">
+rfam (conservative)
+</th>
+<th style="text-align:left;">
+rfam (medium)
+</th>
+<th style="text-align:left;">
+rfam (sensetive)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:left;">
+4537
+</td>
+<td style="text-align:left;">
+4372
+</td>
+<td style="text-align:left;">
+82
+</td>
+<td style="text-align:left;">
+115
+</td>
+<td style="text-align:left;">
+81
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+214
+</td>
+<td style="text-align:left;">
+227
+</td>
+<td style="text-align:left;">
+265
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CDS
+</td>
+<td style="text-align:left;">
+4237
+</td>
+<td style="text-align:left;">
+2978
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+putative-coding
+</td>
+<td style="text-align:left;">
+88
+</td>
+<td style="text-align:left;">
+1210
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tRNA
+</td>
+<td style="text-align:left;">
+86
+</td>
+<td style="text-align:left;">
+86
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+86
+</td>
+<td style="text-align:left;">
+86
+</td>
+<td style="text-align:left;">
+86
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+riboswitch
+</td>
+<td style="text-align:left;">
+55
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+82
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+63
+</td>
+<td style="text-align:left;">
+72
+</td>
+<td style="text-align:left;">
+84
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rRNA
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+putative-non-coding
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+115
+</td>
+<td style="text-align:left;">
+81
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sRNA
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+asRNA
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SRP
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tmRNA
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+intron
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ribozyme
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+–
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
