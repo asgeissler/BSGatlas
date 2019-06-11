@@ -28,7 +28,9 @@ over <- overlap_matching(search, search) %>%
     # only same sense comparisons
     ! antisense,
     # don't compare identity
-    x != y
+    x != y,
+    # special case do not merge known CDS and riboswitch
+    ! (paste0(x.type, y.type) %in% c('CDSriboswitch', 'riboswitchCDS'))
   )
 
 # Jaccard similarities when the loci match
@@ -257,11 +259,12 @@ merge_map %>%
   View
 
 # anything containing 'putative' should be discarded
-# only problamatic cases are
+#twoonly problamatic cases are
 
 # investigate <- c(
 #   'asRNA;putative-non-coding;sRNA',
 #   'asRNA;sRNA',
+#   'riboswitch;sRNA'
 # resolved:
   ## 'putative-coding;putative-non-coding;riboswitch'
 # )
@@ -275,7 +278,7 @@ merge_map %>%
 #   left_join(merge_map, 'merged_name') %>%
 #   View
 
-# Decision: prefer asRNA over sRNA
+# Decision: prefer asRNA over sRNA, and prefer sRNA over riboswitch
 
 # merge_map %>%
 #   select(merged_name, type) %>%
@@ -290,8 +293,13 @@ merge_map %>%
 type.helper <- function(i) {
   if (identical(sort(i), c('asRNA', 'sRNA'))) {
     'asRNA'
+  } else if (identical(sort(i), c('riboswitch', 'sRNA'))) {
+    'sRNA'
   } else {
-    assertthat::are_equal(1, length(i))
+    stopifnot(
+      assertthat::are_equal(1, length(i)) |
+        {print(sprintf('unresolved type: %s', i)) ; FALSE}
+    )
     i
   }
 }
