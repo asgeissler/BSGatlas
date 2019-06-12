@@ -305,7 +305,6 @@ terminator %<>%
             'id') %>%
   separate_rows(trans, sep = ';') %>%
   inner_join(select(trans.bounds, trans = id, strand), 'trans') %>%
-  head
   select(start, end, strand, energy, rho.independent, energy)
 
 bsub_raw$transunits %>%
