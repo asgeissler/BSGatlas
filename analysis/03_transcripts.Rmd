@@ -1,0 +1,77 @@
+--- 
+title: "BSGatlas: Transcripts"
+author:
+  - name: Adrian Geissler
+    affiliation:
+    - &RTH Center for non-coding RNA in Technology and Health,
+      Department of Veterinary and Animal Sciences, University of Copenhagen,
+      Denmark
+  - name: Christian Anthon
+    affiliation: *RTH
+  - name: Stefan Seemann
+    affiliation: *RTH
+  - name: Jan Gorodkin
+    affiliation:
+    - *RTH
+    - Corresponding author
+date: "`r Sys.time()`"
+output:
+  BiocStyle::html_document:
+    self_contained: TRUE
+    toc_float: TRUE
+    css: pretty_table.css
+---
+
+
+```{r setup, include = FALSE}
+source('00_load.R')
+
+
+load('01_bsubcyc.rda')
+load('02_merging.rda')
+load('03_subtiwiki.rda')
+```
+
+
+# Transcripts and operons
+
+## Data 
+
+BsubCyc's database provides easy access to
+`r nrow(bsubcyc$transunit)`.
+
+SubtiWiki is a still active community effort for protein-centric \\Bsub annotation.
+It provides a
+magnitude of meta information, such as its gene categorisation and lists of
+transcriptional regulations and interactions.
+Moreover, its most recent version included some parts of BsubCyc, yet
+the functional annotation, such as GO terms,
+and the curated list of transcription start and termination sites
+were not.
+Unfortunately, SubtiWiki does not provide the export of gene coordinates,
+such that we had to restore these from our merged gene set via
+comparison of locus and gene names and synonyms.
+Of initially 5,999 coding/non-coding genes, structures, and
+untranslated regions described in SubtiWiki, we were unable to
+identify 16 genes taht seem either putative or after manual investigation
+had a sligthly different spelling in the gene name.
+The UTR information was ignored, as the underlying study prooved to have
+classification difficulties (see below).
+With exception to the afore mentioned very short peptide predictions that
+we found to have unclear gene coordinates, the remaining 4,615 subtwiki genes
+were unambiguously matched to our merged gene set.
+In comparison, the merged set contains 168 genes not described in the subtiwiki set,
+these were 70 coding genes, 54 riboswitches, 24 sRNAs, 10 putative coding
+genes, 6 known RNAs with known regulatory antisense regulations, and
+4 more ncRNAs.
+
+
+We were able to parse of the intially 2,267 transcripts 2,259 of which only 10
+had gene references that we were unable to resolve.
+In addition, we retrieved
+5,297 transcriptional regulation pairs and
+2,567 protein-protein, RNA-protein, and RNA-RNA interactions.
+
+
+
+
