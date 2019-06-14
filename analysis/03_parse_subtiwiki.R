@@ -103,18 +103,18 @@ clear.map <- putative.map %>%
 # * how many genes are not described by them?
 # merging$merged_genes %>%
 #   anti_join(clear.map, 'merged_id') %>%
-#   count(type)
+#   # count(type)
 #   nrow
-# #168
+# #158
 #   type                    n
 #   <chr>               <int>
-#   1 asRNA                   6
+#   1 asRNA                   4
 #   2 CDS                    70
 #   3 intron                  3
-#   4 putative-coding        10
-#   5 putative-non-coding     1
-#   6 riboswitch             54
-#   7 sRNA                   24
+#   4 putative-coding         9
+#   5 putative-non-coding     2
+#   6 riboswitch             52
+#   7 sRNA                   18
 
 # 3 prettify meta data, lookup proper ids
 
@@ -138,7 +138,7 @@ interactions <- subti$interactions %>%
   gather('key', 'locus', partner1, partner2) %>%
   left_join(clear.map, c('locus' = 'id')) %>%
   select(row, key, merged_id) %>%
-  filter(!(row == '144' & merged_id == 'BSGatlas-gene-2371')) %>%
+  filter(!(row == '144' & merged_id == 'BSGatlas-gene-2367')) %>%
   spread(key, merged_id) %>%
   select(- row)
 

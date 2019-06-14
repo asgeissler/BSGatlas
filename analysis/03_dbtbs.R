@@ -164,7 +164,7 @@ term.lookup <- DBTBS$terminator %>%
   find_pattern(., genome, 0)
 
 # term.lookup$counts$sequence %>% unique %>% length
-# # 1031
+# 1031
 # term.lookup$counts %>%
 #   group_by(sequence) %>%
 #   summarize(n = sum(count_matches)) %>%
