@@ -1,4 +1,4 @@
-name: arr
+name: bsgatlas
 channels:
   - conda-forge
   - bioconda
@@ -30,6 +30,7 @@ dependencies:
   - bioconductor-ihw=1.10.1=r351_0
   - bioconductor-iranges=2.16.0=r351h1de35cc_0
   - bioconductor-lpsymphony=1.10.0=r351hfc679d8_0
+  - bioconductor-plyranges=1.2.0=r351_0
   - bioconductor-rsamtools=1.34.0=r351h0a44026_0
   - bioconductor-rtracklayer=1.42.1=r351hc2b1221_1
   - bioconductor-s4vectors=0.20.1=r351h470a237_0
@@ -195,8 +196,10 @@ dependencies:
   - r-fs=1.3.1=r351hf99fc2c_0
   - r-futile.logger=1.4.3=r351h6115d3f_1001
   - r-futile.options=1.0.1=r351h6115d3f_1000
+  - r-fuzzyjoin=0.1.4=r351_1001
   - r-gdata=2.18.0=r351h6115d3f_1001
   - r-generics=0.0.2=r351h6115d3f_1001
+  - r-geosphere=1.5_7=r351h46e59ec_1001
   - r-ggplot2=3.1.1=r351h6115d3f_0
   - r-ggrepel=0.8.1=r351hf99fc2c_0
   - r-ggsci=2.9=r351h6115d3f_1001
@@ -315,14 +318,17 @@ dependencies:
   - r-rvest=0.3.4=r351h6115d3f_0
   - r-scales=1.0.0=r351h466af19_1001
   - r-selectr=0.4_1=r351h6115d3f_1000
+  - r-servr=0.12=r351h6115d3f_0
   - r-sessioninfo=1.1.1=r351h6115d3f_1000
   - r-shiny=1.3.2=r351h6115d3f_0
   - r-slam=0.1_43=r351h46e59ec_1000
   - r-snow=0.4_3=r351h6115d3f_1000
   - r-sourcetools=0.1.7=r351h0a44026_1000
+  - r-sp=1.3_1=r351h46e59ec_1000
   - r-sparklyr=1.0.1=r351h6115d3f_0
   - r-spatial=7.3_11=r351h46e59ec_1002
   - r-squarem=2017.10_1=r351h6115d3f_1001
+  - r-stringdist=0.9.5.1=r351h46e59ec_1000
   - r-stringi=1.4.3=r351hf99fc2c_0
   - r-stringr=1.4.0=r351h6115d3f_0
   - r-survival=2.44_1.1=r351h159158b_0
@@ -336,6 +342,7 @@ dependencies:
   - r-timedate=3043.102=r351h6115d3f_1000
   - r-tinytex=0.13=r351h6115d3f_0
   - r-ttr=0.23_4=r351hfffe0aa_1000
+  - r-upsetr=1.3.3=r351_1001
   - r-usethis=1.5.0=r351h6115d3f_0
   - r-utf8=1.1.4=r351h46e59ec_1000
   - r-uuid=0.1_2=r351h46e59ec_1001
