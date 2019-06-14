@@ -76,7 +76,7 @@ ncRNA.trusted <- read_excel(paths$S6,
   group_by(name) %>%
   summarize(
     start = min(start), 
-    end = max(start),
+    end = max(end),
     strand = first(strand),
     cite = clean_paste(cite)
   ) %>%
