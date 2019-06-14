@@ -72,6 +72,25 @@ In addition, we retrieved
 5,297 transcriptional regulation pairs and
 2,567 protein-protein, RNA-protein, and RNA-RNA interactions.
 
+The authors of the 
+database of transcriptional regulation in Bacillus subtilis (DBTBS)
+provides us with their latest annotation in an XML format.
+Unfortunately, this file did not contain coordinates for the
+most recent Bsub reference genome sequence.
+We utilized the Biostrings exact sequence lookup to
+find coordinates for 98% of the 1,262 annotated
+transcription factor binding sites and 
+for 90% of the 1,031 annotated transcript termination sites.
+To reduce erranous or ambiguous annotations, we used only unique matches without
+allowed mismatches.
+From the sigma factor binding sites that have the relative position
+to the TSS provided, we were able to infer 665 high resolution TSSs.
 
-
-
+DBTBS provides curated annotaiton of operons for 2,201 genes.
+For 98.9% of these genes we were able to find the corresponding gene
+in our merged set by comparing the gene names and keeping only unambguous
+matches.
+Due to the high matching rate, for
+allmost all (98.6%) of
+the annotated 1,123 operons 
+are complete.

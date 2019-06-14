@@ -262,6 +262,8 @@ direct.map %>%
 # 0             344
 # 1            1848
 # 2               9
+# > 344 + 1848 + 9
+# [1] 2201
 
 load('analysis/03_subtiwiki.rda')
 operon %>%
@@ -340,6 +342,12 @@ operon %<>%
   select(operon = operon_name, merged_id, incomplete.flag) %>%
   mutate_at('incomplete.flag', as.logical)
 
+# > count(operon, incomplete.flag)
+# # A tibble: 2 x 2
+# incomplete.flag     n
+# <lgl>           <int>
+#   1 FALSE            1107
+# 2 TRUE               16
 
 dbtbs <- list(
   operon = operon,
