@@ -342,7 +342,7 @@ operon %<>%
   select(operon = operon_name, merged_id, incomplete.flag) %>%
   mutate_at('incomplete.flag', as.logical)
 
-# > count(operon, incomplete.flag)
+# count(operon, incomplete.flag)
 # # A tibble: 2 x 2
 # incomplete.flag     n
 # <lgl>           <int>
