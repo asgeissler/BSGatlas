@@ -23,9 +23,9 @@ extract_seq <- function(seq, grange) {
 #'
 #' @param seqs DNAString as +/- list
 #' @param tibble annotation tibble
-extract_seqs <- function(seqs, tbl, chr = 'NC_000964.3') {
+extract_seqs <- function(seqs, tbl, chr = '168') {
   pos <- tbl %>%
-    mutate(seqnames = 'chr') %>%
+    mutate(seqnames = chr) %>%
     plyranges::as_granges()
   lookup <- extract_seq(seqs, pos)
 
@@ -83,7 +83,7 @@ extract_seqs <- function(seqs, tbl, chr = 'NC_000964.3') {
 #'
 #' @return list of tibbles of counts and positions for each strand
 #' @export
-find_pattern <- function(strings, mismatch = 0, seq = bacillus_genome$seq) {
+find_pattern <- function(strings, seq, mismatch = 0) {
   # Explicitly check also the complementary part
   comp <- Biostrings::reverseComplement(seq)
   both <- Biostrings::DNAStringSet(list(seq, comp))
@@ -164,7 +164,7 @@ find_pattern <- function(strings, mismatch = 0, seq = bacillus_genome$seq) {
     )
   )
   assertthat::are_equal(
-    find_pattern(strings, 0, seq),
+    find_pattern(strings, seq, 0),
     expected
   )
 }
@@ -193,7 +193,7 @@ find_pattern <- function(strings, mismatch = 0, seq = bacillus_genome$seq) {
     )
   )
   assertthat::are_equal(
-    find_pattern(strings, 2, seq),
+    find_pattern(strings, seq, 2),
     expected
   )
 }
