@@ -214,53 +214,65 @@ meta <- bind_rows(
   meta.other,
   subti.overview,
   subti.path,
-  meta.bsga,
+  meta.bsg,
   meta.nic
 ) %>%
   arrange(Resource, meta, info)
 
 
 
-
-mg <- 'BSGatlas-gene-5'
-
-meta %>%
-  filter(merged_id == mg) %>%
-  select(-merged_id) %>%
-  mutate(
-    # group same categories together
-    meta = ifelse(meta == lag(meta, default = ''), '', meta)
-  ) -> meta.tab
-
-
-meta.tab %>%
-  mutate(row = 1:n()) %>%
-  group_by(Resource) %>%
-  summarise(from = min(row), to = max(row)) -> meta.groups
+helper <- function(mg, out) {
+  # mg <- 'BSGatlas-gene-5'
   
+  meta %>%
+    filter(merged_id == mg) %>%
+    select(-merged_id) %>%
+    mutate(
+      # group same categories together
+      meta = ifelse(meta == lag(meta, default = ''), '', meta)
+    ) -> meta.tab
+  
+  
+  meta.tab %>%
+    mutate(row = 1:n()) %>%
+    group_by(Resource) %>%
+    summarise(from = min(row), to = max(row)) -> meta.groups
+    
+  
+  meta.tab %>%
+    select(meta, info) %>%
+    kable('html', 
+          caption = mg,
+          escape = FALSE
+          ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover"),
+                  font_size = 14) -> tab
+  meta.groups %>%
+    rowwise %>%
+    do(foo = {
+      j <- .
+      tab <<- pack_rows(tab, j$Resource, j$from, j$to,
+                        label_row_css = "background-color: #666; color: #fff;") 
+      j
+    })
+  
+  to <- sprintf('%s/%s.html', out, mg)
+  tab %>%
+    save_kable(
+      file = to,
+      self_contained = FALSE,
+      title = paste0('BSGatlas - ', mg)
+    )
+}
+  
+jobs <- merging$merged_genes$merged_id
+worker <- safely(helper)
+cl <- makeForkCluster(detectCores())
+jobs %>%
+  set_names(., .) %>%
+  parLapply(cl = cl, X = ., fun = worker) -> result
+  
+stopCluster(cl)
 
-meta.tab %>%
-  select(meta, info) %>%
-  kable('html', 
-        caption = mg,
-        escape = FALSE
-        ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover"),
-                font_size = 14) -> tab
-meta.groups %>%
-  rowwise %>%
-  do(foo = {
-    j <- .
-    tab <<- pack_rows(tab, j$Resource, j$from, j$to,
-                      label_row_css = "background-color: #666; color: #fff;") 
-    j
-  })
 
-tab %>%
-  save_kable(
-    file = "~/Downloads/test.html",
-    self_contained = FALSE,
-    title = paste0('BSGatlas - ', mg)
-  )
-
-             
+               
