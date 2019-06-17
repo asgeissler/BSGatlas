@@ -287,3 +287,25 @@ stopCluster(cl)
 
 
                
+#######################################################
+
+searchable <- c(
+  "Name", "Alternative Name",
+  "Locus Tag", "Alternative Locus Tag"
+)
+meta %>%
+  filter(meta %in% searchable) %>%
+  select(merged_id, info) %>%
+  mutate_at('info', stringi::stri_enc_toascii) %>%
+  filter(!str_detect(info, '^[ ]+$')) %>%
+  mutate_at('info', na_if, y = '') %>%
+  drop_na %>%
+  unique -> search
+
+# stringi::stri_enc_isascii(search$info) %>% table
+
+search %>%
+  write_delim(path = 'data-hub/search.txt', delim = ' ', col_names = FALSE)
+
+# and again manual execution
+# ixIxx search.txt search.ix search.ixx
