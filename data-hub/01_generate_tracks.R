@@ -89,9 +89,21 @@ colors %>%
 
 write_tsv(color.scheme, path = 'data-hub/color_scheme.tsv')
 
+# -1. Make 2bit file of genome
+genome.id <- 'basu168'
+genome.size <- length(refseq$seq[[1]])
+# refseq$seq %>%
+#   set_names(genome.id) %>%
+#   Biostrings::writeXStringSet('data-hub/genome.fna')
+
+# excectued manually, because rstudio does not seem to load binary files of
+# the conda enviornment?
+# > faToTwoBit genome.fna genome.2bit
+# > twoBitInfo genome.2bit genome.info
+# > rm genome.fna
+
 
 # 0. track for merged genes
-genome.size <- length(refseq$seq[[1]])
 
 merging$merged_genes %>%
   mutate(rgb.type = case_when(
@@ -101,7 +113,7 @@ merging$merged_genes %>%
     TRUE ~ 'other'
   )) %>%
   left_join(color.scheme, c('rgb.type' = 'type', 'strand')) %>%
-  transmute(chr = 'ncbi168', start2 = start - 1, end,
+  transmute(chr = genome.id, start2 = start - 1, end,
             primary.name = merged_id, score = 0,
             strand = strand,
             thickStart = start2, thickEnd = end,
@@ -114,9 +126,12 @@ merged.genes %>%
   bind_rows(
     special %>%
       mutate(start2 = start2, end = genome.size,
+             thickEnd = genome.size,
              primary.name = paste0(primary.name, '.part1')),
     special %>%
-      mutate(start2 = 1, end = end %% genome.size,
+      mutate(start2 = 0, end = end %% genome.size,
+             thickStart = 0,
+             thickEnd = end %% genome.size,
              primary.name = paste0(primary.name, '.part2'))
   ) %>%
   arrange(start2) -> merged.genes
@@ -142,12 +157,105 @@ merged.genes %>%
   write_lines('data-hub/genes.as')
 
 # convert to bigbed
-system()
+# bedToBigBed -type=bed9+1 -tab -as=genes.as \
+#   merged_genes.bed                         \
+#   genome.info                              \
+#   -extraIndex=name,ID                      \
+#   merged_genes.bb
+
 
 # 0b. sensetive rfam genes that would be new
+rfam$sensetive %>%
+  anti_join(rfam$medium, c('family', 'start', 'end', 'strand')) %>%
+  mutate(rgb.type = case_when(
+    type %in% c('putative-coding', 'CDS') ~ 'protein',
+    type %in% c('tRNA', 'rRNA', 'riboswitch') ~ type,
+    type %in% c('sRNA', 'asRNA') ~ 'shortRNA',
+    TRUE ~ 'other'
+  )) %>%
+  left_join(color.scheme, c('rgb.type' = 'type', 'strand')) %>%
+  arrange(start) %>%
+  transmute(chr = genome.id,
+            start2 = start - 1, end,
+            primary.name = sprintf('Rfam-sensetive-extra-%s', 1:n()),
+            score = 0,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb,
+            nice.name = paste(family, name, type, sep = '.')) %>%
+  write_tsv('data-hub/rfam-extra.bed', col_names = FALSE)
+
+# bedToBigBed -type=bed9+1 -tab -as=genes.as \
+#   rfam-extra.bed                         \
+#   genome.info                              \
+#   -extraIndex=name,ID                      \
+#   rfam-extra.bb
 
 # 1. tracks for the individual gene resources
-# note: meta page will be linked to main dscription of the merged set
+# note: meta page will be linked to main description of the merged set
+
+merging$merged_src %>%
+  mutate(rgb.type = case_when(
+    type %in% c('putative-coding', 'CDS') ~ 'protein',
+    type %in% c('tRNA', 'rRNA', 'riboswitch') ~ type,
+    type %in% c('sRNA', 'asRNA') ~ 'shortRNA',
+    TRUE ~ 'other'
+  )) %>%
+  left_join(color.scheme, c('rgb.type' = 'type', 'strand')) %>%
+  arrange(start) %>%
+  mutate(src = src %>%
+           str_replace('^rfam', 'Rfam') %>%
+           str_replace('^refseq', 'RefSeq') %>%
+           str_replace('^bsubcyc', 'BsubCyc') %>%
+           str_replace('nicolas lower', 'nicolas predicitons') %>%
+           str_replace('^nicolas', 'Nicolas et al.') %>%
+           str_replace('^dar', 'Dar et al.')) %>%
+  transmute(chr = genome.id, start2 = start - 1, end,
+            primary.name = merged_id, score = priority,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb, nice.name = locus,
+            src) -> raw
+
+raw.special <- raw %>%
+  filter(end > genome.size)
+raw %>%
+  filter(end <= genome.size) %>%
+  bind_rows(
+    raw.special %>%
+      mutate(start2 = start2, end = genome.size,
+             thickEnd = genome.size,
+             primary.name = paste0(primary.name, '.part1')),
+    raw.special %>%
+      mutate(start2 = 0, end = end %% genome.size,
+             thickStart = 0,
+             thickEnd = end %% genome.size,
+             primary.name = paste0(primary.name, '.part2'))
+  ) %>%
+  arrange(start2) -> raw
+
+raw %>%
+  mutate_if(is.character, str_replace_all, ' ', '-') %>%
+  group_by(src) %>%
+  do(foo = set_names(list(.), first(.$src))) %>%
+  pull(foo) %>%
+  invoke(.f = c) %>%
+  map(select, - src) %>%
+  map2(names(.), function(tbl, i) {
+    sprintf('data-hub/individual/%s.bed', i) %>%
+      str_replace_all(' ', '_') -> to
+    write_tsv(tbl, to, col_names = FALSE)
+  })
+
+# for i in individual/*.bed ; do
+# suff=${i%%[.]bed*}
+# echo $suff
+# bedToBigBed -type=bed9+1 -tab -as=genes.as \
+#   $i                                       \
+#   genome.info                              \
+#   -extraIndex=name,ID                      \
+#   $suff.bb
+# done
 
 # 2. transcripts
 

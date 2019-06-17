@@ -41,7 +41,7 @@ dependencies:
   - bleach=3.1.0=py_0
   - bwidget=1.9.11=1
   - bzip2=1.0.6=h1de35cc_1002
-  - ca-certificates=2019.3.9=hecc5488_0
+  - ca-certificates=2019.6.16=hecc5488_0
   - cairo=1.16.0=h9247486_1000
   - cctools=895=h7512d6f_0
   - certifi=2019.3.9=py37_0
@@ -104,6 +104,7 @@ dependencies:
   - libsodium=1.0.16=h1de35cc_1001
   - libssh2=1.8.2=hcdc9a53_2
   - libtiff=4.0.10=h79f4b77_1001
+  - libuuid=2.32.1=h1de35cc_1000
   - libwebp=1.0.2=h14d73da_2
   - libxcb=1.13=h1de35cc_1002
   - libxml2=2.9.9=hd80cff7_0
@@ -113,6 +114,7 @@ dependencies:
   - make=4.2.1=h1de35cc_2004
   - markupsafe=1.1.1=py37h1de35cc_0
   - mistune=0.8.4=py37h1de35cc_1000
+  - mysql-connector-c=6.1.11=h42c63d9_1003
   - nbconvert=5.5.0=py_0
   - nbformat=4.4.0=py_1
   - ncurses=6.1=h0a44026_1002
@@ -347,6 +349,7 @@ dependencies:
   - r-utf8=1.1.4=r351h46e59ec_1000
   - r-uuid=0.1_2=r351h46e59ec_1001
   - r-vctrs=0.1.0=r351hc070d10_0
+  - r-venn=1.7=r351_1000
   - r-viridis=0.5.1=r351h6115d3f_1001
   - r-viridislite=0.3.0=r351h6115d3f_1001
   - r-webshot=0.5.1=r351h6115d3f_1000
@@ -373,6 +376,10 @@ dependencies:
   - tktable=2.10=h1de35cc_0
   - tornado=6.0.2=py37h01d97ff_0
   - traitlets=4.3.2=py37_1000
+  - ucsc-bedtobigbed=366=h1341992_0
+  - ucsc-fatotwobit=377=he2eb843_2
+  - ucsc-ixixx=366=h5eb252a_0
+  - ucsc-twobitinfo=366=h5eb252a_0
   - unixodbc=2.3.7=hea208f4_1000
   - wcwidth=0.1.7=py_1
   - webencodings=0.5.1=py_1
