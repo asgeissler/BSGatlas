@@ -343,6 +343,3 @@ write_tsv(oper, 'data-hub/operon.bed', col_names = FALSE)
 #   genome.info                    \
 #   operon.bb
 
-
-# meta page for operons and transcripts
-# meta pages for genes, also link individual genes to it
