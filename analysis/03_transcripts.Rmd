@@ -38,7 +38,7 @@ load('03_subtiwiki.rda')
 ## Data 
 
 BsubCyc's database provides easy access to
-`r nrow(bsubcyc$transunit)`.
+`r nrow(bsubcyc$transunit)` transcriptional units.
 
 SubtiWiki is a still active community effort for protein-centric \\Bsub annotation.
 It provides a
@@ -53,7 +53,7 @@ such that we had to restore these from our merged gene set via
 comparison of locus and gene names and synonyms.
 Of initially 5,999 coding/non-coding genes, structures, and
 untranslated regions described in SubtiWiki, we were unable to
-identify 16 genes taht seem either putative or after manual investigation
+identify 16 genes that seem either putative or after manual investigation
 had a sligthly different spelling in the gene name.
 The UTR information was ignored, as the underlying study prooved to have
 classification difficulties (see below).

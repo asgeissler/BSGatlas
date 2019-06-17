@@ -376,3 +376,36 @@ select(genes, id) %>%
 ggsave(file = 'analysis/03_bars.pdf',
        width = 25, height = 9, units = 'cm')
 
+
+
+operons$operon %>%
+  select(id, isoforms) %>%
+  separate_rows(isoforms, sep = ';') %>%
+  left_join(operons$transcrip, c('isoforms' = 'id')) %>%
+  select(id, gene = genes) %>%
+  separate_rows(gene, sep = ';') %>%
+  left_join(genes, c('gene' = 'id')) %>%
+  mutate(is.prot = type %in% c('putative-coding', 'CDS')) %>%
+  select(id, gene, is.prot) %>%
+  unique %>%
+  group_by(id) %>%
+  summarize('#genes' = n(),
+            '#coding' = sum(is.prot),
+            '%coding' = sum(is.prot) / n() * 100) %>%
+  ungroup %>%
+  left_join(
+    operons$operon %>%
+      transmute(id, isoforms, len = end - start + 1) %>%
+      separate_rows(isoforms, sep = ';') %>%
+      group_by(id) %>%
+      summarize('#isoforms' = n(), len = first(len)) %>%
+      ungroup,
+    'id'
+  ) -> operons.stat
+
+save(operons.stat, file = '03_operonstat.rda')
+
+operons.stat %>%
+  ggplot(aes(x = `#isoforms`)) +
+  geom_histogram() +
+  scale_x_log10()
