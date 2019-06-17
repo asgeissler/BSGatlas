@@ -266,11 +266,22 @@ helper <- function(mg, out) {
 }
   
 jobs <- merging$merged_genes$merged_id
-worker <- safely(helper)
+worker <- safely(partial(helper, out = 'data-hub/meta/'))
 cl <- makeForkCluster(detectCores())
 jobs %>%
   set_names(., .) %>%
   parLapply(cl = cl, X = ., fun = worker) -> result
+
+result %>%
+  map('error') %>%
+  map(negate(is.null)) %>%
+  unlist %>%
+  sum
+jobs[result %>%
+  map('error') %>%
+  map(negate(is.null)) %>%
+  unlist] %>%
+  head
   
 stopCluster(cl)
 
