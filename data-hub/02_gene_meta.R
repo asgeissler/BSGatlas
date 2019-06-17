@@ -28,7 +28,7 @@ load('analysis/03_operons.rda')
 refseq[c('coding', 'noncoding')] %>%
   bind_rows %>%
   transmute(
-    'Resource' = 'RefSeq',
+    'Resource' = '3 RefSeq',
     'Locus Tag' = locus,
     'Name' = name,
     'Alternative Locus Tag' = old_locus,
@@ -56,7 +56,7 @@ refseq[c('coding', 'noncoding')] %>%
 bsubcyc[c('coding', 'noncoding')] %>%
   bind_rows %>%
   transmute(
-    'Resource' = 'BsubCyc',
+    'Resource' = '4 BsubCyc',
     'Locus Tag' = locus,
     'Type' = type,
     'Name' = name,
@@ -108,6 +108,7 @@ bsub.overview %>%
   left_join(bsub.cite, 'Locus Tag') %>%
   mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
   gather('meta', 'info', - c(Resource, merged_id)) %>%
+  separate_rows(info, sep = ';') %>%
   drop_na %>%
   unique  -> bsub.meta
 
@@ -118,9 +119,9 @@ merging$merged_src %>%
   transmute(
     merged_id,
     Resource = case_when(
-      startsWith(src, 'rfam') ~ 'Rfam',
-      src == 'nicolas lower' ~ 'Nicolas et al. predictions',
-      src == 'dar riboswitches' ~ 'Dar et al. riboswitches',
+      startsWith(src, 'rfam') ~ '5 Rfam',
+      src == 'nicolas lower' ~ '7 Nicolas et al. predictions',
+      src == 'dar riboswitches' ~ '6 Dar et al. riboswitches',
       TRUE ~ NA_character_
     ),
     'Locus Tag' = locus,
@@ -136,9 +137,10 @@ merging$merged_src %>%
   
 
 # --------
+# SubtiWiki
 subtiwiki$genes %>%
   transmute(
-    merged_id, Resource = 'SubtiWiki',
+    merged_id, Resource = '2 SubtiWiki',
     'Locus Tag' = locus,
     'Name' = name,
     'Description' = description,
@@ -158,8 +160,51 @@ subtiwiki$genes %>%
 
 subtiwiki$gene.categories %>%
   left_join(subtiwiki$categories, c('category' = 'id')) %>%
-  transmute(Resource = 'SubtiWiki', merged_id,
-            meta = 'Pathway', info = paste(category, desc)) -> subti.path
+  transmute(Resource = '2 SubtiWiki', merged_id,
+            meta = 'Category', info = paste(category, desc)) -> subti.path
+
+# --------
+# Correlations from Nicolas
+merging$merged_src %>%
+  inner_join(nicolas$all.features, 'locus') %>%
+  transmute(merged_id,
+            Resource = '7 Nicolas et al. predictions',
+            Name = name.x,
+            'Highly expressed condition' = highly_expressed_conditions,
+            'Lowely expressed condition' = lowely_expressed_conditions,
+            'Expression neg. correlated with' = negative_correlated_genes,
+            'Expression pos. correlated with' = positive_correlated_genes
+            ) %>%
+  gather('meta', 'info', -c(merged_id, Resource)) %>%
+  separate_rows(info, sep = '[ ,;]+') %>%
+  left_join(
+    nicolas$conditions %>%
+      fill(desc) %>%
+      select(id, desc) %>%
+      drop_na %>%
+      mutate(id = id %>%
+               str_split('_') %>%
+               map(1) %>%
+               unlist) %>%
+      unique,
+    c(info = 'id')
+  ) %>%
+  mutate(
+    info = ifelse(
+      str_detect(meta, 'condition'),
+      sprintf('(%s) %s', info, desc),
+      info
+    )
+  ) -> meta.nic
+
+meta.nic %<>% select(-desc)
+
+# --------
+# And our conclusion
+merging$merged_genes %>%
+  transmute(merged_id, Resource = '1 BSGatlas',
+            Type = type, Name = merged_name) %>%
+  gather('meta', 'info', Type, Name) -> meta.bsg
 
 #######################################################
 
@@ -168,8 +213,11 @@ meta <- bind_rows(
   bsub.meta,
   meta.other,
   subti.overview,
-  subti.path
-)
+  subti.path,
+  meta.bsga,
+  meta.nic
+) %>%
+  arrange(Resource, meta, info)
 
 
 
@@ -179,7 +227,6 @@ mg <- 'BSGatlas-gene-5'
 meta %>%
   filter(merged_id == mg) %>%
   select(-merged_id) %>%
-  arrange(Resource, meta, info) %>%
   mutate(
     # group same categories together
     meta = ifelse(meta == lag(meta, default = ''), '', meta)
@@ -195,7 +242,7 @@ meta.tab %>%
 meta.tab %>%
   select(meta, info) %>%
   kable('html', 
-        caption = paste0('BSGatlas - ', mg),
+        caption = mg,
         escape = FALSE
         ) %>%
   kable_styling(bootstrap_options = c("striped", "hover"),
