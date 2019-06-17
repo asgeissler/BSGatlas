@@ -60,7 +60,7 @@ bsubcyc[c('coding', 'noncoding')] %>%
     'Locus Tag' = locus,
     'Type' = type,
     'Name' = name,
-    'Alternative Name', synonyms,
+    'Alternative Name' = synonyms,
     'Description' = description,
     'Molecular weight' = mw,
     'Comment' = comment,
@@ -85,14 +85,31 @@ AnnotationDbi::select(
 bsubcyc[c('coding', 'noncoding')] %>%
   bind_rows %>%
   transmute(
-    'Resource' = 'BsubCyc',
     'Locus Tag' = locus,
-    meta = 'Gene Ontology',
     go = go) %>%
   separate_rows(go, sep = ';') %>%
   left_join(go.look, c('go' = 'GOID')) %>%
-  transmute(Resource, `Locus Tag`, meta, info = paste(go, TERM)) -> bsub.go
-  
+  transmute(`Locus Tag`, 'Gene Ontology' = paste(go, TERM)) -> bsub.go
+
+
+bsubcyc[c('coding', 'noncoding')] %>%
+  bind_rows %>%
+  select(`Locus Tag` = locus, pid = cite) %>%
+  separate_rows(pid, sep = ';') %>%
+  left_join(bsubcyc$cite, 'pid') %>%
+  transmute(
+    `Locus Tag`,
+    Citation = sprintf(
+      '%s<br/>%s<br/>%s (%s)<br/>PubMed: %s',
+      authors, title, journal, year, pid)) -> bsub.cite
+
+bsub.overview %>%
+  left_join(bsub.go, 'Locus Tag') %>%
+  left_join(bsub.cite, 'Locus Tag') %>%
+  mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
+  gather('meta', 'info', - c(Resource, merged_id)) %>%
+  drop_na %>%
+  unique  -> bsub.meta
 
 # --------
 # Rfam/Dar/nicolas predictions
@@ -118,15 +135,85 @@ merging$merged_src %>%
   drop_na -> meta.other
   
 
+# --------
+subtiwiki$genes %>%
+  transmute(
+    merged_id, Resource = 'SubtiWiki',
+    'Locus Tag' = locus,
+    'Name' = name,
+    'Description' = description,
+    'Molecular weight' = mw,
+    'Isoelectric point' = pI,
+    'Function' = `function`,
+    'Product' = product,
+    'Is essential?' = essential,
+    'Enzyme Classifications' = ec,
+    'Alternative Name' = names
+  ) %>%
+  mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
+  gather('meta', 'info', - c(merged_id, Resource)) %>%
+  drop_na %>%
+  separate_rows(info, sep = ';') %>%
+  unique -> subti.overview
+
+subtiwiki$gene.categories %>%
+  left_join(subtiwiki$categories, c('category' = 'id')) %>%
+  transmute(Resource = 'SubtiWiki', merged_id,
+            meta = 'Pathway', info = paste(category, desc)) -> subti.path
 
 #######################################################
 
+meta <- bind_rows(
+  refseq.meta, 
+  bsub.meta,
+  meta.other,
+  subti.overview,
+  subti.path
+)
 
 
-library(ReportingTools)
+
 
 mg <- 'BSGatlas-gene-5'
 
+meta %>%
+  filter(merged_id == mg) %>%
+  select(-merged_id) %>%
+  arrange(Resource, meta, info) %>%
+  mutate(
+    # group same categories together
+    meta = ifelse(meta == lag(meta, default = ''), '', meta)
+  ) -> meta.tab
 
 
+meta.tab %>%
+  mutate(row = 1:n()) %>%
+  group_by(Resource) %>%
+  summarise(from = min(row), to = max(row)) -> meta.groups
+  
 
+meta.tab %>%
+  select(meta, info) %>%
+  kable('html', 
+        caption = paste0('BSGatlas - ', mg),
+        escape = FALSE
+        ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"),
+                font_size = 14) -> tab
+meta.groups %>%
+  rowwise %>%
+  do(foo = {
+    j <- .
+    tab <<- pack_rows(tab, j$Resource, j$from, j$to,
+                      label_row_css = "background-color: #666; color: #fff;") 
+    j
+  })
+
+tab %>%
+  save_kable(
+    file = "~/Downloads/test.html",
+    self_contained = FALSE,
+    title = paste0('BSGatlas - ', mg)
+  )
+
+             
