@@ -257,9 +257,92 @@ raw %>%
 #   $suff.bb
 # done
 
-# 2. transcripts
+# 2. transcriptional units
+operons$transcrip %>%
+  mutate(type = 'transcript') %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  transmute(chr = genome.id, start2 = start - 1, end,
+            primary.name = id, score = 0,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb, src,
+            inc = ifelse(possibly.incomplete, 'yes', 'no')) -> trans
+trans.special <- trans %>%
+  filter(end > genome.size)
+trans %>%
+  filter(end <= genome.size) %>%
+  bind_rows(
+    trans.special %>%
+      mutate(start2 = start2, end = genome.size,
+             thickEnd = genome.size,
+             primary.name = paste0(primary.name, '.part1')),
+    trans.special %>%
+      mutate(start2 = 0, end = end %% genome.size,
+             thickStart = 0,
+             thickEnd = end %% genome.size,
+             primary.name = paste0(primary.name, '.part2'))
+  ) %>%
+  arrange(start2) -> trans
+
+# the autosql part
+'table transunits
+"my trans units"
+    (
+    string chrom;          "Reference sequence genome"
+    uint   chromStart;     "Start position in genome"
+    uint   chromEnd;       "End position in genome"
+    string name;           "BSGatlas ID"
+    uint score;            "Score, no used"
+    char[1] strand;        "+ or - for strand"
+    uint thickStart;       "Start of where display should be thick"
+    uint thickEnd;         "End of where display should be thick"
+    uint reserved;       "User friendly color"
+    string src;             "Origin of this transcript annotation"
+    string incomplete;             "Transcript might be incomplete?"
+    )' %>%
+  write_lines('data-hub/transunit.as')
+
+write_tsv(trans, 'data-hub/transunit.bed', col_names = FALSE)
+
+# bedToBigBed -type=bed9+2 -tab -as=transunit.as \
+#   transunit.bed                            \
+#   genome.info                              \
+#   -extraIndex=name                      \
+#   transunit.bb
 
 # 3. operons
+operons$operon %>%
+  mutate(type = 'operon') %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  transmute(chr = genome.id, start2 = start - 1, end,
+            primary.name = id, score = 0,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb) -> oper
+oper.special <- oper %>%
+  filter(end > genome.size)
+oper %>%
+  filter(end <= genome.size) %>%
+  bind_rows(
+    oper.special %>%
+      mutate(start2 = start2, end = genome.size,
+             thickEnd = genome.size,
+             primary.name = paste0(primary.name, '.part1')),
+    oper.special %>%
+      mutate(start2 = 0, end = end %% genome.size,
+             thickStart = 0,
+             thickEnd = end %% genome.size,
+             primary.name = paste0(primary.name, '.part2'))
+  ) %>%
+  arrange(start2) -> oper
+
+write_tsv(oper, 'data-hub/operon.bed', col_names = FALSE)
+
+# bedToBigBed -type=bed9   -tab    \
+#   operon.bed                     \
+#   genome.info                    \
+#   operon.bb
+
 
 # meta page for operons and transcripts
 # meta pages for genes, also link individual genes to it
