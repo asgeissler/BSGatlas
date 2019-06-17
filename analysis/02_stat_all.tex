@@ -1,31 +1,29 @@
-
-\caption{(\#tab:individual)Comparison of the individual resources with the merged result}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}{llllllllllll}
 \toprule
-description & BSGatlas & RefSeq Coding & BsubCyc Coding & RefSeq Non-Coding & Nicolas et al's literature review & Nicolas et al trusted predictions & rfam (conservative) & BsubCyc Non-Coding & Dar et al term-seq & rfam (medium) & Nicolas et al predictions\\
+  & Merged & RefSeq Coding & BsubCyc Coding & RefSeq Non-Coding & \specialcell{Nicolas \emph{et al.}'s\\ literature review} & \specialcell{Nicolas \emph{et al.}\\ trusted predictions} & \specialcell{\emph{Rfam}\\ (conservative)} & BsubCyc Non-Coding & \specialcell{Dar \emph{et al.}\\ term-seq} & \specialcell{\emph{Rfam}\\ (medium)} & \specialcell{Nicolas \emph{et al.}\\ predictions}\\
 \midrule
-Resource Priority & - & 0 & 1 & 2 & 2 & 2 & 2 & 3 & 3 & 4 & 4\\
-Protein Coding Genes & 4332 & 4325 & 4188 & - & - & 1 & - & - & - & - & 1\\
-\hspace{1em}of these hypothetical & 174 (4 \%) & 88 (2 \%) & 1210 (29 \%) & - & - & 0 (0 \%) & - & - & - & - & 0 (0 \%)\\
-Merging removed hypothetical status for & - & 9 (0 \%) & 1204 (29 \%) & - & - & 1 (100 \%) & - & - & - & - & 1 (100 \%)\\
-Merging refined coordinates of & - & 1 (0 \%) & 49 (1 \%) & - & - & 1 (100 \%) & - & - & - & - & 1 (100 \%)\\
-Genes uniq to this resource & - & 143 (3 \%) & 8 (0 \%) & - & - & - & - & - & - & - & -\\
+Resource Priority & -- & 0 & 1 & 2 & 2 & 2 & 2 & 3 & 3 & 4 & 4\\
+Protein Coding Genes & 4,332 & 4,325 & 4,188 & - & - & 1 & - & - & - & - & 1\\
+\hspace{1em}of these hypothetical & 174 (4 \%) & 88 (2 \%) & 1,210 (29 \%) & - & - & 0 (0 \%) & - & - & - & - & 0 (0 \%)\\
+Hypothetical status removed & - & 9 (0 \%) & 1,204 (29 \%) & - & - & 1 (100 \%) & - & - & - & - & 1 (100 \%)\\
+Coordinates refined & - & 1 (0 \%) & 49 (1 \%) & - & - & 1 (100 \%) & - & - & - & - & 1 (100 \%)\\
+Resource specific genes & - & 143 (3 \%) & 8 (0 \%) & - & - & - & - & - & - & - & -\\
 \hline
-Non-Coding Structures and Genes & 442 & 1 & - & 212 & 9 & 81 & 214 & 183 & 82 & 227 & 114\\
-\hspace{1em}of these predecited/hypothetical & 174 (39 \%) & 0 (0 \%) & - & 22 (10 \%) & 9 (100 \%) & 81 (100 \%) & 0 (0 \%) & 28 (15 \%) & 0 (0 \%) & 0 (0 \%) & 115 (101 \%)\\
-specific ncRNA type known & - & 0 (0 \%) & - & 190 (90 \%) & 0 (0 \%) & 0 (0 \%) & 214 (100 \%) & 155 (85 \%) & 82 (100 \%) & 227 (100 \%) & 0 (0 \%)\\
-\hspace{1em}ribosomal RNA (rRNA) & 30 (7 \%) & 0 (0 \%) & - & 30 (14 \%) & 0 (0 \%) & 0 (0 \%) & 30 (14 \%) & 30 (16 \%) & 0 (0 \%) & 30 (13 \%) & 0 (0 \%)\\
-\hspace{1em}transfer RNA (tRNA) & 86 (19 \%) & 0 (0 \%) & - & 86 (41 \%) & 0 (0 \%) & 0 (0 \%) & 86 (40 \%) & 86 (47 \%) & 0 (0 \%) & 86 (38 \%) & 0 (0 \%)\\
-\hspace{1em}small regulatory RNA (sRNA) & 36 (8 \%) & 0 (0 \%) & - & 14 (7 \%) & 0 (0 \%) & 0 (0 \%) & 29 (14 \%) & 9 (5 \%) & 0 (0 \%) & 30 (13 \%) & 0 (0 \%)\\
-\hspace{1em}regulatory antisense RNA (asRNA) & 7 (2 \%) & 0 (0 \%) & - & 3 (1 \%) & 0 (0 \%) & 0 (0 \%) & 2 (1 \%) & 2 (1 \%) & 0 (0 \%) & 3 (1 \%) & 0 (0 \%)\\
+Non-Coding RNAs & 442 & 1 & - & 212 & 9 & 81 & 214 & 183 & 82 & 227 & 114\\
+\hspace{1em}of these hypothetical & 174 (39 \%) & 0 (0 \%) & - & 22 (10 \%) & 9 (100 \%) & 81 (100 \%) & 0 (0 \%) & 28 (15 \%) & 0 (0 \%) & 0 (0 \%) & 115 (101 \%)\\
+known specific types & - & 0 (0 \%) & - & 190 (90 \%) & 0 (0 \%) & 0 (0 \%) & 214 (100 \%) & 155 (85 \%) & 82 (100 \%) & 227 (100 \%) & 0 (0 \%)\\
+\hspace{1em}ribosomal RNA & 30 (7 \%) & 0 (0 \%) & - & 30 (14 \%) & 0 (0 \%) & 0 (0 \%) & 30 (14 \%) & 30 (16 \%) & 0 (0 \%) & 30 (13 \%) & 0 (0 \%)\\
+\hspace{1em}transfer RNA & 86 (19 \%) & 0 (0 \%) & - & 86 (41 \%) & 0 (0 \%) & 0 (0 \%) & 86 (40 \%) & 86 (47 \%) & 0 (0 \%) & 86 (38 \%) & 0 (0 \%)\\
+\hspace{1em}small regulatory RNA & 36 (8 \%) & 0 (0 \%) & - & 14 (7 \%) & 0 (0 \%) & 0 (0 \%) & 29 (14 \%) & 9 (5 \%) & 0 (0 \%) & 30 (13 \%) & 0 (0 \%)\\
+\hspace{1em}regulatory antisense RNA & 7 (2 \%) & 0 (0 \%) & - & 3 (1 \%) & 0 (0 \%) & 0 (0 \%) & 2 (1 \%) & 2 (1 \%) & 0 (0 \%) & 3 (1 \%) & 0 (0 \%)\\
 \hspace{1em}riboswitch & 103 (23 \%) & 0 (0 \%) & - & 55 (26 \%) & 0 (0 \%) & 0 (0 \%) & 63 (29 \%) & 26 (14 \%) & 82 (100 \%) & 72 (32 \%) & 0 (0 \%)\\
 \hspace{1em}self-splicing intron & 3 (1 \%) & 0 (0 \%) & - & 0 (0 \%) & 0 (0 \%) & 0 (0 \%) & 1 (0 \%) & 0 (0 \%) & 0 (0 \%) & 3 (1 \%) & 0 (0 \%)\\
-\hspace{1em}other (ribozyme, SRP, tmRNA) & 3 (1 \%) & 0 (0 \%) & - & 2 (1 \%) & 0 (0 \%) & 0 (0 \%) & 3 (1 \%) & 2 (1 \%) & 0 (0 \%) & 3 (1 \%) & 0 (0 \%)\\
-Merging refined coordinates of & - & 0 (0 \%) & - & 149 (70 \%) & 9 (100 \%) & 10 (12 \%) & 107 (50 \%) & 145 (79 \%) & 57 (70 \%) & 115 (51 \%) & 3 (3 \%)\\
-Merging removed hypothetical status for & - & 1 (100 \%) & - & 18 (8 \%) & 9 (100 \%) & 21 (26 \%) & 0 (0 \%) & 29 (16 \%) & 1 (1 \%) & 0 (0 \%) & 3 (3 \%)\\
-Merging reclassified putative ncRNA as coding & - & - & - & - & - & 1 & - & - & - & - & 1\\
-Genes uniq to this resource & - & - & - & 7 (3 \%) & - & 57 (70 \%) & - & 1 (1 \%) & 24 (29 \%) & 5 (2 \%) & 111 (97 \%)\\
+\hspace{0.1em}\specialcell{other\\ (ribozyme, SRP, tmRNA)} & 3 (1 \%) & 0 (0 \%) & - & 2 (1 \%) & 0 (0 \%) & 0 (0 \%) & 3 (1 \%) & 2 (1 \%) & 0 (0 \%) & 3 (1 \%) & 0 (0 \%)\\
+Coordinates refined & - & 0 (0 \%) & - & 149 (70 \%) & 9 (100 \%) & 10 (12 \%) & 107 (50 \%) & 145 (79 \%) & 57 (70 \%) & 115 (51 \%) & 3 (3 \%)\\
+Hypothetical status remoced & - & 1 (100 \%) & - & 18 (8 \%) & 9 (100 \%) & 21 (26 \%) & 0 (0 \%) & 29 (16 \%) & 1 (1 \%) & 0 (0 \%) & 3 (3 \%)\\
+Reclassifed as coding & - & - & - & - & - & 1 & - & - & - & - & 1\\
+Resource specific genes & - & - & - & 7 (3 \%) & - & 57 (70 \%) & - & 1 (1 \%) & 24 (29 \%) & 5 (2 \%) & 111 (97 \%)\\
 \bottomrule
 \end{tabular}}
