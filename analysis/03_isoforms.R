@@ -232,11 +232,13 @@ short.span %>%
   select(id, start, end, strand, src, possibly.incomplete, genes) %>%
   ungroup -> transcripts
 
+# Filter erranous gene matching of over 1/4 of the genome
+transcripts %<>% filter(end - start + 1 < 1e6)
 
 #####################################
 # 4. Infer operons/isoforms
 
-library(tidygrap)
+library(tidygraph)
 
 edges <- transcripts %>%
   select(from = id, to = genes) %>%
@@ -279,7 +281,7 @@ group %>%
 # count(operons, strand)
 # no awkwards strands, check
 
-operons <- list(operon = operons, transcrip = transcripts)
+operons <- list(operon = operons, transcript = transcripts)
 save(operons, file = 'analysis/03_operons.rda')
 
 #####################################
@@ -293,9 +295,9 @@ genes <- merging$merged_genes %>%
   rename(id = merged_id)
 
 # > nrow(operons$operon)
-# [1] 1146
-# > nrow(operons$transcrip)
-# [1] 2476
+# [1] 1897
+# > nrow(operons$transcript)
+# [1] 2474
 
 
   
@@ -313,7 +315,7 @@ dev.off()
 
 
 # ratio of genes not described by any operon
-operons$transcrip %>%
+operons$transcript %>%
   select(src, genes) %>%
   separate_rows(genes, sep = ';') %>%
   separate_rows(src, sep = ';') %>%
@@ -336,7 +338,7 @@ select(genes, id) %>%
   unnest %>%
   # Total number of transcripts
   left_join(
-    operons$transcrip %>%
+    operons$transcript %>%
       select(id, src) %>%
       separate_rows(src, sep = ';') %>%
       unique %>%
@@ -381,7 +383,7 @@ ggsave(file = 'analysis/03_bars.pdf',
 operons$operon %>%
   select(id, isoforms) %>%
   separate_rows(isoforms, sep = ';') %>%
-  left_join(operons$transcrip, c('isoforms' = 'id')) %>%
+  left_join(operons$transcript, c('isoforms' = 'id')) %>%
   select(id, gene = genes) %>%
   separate_rows(gene, sep = ';') %>%
   left_join(genes, c('gene' = 'id')) %>%
@@ -405,7 +407,36 @@ operons$operon %>%
 
 save(operons.stat, file = '03_operonstat.rda')
 
+library(ggforce)
+
 operons.stat %>%
-  ggplot(aes(x = `#isoforms`)) +
-  geom_histogram() +
-  scale_x_log10()
+  pull(`#isoforms`) %>%
+  as_factor() %>%
+  fct_expand(as.character(1:10)) %>%
+  fct_relevel(as.character(1:10)) %>%
+  fct_count %>%
+  ggplot(aes(x = f, y = n)) +
+  geom_bar(stat = 'identity') +
+  xlab('isoforms per operon') + 
+  ylab('count') +
+  facet_zoom(ylim = c(0, 100))
+
+ggsave(file = 'analysis/03_bar_Nisoforms.pdf',
+       width = 13, height = 7, units = 'cm')
+
+operons.stat %>%
+  ggplot(aes(x = `#genes`)) +
+  geom_bar() +
+  # geom_freqpoly(bins = 20) +
+  scale_x_continuous(breaks = seq(1, 35) %>% keep(. %% 5 == 0 ),
+                   labels = as.character) +
+  xlab('genes per operon') + 
+  ylab('count') +
+  facet_zoom(ylim = c(0, 100))
+
+ggsave(file = 'analysis/03_bar_Ngenes.pdf',
+       width = 13, height = 7, units = 'cm')
+
+operons.stat %>%
+  ggplot(aes(x = `#genes`, y = `%coding`)) +
+  geom_point()
