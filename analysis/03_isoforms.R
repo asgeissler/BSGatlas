@@ -100,6 +100,8 @@ cmp %>%
   ylab('overlap rel. transcript length [%]') +
   facet_wrap(~ mode, scales = 'free')
 
+ggsave(file = 'analysis/03_overlaps.pdf')
+
 cmp %>%
   filter(str_detect(mode, 'contained')) %>%
   View

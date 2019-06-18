@@ -30,6 +30,13 @@ source('00_load.R')
 load('01_bsubcyc.rda')
 load('02_merging.rda')
 load('03_subtiwiki.rda')
+
+load('03_operons.rda')
+my.plot <-function(i) {
+  cowplot::plot_grid(
+    cowplot::ggdraw() + cowplot::draw_image(i)
+  )
+}
 ```
 
 
@@ -45,9 +52,9 @@ It provides a
 magnitude of meta information, such as its gene categorisation and lists of
 transcriptional regulations and interactions.
 Moreover, its most recent version included some parts of BsubCyc, yet
-the functional annotation, such as GO terms,
-and the curated list of transcription start and termination sites
-were not.
+and the curated list of transcription start, termination sites,
+and functional annotation via
+GO terms were not.
 Unfortunately, SubtiWiki does not provide the export of gene coordinates,
 such that we had to restore these from our merged gene set via
 comparison of locus and gene names and synonyms.
@@ -94,3 +101,71 @@ Due to the high matching rate, for
 allmost all (98.6%) of
 the annotated 1,123 operons 
 are complete.
+
+## Processing
+
+We complemented the transcriptional units (TU) from DBTBS, SubtiWiki, and
+BsubCyc with genes and RNA structures from our merged gene set by
+checking for overlaps.
+We investigated the overlaps and found two main cases:
+Either genes were 
+fully contained by a transcriptional unit,
+or a gene or strucutre has a large overlap with a 
+transcriptional unit, possibly to the extend that it fully contains
+it.
+The latter was the case for a small peptide sequence that overlaps
+is fully contained in a known small regulatory RNA.
+Thus, we decided to add a gene or structure to a TU
+if (a) it is fully contained by the TU, (b) if it contains the TU,
+(c) or the overlap relative to the length of the gene is at least
+70%.
+Overall, we added genes to 46 TUs from BsubCyc,
+753 TUs of DBTBS, and 1968 TUs from SubtiWiki.
+
+Afterwards we unified the list of TUs and combined these that contained
+the exact same genes. 
+All resources share 979 TUs, each resource has a unique set
+of TUs that are not contained in neither of them.
+
+```{r}
+my.plot('03_venn_trans.pdf')
+```
+
+We removed two transcripts, one from DBTBS and SubtiWiki each,
+that seem erranous as they would span more than a quarter of
+the whole genome.
+Afterwards, the set of unified TUs contained a total
+of `r nrow(operons$transcript)` TUs.
+
+Under the assumption, that two transcripts that share at least one gene,
+we computationally inferred a set of
+`r nrow(operons$operon)` operons with a graph based approach.
+In the graph the nodes represented the TUs and genes with undirectional edges
+added if a gene is part of a TU.
+99.2% of all computed operons have a TU that contains all genes of the operon.
+We also computed the distribution of genes and isoforms per computed operon (see fig).
+These vizually look similar to those distribution
+computed in a recent study in Streptococcus pneumoniae.
+This organism is in the same phylum
+(Firmicutes) as Bsub, such that we overall assume
+that the computed operons correctly represent the biology.
+
+```{r}
+my.plot('03_bar_Ngenes.pdf')
+my.plot('03_bar_Nisoforms.pdf')
+```
+
+
+For each computed operon, we investigated from which resource (see above)
+the annotation originates, and how many genes of the genome
+are associated with a TU by only using a single resource.
+
+DBTBS provides TUs for only 46% of all genes, BsubCyc for 57%,
+and SubtiWiki for 81%.
+However, the combination of these resources provide
+annotation of TUs for addtional 3% of all genes,
+and a set of around 220 TUs more than dscribed in SubtiWiki.
+
+```{r}
+my.plot('03_bars.pdf')
+```
