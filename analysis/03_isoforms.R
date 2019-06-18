@@ -440,3 +440,24 @@ ggsave(file = 'analysis/03_bar_Ngenes.pdf',
 operons.stat %>%
   ggplot(aes(x = `#genes`, y = `%coding`)) +
   geom_point()
+
+# Is the operon assumption given?
+# Each operon has a transcript that contains all genes?
+operons$operon %>%
+  select(id, isoforms) %>%
+  separate_rows(isoforms, sep = ';') %>%
+  left_join(operons$transcript, c('isoforms' = 'id')) %>%
+  separate_rows(genes, sep = ';') %>%
+  select(id, isoforms, genes) %>%
+  unique %>%
+  count(id, isoforms) %>%
+  group_by(id) %>%
+  summarise(most.genes = max(n)) %>%
+  left_join(operons.stat, 'id') %>%
+  mutate(given = most.genes == `#genes`) %>%
+  count(given) %>%
+  mutate(pct = n / nrow(operons$operon) * 100)
+
+# given     n    pct
+# FALSE    16  0.843
+# TRUE   1881 99.2
