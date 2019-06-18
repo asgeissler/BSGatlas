@@ -64,7 +64,10 @@ colors %>%
 
 colors %>%
   gather('what', 'rgb', normal, darker) %>%
-  arrange(type, what) %>%
+  mutate(what = fct_recode(what,
+                           'forward' = 'normal',
+                           'reverse' = 'darker')) %>%
+  arrange(type, desc(what)) %>%
   with(set_names(rgb, sprintf('%s (%s)', type, what))) %>%
   map(function(i) {
     function () {scales::show_col(i, labels = TRUE)}
@@ -72,6 +75,9 @@ colors %>%
   invoke(cowplot::plot_grid, ., labels = names(.),
          ncol = 2,
          scale = 0.7, label_size = 10, hjust = 0)
+
+ggsave(file = 'data-hub/color_scheme.pdf',
+       width=42, height = 14, units = 'cm')
 
 colors %>%
   select(type, normal, darker) %>%
@@ -258,7 +264,7 @@ raw %>%
 # done
 
 # 2. transcriptional units
-operons$transcrip %>%
+operons$transcript %>%
   mutate(type = 'transcript') %>%
   left_join(color.scheme, c('type', 'strand')) %>%
   transmute(chr = genome.id, start2 = start - 1, end,
