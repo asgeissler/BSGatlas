@@ -405,7 +405,7 @@ operons$operon %>%
     'id'
   ) -> operons.stat
 
-save(operons.stat, file = '03_operonstat.rda')
+save(operons.stat, file = 'analysis/03_operonstat.rda')
 
 library(ggforce)
 
