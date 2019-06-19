@@ -5,12 +5,16 @@ longLabel BSGatlas v1 genes
 visibility pack
 type bigBed 9 +
 labelFields name,ID
-defaultLabelFields ID
+defaultLabelFields name,ID
 searchIndex name
 searchTrix search.ix
 itemRgb on
 priority 1
 bigDataUrl merged_genes.bb
+url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
+urlLabel Meta-Information
+iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
+iframeOptions height='600' width='1024'
 
 track BSGatlas_tu
 group bsgatlas

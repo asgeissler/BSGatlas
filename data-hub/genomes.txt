@@ -3,7 +3,7 @@ trackDb trackDB.txt
 description BSGatlas Bacillus subtilis 168
 twoBitPath genome.2bit
 organism Bacillus subtilis 168
-defaultPos ncbi168:2599677-2604522
+defaultPos basu168:2599677-2604522
 scientificName Bacillus subtilis
 htmlPath hub_description.html
 groups groups.txt

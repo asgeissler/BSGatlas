@@ -6,7 +6,7 @@ defaultIsClosed 0
 name exgene
 label External Gene Resources
 priority 2
-defaulIsClosed 1
+defaultIsClosed 1
 
 name extrans
 label External Transcript Resources
