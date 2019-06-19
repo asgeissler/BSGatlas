@@ -148,3 +148,92 @@ defaultLabelFields ID
 itemRgb on
 priority 6
 bigDataUrl rfam-extra.bb
+
+
+
+track trans_bsubcyc
+compositeTrack on
+type bigBed 9 .
+group extrans
+shortLabel BsubCyc
+longLabel BsubCyc
+visibility hide
+labelFields name
+itemRgb on
+priority 10
+
+  track trans_bsubcyc_tss
+  type bigBed 9 .
+  parent trans_bsubcyc
+  shortLabel BsubCyc TSS
+  longLabel BsubCyc TSS
+  bigDataUrl transbounds/BsubCyc-TSS.bb
+  
+  track trans_bsubcyc_term
+  type bigBed 9 .
+  parent trans_bsubcyc
+  shortLabel BsubCyc Terminators
+  longLabel BsubCyc Terminators
+  bigDataUrl transbounds/BsubCyc-term.bb
+
+
+track trans_dbtbs
+compositeTrack on
+type bigBed 9 .
+group extrans
+shortLabel DBTBS
+longLabel DBTBS
+visibility hide
+labelFields name
+itemRgb on
+priority 11
+
+  track trans_DBTSB_tss
+  type bigBed 9 .
+  parent trans_dbtbs
+  shortLabel DBTBS TSS
+  longLabel DBTBS TSS
+  bigDataUrl transbounds/DBTBS-TSS.bb
+  
+  track trans_dbtbs_term
+  type bigBed 9 .
+  parent trans_dbtbs
+  shortLabel DBTBS Terminators
+  longLabel DBTBS Terminators
+  bigDataUrl transbounds/DBTBS-term.bb
+  
+  track trans_dbtbs_tf
+  type bigBed 9 .
+  parent trans_dbtbs
+  shortLabel DBTBS factors
+  longLabel DBTBS factors
+  bigDataUrl transbounds/DBTBS-TF.bb
+
+
+track trans_nic
+compositeTrack on
+type bigBed 9 .
+group extrans
+shortLabel Nicolas et al.
+longLabel Nicolas et al.
+visibility hide
+labelFields name
+itemRgb on
+priority 12
+
+
+  track trans_nic_tss
+  type bigBed 9 .
+  parent trans_nic
+  shortLabel Nicolas et al. upshifts
+  longLabel Nicolas et al. upshifts
+  bigDataUrl transbounds/nicolas-upshift.bb
+  
+  track trans_nic_term
+  type bigBed 9 .
+  parent trans_nic
+  shortLabel Nicolas et al. downshifts
+  longLabel Nicolas et al. downshifts
+  bigDataUrl transbounds/nicolas-downshifts.bb
+  
+  
