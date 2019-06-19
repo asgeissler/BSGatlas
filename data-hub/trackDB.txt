@@ -158,7 +158,8 @@ group extrans
 shortLabel BsubCyc
 longLabel BsubCyc
 visibility hide
-labelFields name
+labelFields name,ID
+defaultLabelFields ID
 itemRgb on
 priority 10
 
@@ -184,7 +185,8 @@ group extrans
 shortLabel DBTBS
 longLabel DBTBS
 visibility hide
-labelFields name
+labelFields name,ID
+defaultLabelFields ID
 itemRgb on
 priority 11
 
@@ -217,7 +219,8 @@ group extrans
 shortLabel Nicolas et al.
 longLabel Nicolas et al.
 visibility hide
-labelFields name
+labelFields name,ID
+defaultLabelFields ID
 itemRgb on
 priority 12
 

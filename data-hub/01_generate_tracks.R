@@ -408,7 +408,7 @@ dat %>%
             primary.name = id, score = 0,
             strand = strand,
             thickStart = start2, thickEnd = end,
-            rgb, src) %>%
+            rgb, desc, src) %>%
   group_by(src) %>%
   do(foo = set_names(list(.), first(.$src))) %>%
   pull(foo) %>%
@@ -423,8 +423,9 @@ dat %>%
 # for i in transbounds/*.bed ; do
 # suff=${i%%[.]bed*}
 # echo $suff
-# bedToBigBed -type=bed9 \
-#   $i                   \
-#   genome.info          \
+# bedToBigBed -type=bed9+1 -tab -as=genes.as \
+#   $i                                       \
+#   genome.info                              \
+#   -extraIndex=name,ID                      \
 #   $suff.bb
 # done
