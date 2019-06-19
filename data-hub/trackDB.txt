@@ -240,3 +240,14 @@ priority 12
   bigDataUrl transbounds/nicolas-downshift.bb
   
   
+
+track trans_nic_utr
+type bigBed 9 .
+group extrans
+shortLabel Nicolas et al. UTRs
+longLabel Nicolas et al. UTRs
+visibility hide
+labelFields name
+itemRgb on
+priority 15
+bigDataUrl transbounds/nicolas-utrs.bb

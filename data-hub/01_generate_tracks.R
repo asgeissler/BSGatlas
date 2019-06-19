@@ -429,3 +429,23 @@ dat %>%
 #   -extraIndex=name,ID                      \
 #   $suff.bb
 # done
+
+
+# 4. The seemingly faulty UTRs
+nicolas$all.features %>%
+  drop_na(type) %>%
+  filter(!str_detect(type, 'indep')) %>%
+  mutate(type = 'UTR') %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  arrange(start) %>%
+  transmute(chr = genome.id, start2 = start - 1, end,
+            primary.name = locus, score = 0,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb) %>%
+  write_tsv('data-hub/transbounds/nicolas-utrs.bed', col_names = FALSE)
+
+# bedToBigBed -type=bed9         \
+#   transbounds/nicolas-utrs.bed \
+#   genome.info                  \
+#   transbounds/nicolas-utrs.bb
