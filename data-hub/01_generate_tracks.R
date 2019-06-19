@@ -350,3 +350,81 @@ write_tsv(oper, 'data-hub/operon.bed', col_names = FALSE)
 #   -extraIndex=name               \
 #   operon.bb
 
+
+# 3. TSS and terminators
+
+bind_rows(
+  dbtbs$tss %>%
+    transmute(start = TSS, end = TSS, strand, type = 'TSS',
+              desc = ifelse(is.na(name), sigma, paste0(sigma, '_', name)),
+              src = 'DBTBS-TSS') %>%
+    arrange(start) %>%
+    mutate(id = paste0('DBTBS-TSS-', 1:n())),
+  dbtbs$factor %>%
+    transmute(start, end, strand, type = 'TF',
+              desc = paste(factor, mode),
+              src = 'DBTBS-TF') %>%
+    arrange(start) %>%
+    mutate(id = paste0('DBTBS-TF-', 1:n())),
+  dbtbs$term %>%
+    transmute(start, end, strand, type = 'terminator',
+              desc = paste0('energy=', energies),
+              src = 'DBTBS-terminators') %>%
+    arrange(start) %>%
+    mutate(id = paste0('DBTBS-term-', 1:n())),
+  #
+  nicolas$upshifts %>%
+    transmute(start = pos - 22, end = pos + 22, strand,
+              desc = sigma, type = 'TSS',
+              src ='nicolas-upshift',
+              id = paste0('nicolas-TSS-', str_remove(id, '^U'))),
+  nicolas$downshifts %>%
+    transmute(start = pos - 22, end = pos + 22, strand,
+              desc = paste0('ernergy=', energy),
+              src ='nicolas-downshift', type = 'terminator',
+              id = paste0('nicolas-downshift-', str_remove(id, '^D'))),
+  #
+  bsubcyc$terminator %>%
+    transmute(start, end, strand, type = 'terminator',
+              desc = paste0('energy=', energy),
+              src = 'BsubCyc-term') %>%
+    arrange(start) %>%
+    mutate(id = paste0('BsubCyc-term-', 1:n())),
+  bsubcyc$TSS %>%
+    transmute(start = tss, end = tss, strand, type = 'TSS',
+              desc = ifelse(is.na(name),
+                            paste0('Sig', sigma),
+                            paste0('Sig', sigma, '_', name)),
+              src = 'BsubCyc-TSS') %>%
+    arrange(start) %>%
+    mutate(id = paste0('BsubCyc-TSS', 1:n()))
+) %>%
+  drop_na(start, end, strand, id) -> dat
+
+dat %>%
+  arrange(start) %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  transmute(chr = genome.id, start2 = start - 1, end,
+            primary.name = id, score = 0,
+            strand = strand,
+            thickStart = start2, thickEnd = end,
+            rgb, src) %>%
+  group_by(src) %>%
+  do(foo = set_names(list(.), first(.$src))) %>%
+  pull(foo) %>%
+  invoke(.f = c) %>%
+  map(select, - src) %>%
+  map2(names(.), function(tbl, i) {
+    sprintf('data-hub/transbounds/%s.bed', i) %>%
+      str_replace_all(' ', '_') -> to
+    write_tsv(tbl, to, col_names = FALSE)
+  })
+
+# for i in transbounds/*.bed ; do
+# suff=${i%%[.]bed*}
+# echo $suff
+# bedToBigBed -type=bed9 \
+#   $i                   \
+#   genome.info          \
+#   $suff.bb
+# done
