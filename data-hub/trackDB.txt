@@ -15,6 +15,7 @@ url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
 urlLabel Meta-Information
 iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
 iframeOptions height='600' width='1024'
+html track_description.html
 
 track BSGatlas_tu
 group bsgatlas
@@ -27,6 +28,7 @@ searchIndex name
 priority 2
 itemRgb on
 bigDataUrl transunit.bb
+html track_description.html
 
 track BSGatlast_operons
 group bsgatlas
@@ -39,6 +41,7 @@ type bigBed 9 +
 itemRgb on
 priority 3
 bigDataUrl operon.bb
+html track_description.html
 
 
 
@@ -61,6 +64,7 @@ subGroup1 agg Aggracation-Category bsubcyc=BsubCyc refseq=RefSeq lit=Literature 
 subGroup2 prio Merging-Priority a=0 b=1 c=2 d=3 e=4 f=5
 dimensions dimX=prio dimY=agg
 sortOrder prio=+
+html track_description.html
 
 
   track indiv_ref_coding
@@ -148,6 +152,7 @@ defaultLabelFields ID
 itemRgb on
 priority 6
 bigDataUrl rfam-extra.bb
+html track_description.html
 
 
 
@@ -162,6 +167,7 @@ labelFields name,ID
 defaultLabelFields ID
 itemRgb on
 priority 10
+html track_description.html
 
   track trans_bsubcyc_tss
   type bigBed 9 .
@@ -189,6 +195,7 @@ labelFields name,ID
 defaultLabelFields ID
 itemRgb on
 priority 11
+html track_description.html
 
   track trans_DBTSB_tss
   type bigBed 9 .
@@ -223,6 +230,7 @@ labelFields name,ID
 defaultLabelFields ID
 itemRgb on
 priority 12
+html track_description.html
 
 
   track trans_nic_tss
@@ -251,3 +259,4 @@ labelFields name
 itemRgb on
 priority 15
 bigDataUrl transbounds/nicolas-utrs.bb
+html track_description.html
