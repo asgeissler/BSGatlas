@@ -39,3 +39,103 @@ type bigBed 9 +
 itemRgb on
 priority 3
 bigDataUrl operon.bb
+
+
+
+track exmerged
+type bigBed 9 +
+container composite
+group exgenes
+shortLabel Unmerged Genes
+longLabel Genes that were merged separated by priority
+visibility hide
+labelFields name,ID
+defaultLabelFields name
+itemRgb on
+priority 5
+url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
+urlLabel Meta-Information
+iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
+iframeOptions height='600' width='1024'
+subGroup1 agg bsubcyc=BsubCyc refseq=RefSeq lit='Literature Review' rfam=Rfam nicolas='Nicolas et al. predictions'
+subGroup2 prio a=0 b=1 c=2 d=3 e=4 f=5
+dimensions dimX=prio dimY=agg
+sortOrder prio=+
+
+
+  track indiv_ref_coding
+  parent exmerged
+  shortLabel RefSeq-Coding genes
+  longLabel RefSeq-Coding genes
+  subGroup agg=refseq prio=a
+  bigDataUrl individual/RefSeq-coding.bb
+
+  track indiv_bsub_coding
+  parent exmerged
+  shortLabel BsubCyc-Coding genes
+  longLabel BsubCyc-Coding genes
+  subGroup agg=bsubcyc prio=b
+  bigDataUrl individual/BsubCyc-coding.bb
+
+  track indiv_ref_noncoding
+  parent exmerged
+  shortLabel RefSeq-Non-Coding genes
+  longLabel RefSeq-Non-Coding genes
+  subGroup agg=refseq prio=c
+  bigDataUrl individual/RefSeq-noncoding.bb
+
+  track indiv_niclit
+  parent exmerged
+  shortLabel Nicolas et al. literature review
+  longLabel Nicolas et al. literature review
+  subGroup agg=lit prio=c
+  bigDataUrl individual/Nicolas-et-al.-lit-review.bb
+  
+  track indiv_rfam_cons
+  parent exmerged
+  shortLabel Rfam (conservative)
+  longLabel Rfam (conservative)
+  subGroup agg=rfam prio=c
+  bigDataUrl individual/Rfam-conservative.bb
+
+  track indiv_bsub_noncoding
+  parent exmerged
+  shortLabel BsubCyc-Non-Coding genes
+  longLabel BsubCyc-Non-Coding genes
+  subGroup agg=bsubcyc prio=d
+  bigDataUrl individual/BsubCyc-noncoding.bb
+  
+  track indiv_dar
+  parent exmerged
+  shortLabel Dar et al. riboswitches
+  longLabel Riboswitches found by Dar et al.'s term-seq study
+  subGroup agg=lit prio=d
+  bigDataUrl individual/Dat-et-al.riboswitches.bb
+
+  track indiv_rfam_med
+  parent exmerged
+  shortLabel Rfam (medium)
+  longLabel Rfam (medium)
+  subGroup agg=rfam prio=e
+  bigDataUrl individual/Rfam-medium.bb
+
+  track indiv_nic_pred
+  parent exmerged
+  shortLabel Nicolas et al. predictions
+  longLabel Nicolas et al. predictions
+  subGroup agg=nicolas prio=e
+  bigDataUrl individual/Nicolas-et-al.-predictions.bb
+  
+  
+  
+track exrfamsensetive
+type bigBed 9 +
+group exgenes
+shortLabel Sensetive Rfam genes (not merged)
+longLabel Additional geens found in a sensetive Rfam run, not included in merging
+visibility hide
+labelFields name,ID
+defaultLabelFields name
+itemRgb on
+priority 6
+bigDataUrl rfam-extra.bb

@@ -3,7 +3,7 @@ label BSGatlas
 priority 1
 defaultIsClosed 0 
 
-name exgene
+name exgenes
 label External Gene Resources
 priority 2
 defaultIsClosed 1
