@@ -313,7 +313,7 @@ write_tsv(trans, 'data-hub/transunit.bed', col_names = FALSE)
 # bedToBigBed -type=bed9+2 -tab -as=transunit.as \
 #   transunit.bed                            \
 #   genome.info                              \
-#   -extraIndex=name                      \
+#   -extraIndex=name                         \
 #   transunit.bb
 
 # 3. operons
@@ -347,5 +347,6 @@ write_tsv(oper, 'data-hub/operon.bed', col_names = FALSE)
 # bedToBigBed -type=bed9   -tab    \
 #   operon.bed                     \
 #   genome.info                    \
+#   -extraIndex=name               \
 #   operon.bb
 

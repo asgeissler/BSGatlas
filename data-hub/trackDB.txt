@@ -1,0 +1,37 @@
+track BSGatlas_genes
+group bsgatlas
+shortLabel BSGatlas v1 genes
+longLabel BSGatlas v1 genes
+visibility pack
+type bigBed 9 +
+labelFields name,ID
+defaultLabelFields ID
+searchIndex name
+searchTrix search.ix
+itemRgb on
+priority 1
+bigDataUrl merged_genes.bb
+
+track BSGatlas_tu
+group bsgatlas
+shortLabel BSGatlas v1 transcriptional units
+longLabel BSGatlas v1 transcriptional units
+visibility pack
+type bigBed 9 +
+labelFields name
+searchIndex name
+priority 2
+itemRgb on
+bigDataUrl transunit.bb
+
+track BSGatlast_operons
+group bsgatlas
+shortLabel BSGatlas v1 operons
+longLabel BSGatlas v1 operons
+visibility pack
+labelFields name
+searchIndex name
+type bigBed 9 +
+itemRgb on
+priority 3
+bigDataUrl operon.bb
