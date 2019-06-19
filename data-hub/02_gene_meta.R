@@ -88,6 +88,8 @@ bsubcyc[c('coding', 'noncoding')] %>%
     'Locus Tag' = locus,
     go = go) %>%
   separate_rows(go, sep = ';') %>%
+  drop_na %>%
+  filter(go != '') %>%
   left_join(go.look, c('go' = 'GOID')) %>%
   transmute(`Locus Tag`, 'Gene Ontology' = paste(go, TERM)) -> bsub.go
 
@@ -108,7 +110,6 @@ bsub.overview %>%
   left_join(bsub.cite, 'Locus Tag') %>%
   mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
   gather('meta', 'info', - c(Resource, merged_id)) %>%
-  separate_rows(info, sep = ';') %>%
   drop_na %>%
   unique  -> bsub.meta
 
@@ -116,10 +117,34 @@ bsub.overview %>%
 # Rfam/Dar/nicolas predictions
 
 merging$merged_src %>%
+  filter(startsWith(src, 'rfam')) %>%
+  select(merged_id, id = src_locus) %>%
+  left_join(
+    bind_rows(
+      rfam$conservative %>%
+        mutate(id = paste0('rfam conservative%', id)),
+      rfam$medium %>%
+        mutate(id = paste0('rfam medium%', id) %>%
+                 str_replace('-(\\d+)', ' \\1'))
+    ),
+    'id'
+  ) %>%
+  transmute(
+    merged_id, Resource = '5 Rfam',
+    Family = family,
+    Name = name,
+    Type = type
+  ) %>%
+  unique %>%
+  gather('meta', 'info', - c(merged_id, Resource)) %>%
+  unique %>%
+  drop_na() -> meta.rfam
+
+
+merging$merged_src %>%
   transmute(
     merged_id,
     Resource = case_when(
-      startsWith(src, 'rfam') ~ '5 Rfam',
       src == 'nicolas lower' ~ '7 Nicolas et al. predictions',
       src == 'dar riboswitches' ~ '6 Dar et al. riboswitches',
       TRUE ~ NA_character_
@@ -155,7 +180,6 @@ subtiwiki$genes %>%
   mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
   gather('meta', 'info', - c(merged_id, Resource)) %>%
   drop_na %>%
-  separate_rows(info, sep = ';') %>%
   unique -> subti.overview
 
 subtiwiki$gene.categories %>%
@@ -170,13 +194,30 @@ merging$merged_src %>%
   transmute(merged_id,
             Resource = '7 Nicolas et al. predictions',
             Name = name.x,
-            'Highly expressed condition' = highly_expressed_conditions,
-            'Lowely expressed condition' = lowely_expressed_conditions,
             'Expression neg. correlated with' = negative_correlated_genes,
             'Expression pos. correlated with' = positive_correlated_genes
             ) %>%
+  gather('meta', 'info', -c(merged_id, Resource)) -> meta.nic.cor
+
+merging$merged_src %>%
+  inner_join(nicolas$all.features, 'locus') %>%
+  transmute(merged_id,
+            Resource = '7 Nicolas et al. predictions',
+            'Highly expressed condition' = highly_expressed_conditions,
+            'Lowely expressed condition' = lowely_expressed_conditions
+            ) %>%
   gather('meta', 'info', -c(merged_id, Resource)) %>%
   separate_rows(info, sep = '[ ,;]+') %>%
+  mutate(info = case_when(
+    info == 'M9-stat' ~ 'M9stat',
+    info == 'M9-tran' ~ 'M9tran',
+    info == 'M9-exp'  ~ 'M9exp',
+    info == 'Lbstat' ~ 'LBstat',
+    info == 'Lbtran' ~ 'LBtran',
+    info == 'Lbexp'  ~ 'LBexp',
+    info == 'M/G'    ~ 'M+G',
+    TRUE ~ info
+  )) %>%
   left_join(
     nicolas$conditions %>%
       fill(desc) %>%
@@ -189,15 +230,12 @@ merging$merged_src %>%
       unique,
     c(info = 'id')
   ) %>%
+  # no idea what 'G/S' or 'UNK1' are
+  drop_na(desc) %>%
   mutate(
-    info = ifelse(
-      str_detect(meta, 'condition'),
-      sprintf('(%s) %s', info, desc),
-      info
-    )
-  ) -> meta.nic
-
-meta.nic %<>% select(-desc)
+    info = sprintf('(%s) %s', info, desc)
+  ) %>%
+  select(-desc) -> meta.nic.cond
 
 # --------
 # And our conclusion
@@ -215,9 +253,32 @@ meta <- bind_rows(
   subti.overview,
   subti.path,
   meta.bsg,
-  meta.nic
+  meta.nic.cond,
+  meta.nic.cor,
+  meta.rfam
 ) %>%
-  arrange(Resource, meta, info)
+  arrange(Resource, meta, info) %>%
+  unique
+
+# count(meta, meta)$meta
+# [1] "Alternative Locus Tag"           "Alternative Name"                "Category"                       
+# [4] "Citation"                        "Comment"                         "Description"                    
+# [7] "Enzyme Classifications"          "Expression neg. correlated with" "Expression pos. correlated with"
+# [10] "Family"                          "Function"                        "Functions"                      
+# [13] "Gene Ontology"                   "Highly expressed condition"      "Is essential?"                  
+# [16] "Isoelectric point"               "Locus Tag"                       "Lowely expressed condition"     
+# [19] "Molecular weight"                "Name"                            "Product"                        
+# [22] "Title"                           "Type" 
+
+to.split <- c('Alternative Name', 'Functions')
+
+meta2 <- bind_rows(
+  meta %>%
+    filter(meta %in% to.split) %>%
+    separate_rows(info, sep = ';'),
+  meta %>%
+    filter(! (meta %in% to.split))
+)
 
 
 
@@ -269,6 +330,7 @@ jobs <- merging$merged_genes$merged_id
 worker <- safely(partial(helper, out = 'data-hub/meta/'))
 cl <- makeForkCluster(detectCores())
 jobs %>%
+  head %>%
   set_names(., .) %>%
   parLapply(cl = cl, X = ., fun = worker) -> result
 
