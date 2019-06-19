@@ -1,9 +1,9 @@
-genome BSGatlas_NC_000964_3_Bac_sub_168
+genome BSGatlas
 trackDb trackDB.txt
 description BSGatlas Bacillus subtilis 168
 twoBitPath genome.2bit
 organism Bacillus subtilis 168
 defaultPos ncbi168:2599677-2604522
 scientificName Bacillus subtilis
-htmlPath description.html
+htmlPath hub_description.html
 groups groups.txt
