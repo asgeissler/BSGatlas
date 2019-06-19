@@ -200,7 +200,7 @@ priority 11
   parent trans_dbtbs
   shortLabel DBTBS Terminators
   longLabel DBTBS Terminators
-  bigDataUrl transbounds/DBTBS-term.bb
+  bigDataUrl transbounds/DBTBS-terminators.bb
   
   track trans_dbtbs_tf
   type bigBed 9 .
@@ -234,6 +234,6 @@ priority 12
   parent trans_nic
   shortLabel Nicolas et al. downshifts
   longLabel Nicolas et al. downshifts
-  bigDataUrl transbounds/nicolas-downshifts.bb
+  bigDataUrl transbounds/nicolas-downshift.bb
   
   
