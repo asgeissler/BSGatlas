@@ -317,35 +317,45 @@ helper <- function(mg, out) {
       j
     })
   
-  to <- sprintf('%s/%s.html', out, mg)
+  # write output, first to tmp folder to prevent conflict on libraries
+  tmp.dir <- tempdir()
+  tmp.to <- sprintf('%s/%s.html', tmp.dir, mg)
+  
+  final <- sprintf('%s/%s.html', out, mg)
   tab %>%
     save_kable(
-      file = to,
+      file = tmp.to,
       self_contained = FALSE,
       title = paste0('BSGatlas - ', mg)
     )
+  file.rename(tmp.to, final)
+  unlink(tmp.dir)
 }
   
 jobs <- merging$merged_genes$merged_id
 worker <- safely(partial(helper, out = 'data-hub/meta/'))
 cl <- makeForkCluster(detectCores())
 jobs %>%
-  head %>%
   set_names(., .) %>%
   parLapply(cl = cl, X = ., fun = worker) -> result
+
+stopCluster(cl)
 
 result %>%
   map('error') %>%
   map(negate(is.null)) %>%
   unlist %>%
   sum
+
 jobs[result %>%
   map('error') %>%
   map(negate(is.null)) %>%
-  unlist] %>%
-  head
+  unlist] -> todo2
+
+todo2 %>%
+  set_names(., .) %>%
+  map(worker)
   
-stopCluster(cl)
 
 
                
