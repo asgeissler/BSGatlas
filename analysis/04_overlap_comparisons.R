@@ -126,7 +126,12 @@ cmp.over %>%
   ggplot(aes(x = f, y = n )) +
   geom_bar(stat = 'identity') +
   xlab('overlap with operon relative to prediction length [%]') +
+  ylab('count') +
   facet_wrap(~ x.type, scale = 'free_y')
+
+ggsave(file = 'analysis/04_nic_overlaps.pdf',
+       width = 9, height = 6, units = 'in')
+
 
 # cmp.over %>%
 #   filter(!antisense) %>%
@@ -166,4 +171,11 @@ cmp.dist %>%
   spread(type, n, fill = 0) %>%
   mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
                       '1,000..10,000', '10,000+')) %>%
-  rename('distance to closest operon' = dist.cut)
+  rename('distance to closest operon' = dist.cut) %>%
+  kable('latex', escape = FALSE, caption = 'foo') %>%
+  kable_styling(latex_options = 'scale_down') %>%
+  str_split('\\n') %>%
+  unlist %>%
+  # without environment
+  `[`(4:(length(.) - 1)) %>%
+  write_lines(path = '04_nic_dist_stat.tex')
