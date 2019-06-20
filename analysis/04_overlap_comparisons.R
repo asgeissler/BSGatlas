@@ -1,7 +1,9 @@
 source('analysis/00_load.R')
 source('scripts/overlap_matching.R')
+source('scripts/distance_matching.R')
 load('analysis/02_merging.rda')
 load('analysis/01_nicolas.rda')
+load('analysis/03_operons.rda')
 
 # investigation of ammound of refinment due to merging
 # and investigation of Nicolas et al UTRs
@@ -65,10 +67,103 @@ cmp %>%
   xlab('Difference to corresponding merged gene [nt]') +
   ylab('Jaccard Similarity')
 
+ggsave(file = 'analysis/04_refinment_boxplot.pdf')
+
 cmp %>%
   left_join(nice.names, 'src') %>%
   count(nice, total.diff.cat) %>%
-  spread(total.diff.cat, n, fill = 0) %>%
-  View
+  spread(total.diff.cat, n, fill = 0) -> stat
+
+View(stat)
+
+stat %>%
+  mutate_at('nice', str_replace, 'et al.', '\\\\emph{et al.}') %>%
+  mutate_at('nice', str_remove, '\\n') %>%
+  rename(Resource = nice) %>%
+  kable('latex', escape = FALSE, caption = 'foo') %>%
+  kable_styling(latex_options = 'scale_down') %>%
+  str_split('\\n') %>%
+  unlist %>%
+  # thousand digit mark
+  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
+  # without environment
+  `[`(4:(length(.) - 1)) %>%
+  write_lines(path = '04_refinment_stat.tex')
 
 # 2. UTRs
+
+nicolas$all.features %>%
+  drop_na(type) %>%
+  filter(!str_detect(type, 'indep')) %>%
+  # count(type)
+  transmute(
+    id = locus, start, end, strand, 
+    type = case_when(
+      type == 'intra' ~ 'internal',
+      type == 'inter' ~ 'intergenic',
+      startsWith(type, '3') ~ "3' UTR",
+      TRUE ~ "5' UTR"
+    )
+  ) -> nic.utrs
+
+nic.utrs
+cmp.dist <- distance_matching(nic.utrs, operons$operon)
+cmp.over <- overlap_matching(nic.utrs, operons$operon)
+
+cmp.over %>%
+  filter(!antisense) %>%
+  drop_na(x) %>%
+  # filter(x.type == 'intergenic') %>%
+  group_by(x.type) %>%
+  do(foo = cut(.$overlap / .$x.length * 100,
+               seq(0, 100, length.out = 5),
+               include.lowest = TRUE) %>%
+      fct_explicit_na('not overlapping') %>%
+      fct_relevel('not overlapping') %>%
+      fct_count()
+  ) %>%
+  unnest %>%
+  ggplot(aes(x = f, y = n )) +
+  geom_bar(stat = 'identity') +
+  xlab('overlap with operon relative to prediction length [%]') +
+  facet_wrap(~ x.type, scale = 'free_y')
+
+# cmp.over %>%
+#   filter(!antisense) %>%
+#   filter(is.na(y)) %>%
+#   select(x, type = x.type) %>%
+#   left_join(cmp.dist, 'x') %>%
+  # filter(!antisense) %>%
+  # group_by(x) %>%
+  # top_n(-1) %>%
+  # ungroup %>%
+#   count(type, mode)
+# type       mode           n
+# 3' UTR     x.after.y    220 ~95%
+# 3' UTR     x.before.y    12
+# 5' UTR     x.after.y     43
+# 5' UTR     x.before.y   550 ~93%
+# intergenic x.after.y    166
+# intergenic x.before.y    69
+# internal   x.after.y     25
+# internal   x.before.y    27
+cmp.dist %>%
+  filter(!antisense) %>%
+  left_join(nic.utrs, c('x' = 'id')) %>%
+  group_by(x, type) %>%
+  summarize_at('distance', min) %>%
+  ungroup %>%
+  mutate(
+    dist.cut = cut(distance, 
+                   c(0, unlist(map(1:4, ~ 10 ** ..1)), Inf)) %>%
+      fct_explicit_na('overlaps') %>%
+      fct_relevel('overlaps')
+  ) %>%
+  count(type, dist.cut) %>%
+  left_join(count(nic.utrs, type), 'type') %>%
+  mutate(nice = sprintf('%s (%s%%)', n.x, round(n.x / n.y * 100, 0))) %>%
+  select(type, n = nice, dist.cut) %>%
+  spread(type, n, fill = 0) %>%
+  mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
+                      '1,000..10,000', '10,000+')) %>%
+  rename('distance to closest operon' = dist.cut)
