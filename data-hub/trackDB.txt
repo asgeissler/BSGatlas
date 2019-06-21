@@ -99,6 +99,14 @@ html track_description.html
   subGroups agg=lit prio=c
   bigDataUrl individual/Nicolas-et-al.-lit-review.bb
   
+  track indiv_nictrust
+  type bigBed 9 +
+  parent exmerged
+  shortLabel Nicolas et al. trusted predictions
+  longLabel Nicolas et al. trusted predictions
+  subGroups agg=nicolas prio=c
+  bigDataUrl individual/Nicolas-et-al.-trusted.bb
+  
   track indiv_rfam_cons
   type bigBed 9 +
   parent exmerged
