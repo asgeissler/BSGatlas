@@ -2,6 +2,8 @@ source('analysis/00_load.R')
 source('scripts/distance_matching.R')
 source('scripts/overlap_matching.R')
 
+source('scripts/frame_helpers.R')
+
 load('analysis/01_bsubcyc.rda')
 load('analysis/01_nicolas.rda')
 load('analysis/03_dbtbs.rda')
@@ -155,12 +157,12 @@ dat.term <- bind_rows(
     arrange(start) %>%
     unique %>%
     transmute(id = 1:n(), start, end, strand, energy,
-              src = 'BsubCyc', prio = 0) %>%
+              src = 'BsubCyc', prio = 1) %>%
     mutate_at(c('id', 'energy'), as.character),
   dbtbs$term %>%
     arrange(start) %>%
     transmute(id = 1:n(), start, end, strand, energy = energies,
-              src = 'DBTBS', prio = 1,
+              src = 'DBTBS', prio = 0,
               pubmed = reference) %>%
     mutate_at('id', as.character),
   nicolas$downshifts %>%
@@ -206,3 +208,81 @@ term.near %>%
 
 ggsave(file = 'analysis/05_term_comparison.pdf',
        width = 7, height = 7, units = 'in')
+
+
+dat.term %>%
+  mutate(
+    start = start - ifelse(src != 'DBTBS', 50, 0),
+    end = end + ifelse(src != 'DBTBS', 50, 0)
+  ) -> dat.term2
+
+term.over <- overlap_matching(dat.term2, dat.term2) %>%
+  filter(!antisense) %>%
+  select(x, y) %>%
+  drop_na
+
+nodes <- dat.term2 %>%
+  transmute(i = 1:n(), name = id, i)
+edges <- term.over %>%
+  mutate(row = 1:n()) %>%
+  gather('key', 'name', x, y) %>%
+  left_join(nodes, 'name') %>%
+  select(-name) %>%
+  spread(key, i) %>%
+  select(-row)
+
+graph <- tbl_graph(nodes, edges, FALSE)
+graph %>%
+  activate(nodes) %>%
+  mutate(group = group_components()) %>%
+  as_tibble %>%
+  left_join(dat.term2, c('name' = 'id')) %>%
+  select(group, id = name, src, energy, prio, pubmed, start, end, strand) -> term.merge
+
+
+term.merge %>%
+  group_by(group) %>%
+  top_n(-1, prio) %>%
+  summarize(start = min(start), end = max(end),
+            strand = clean_paste(strand)) -> term.pos
+# count(term.pos, strand)
+# ok, no strand problems
+term.merge %>%
+  select(group, src, energy, pubmed) %>%
+  gather('key', 'value', src, energy, pubmed) %>%
+  separate_rows(value, sep = ';') %>%
+  drop_na %>%
+  filter(value != '') %>%
+  unique %>%
+  group_by(group, key) %>%
+  summarize_at('value',
+               c(clean_paste,
+                 function(i) i %>% as.numeric %>% min)) -> term.meta
+
+term.meta %>%
+  mutate(value = ifelse(key == 'energy', as.character(fn2), fn1)) %>%
+  select(- starts_with('fn')) %>%
+  spread(key, value, fill = '') %>%
+  left_join(term.pos, 'group') %>%
+  ungroup %>%
+  arrange(start) %>%
+  transmute(id = paste0('BSGatlas-terminator-', 1:n()),
+            start, end, strand, energy, src) -> bsg.term
+
+
+pdf(file = 'analysis/05_venn_term.pdf')
+bsg.term %>%
+  select(id, src) %>%
+  separate_rows(src, sep = ';') %>%
+  mutate_at('src', fct_recode,
+            'Nicolas et al.\ndownshift' = 'Nicolas et al. downshift') %>%
+  group_by(src) %>%
+  do(i = list(.$id)) %>%
+  with(set_names(map(i, 1), src)) %>%
+  venn(cexil = 1.3,
+       cexsn = 1.5, zcolor = 'style')
+dev.off()
+
+
+bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
+save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
