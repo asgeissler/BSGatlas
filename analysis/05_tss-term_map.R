@@ -112,8 +112,13 @@ tss.merge %>%
   filter(res.limit == min(res.limit)) %>%
   ungroup %>%
   arrange(TSS) %>%
-  transmute(id = paste0('BSGatlas-TSS-', 1:n()),
-            TSS, res.limit, start, end ,strand) -> bsg.tss
+  select(TSS, res.limit, start, end, strand, sigma) %>%
+  group_by(TSS, res.limit, start, end, strand) %>%
+  summarize(sigma = sigma %>% unique %>% invoke(.f = paste0)) %>%
+  ungroup %>%
+  # count(sigma) %>% View
+  mutate(id = paste0('BSGatlas-TSS-', 1:n())) %>%
+  select(id, everything()) -> bsg.tss
 
 cmp <- overlap_matching(bsg.tss, tss.win) %>%
   filter(!antisense) %>%
@@ -121,6 +126,7 @@ cmp <- overlap_matching(bsg.tss, tss.win) %>%
   drop_na %>%
   left_join(tss.dat, c('y' = 'src_id')) %>%
   select(id = x, src, pubmed) %>%
+  unique %>%
   gather('key', 'value', src, pubmed) %>%
   separate_rows(value, sep = ';') %>%
   unique %>%
@@ -266,6 +272,7 @@ term.meta %>%
   left_join(term.pos, 'group') %>%
   ungroup %>%
   arrange(start) %>%
+  unique %>%
   transmute(id = paste0('BSGatlas-terminator-', 1:n()),
             start, end, strand, energy, src) -> bsg.term
 
