@@ -58,14 +58,14 @@ html track_description.html
 
   track bsg_bound_tss
   type bigBed 9 +
-  parent bsg_boun
+  parent bsg_bound
   shortLabel BSGatlas TSS
   longLabel BSGatlas TSS
   bigDataUrl bsgatlas-tss.bb
   
   track bsg_bound_term
   type bigBed 9 +
-  parent bsg_boun
+  parent bsg_bound
   shortLabel BSGatlas terminators
   longLabel BSGatlas terminators
   bigDataUrl bsgatlas-terminator.bb
