@@ -107,7 +107,7 @@ nicolas$all.features %>%
   ) -> nic.utrs
 
 nic.utrs
-cmp.dist <- distance_matching(nic.utrs, operons$operon)
+cmp.dist <- distance_matching(nic.utrs, merged)
 cmp.over <- overlap_matching(nic.utrs, operons$operon)
 
 cmp.over %>%
@@ -138,20 +138,23 @@ ggsave(file = 'analysis/04_nic_overlaps.pdf',
 #   filter(is.na(y)) %>%
 #   select(x, type = x.type) %>%
 #   left_join(cmp.dist, 'x') %>%
-  # filter(!antisense) %>%
-  # group_by(x) %>%
-  # top_n(-1) %>%
-  # ungroup %>%
+# filter(!antisense) %>%
+# group_by(x) %>%
+# top_n(-1) %>%
+# ungroup %>%
 #   count(type, mode)
-# type       mode           n
-# 3' UTR     x.after.y    220 ~95%
-# 3' UTR     x.before.y    12
-# 5' UTR     x.after.y     43
-# 5' UTR     x.before.y   550 ~93%
-# intergenic x.after.y    166
-# intergenic x.before.y    69
-# internal   x.after.y     25
-# internal   x.before.y    27
+# type       mode             n
+# 3' UTR     x.after.y      214 okay
+# 3' UTR     x.before.y      21
+# 5' UTR     x.after.y       43
+# 5' UTR     x.before.y     557 okay
+# intergenic 5prime.equal     1
+# intergenic x.after.y      178
+# intergenic x.before.y      62
+# internal   x.after.y       46
+# internal   x.before.y      42
+
+
 cmp.dist %>%
   filter(!antisense) %>%
   left_join(nic.utrs, c('x' = 'id')) %>%
@@ -160,7 +163,7 @@ cmp.dist %>%
   ungroup %>%
   mutate(
     dist.cut = cut(distance, 
-                   c(0, unlist(map(1:4, ~ 10 ** ..1)), Inf)) %>%
+                   c(0, unlist(map(1:3, ~ 10 ** ..1)), Inf)) %>%
       fct_explicit_na('overlaps') %>%
       fct_relevel('overlaps')
   ) %>%
@@ -170,8 +173,9 @@ cmp.dist %>%
   select(type, n = nice, dist.cut) %>%
   spread(type, n, fill = 0) %>%
   mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
-                      '1,000..10,000', '10,000+')) %>%
-  rename('distance to closest operon' = dist.cut) %>%
+                      # '1,000..10,000', '10,000+')) %>%
+                      '1,000+')) %>%
+  rename('distance to closest gene' = dist.cut) %>%
   kable('latex', caption = 'foo') %>%
   kable_styling(latex_options = 'scale_down') %>%
   str_split('\\n') %>%
