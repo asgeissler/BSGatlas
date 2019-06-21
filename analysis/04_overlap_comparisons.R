@@ -88,7 +88,7 @@ stat %>%
   str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
   # without environment
   `[`(4:(length(.) - 1)) %>%
-  write_lines(path = '04_refinment_stat.tex')
+  write_lines(path = 'analysis/04_refinment_stat.tex')
 
 # 2. UTRs
 
@@ -178,4 +178,4 @@ cmp.dist %>%
   unlist %>%
   # without environment
   `[`(4:(length(.) - 1)) %>%
-  write_lines(path = '04_nic_dist_stat.tex')
+  write_lines(path = 'analysis/04_nic_dist_stat.tex')
