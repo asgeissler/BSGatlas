@@ -17,6 +17,8 @@ load('analysis/03_subtiwiki.rda')
 load('analysis/03_dbtbs.rda')
 load('analysis/03_operons.rda')
 
+load('analysis/05_bsg_boundaries.rda')
+
 # Make a unified color scheme
 colors <- tribble(
   ~type, ~normal,
@@ -449,3 +451,60 @@ nicolas$all.features %>%
 #   transbounds/nicolas-utrs.bed \
 #   genome.info                  \
 #   transbounds/nicolas-utrs.bb
+
+# 5. the unified TSS/terminator map
+
+# the autosql part
+'table boundary
+"my boundary units"
+    (
+    string chrom;          "Reference sequence genome"
+    uint   chromStart;     "Start position in genome"
+    uint   chromEnd;       "End position in genome"
+    string name;           "BSGatlas ID"
+    uint score;            "Score, no used"
+    char[1] strand;        "+ or - for strand"
+    uint thickStart;       "Start of where display should be thick"
+    uint thickEnd;         "End of where display should be thick"
+    uint reserved;       "User friendly color"
+    string src;             "Origin of this annotation"
+    string extra;          "Extra information"
+    )' %>%
+  write_lines('data-hub/src_extra.as')
+
+bsg.boundaries$TSS %>%
+  mutate(type = 'TSS') %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  transmute(
+    chrom = 'basu168',
+    start = TSS - res.limit, end = TSS + res.limit,
+    name = id, score = res.limit,
+    strand,
+    start2 = TSS, end2 = TSS,
+    rgb, src,
+    extra = sprintf('Resolution limit=%s<br/>PubMed: %s', res.limit, pubmed)
+  ) %>%
+  arrange(start, desc(end)) %>%
+  write_tsv('data-hub/bsgatlas-tss.bed', col_names = FALSE)
+
+bsg.boundaries$terminator %>%
+  mutate(type = 'terminator') %>%
+  left_join(color.scheme, c('type', 'strand')) %>%
+  transmute(
+    chrom = 'basu168',
+    start, end,
+    name = id, score = 0,
+    strand,
+    start2 = start, end2 = end,
+    rgb, src,
+    extra = sprintf('Free energy: %s[kcal/mol]', energy)
+  ) %>%
+  write_tsv('data-hub/bsgatlas-terminator.bed', col_names = FALSE)
+ 
+# for i in bsgatlas-{tss,terminator} ; do
+# bedToBigBed -type=bed9+2 -tab -as=src_extra.as \
+#   $i.bed                                       \
+#   genome.info                                  \
+#   -extraIndex=name                             \
+#   $i.bb
+# done

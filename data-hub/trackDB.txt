@@ -43,6 +43,33 @@ priority 3
 bigDataUrl operon.bb
 html track_description.html
 
+track bsg_bound
+group bsgatlas
+compositeTrack on
+type bigBed 9 +
+shortLabel BSGatlas TSS/terminators
+longLabel BSGatlas TSS/terminators
+visibility hide
+labelFields name
+itemRgb on
+priority 4
+html track_description.html
+
+
+  track bsg_bound_tss
+  type bigBed 9 +
+  parent bsg_boun
+  shortLabel BSGatlas TSS
+  longLabel BSGatlas TSS
+  bigDataUrl bsgatlas-tss.bb
+  
+  track bsg_bound_term
+  type bigBed 9 +
+  parent bsg_boun
+  shortLabel BSGatlas terminators
+  longLabel BSGatlas terminators
+  bigDataUrl bsgatlas-terminator.bb
+
 
 
 track exmerged
