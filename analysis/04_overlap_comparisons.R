@@ -80,7 +80,7 @@ stat %>%
   mutate_at('nice', str_replace, 'et al.', '\\\\emph{et al.}') %>%
   mutate_at('nice', str_remove, '\\n') %>%
   rename(Resource = nice) %>%
-  kable('latex', escape = FALSE, caption = 'foo') %>%
+  kable('latex', escape = FALSE, caption = 'foo', booktabs = TRUE) %>%
   kable_styling(latex_options = 'scale_down') %>%
   str_split('\\n') %>%
   unlist %>%
@@ -176,10 +176,11 @@ cmp.dist %>%
                       # '1,000..10,000', '10,000+')) %>%
                       '1,000+')) %>%
   rename('distance to closest gene' = dist.cut) %>%
-  kable('latex', caption = 'foo') %>%
+  kable('latex', caption = 'foo', booktabs = TRUE) %>%
   kable_styling(latex_options = 'scale_down') %>%
   str_split('\\n') %>%
   unlist %>%
   # without environment
   `[`(4:(length(.) - 1)) %>%
   write_lines(path = 'analysis/04_nic_dist_stat.tex')
+
