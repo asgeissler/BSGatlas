@@ -477,10 +477,10 @@ bsg.boundaries$TSS %>%
   left_join(color.scheme, c('type', 'strand')) %>%
   transmute(
     chrom = 'basu168',
-    start = TSS - res.limit, end = TSS + res.limit,
+    start = TSS - res.limit - 1, end = TSS + res.limit,
     name = id, score = res.limit,
     strand,
-    start2 = TSS, end2 = TSS,
+    start2 = TSS - 1, end2 = TSS,
     rgb, src,
     extra = sprintf('Resolution limit=%s<br/>PubMed: %s', res.limit, pubmed)
   ) %>%
@@ -492,10 +492,10 @@ bsg.boundaries$terminator %>%
   left_join(color.scheme, c('type', 'strand')) %>%
   transmute(
     chrom = 'basu168',
-    start, end,
+    start3 = start - 1, end,
     name = id, score = 0,
     strand,
-    start2 = start, end2 = end,
+    start2 = start3, end2 = end,
     rgb, src,
     extra = sprintf('Free energy: %s[kcal/mol]', energy)
   ) %>%
