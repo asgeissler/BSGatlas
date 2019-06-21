@@ -172,7 +172,7 @@ cmp.dist %>%
   mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
                       '1,000..10,000', '10,000+')) %>%
   rename('distance to closest operon' = dist.cut) %>%
-  kable('latex', escape = FALSE, caption = 'foo') %>%
+  kable('latex', caption = 'foo') %>%
   kable_styling(latex_options = 'scale_down') %>%
   str_split('\\n') %>%
   unlist %>%
