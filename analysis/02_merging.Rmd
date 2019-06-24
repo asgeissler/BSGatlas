@@ -117,7 +117,6 @@ partially transcribed RNAs.
 For all resources, the merging statistics are
 ```{r individual}
 merging_stat$stat.all %>%
-  mutate_all(replace_na, '-') %>%
   kable('latex',
         caption = 'Comparison of the individual resources with the merged result',
         booktabs = TRUE) %>%
@@ -132,12 +131,12 @@ merging_stat$stat.all %>%
   mutate(description = c(
     "Resource Priority",
     "Protein Coding Genes",
-    "\\hspace{1em}of these hypothetical",
+    "\\hspace{1em}putative/predictions",
     "Hypothetical status removed",
     "Coordinates refined",
     "Resource specific genes",
     "Non-Coding RNAs",
-    "\\hspace{1em}of these hypothetical",
+    "\\hspace{1em}putative/predictions",
     "known specific types",
     "\\hspace{1em}ribosomal RNA",
     "\\hspace{1em}transfer RNA",
@@ -145,12 +144,16 @@ merging_stat$stat.all %>%
     "\\hspace{1em}regulatory antisense RNA",
     "\\hspace{1em}riboswitch",
     "\\hspace{1em}self-splicing intron",
-    "\\hspace{0.1em}\\specialcell{other\\\\ (ribozyme, SRP, tmRNA)}",
-    "Coordinates refined",
-    "Hypothetical status remoced",
+    "\\hspace{1em}ribozyme, SRP, tmRNA",
+    "Coordinate refined",
+    "Hypothetical status removed",
     "Reclassifed as coding",
     "Resource specific genes"
 )) %>% 
+  # mutate(row = 1:n()) %>%
+  # select(description, row) %>% View
+  slice(1, 2, 3, 4, 6,
+        7, 10:16, 8, 18, 19, 20 ) %>%
   mutate_all(replace_na, '--') %>%
   set_names(c(
     " ",
@@ -170,7 +173,7 @@ merging_stat$stat.all %>%
     caption = 'Comparison of the individual resources with the merged result',
                     linesep = '') %>%
   kable_styling(latex_options = 'scale_down') %>%
-  row_spec(6, hline_after = TRUE) %>%
+  row_spec(5, hline_after = TRUE) %>%
   str_split('\\n') %>%
   unlist %>%
   # thousand digit mark
@@ -202,12 +205,12 @@ merging_stat$categorized.stat %>%
   # provide shorter descriptions with linebreaks where needed
   mutate(description = c(
     "Protein Coding Genes",
-    "\\hspace{1em}of these hypothetical",
+    "\\hspace{1em}putative/predictions",
     "Hypothetical status removed",
     "Coordinates refined",
     "Resource specific genes",
     "Non-Coding RNAs",
-    "\\hspace{1em}of these hypothetical",
+    "\\hspace{1em}putative/predictions",
     "known specific types",
     "\\hspace{1em}ribosomal RNA",
     "\\hspace{1em}transfer RNA",
@@ -215,12 +218,16 @@ merging_stat$categorized.stat %>%
     "\\hspace{1em}regulatory antisense RNA",
     "\\hspace{1em}riboswitch",
     "\\hspace{1em}self-splicing intron",
-    "\\hspace{0.1em}\\specialcell{other\\\\ (ribozyme, SRP, tmRNA)}",
+    "\\hspace{1em}ribozyme, SRP, tmRNA",
     "Coordinates refined",
-    "Hypothetical status remoced",
+    "Hypothetical status removed",
     "Reclassifed as coding",
     "Resource specific genes"
 )) %>% 
+  # mutate(row = 1:n()) %>%
+  # select(description, row) %>% View
+  slice(1, 2, 3, 5,
+        6, 9:15, 7, 17:19) %>%
   mutate_all(replace_na, '--') %>%
   set_names(c(
     " ",
@@ -235,7 +242,7 @@ merging_stat$categorized.stat %>%
 caption = 'Comparison of the resources with the merged results, aggregated by category. The shown comparison statistics are relative to the gene annotation with the highest priority within each category',
                     linesep = '') %>%
   kable_styling(latex_options = 'scale_down') %>%
-  row_spec(5, hline_after = TRUE) %>%
+  row_spec(4, hline_after = TRUE) %>%
   str_split('\\n') %>%
   unlist %>%
   # thousand digit mark
@@ -248,4 +255,3 @@ caption = 'Comparison of the resources with the merged results, aggregated by ca
   `[`(4:(length(.) - 1)) %>%
   write_lines(path = '02_stat_categorized.tex')
 ```
-
