@@ -331,3 +331,25 @@ bsubcyc <- list(
 )
 
 save(file = 'analysis/01_bsubcyc.rda', bsubcyc)
+
+# code on % of TUs without both TSS and terminator
+# > bsub_raw$transunits %>%
+#   +   transmute(row = 1:n(), part = COMPONENTS) %>%
+#   +   separate_rows(part, sep = ';') %>%
+#   +   left_join(
+#     +     bsub_raw$promoters %>%
+#       +       select(part = `UNIQUE-ID`, tss = `ABSOLUTE-PLUS-1-POS`),
+#     +     'part') %>%
+#   +   left_join(
+#     +     bsub_raw$terminators %>%
+#       +       select(part = `UNIQUE-ID`, left = `LEFT-END-POSITION`),
+#     +     'part') %>%
+#   +   gather('key', 'value', tss, left) %>%
+#   +   drop_na %>%
+#   +   select(row, key) %>%
+#   +   unique %>%
+#   +   mutate(foo = 'yes') %>%
+#   +   unique %>%
+#   +   spread(key, foo, fill = 'no') %>%
+#   +   count(left, tss) %>%
+#   +   arrange(n)
