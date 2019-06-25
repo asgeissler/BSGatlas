@@ -136,17 +136,86 @@ cmp <- overlap_matching(bsg.tss, tss.win) %>%
   summarize(value = value %>% sort %>% invoke(.f = paste, sep = ';')) %>%
   spread(key, value, fill = '')
   
-# sigma distribution
-
-bsg.boundaries$TSS %>%
-  count(sigma) %>%
-  View
-
+# cleanup
 bsg.tss %<>% left_join(cmp, 'id')
 bsg.tss %<>% mutate(sigma = ifelse(sigma == 'C', 'YlaC', sigma))
 
-# venn diagram
+# sigma distribution
 
+tss.dat %>%
+  select(src, sigma) %>%
+  bind_rows(
+    bsg.tss %>%
+      transmute(src = 'BSGatlas', sigma)
+  ) %>%
+  mutate_at('sigma', replace_na, '?') %>%
+  mutate_at('sigma', str_replace, '-', '?') %>%
+  mutate_at('sigma', str_replace_all, '([A-Z])(?=[A-Z])', '\\1;') %>%
+  separate_rows(sigma, sep = ';') -> sigma.bind
+
+sigma.bind %>%
+  count(src, sigma) %>%
+  spread(src, n, fill = 0) %>%
+  arrange(desc(BSGatlas)) %>%
+  mutate(sigma = ifelse(sigma != 'YlaC',
+                        paste0('Sig', sigma),
+                        sigma),
+         group = case_when(
+           sigma == 'Sig?' ~ 'unknown',
+           1:n() <= 6 ~ sigma,
+           TRUE ~ 'other'
+        )) %>%
+  group_by(group) %>%
+  summarize_if(is.numeric, sum) %>%
+  gather('src', 'n', - group) %>%
+  left_join(
+    sigma.bind %>%
+      count(src) %>%
+      rename(total = n),
+    'src'
+  ) %>%
+  # mutate(prop = n) %>%
+  mutate(prop = n / total * 100) %>%
+  select(src, group, prop) %>%
+              # filter(src == 'BSGatlas') %>%
+              # with(reorder(group, - prop)) %>%
+              # levels %>% dput
+  mutate_at('src', fct_recode, 'Nicolas et al.' = 'Nicolas et al upshift') %>%
+  mutate_at('group', fct_relevel,
+            "SigA", "other", "SigF", "unknown", "SigE", "SigK", "SigG") %>%
+  ggplot(aes(x = src, fill = group, y = prop)) +
+  geom_bar(stat = 'identity') +
+  xlab(NULL) + ylab('Proprotion [%]') +
+  ggsci::scale_fill_jama(name = 'Sigma Factor') +
+  theme_minimal(base_size = 16)
+ggsave(file = 'analysis/05_sigma_proportion.pdf')
+  
+bsg.tss %>%
+  count(res.limit)
+# res.limit     n
+# 0           706
+#22          2684
+bsg.tss %>%
+  separate_rows(src, sep = ';') %>%
+  count(src) %>%
+  bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.tss))) %>%
+# 1 BsubCyc                 556
+# 2 DBTBS                   644
+# 3 Nicolas et al upshift  3269
+# 4 BSGatlas               3390
+  mutate(src = fct_reorder(src, - n) %>%
+           fct_recode('Nicolas et al.' = 'Nicolas et al upshift'))  %>%
+  ggplot(aes(x = src, y = n, fill = src)) + 
+  ggsci::scale_fill_jama(name = NULL) +
+  geom_bar(stat = 'identity') +
+  theme_minimal(base_size = 16) +
+  scale_y_continuous(breaks = c(500, 1000, 1500, 2000, 2500, 3000, 3500)) +
+  ylab('count of sigma factor binding sites') + xlab(NULL) +
+  theme(legend.position = 'none')
+
+ggsave(file = 'analysis/05_count_promoter.pdf')
+
+# venn diagram
 
 library(venn)
 pdf(file = 'analysis/05_venn_tss.pdf')
@@ -304,9 +373,22 @@ bsg.term %>%
 dev.off()
 
 
+bsg.term %>%
+  separate_rows(src, sep = ';') %>%
+  count(src) %>%
+  bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.term))) %>%
+  mutate(src = fct_reorder(src, -n ) %>%
+           fct_recode('Nicolas et al.' = 'Nicolas et al. downshift')) %>%
+  ggplot(aes(x = src, y = n, fill = src)) +
+  geom_bar(stat = 'identity') +
+  ggsci::scale_fill_jama() +
+  xlab(NULL) + ylab('count of transcription terminators') +
+  theme_minimal(base_size = 16) +
+  theme(legend.position = 'none')
+
+ggsave(file = 'analysis/05_term_bars.pdf')
+
+  
+# save results
 bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
-  
-
-
-
