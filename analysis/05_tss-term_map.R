@@ -282,8 +282,8 @@ distance_matching(dat.term, dat.term) %>%
   ungroup -> term.near
   
 term.near %>%
-  # filter(from < to) %>%
-  filter((from != to) | (x < y)) %>%
+  filter(from <= to) %>%
+  # filter((from != to) | (x < y)) %>%
   filter(abs.near < 1e2) %>%
   # group_by(from, to) %>% top_n(-5, abs.near)  %>% slice(1:5) %>% View
   ggplot(aes(x = nearest)) +
