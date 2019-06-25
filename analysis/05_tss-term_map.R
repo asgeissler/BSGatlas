@@ -392,3 +392,27 @@ ggsave(file = 'analysis/05_term_bars.pdf')
 # save results
 bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
+
+
+bsg.boundaries %>%
+  map(separate_rows, src, sep = ';') %>%
+  map(count, src) %>%
+  map2(names(.), ~ mutate(.x, type = .y)) %>%
+  bind_rows() %>%
+  mutate(src = ifelse(str_detect(src, 'Nicolas'),
+                      'Nicolas et al.', 
+                      src)) %>%
+  bind_rows(
+    bsg.boundaries %>%
+      map(nrow) %>%
+      map2(names(.), ~ tibble(type = .y, n = .x)) %>%
+      bind_rows %>%
+      mutate(src = 'BSGatlas')
+  ) %>%
+  spread(type, n) %>%
+  kable('latex', booktabs = TRUE) %>%
+  kable_styling() %>%
+  strsplit('\n') %>%
+  unlist %>%
+  `[`(2:(length(.) - 1)) %>%
+  write_lines('analysis/05_overview.tex')
