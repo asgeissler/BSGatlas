@@ -136,8 +136,17 @@ cmp <- overlap_matching(bsg.tss, tss.win) %>%
   summarize(value = value %>% sort %>% invoke(.f = paste, sep = ';')) %>%
   spread(key, value, fill = '')
   
+# sigma distribution
+
+bsg.boundaries$TSS %>%
+  count(sigma) %>%
+  View
 
 bsg.tss %<>% left_join(cmp, 'id')
+bsg.tss %<>% mutate(sigma = ifelse(sigma == 'C', 'YlaC', sigma))
+
+# venn diagram
+
 
 library(venn)
 pdf(file = 'analysis/05_venn_tss.pdf')
@@ -297,10 +306,7 @@ dev.off()
 
 bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
-
-# sigma distribution
-
-
+  
 
 
 
