@@ -145,15 +145,16 @@ bsg.tss %>%
   select(id, src) %>%
   separate_rows(src, sep = ';') %>%
   mutate_at('src', fct_recode,
+            'DBTBS (TSS)' = 'DBTBS',
+            'BsubCyc\n(TSS)' = 'BsubCyc',
             'Nicolas et al.\nupshift' = 'Nicolas et al upshift') %>%
   group_by(src) %>%
   do(i = list(.$id)) %>%
   with(set_names(map(i, 1), src)) %>%
   venn(cexil = 1.3,
-       cexsn = 1.5, zcolor = 'style')
+       cexsn = 1.3,
+       zcolor = ggsci::pal_jama()(3))
 dev.off()
-
-
 
 ##############################################################################
 # 2. Terminator merging
@@ -282,14 +283,24 @@ bsg.term %>%
   select(id, src) %>%
   separate_rows(src, sep = ';') %>%
   mutate_at('src', fct_recode,
+            'DBTBS (terminators)' = 'DBTBS',
+            'BsubCyc\n(term.)' = 'BsubCyc',
             'Nicolas et al.\ndownshift' = 'Nicolas et al. downshift') %>%
   group_by(src) %>%
   do(i = list(.$id)) %>%
   with(set_names(map(i, 1), src)) %>%
   venn(cexil = 1.3,
-       cexsn = 1.5, zcolor = 'style')
+       cexsn = 1.3,
+       zcolor = ggsci::pal_jama()(3))
 dev.off()
 
 
 bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
+
+# sigma distribution
+
+
+
+
+
