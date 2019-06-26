@@ -257,7 +257,7 @@ bound_chain %>%
       (bound_type == 'terminator') & (strand.utr == '-') ~
         start.bound,
       (bound_type == 'TSS') & (strand.utr == '+') ~
-        end.bound,
+        start.bound,
       (bound_type == 'TSS') & (strand.utr == '-') ~
         end.gene
     ),
@@ -297,10 +297,11 @@ foo %>%
       mutate(start1 = 0,
              end1 = end1 %% genome.size,
              start2 = 0,
-             end2 = end1,
+             end2 = end2 %% genome.size,
              primary.name = paste0(primary.name, '.part2'))
   ) %>%
-  arrange(start1) %>%
+  arrange(start1, end2) %>%
+  filter(start1 < end1) %>%
   write_tsv('~/Downloads/test.bed', col_names = FALSE)
 
 ###########################################################################
