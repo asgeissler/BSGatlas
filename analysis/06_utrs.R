@@ -181,3 +181,148 @@ bounds %>%
 # type        none partner
 # terminator   150    2117
 # TSS          248    3142
+
+bound_map %>%
+  # count(bound_type, interest_mode, gene_type) %>%
+  count(bound_type, gene_type) %>%
+  spread(bound_type, n, fill = 0) %>%
+  arrange(desc(TSS))
+# gene_type           terminator   TSS
+# CDS                       1996  2795
+# putative-non-coding         43   160
+# riboswitch                  30    98
+# putative-coding             28    30
+# sRNA                         8    24
+# tRNA                        14    15
+# rRNA                         3    13
+# asRNA                        3     3
+# tmRNA                        0     2
+# ribozyme                     0     1
+# SRP                          0     1
+
+###########################################################################
+# An initial good map -> minor adjustment: Chain riboswitches
+
+distance_matching(genes, genes) %>%
+  filter(!antisense) %>%
+  left_join(genes, c('x' = 'id')) %>%
+  select(x, type, y, mode, distance) %>%
+  filter(type == 'riboswitch', x != y) %>%
+  filter(mode == 'x.before.y') %>%
+  group_by(x) %>%
+  top_n(-1, distance) %>%
+  ungroup %>%
+  select(y = x, gene = y) %>%
+  right_join(bound_map, 'y') %>%
+  transmute(bound = x, bound_type,
+            # chain riboswitches but only for TSSS
+            gene = ifelse(is.na(gene) | (bound_type != 'TSS'),
+                          y, gene)) %>%
+  left_join(genes %>% select(gene = id, gene_type = type),
+            'gene') -> bound_chain
+
+
+bound_chain %>%
+  count(bound_type, gene_type) %>%
+  spread(bound_type, n, fill = 0) %>%
+  arrange(desc(TSS))
+# gene_type           terminator   TSS
+# CDS                       1996  2894
+# putative-non-coding         43   160
+# putative-coding             28    30
+# sRNA                         8    24
+# tRNA                        14    15
+# rRNA                         3    13
+# asRNA                        3     3
+# tmRNA                        0     2
+# ribozyme                     0     1
+# SRP                          0     1
+# riboswitch                  31     0
+
+###########################################################################
+# Helper track for adhoc viz in browser
+load('analysis/01_refseq.rda')
+genome.size <- refseq$seq$`168` %>% length
+
+bound_chain %>%
+  left_join(bounds, c('bound' = 'id')) %>%
+  left_join(genes, c('gene' = 'id'),
+            suffix = c('.bound', '.gene')) %>%
+  mutate_if(is.numeric, as.integer) %>%
+  mutate(
+    strand.utr = strand.bound,
+    start.utr = case_when(
+      (bound_type == 'terminator') & (strand.utr == '+') ~
+        end.gene,
+      (bound_type == 'terminator') & (strand.utr == '-') ~
+        start.bound,
+      (bound_type == 'TSS') & (strand.utr == '+') ~
+        end.bound,
+      (bound_type == 'TSS') & (strand.utr == '-') ~
+        end.gene
+    ),
+    end.utr = case_when(
+      (bound_type == 'terminator') & (strand.utr == '+') ~
+        end.bound,
+      (bound_type == 'terminator') & (strand.utr == '-') ~
+        start.gene,
+      (bound_type == 'TSS') & (strand.utr == '+') ~
+        start.gene,
+      (bound_type == 'TSS') & (strand.utr == '-') ~
+        end.bound
+    )
+  ) %>%
+  select(start = start.utr, end = end.utr, strand = strand.utr) %>%
+  arrange(start) %>%
+  transmute(
+    chr = 'basu168',
+    start1 = start - 1, end1 = end,
+    primary.name = paste0('test-', 1:n()),
+    score = 0, strand,
+    start2 = start1, end2 = end1,
+    rgb = ifelse(strand == '+', '0,255,0', '255,0,0')
+  ) -> foo
+
+
+special <- foo %>%
+  filter(end1 > genome.size)
+foo %>%
+  filter(end1 <= genome.size) %>%
+  bind_rows(
+    special %>%
+      mutate(end1 = genome.size,
+             end2 = genome.size,
+             primary.name = paste0(primary.name, '.part1')),
+    special %>%
+      mutate(start1 = 0,
+             end1 = end1 %% genome.size,
+             start2 = 0,
+             end2 = end1,
+             primary.name = paste0(primary.name, '.part2'))
+  ) %>%
+  arrange(start1) %>%
+  write_tsv('~/Downloads/test.bed', col_names = FALSE)
+
+###########################################################################
+# Implications of this map for isoforms
+
+overlap_matching(genes, operons$transcript) %>%
+  filter(!antisense) %>%
+  filter(mode %in% c('equal', 'contained_by')) %>%
+  mutate(
+    start = x5.dist == 0,
+    ends = x3.dist == 0,
+    tu_mode = case_when(
+      start & ends ~ 'mono-cistronic',
+      start ~ 'gene starts TU',
+      ends ~ 'gene ends TU',
+      TRUE ~ 'gene in middle (novel isoform)'
+    )
+  ) %>%
+  select(gene = x, tu = y, part, start, ends, tu_mode) -> gene.tu
+
+bound_chain %>%
+  left_join(gene.tu, 'gene') %>%
+  mutate_at('tu_mode', replace_na, 'without TU') %>%
+  count(bound_type, tu_mode) %>%
+  spread(bound_type, n)
