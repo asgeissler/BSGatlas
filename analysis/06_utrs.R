@@ -131,32 +131,22 @@ cmp_rel %>%
   group_by_at(vars(-x)) %>%
   count %>% View
 
-# Prefer
-# term_after < term_5_overlap < term_contained
-# TSS exact < before < contained
-# in each category the min
+# Find closesed partner within cut-off
 cmp_rel %>%
   filter(interest_dist < 1e3) %>%
-  mutate(prio = case_when(
-    interest_mode == 'term_after' ~     0,
-    interest_mode == 'term_5_overlap' ~ 1,
-    interest_mode == 'term_contained' ~ 2,
-    interest_mode == 'tss_exact' ~     0,
-    interest_mode == 'tss_before' ~    1,
-    interest_mode == 'tss_contained' ~ 2
-  )) %>%
   group_by(x) %>%
-  top_n(-1, prio) %>%
-  ungroup -> bound_map
-# count(interest_mode)
-# interest_mode      n
-# term_5_overlap   627
-# term_after      1456
-# term_contained    42
-# tss_before      2986
-# tss_contained     74
-# tss_exact         82
+  top_n(-1, interest_dist) %>%
+  ungroup %>%
+  unique -> bound_map
 
+# count(bound_map, interest_mode)
+# interest_mode      n
+# term_5_overlap  1217
+# term_after       815
+# term_contained    88
+# tss_before      2859
+# tss_contained    209
+# tss_exact         82
 
 bound_map %>%
   ggplot(aes(x = rel_dist)) +
@@ -164,9 +154,9 @@ bound_map %>%
   geom_vline(xintercept = 0, color = 'red') +
   facet_wrap(~ bound_type, scales = 'free_y')
 
-bound_map %>%
-  count(x) %>%
-  count(n)
+# bound_map %>%
+#   count(x) %>%
+#   count(n)
 
 bounds %>%
   select(id, type) %>%
@@ -188,17 +178,18 @@ bound_map %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-# CDS                       1996  2795
-# putative-non-coding         43   160
-# riboswitch                  30    98
-# putative-coding             28    30
-# sRNA                         8    24
-# tRNA                        14    15
-# rRNA                         3    13
-# asRNA                        3     3
-# tmRNA                        0     2
-# ribozyme                     0     1
-# SRP                          0     1
+# CDS                       1944  2780
+# putative-non-coding         55   166
+# riboswitch                  55   101
+# putative-coding             24    34
+# sRNA                        16    26
+# tRNA                        15    15
+# rRNA                         2    13
+# asRNA                        6     3
+# tmRNA                        1     3
+# intron                       0     1
+# ribozyme                     1     1
+# SRP                          1     1
 
 ###########################################################################
 # An initial good map -> minor adjustment: Chain riboswitches
@@ -227,17 +218,18 @@ bound_chain %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-# CDS                       1996  2894
-# putative-non-coding         43   160
-# putative-coding             28    30
-# sRNA                         8    24
-# tRNA                        14    15
-# rRNA                         3    13
-# asRNA                        3     3
-# tmRNA                        0     2
-# ribozyme                     0     1
-# SRP                          0     1
-# riboswitch                  31     0
+# CDS                       1944  2881
+# putative-non-coding         55   167
+# putative-coding             24    35
+# sRNA                        16    26
+# tRNA                        15    15
+# rRNA                         2    13
+# asRNA                        6     3
+# tmRNA                        1     3
+# intron                       0     1
+# riboswitch                  55     1
+# ribozyme                     1     1
+# SRP                          1     1
 
 ###########################################################################
 # Helper track for adhoc viz in browser
@@ -270,9 +262,12 @@ bound_chain %>%
         start.gene,
       (bound_type == 'TSS') & (strand.utr == '-') ~
         end.bound
-    )
+    ),
+    type = ifelse(bound_type == 'TSS', '5prime', '3prime')
   ) %>%
-  select(start = start.utr, end = end.utr, strand = strand.utr) %>%
+  select(start = start.utr, end = end.utr, strand = strand.utr, type) -> utrs
+
+utrs %>%
   arrange(start) %>%
   transmute(
     chr = 'basu168',
@@ -281,31 +276,12 @@ bound_chain %>%
     score = 0, strand,
     start2 = start1, end2 = end1,
     rgb = ifelse(strand == '+', '0,255,0', '255,0,0')
-  ) -> foo
-
-
-special <- foo %>%
-  filter(end1 > genome.size)
-foo %>%
-  filter(end1 <= genome.size) %>%
-  bind_rows(
-    special %>%
-      mutate(end1 = genome.size,
-             end2 = genome.size,
-             primary.name = paste0(primary.name, '.part1')),
-    special %>%
-      mutate(start1 = 0,
-             end1 = end1 %% genome.size,
-             start2 = 0,
-             end2 = end2 %% genome.size,
-             primary.name = paste0(primary.name, '.part2'))
   ) %>%
-  arrange(start1, end2) %>%
   filter(start1 < end1) %>%
   write_tsv('~/Downloads/test.bed', col_names = FALSE)
 
 ###########################################################################
-# Implications of this map for isoforms
+# Quick assessment: Implications of this map for isoforms
 
 overlap_matching(genes, operons$transcript) %>%
   filter(!antisense) %>%
@@ -320,10 +296,44 @@ overlap_matching(genes, operons$transcript) %>%
       TRUE ~ 'gene in middle (novel isoform)'
     )
   ) %>%
-  select(gene = x, tu = y, part, start, ends, tu_mode) -> gene.tu
+  select(gene = x, tu = y, start, ends, tu_mode) -> gene.tu
 
 bound_chain %>%
   left_join(gene.tu, 'gene') %>%
   mutate_at('tu_mode', replace_na, 'without TU') %>%
   count(bound_type, tu_mode) %>%
   spread(bound_type, n)
+# tu_mode                        terminator   TSS
+# gene ends TU                          970   362
+# gene in middle (novel isoform)        149   299
+# gene starts TU                        130  1264
+# mono-cistronic                       1232  1556
+# without TU                            178   323
+
+###########################################################################
+# Comparison with the Nicolas et al. UTRs
+
+load('analysis/01_nicolas.rda')
+nicolas$all.features %>%
+  select(id = locus, start, end, strand, type) %>%
+  mutate_at('type', replace_na, '') %>%
+  mutate(type = case_when(
+    startsWith(type, "3'") ~ '3prime',
+    startsWith(type, "5'") ~ '5prime',
+    TRUE ~ NA_character_
+  )) %>%
+  drop_na -> nic.utrs
+
+utrs %>%
+  filter(start < end) %>%
+  mutate(id = paste0('myutr-', 1:n())) %>%
+  overlap_matching(nic.utrs) %>%
+  filter(!antisense) %>%
+  mutate(ratio = overlap / y.length * 100) %>%
+  drop_na(y) %>%
+  group_by(y) %>%
+  top_n(1, ratio) %>%
+  ungroup -> cmp.nic
+
+cmp.nic %>%
+  count(mode)
