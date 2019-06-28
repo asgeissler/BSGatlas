@@ -329,6 +329,7 @@ utrs %>%
   mutate(id = paste0('myutr-', 1:n())) %>%
   overlap_matching(nic.utrs) %>%
   filter(!antisense) %>%
+  filter(x.type == y.type) %>%
   mutate(ratio = overlap / y.length * 100) %>%
   drop_na(y) %>%
   group_by(y) %>%
@@ -336,4 +337,19 @@ utrs %>%
   ungroup -> cmp.nic
 
 cmp.nic %>%
-  count(mode)
+  select(bsg = x, nic = y, overlap, length = y.length, type = x.type, ratio) %>%
+  full_join(
+    nic.utrs %>%
+      transmute(nic = id, length = end - start + 1, type),
+    c('nic', 'length', 'type')
+  ) %>%
+  mutate(ratio = ratio %>%
+           replace_na(0) %>%
+           cut(seq(0, 100, 10),
+               include.lowest = TRUE)) %>%
+  count(ratio, type) %>%
+  spread(type, n, fill = 0)
+  ggplot(aes(x = ratio)) +
+  geom_bar() +
+  facet_wrap(~ type)
+  
