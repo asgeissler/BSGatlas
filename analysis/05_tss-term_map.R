@@ -16,6 +16,11 @@ tss.dat <- bind_rows(
     transmute(src = 'Nicolas et al upshift', id, TSS = pos, strand, sigma,
               pubmed = '') %>%
     mutate_at('sigma', str_remove, 'Sig'),
+nicolas$all.features %>%
+  filter(startsWith(type, "5'")) %>%
+  transmute(src = 'Nicolas et al 5\' UTR start', id = locus,
+            strand, TSS = ifelse(strand == '+', start, end),
+            sigma = '?', pubmed = ''),
   dbtbs$tss %>%
     transmute(src = 'DBTBS', id = 1:n(), TSS, strand, sigma,
               pubmed = reference) %>%
@@ -28,6 +33,7 @@ tss.dat <- bind_rows(
 ) %>%
   mutate(src_id = paste0(src, '%', id))
   
+
 
 tss.dat %>%
   mutate(start = TSS, end = TSS) %>%
@@ -68,9 +74,13 @@ ggsave(file = 'analysis/05_tss_comparison.pdf',
 
 tss.dat %>%
   transmute(id = src_id, TSS, strand, sigma) %>%
-  mutate(res.limit = ifelse(startsWith(id, 'Nicolas'), 22, 0),
-         start = TSS - res.limit,
-         end = TSS + res.limit) -> tss.win
+  mutate(res.limit = case_when(
+    str_detect(id, 'upshift') ~ 22,
+    str_detect(id, 'UTR start') ~ 33,
+    TRUE ~ 0
+  ),
+  start = TSS - res.limit,
+  end = TSS + res.limit) -> tss.win
 
 tss.win %>%
   transmute(i = 1:n(), name = id) -> nodes
@@ -193,16 +203,18 @@ ggsave(file = 'analysis/05_sigma_proportion.pdf')
 bsg.tss %>%
   count(res.limit)
 # res.limit     n
-# 0           706
-#22          2684
+#         0   706
+#        22  2679
+#        33    12
 bsg.tss %>%
   separate_rows(src, sep = ';') %>%
   count(src) %>%
   bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.tss))) %>%
-# 1 BsubCyc                 556
-# 2 DBTBS                   644
-# 3 Nicolas et al upshift  3269
-# 4 BSGatlas               3390
+#  BsubCyc                      556
+#  DBTBS                        644
+#  Nicolas et al 5' UTR start   690
+#  Nicolas et al upshift       3264
+#  BSGatlas                    3397
   mutate(src = fct_reorder(src, - n) %>%
            fct_recode('Nicolas et al.' = 'Nicolas et al upshift'))  %>%
   ggplot(aes(x = src, y = n, fill = src)) + 
@@ -231,7 +243,7 @@ bsg.tss %>%
   with(set_names(map(i, 1), src)) %>%
   venn(cexil = 1.3,
        cexsn = 1.3,
-       zcolor = ggsci::pal_jama()(3))
+       zcolor = ggsci::pal_jama()(4))
 dev.off()
 
 ##############################################################################
@@ -253,7 +265,16 @@ dat.term <- bind_rows(
   nicolas$downshifts %>%
     transmute(id, start = pos, end = pos, strand, energy,
               src = 'Nicolas et al. downshift', prio = 2) %>%
-    mutate_at('energy', as.character)
+    mutate_at('energy', as.character),
+  nicolas$all.features %>%
+    filter(startsWith(type, "3'")) %>%
+    transmute(src = 'Nicolas et al 3\' UTR end', id = locus,
+              strand,
+              tmp = ifelse(strand == '+', end, start),
+              start = tmp, end = tmp,
+              energy = NA,
+              prio = 3) %>%
+      select(-tmp)
 ) %>%
   mutate_at('energy', replace_na, '') %>%
   drop_na(start) %>%
@@ -297,8 +318,13 @@ ggsave(file = 'analysis/05_term_comparison.pdf',
 
 dat.term %>%
   mutate(
-    start = start - ifelse(src != 'DBTBS', 50, 0),
-    end = end + ifelse(src != 'DBTBS', 50, 0)
+    res = case_when(
+      str_detect(id, 'downshift') ~ 22,
+      str_detect(id, 'UTR end') ~ 33,
+      TRUE ~ 0
+      ),
+    start = start - res,
+    end = end + res
   ) -> dat.term2
 
 term.over <- overlap_matching(dat.term2, dat.term2) %>%
@@ -369,7 +395,7 @@ bsg.term %>%
   with(set_names(map(i, 1), src)) %>%
   venn(cexil = 1.3,
        cexsn = 1.3,
-       zcolor = ggsci::pal_jama()(3))
+       zcolor = ggsci::pal_jama()(4))
 dev.off()
 
 
