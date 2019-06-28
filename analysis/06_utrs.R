@@ -113,17 +113,19 @@ cmp_rel %>%
   group_by(x) %>%
   top_n(-1, interest_dist) %>%
   ungroup %>%
-  filter(interest_dist < 1e3) %>%
+  filter(interest_dist < 3e3) %>%
   # filter(between(rel_dist, -500, 300)) %>%
   ggplot(aes(x = rel_dist)) +
   geom_histogram() +
+  scale_x_continuous(breaks = seq(-3e3, +3e3, 1e3)) +
   geom_vline(xintercept = 0, color = 'red') +
   facet_wrap(~ bound_type, scales = 'free_y')
 
-# Cut-off 1e3, similar to nicolas
+# Cut-off 2e3, similar to nicolas
+BOUND <- 2e3
 
 cmp_rel %>%
-  filter(interest_dist < 1e3) %>%
+  filter(interest_dist < BOUND) %>%
   select(x, interest_mode) %>%
   unique %>%
   mutate(foo = 'yes') %>%
@@ -133,7 +135,7 @@ cmp_rel %>%
 
 # Find closesed partner within cut-off
 cmp_rel %>%
-  filter(interest_dist < 1e3) %>%
+  filter(interest_dist < BOUND) %>%
   group_by(x) %>%
   top_n(-1, interest_dist) %>%
   ungroup %>%
@@ -141,11 +143,11 @@ cmp_rel %>%
 
 # count(bound_map, interest_mode)
 # interest_mode      n
-# term_5_overlap  1217
-# term_after       815
-# term_contained    88
-# tss_before      2859
-# tss_contained    209
+# term_5_overlap   960
+# term_after      1075
+# term_contained   476
+# tss_before      2865
+# tss_contained    204
 # tss_exact         82
 
 bound_map %>%
@@ -169,8 +171,8 @@ bounds %>%
   mutate(has.partner = ifelse(has.partner, 'partner', 'none')) %>%
   spread(has.partner, n)
 # type        none partner
-# terminator   150    2117
-# TSS          248    3142
+# terminator   189    2507
+# TSS          248    3149
 
 bound_map %>%
   # count(bound_type, interest_mode, gene_type) %>%
@@ -178,18 +180,18 @@ bound_map %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-# CDS                       1944  2780
-# putative-non-coding         55   166
-# riboswitch                  55   101
-# putative-coding             24    34
-# sRNA                        16    26
-# tRNA                        15    15
-# rRNA                         2    13
-# asRNA                        6     3
-# tmRNA                        1     3
-# intron                       0     1
-# ribozyme                     1     1
-# SRP                          1     1
+#  CDS                       2279  2785
+#  putative-non-coding         74   167
+#  riboswitch                  76   103
+#  putative-coding             27    34
+#  sRNA                        21    26
+#  tRNA                        23    15
+#  rRNA                         2    12
+#  asRNA                        6     3
+#  tmRNA                        1     3
+#  intron                       0     1
+#  ribozyme                     1     1
+#  SRP                          1     1
 
 ###########################################################################
 # An initial good map -> minor adjustment: Chain riboswitches
@@ -218,23 +220,21 @@ bound_chain %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-# CDS                       1944  2881
-# putative-non-coding         55   167
-# putative-coding             24    35
-# sRNA                        16    26
-# tRNA                        15    15
-# rRNA                         2    13
+# CDS                       2279  2888
+# putative-non-coding         74   168
+# putative-coding             27    35
+# sRNA                        21    26
+# tRNA                        23    15
+# rRNA                         2    12
 # asRNA                        6     3
 # tmRNA                        1     3
 # intron                       0     1
-# riboswitch                  55     1
+# riboswitch                  76     1
 # ribozyme                     1     1
 # SRP                          1     1
 
 ###########################################################################
 # Helper track for adhoc viz in browser
-load('analysis/01_refseq.rda')
-genome.size <- refseq$seq$`168` %>% length
 
 bound_chain %>%
   left_join(bounds, c('bound' = 'id')) %>%
@@ -304,11 +304,11 @@ bound_chain %>%
   count(bound_type, tu_mode) %>%
   spread(bound_type, n)
 # tu_mode                        terminator   TSS
-# gene ends TU                          970   362
-# gene in middle (novel isoform)        149   299
-# gene starts TU                        130  1264
-# mono-cistronic                       1232  1556
-# without TU                            178   323
+# gene ends TU                         1183   362
+# gene in middle (novel isoform)        171   298
+# gene starts TU                        147  1263
+# mono-cistronic                       1452  1560
+# without TU                            218   325
 
 ###########################################################################
 # Comparison with the Nicolas et al. UTRs
@@ -343,13 +343,15 @@ cmp.nic %>%
       transmute(nic = id, length = end - start + 1, type),
     c('nic', 'length', 'type')
   ) %>%
+  # filter(is.na(ratio))
   mutate(ratio = ratio %>%
            replace_na(0) %>%
            cut(seq(0, 100, 10),
                include.lowest = TRUE)) %>%
-  count(ratio, type) %>%
-  spread(type, n, fill = 0)
+  # View
+  # count(ratio, type) %>%
+  # spread(type, n, fill = 0)
   ggplot(aes(x = ratio)) +
   geom_bar() +
-  facet_wrap(~ type)
+  facet_wrap(~ type, scales = 'free_y')
   
