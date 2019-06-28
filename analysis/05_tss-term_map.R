@@ -425,9 +425,11 @@ bsg.boundaries %>%
   map(count, src) %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows() %>%
-  mutate(src = ifelse(str_detect(src, 'Nicolas'),
-                      'Nicolas et al.', 
-                      src)) %>%
+  mutate(src = case_when(
+    str_detect(src, 'UTR') ~ "Nicolas et al. 5'/3' UTR ends",
+    str_detect(src, 'Nicolas') ~ 'Nicolas et al',
+    TRUE ~ src
+  )) %>%
   bind_rows(
     bsg.boundaries %>%
       map(nrow) %>%
