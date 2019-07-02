@@ -370,7 +370,7 @@ merging_stat <- list(
   categorized.stat = categorized.stat
 )
 
-save(merging_stat, file = 'analysis/02_mergign_stat.rda')
+save(merging_stat, file = 'analysis/02_merging_stat.rda')
 
 ############################################################################
 # Make nice tex version of the jsut generated tables
