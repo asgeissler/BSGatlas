@@ -1,12 +1,14 @@
 source('analysis/00_load.R')
 
 
-load('analysis/01_refseq.rda')
-load('analysis/01_bsubcyc.rda')
-load('analysis/01_rfam.rda')
-load('analysis/01_nicolas.rda')
-load('analysis/01_dar-riboswitches.rda')
+load('data/01_refseq.rda')
+load('data/01_bsubcyc.rda')
+load('data/01_rfam.rda')
+load('data/01_nicolas.rda')
+load('data/01_dar-riboswitches.rda')
 
+# Script collects the individual gene annotation resources
+# that should be merged and make a summary table
 
 # Hierarchy
 # refseq coding
@@ -130,3 +132,41 @@ to.merge <- list(
 )
 
 save(to.merge, file = 'analysis/01_tomerge.rda')
+
+# output tex formatted table
+
+stat <- to.merge$stat %>%
+  mutate_all(str_replace, '^-$', '--') %>%
+  mutate(type = case_when(
+    type == 'Total' ~ 'Total number',
+    type == 'CDS' ~ 'coding',
+    TRUE ~ type
+  )) %>%
+  select(`Gene Type` = type, RefSeq, BsubCyc, everything()) %>%
+  arrange(desc(as.numeric(RefSeq)))
+
+stat %>%
+  set_names(c(
+    "Gene Type",
+    "RefSeq",
+    "BsubCyc",
+    "\\specialcell{Dar \\emph{et al.}\\\\ term-seq}",
+    "\\specialcell{Nicolas \\emph{et al.}\\\\ predictions}",
+    "\\specialcell{Nicolas \\emph{et al.}\\\\ trusted predictions}",
+    "\\specialcell{Nicolas \\emph{et al.}'s\\\\ literature review}",
+    "\\specialcell{\\emph{Rfam}\\\\ (conservative)}",
+    "\\specialcell{\\emph{Rfam}\\\\ (medium)}",
+    "\\specialcell{\\emph{Rfam}\\\\ (sensitive)}"
+  )) %>%
+  kableExtra::kable('latex', booktabs = TRUE,
+                    caption = 'Overview over gene resources',
+                    escape = FALSE,
+                    linesep = '') %>%
+  kableExtra::kable_styling() %>%
+  str_split('\\n') %>%
+  unlist %>%
+  # thousand digit mark
+  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
+  # without environment
+  `[`(5:(length(.) - 1)) %>%
+  writeLines('analysis/01_summary_table.tex')
