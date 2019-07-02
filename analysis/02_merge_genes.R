@@ -1,3 +1,4 @@
+# this script merged the gene annotation, as collected in `01_tomerge.rda`
 
 source('analysis/00_load.R')
 
@@ -15,6 +16,7 @@ assertthat::assert_that(!any(str_detect(data$src, '%')))
 assertthat::are_equal(data %>% nrow,
                       data %>% unique %>% nrow)
 
+# find overlapping pairs
 search <- data %>%
   # ignore senseitve rfam
   filter(priority <= 4) %>%
@@ -103,7 +105,7 @@ over %>%
           
 
 ggsave(filename = 'analysis/02_level-overlaps.pdf',
-       width = 25, height = 25, units = 'cm')
+       width = 30, height = 30, units = 'cm')
 
 
 over %>%
@@ -135,7 +137,7 @@ over %>%
           'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
 
 ggsave(filename = 'analysis/02_level-overlaps_high.pdf',
-       width = 25, height = 25, units = 'cm')
+       width = 30, height = 30, units = 'cm')
 
 
 # Decision, merge if Jaccard is 0.8
@@ -172,27 +174,27 @@ grph <- tbl_graph(nodes = nodes, edges = edges, directed = FALSE) %>%
   activate(nodes) %>%
   mutate(group = group_components())
 
-grph %>%
-  activate(nodes) %>%
-  filter(group == 1) %>%
-  plot
+# grph %>%
+#   activate(nodes) %>%
+#   filter(group == 1) %>%
+#   plot
 
-grph %>%
-  activate(nodes) %>%
-  as_tibble %>%
-  count(priority, group) %>%
-  spread(priority, n, fill = 0) %>%
-  count(`0`, `1`, `2`, `3`, `4`,) %>%
-  arrange(desc(n)) %>%
-  rename(
-    'refseq coding' = `0`,
-    'bsubcyc coding' = `1`,
-    'conservative ncRNA\n(incl. refseq)' = `2`,
-    'bsubcyc ncRNA' = `3`,
-    'mediuam ncRNA' = `4`,
-    # 'sensetive rfam' = `5`
-  ) %>%
-  View
+# grph %>%
+#   activate(nodes) %>%
+#   as_tibble %>%
+#   count(priority, group) %>%
+#   spread(priority, n, fill = 0) %>%
+#   count(`0`, `1`, `2`, `3`, `4`) %>%
+#   arrange(desc(n)) %>%
+#   rename(
+#     'refseq coding' = `0`,
+#     'bsubcyc coding' = `1`,
+#     'conservative ncRNA\n(incl. refseq)' = `2`,
+#     'bsubcyc ncRNA' = `3`,
+#     'mediuam ncRNA' = `4`
+#     # 'sensetive rfam' = `5`
+#   ) %>%
+#   View
 
 merging_groups <- grph %>%
   activate(nodes) %>%
@@ -247,25 +249,24 @@ merge_map <- merged_coordinates %>%
 merged_coordinates %<>% select(- group)
 
 # 5. clarify type of merged one
-merge_map %>%
-  select(merged_name, type) %>%
-  unique %>%
-  count(merged_name) %>%
-  count(n) %>%
-  rename(`different types per merged entry` = n, `count` = nn)
-# up to 3 (twice) mostly only 1 (coding) and 2 types (~1200)
+# merge_map %>%
+#   select(merged_name, type) %>%
+#   unique %>%
+#   count(merged_name) %>%
+#   count(n) %>%
+#   rename(`different types per merged entry` = n, `count` = nn)
 
-merge_map %>%
-  select(merged_name, type) %>%
-  arrange(merged_name, type) %>%
-  unique %>%
-  group_by(merged_name) %>%
-  summarize(type = invoke(str_c, type, sep = ';')) %>%
-  count(type) %>%
-  View
+# merge_map %>%
+#   select(merged_name, type) %>%
+#   arrange(merged_name, type) %>%
+#   unique %>%
+#   group_by(merged_name) %>%
+#   summarize(type = invoke(str_c, type, sep = ';')) %>%
+#   count(type) %>%
+#   View
 
 # anything containing 'putative' should be discarded
-#twoonly problamatic cases are
+# only 2 problamatic cases are
 
 # investigate <- c(
 #   'asRNA;putative-non-coding;sRNA',
@@ -327,11 +328,25 @@ assertthat::are_equal(
 )
 
 gene_types <- merge_map %>%
-  select(merged_name, type.old = type) %>%
+  select(merged_name, priority, type.old = type) %>%
   left_join(refined_type) %>%
   mutate(type = ifelse(is.na(type), type.old, type)) %>%
   select(- type.old) %>%
+  # special case handling `S1078` with two contadicting putative types,
+  # => take higher priority
+  group_by(merged_name) %>%
+  top_n(-1, priority) %>%
+  ungroup %>%
+  select(- priority) %>%
   unique
+
+assertthat::are_equal(
+  0,
+  gene_types %>%
+    count(merged_name) %>%
+    filter(n > 1) %>%
+    nrow
+)
 
 # 6. get one gene name, here from the highest priority
 
@@ -356,3 +371,6 @@ merging <- list(
 )
 
 save(merging, file = 'analysis/02_merging.rda')
+
+###############################################################################
+

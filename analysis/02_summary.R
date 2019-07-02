@@ -38,69 +38,13 @@ summarize.helper <- function(input, prefix) {
            coord.equal = (start == start.merged) & (end == end.merged)) %>%
     transmute(merged_id, src, priority, type.equal, coord.equal,
               type.reclassRNA, type.reclassProt,
-              is.coding = type.merged %in% prots,
+              # is.coding = type.merged %in% prots,
+              # this should not be according to the merged type!
+              # otherwise the stat for re-class cases is messed up on
+              # categorization
+              is.coding = type %in% prots,
              `gene type` = ifelse(is.coding, 'coding', 'non-coding')) %>%
     unique
-  
-  p.src_count <- stat %>%
-    count(merged_id, `gene type`) %>%
-    count(n, `gene type`) %>%
-    mutate_at(c('gene type', 'n'), as.factor) %>%
-    right_join(expand(., `gene type`, `n`)) %>% 
-    replace_na(list(nn = 0)) %>%
-    ggplot(aes(x = n, y = nn,
-               fill =  `gene type`,
-               group = `gene type`)) +
-    ggsci::scale_fill_jama(name = 'Gene Type') +
-    geom_bar(stat = 'identity', position = 'dodge2') +
-    xlab('Number of sources contributing to a merged gene') +
-    ylab('Count of occurences')
-  
-  p.type_count <- input$merged_genes %>%
-    mutate(type = case_when(
-      type %in% c('riboswitch', 'CDS', 'putative-coding',
-                'putative-non-coding') ~ type,
-      TRUE ~ 'non-coding with known type (tRNA, sRNA, ...)'
-    ) %>%
-      fct_infreq) %>%
-    pull(type) %>%
-    fct_count(prop = TRUE) %>% mutate(cs = rev(cumsum(rev(p)))) %>%
-    rename(type = f) %>%
-    mutate(
-      lab = round(p * 100),
-      lab = ifelse(lab >= 0,
-                   sprintf('%s %%', as.character(lab)),
-                   ''),
-      at = cs * sum(n) - n / 2
-    ) %>%
-    ggplot(aes(x = '', y = n, fill = type)) +
-    geom_bar(stat = 'identity') +
-    ggsci::scale_fill_jama(name = NULL) +
-    coord_polar(theta = 'y') +
-    geom_label(aes(y = at,# + c(0, cumsum(n)[-length(n)]), 
-                  x = c(1, 1, 1.3, 1.05, 0.8),
-                  label = lab), size=3,
-              color = 'white') +
-    theme_minimal() +
-    theme(
-      legend.position = 'bottom',
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank(),
-      panel.border = element_blank(),
-      panel.grid=element_blank(),
-      axis.ticks = element_blank(),
-      plot.title=element_text(size=14, face="bold"),
-      axis.text.x=element_blank()
-    ) +
-    guides(fill = guide_legend(ncol = 2))
-  p.type_count
-  
-  
-  cowplot::plot_grid(
-    p.type_count, p.src_count,
-    labels = 'auto'
-  ) %>% ggsave(filename = sprintf('analysis/02_merge_grid-%s.pdf', prefix),
-               width = 30, height = 10, units = 'cm')
   
   # how often is a gene specific in a source
   stat.src_uniq <- stat %>%
@@ -429,6 +373,122 @@ merging_stat <- list(
 save(merging_stat, file = 'analysis/02_mergign_stat.rda')
 
 ############################################################################
+# Make nice tex version of the jsut generated tables
+
+
+# individual
+merging_stat$stat.all %>%
+  # provide shorter descriptions with linebreaks where needed
+  mutate(description = c(
+    "Resource Priority",
+    "Protein Coding Genes",
+    "\\hspace{1em}putative/predictions",
+    "Hypothetical status removed",
+    "Coordinates refined",
+    "Resource specific genes",
+    "Non-Coding RNAs",
+    "\\hspace{1em}putative/predictions",
+    "known specific types",
+    "\\hspace{1em}ribosomal RNA",
+    "\\hspace{1em}transfer RNA",
+    "\\hspace{1em}small regulatory RNA",
+    "\\hspace{1em}regulatory antisense RNA",
+    "\\hspace{1em}riboswitch",
+    "\\hspace{1em}self-splicing intron",
+    "\\hspace{1em}ribozyme, SRP, tmRNA",
+    "Coordinate refined",
+    "Hypothetical status removed",
+    "Reclassifed as coding",
+    "Resource specific genes"
+)) %>% 
+  # mutate(row = 1:n()) %>%
+  # select(description, row) %>% View
+  slice(1, 2, 3, 4, 6,
+        7, 10:16, 8, 18, 19, 20 ) %>%
+  mutate_all(replace_na, '--') %>%
+  set_names(c(
+    " ",
+    "Merged",
+    "RefSeq Coding",
+    "BsubCyc Coding",
+    "RefSeq Non-Coding",
+    "\\specialcell{Nicolas \\emph{et al.}'s\\\\ literature review}",
+    "\\specialcell{Nicolas \\emph{et al.}\\\\ trusted predictions}",
+    "\\specialcell{\\emph{Rfam}\\\\ (conservative)}",
+    "BsubCyc Non-Coding",
+    "\\specialcell{Dar \\emph{et al.}\\\\ term-seq}",
+    "\\specialcell{\\emph{Rfam}\\\\ (medium)}",
+    "\\specialcell{Nicolas \\emph{et al.}\\\\ predictions}"
+  )) %>%
+  kableExtra::kable('latex', booktabs = TRUE,
+    caption = 'Comparison of the individual resources with the merged result',
+    escape = FALSE,
+    linesep = '') %>%
+  kable_styling(latex_options = 'scale_down') %>%
+  row_spec(5, hline_after = TRUE) %>%
+  str_split('\\n') %>%
+  unlist %>%
+  # thousand digit mark
+  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
+  # without environment
+  `[`(4:(length(.) - 1)) %>%
+  write_lines(path = 'analysis/02_stat_all.tex')
+
+
+
+# categorized
+merging_stat$categorized.stat %>%
+  # provide shorter descriptions with linebreaks where needed
+  mutate(description = c(
+    "Protein Coding Genes",
+    "\\hspace{1em}putative/predictions",
+    "Hypothetical status removed",
+    "Coordinates refined",
+    "Resource specific genes",
+    "Non-Coding RNAs",
+    "\\hspace{1em}putative/predictions",
+    "known specific types",
+    "\\hspace{1em}ribosomal RNA",
+    "\\hspace{1em}transfer RNA",
+    "\\hspace{1em}small regulatory RNA",
+    "\\hspace{1em}regulatory antisense RNA",
+    "\\hspace{1em}riboswitch",
+    "\\hspace{1em}self-splicing intron",
+    "\\hspace{1em}ribozyme, SRP, tmRNA",
+    "Coordinates refined",
+    "Hypothetical status removed",
+    "Reclassifed as coding",
+    "Resource specific genes"
+)) %>% 
+  # mutate(row = 1:n()) %>%
+  # select(description, row) %>% View
+  slice(1, 2, 3, 5,
+        6, 9:15, 7, 17:19) %>%
+  mutate_all(replace_na, '--') %>%
+  set_names(c(
+    " ",
+    "Merged",
+    "RefSeq",
+    "BsubCyc",
+    "\\specialcell{Literature\\\\resources}",
+    "\\emph{Rfam}",
+    "\\specialcell{Nicolas \\emph{et al.}\\\\ predictions}"
+  )) %>%
+  kableExtra::kable('latex', booktabs = TRUE,
+caption = 'Comparison of the resources with the merged results, aggregated by category. The shown comparison statistics are relative to the gene annotation with the highest priority within each category',
+    escape = FALSE, linesep = '') %>%
+  kable_styling(latex_options = 'scale_down') %>%
+  row_spec(4, hline_after = TRUE) %>%
+  str_split('\\n') %>%
+  unlist %>%
+  # thousand digit mark
+  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
+  # without environment
+  `[`(4:(length(.) - 1)) %>%
+  write_lines(path = 'analysis/02_stat_categorized.tex')
+
+
+##############################################################################
 
 # overlaps ofter mreging
 x <- merging$merged_genes %>%
