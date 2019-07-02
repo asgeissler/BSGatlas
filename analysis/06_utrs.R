@@ -4,9 +4,9 @@ source('scripts/overlap_matching.R')
 
 source('scripts/frame_helpers.R')
 
-load('analysis/05_bsg_boundaries.rda')
-load('analysis/03_operons.rda')
 load('analysis/02_merging.rda')
+load('analysis/03_tus.rda')
+load('analysis/05_bsg_boundaries.rda')
 
 # The data to work with
 
@@ -142,19 +142,25 @@ cmp_rel %>%
   unique -> bound_map
 
 # count(bound_map, interest_mode)
-# interest_mode      n
-# term_5_overlap   960
-# term_after      1075
-# term_contained   476
-# tss_before      2865
-# tss_contained    204
-# tss_exact         82
+# # interest_mode      n
+# # term_5_overlap   979
+# # term_after      1116
+# # term_contained   454
+# # tss_before      2924
+# # tss_contained    208
+# # tss_exact         82
 
 bound_map %>%
+  mutate(bound_type = bound_type %>%
+           fct_recode(Terminator = 'terminator') %>%
+           fct_relevel('TSS', 'Terminator')) %>%
   ggplot(aes(x = rel_dist)) +
   geom_histogram() +
   geom_vline(xintercept = 0, color = 'red') +
+  xlab("Distance in [nt] relative to 5' start of a gene (3' end for terminators)") +
   facet_wrap(~ bound_type, scales = 'free_y')
+
+ggsave('analysis/06_distances.pdf')
 
 # bound_map %>%
 #   count(x) %>%
@@ -171,8 +177,8 @@ bounds %>%
   mutate(has.partner = ifelse(has.partner, 'partner', 'none')) %>%
   spread(has.partner, n)
 # type        none partner
-# terminator   189    2507
-# TSS          248    3149
+# terminator   121    2545
+# TSS          184    3213
 
 bound_map %>%
   # count(bound_type, interest_mode, gene_type) %>%
@@ -180,18 +186,18 @@ bound_map %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-#  CDS                       2279  2785
-#  putative-non-coding         74   167
-#  riboswitch                  76   103
-#  putative-coding             27    34
-#  sRNA                        21    26
-#  tRNA                        23    15
-#  rRNA                         2    12
-#  asRNA                        6     3
-#  tmRNA                        1     3
-#  intron                       0     1
-#  ribozyme                     1     1
-#  SRP                          1     1
+# CDS                       2311  2837
+# putative-non-coding         83   176
+# riboswitch                  71   104
+# putative-coding             27    34
+# sRNA                        22    26
+# tRNA                        24    16
+# rRNA                         2    12
+# asRNA                        6     3
+# tmRNA                        1     3
+# intron                       0     1
+# ribozyme                     1     1
+# SRP                          1     1
 
 ###########################################################################
 # An initial good map -> minor adjustment: Chain riboswitches
@@ -220,27 +226,29 @@ bound_chain %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
 # gene_type           terminator   TSS
-# CDS                       2279  2888
-# putative-non-coding         74   168
-# putative-coding             27    35
-# sRNA                        21    26
-# tRNA                        23    15
+# CDS                       2311  2941
+# putative-non-coding         83   176
+# putative-coding             27    34
+# sRNA                        22    26
+# tRNA                        24    16
 # rRNA                         2    12
 # asRNA                        6     3
 # tmRNA                        1     3
 # intron                       0     1
-# riboswitch                  76     1
+# riboswitch                  71     1
 # ribozyme                     1     1
 # SRP                          1     1
 
 ###########################################################################
-# Helper track for adhoc viz in browser
+# 2. Compute UTR elements
 
+# a) 5'/3' UTRs based on the bound_chain from step 1.
 bound_chain %>%
   left_join(bounds, c('bound' = 'id')) %>%
   left_join(genes, c('gene' = 'id'),
             suffix = c('.bound', '.gene')) %>%
   mutate_if(is.numeric, as.integer) %>%
+  # make relative to 5' end for TSS and 3' end for Terminators
   mutate(
     strand.utr = strand.bound,
     start.utr = case_when(
@@ -263,22 +271,102 @@ bound_chain %>%
       (bound_type == 'TSS') & (strand.utr == '-') ~
         end.bound
     ),
-    type = ifelse(bound_type == 'TSS', '5prime', '3prime')
+    type = ifelse(bound_type == 'TSS', "5'UTR", "3'UTR")
   ) %>%
-  select(start = start.utr, end = end.utr, strand = strand.utr, type) -> utrs
+  # remove empyt entries (from exact or overlapping cases)
+  filter(start.utr < end.utr) %>%
+  group_by(type) %>%
+  arrange(start.utr, end.utr) %>%
+  mutate(id = sprintf('BSGatlas-%s-%s', type, 1:n())) %>%
+  ungroup %>%
+  select(id, type, start = start.utr, end = end.utr, strand = strand.utr,
+         gene, boundary = bound) %>%
+  group_by(type) %>%
+  do(foo = set_names(list(.), first(.$type))) %>%
+  pull(foo) %>%
+  invoke(.f = c) -> UTRs
 
-utrs %>%
-  arrange(start) %>%
-  transmute(
-    chr = 'basu168',
-    start1 = start - 1, end1 = end,
-    primary.name = paste0('test-', 1:n()),
-    score = 0, strand,
-    start2 = start1, end2 = end1,
-    rgb = ifelse(strand == '+', '0,255,0', '255,0,0')
+
+# b) internal UTRs from the TU list
+tus %>%
+  select(id, tu.start = start, tu.end = end, strand, genes) %>%
+  separate_rows(genes, sep = ';') %>%
+  left_join(
+    select(genes, genes = id, start, end),
+    'genes'
   ) %>%
-  filter(start1 < end1) %>%
-  write_tsv('~/Downloads/test.bed', col_names = FALSE)
+  group_by(id) %>%
+  do(foo = list(.)) %>%
+  ungroup %>%
+  pull(foo) %>%
+  invoke(.f = c) -> jobs
+
+helper <- function(job) {
+  job %>%
+    select(start = tu.start, end = tu.end, strand, id) %>%
+    unique %>%
+    mutate(seqnames = 'foo') %>%
+    plyranges::as_granges() -> tu
+  
+  job %>%
+    select(start, end, strand) %>%
+    mutate(seqnames = 'foo') %>%
+    plyranges::as_granges() %>%
+    GenomicRanges::gaps() %>%
+    GenomicRanges::intersect(tu) %>%
+    as_tibble() %>%
+    select(- seqnames) %>%
+    mutate(tu = tu$id)
+}
+
+library(parallel)
+cluster <- makeCluster(detectCores() - 1, type = 'FORK')
+
+internals <- parLapply(jobs, cl = cluster, fun = safely(helper))
+
+internals %>%
+  map('error') %>%
+  map(is.null) %>%
+  unlist %>%
+  table
+# all done, yeah
+internals %>%
+  map('result') %>%
+  bind_rows -> internal.utrs
+
+# The sigK related UTRs should be removed, because of its unique 
+# regulation mechanism (these computed up to 10k+ nt UTRs are not transcribed)
+
+internal.utrs %>%
+  filter(tu != 'BSGatlas-tu-1538') %>%
+  ggplot(aes(x = width)) + geom_histogram() +
+  scale_x_log10(breaks = c(10, 20, 30, 50, 100, 500, 1e3)) +
+  xlab("Length predicted internal UTRs")
+
+ggsave('analysis/06_length_internal.pdf',
+       width =  10, height = 7, units = 'cm')
+
+# we chose min length 15
+internal.utrs %>%
+  filter(tu != 'BSGatlas-tu-1538') %>%
+  filter(width > 15) %>%
+  select(- width) %>%
+  group_by(start, end, strand) %>%
+  summarize(tus = clean_paste(tu)) %>%
+  ungroup %>%
+  arrange(start, end) %>%
+  mutate(id = sprintf('BSGatlas-internal_UTR-%s', 1:n())) -> int.utr
+
+int.utr %>%
+  rename(boundary = tus) %>%
+  mutate(type = 'inernal_UTR') -> UTRs$internal_UTR
+
+save(UTRs, file = 'analysis/06_utrs.rda')
+
+###########################################################################
+###########################################################################
+###########################################################################
+###########################################################################
 
 ###########################################################################
 # Quick assessment: Implications of this map for isoforms
