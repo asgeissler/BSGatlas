@@ -4,9 +4,9 @@ source('scripts/overlap_matching.R')
 
 source('scripts/frame_helpers.R')
 
-load('analysis/01_bsubcyc.rda')
-load('analysis/01_nicolas.rda')
-load('analysis/03_dbtbs.rda')
+load('data/01_bsubcyc.rda')
+load('data/01_nicolas.rda')
+load('data/03_dbtbs.rda')
 
 ##############################################################################
 # 1. find TSS resolution
@@ -61,10 +61,12 @@ tss.dat %>%
 tss.near %>%
   filter(from <= to) %>%
   filter(abs.near < 100) %>%
+  mutate_at(c('from', 'to'),
+            ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'TSS'))) %>%
   ggplot(aes(x = nearest)) +
   geom_histogram() +
   xlab('Distance to closest TSS') +
-  facet_wrap(from ~ to, scale = 'free_y')
+  facet_wrap(from ~ to, scale = 'free_y', ncol = 3)
 
 ggsave(file = 'analysis/05_tss_comparison.pdf',
        width = 7, height = 7, units = 'in')
@@ -190,7 +192,8 @@ sigma.bind %>%
               # filter(src == 'BSGatlas') %>%
               # with(reorder(group, - prop)) %>%
               # levels %>% dput
-  mutate_at('src', fct_recode, 'Nicolas et al.' = 'Nicolas et al upshift') %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\nUpshift" = "Nicolas et al upshift") %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start") %>%
   mutate_at('group', fct_relevel,
             "SigA", "other", "SigF", "unknown", "SigE", "SigK", "SigG") %>%
   ggplot(aes(x = src, fill = group, y = prop)) +
@@ -198,7 +201,8 @@ sigma.bind %>%
   xlab(NULL) + ylab('Proprotion [%]') +
   ggsci::scale_fill_jama(name = 'Sigma Factor') +
   theme_minimal(base_size = 16)
-ggsave(file = 'analysis/05_sigma_proportion.pdf')
+ggsave(file = 'analysis/05_sigma_proportion.pdf',
+       width = 20, height = 12, units = 'cm')
   
 bsg.tss %>%
   count(res.limit)
@@ -215,8 +219,9 @@ bsg.tss %>%
 #  Nicolas et al 5' UTR start   690
 #  Nicolas et al upshift       3264
 #  BSGatlas                    3397
-  mutate(src = fct_reorder(src, - n) %>%
-           fct_recode('Nicolas et al.' = 'Nicolas et al upshift'))  %>%
+  mutate(src = fct_reorder(src, - n)) %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\nUpshift" = "Nicolas et al upshift") %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start") %>%
   ggplot(aes(x = src, y = n, fill = src)) + 
   ggsci::scale_fill_jama(name = NULL) +
   geom_bar(stat = 'identity') +
@@ -225,7 +230,8 @@ bsg.tss %>%
   ylab('count of sigma factor binding sites') + xlab(NULL) +
   theme(legend.position = 'none')
 
-ggsave(file = 'analysis/05_count_promoter.pdf')
+ggsave(file = 'analysis/05_count_promoter.pdf',
+       width = 30, height = 12, units = 'cm')
 
 # venn diagram
 
@@ -237,6 +243,7 @@ bsg.tss %>%
   mutate_at('src', fct_recode,
             'DBTBS (TSS)' = 'DBTBS',
             'BsubCyc\n(TSS)' = 'BsubCyc',
+            "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start",
             'Nicolas et al.\nupshift' = 'Nicolas et al upshift') %>%
   group_by(src) %>%
   do(i = list(.$id)) %>%
@@ -307,9 +314,11 @@ term.near %>%
   # filter((from != to) | (x < y)) %>%
   filter(abs.near < 1e2) %>%
   # group_by(from, to) %>% top_n(-5, abs.near)  %>% slice(1:5) %>% View
+  mutate_at(c('from', 'to'),
+            ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'Term.'))) %>%
   ggplot(aes(x = nearest)) +
   geom_histogram() +
-  xlab('Distance to closest TSS') +
+  xlab('Distance to closest Terminator') +
   facet_wrap(from ~ to, scale = 'free_y')
 
 ggsave(file = 'analysis/05_term_comparison.pdf',
@@ -389,12 +398,14 @@ bsg.term %>%
   mutate_at('src', fct_recode,
             'DBTBS (terminators)' = 'DBTBS',
             'BsubCyc\n(term.)' = 'BsubCyc',
+            "Nicolas et al.\n3'UTR end" = "Nicolas et al 3' UTR end",
             'Nicolas et al.\ndownshift' = 'Nicolas et al. downshift') %>%
   group_by(src) %>%
   do(i = list(.$id)) %>%
   with(set_names(map(i, 1), src)) %>%
   venn(cexil = 1.3,
        cexsn = 1.3,
+       ilabels = TRUE,
        zcolor = ggsci::pal_jama()(4))
 dev.off()
 
@@ -403,8 +414,9 @@ bsg.term %>%
   separate_rows(src, sep = ';') %>%
   count(src) %>%
   bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.term))) %>%
-  mutate(src = fct_reorder(src, -n ) %>%
-           fct_recode('Nicolas et al.' = 'Nicolas et al. downshift')) %>%
+  mutate(src = fct_reorder(src, -n )) %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\nDownshift" = "Nicolas et al. downshift") %>%
+  mutate_at('src', fct_recode, "Nicolas et al.\n3'UTR end" = "Nicolas et al 3' UTR end") %>%
   ggplot(aes(x = src, y = n, fill = src)) +
   geom_bar(stat = 'identity') +
   ggsci::scale_fill_jama() +
@@ -412,7 +424,8 @@ bsg.term %>%
   theme_minimal(base_size = 16) +
   theme(legend.position = 'none')
 
-ggsave(file = 'analysis/05_term_bars.pdf')
+ggsave(file = 'analysis/05_term_counts.pdf',
+       width = 30, height = 12, units = 'cm')
 
   
 # save results
