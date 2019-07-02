@@ -368,6 +368,8 @@ save(UTRs, file = 'analysis/06_utrs.rda')
 # Comparison with the Nicolas et al. UTRs
 # and general assessment of quality
 
+# a) comparison of lengths
+
 load('data/01_nicolas.rda')
 
 nicolas$all.features %>%
@@ -416,7 +418,50 @@ bind_rows(
 ggsave('analysis/06_length_comparison.pdf', 
        width = 25, height = 15, units = 'cm')
 
-
 ###########################################################################
+# b) comparison of overlaps
+UTRs %>%
+  bind_rows %>%
+  mutate(len = end - start + 1) %>%
+  filter(len > 15) %>%
+  select(id, type, start, end, strand) %>%
+  overlap_matching(nic.utrs) -> cmp
+
+
+# cmp %>% 
+#   filter(!antisense) %>%
+#   drop_na(overlap) %>%
+#   ggplot(aes(x = overlap / y.length)) + geom_histogram()
+
+
+cmp %>%
+  filter(!antisense) %>%
+  mutate(
+    ratio = overlap / y.length > 0.9,
+    mode2 = case_when(
+      (mode == 'without_overlap') & is.na(x) ~ 'missed Nicolas et al. annotation',
+      (mode == 'without_overlap') & is.na(y) ~ 'new in BSGatlas',
+      ratio ~ 'match',
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  select(x, y, mode2, bsgatlas = x.type, nicolas = y.type) %>%
+  View
+  # make summarizing easier
+  mutate(y = ifelse(is.na(y), x, y)) %>%
+  select(-x ) %>%
+  unique %>%
+  drop_na(mode2) %>%
+  mutate(foo = TRUE) %>%
+  # spread(bsgatlas, foo, fill = FALSE) %>%
+  # View
+  # group_by_at(vars(- y)) %>%
+  # count %>% View
+  # head
+  count(mode2, bsgatlas, nicolas) %>%
+  View
+  drop_na
+
+
 ###########################################################################
 ###########################################################################
