@@ -365,81 +365,58 @@ save(UTRs, file = 'analysis/06_utrs.rda')
 
 ###########################################################################
 ###########################################################################
-###########################################################################
-###########################################################################
-
-###########################################################################
-# Quick assessment: Implications of this map for isoforms
-
-overlap_matching(genes, operons$transcript) %>%
-  filter(!antisense) %>%
-  filter(mode %in% c('equal', 'contained_by')) %>%
-  mutate(
-    start = x5.dist == 0,
-    ends = x3.dist == 0,
-    tu_mode = case_when(
-      start & ends ~ 'mono-cistronic',
-      start ~ 'gene starts TU',
-      ends ~ 'gene ends TU',
-      TRUE ~ 'gene in middle (novel isoform)'
-    )
-  ) %>%
-  select(gene = x, tu = y, start, ends, tu_mode) -> gene.tu
-
-bound_chain %>%
-  left_join(gene.tu, 'gene') %>%
-  mutate_at('tu_mode', replace_na, 'without TU') %>%
-  count(bound_type, tu_mode) %>%
-  spread(bound_type, n)
-# tu_mode                        terminator   TSS
-# gene ends TU                         1183   362
-# gene in middle (novel isoform)        171   298
-# gene starts TU                        147  1263
-# mono-cistronic                       1452  1560
-# without TU                            218   325
-
-###########################################################################
 # Comparison with the Nicolas et al. UTRs
+# and general assessment of quality
 
-load('analysis/01_nicolas.rda')
+load('data/01_nicolas.rda')
+
 nicolas$all.features %>%
-  select(id = locus, start, end, strand, type) %>%
-  mutate_at('type', replace_na, '') %>%
-  mutate(type = case_when(
-    startsWith(type, "3'") ~ '3prime',
-    startsWith(type, "5'") ~ '5prime',
-    TRUE ~ NA_character_
-  )) %>%
-  drop_na -> nic.utrs
+  drop_na(type) %>%
+  filter(!str_detect(type, 'indep')) %>%
+  # count(type)
+  transmute(
+    id = locus, start, end, strand, 
+    type = case_when(
+      type == 'intra' ~ 'internal',
+      type == 'inter' ~ 'intergenic',
+      startsWith(type, '3') ~ "3' UTR",
+      TRUE ~ "5' UTR"
+    )
+  ) -> nic.utrs
 
-utrs %>%
-  filter(start < end) %>%
-  mutate(id = paste0('myutr-', 1:n())) %>%
-  overlap_matching(nic.utrs) %>%
-  filter(!antisense) %>%
-  filter(x.type == y.type) %>%
-  mutate(ratio = overlap / y.length * 100) %>%
-  drop_na(y) %>%
-  group_by(y) %>%
-  top_n(1, ratio) %>%
-  ungroup -> cmp.nic
 
-cmp.nic %>%
-  select(bsg = x, nic = y, overlap, length = y.length, type = x.type, ratio) %>%
-  full_join(
-    nic.utrs %>%
-      transmute(nic = id, length = end - start + 1, type),
-    c('nic', 'length', 'type')
-  ) %>%
-  # filter(is.na(ratio))
-  mutate(ratio = ratio %>%
-           replace_na(0) %>%
-           cut(seq(0, 100, 10),
-               include.lowest = TRUE)) %>%
-  # View
-  # count(ratio, type) %>%
-  # spread(type, n, fill = 0)
-  ggplot(aes(x = ratio)) +
-  geom_bar() +
-  facet_wrap(~ type, scales = 'free_y')
-  
+# UTRs %>% map(nrow) %>% unlist
+# 3'UTR        5'UTR internal_UTR 
+# 2095         2943         1126 
+# 
+# nic.utrs %>% count(type)
+# type           n
+# 3' UTR       249
+# 5' UTR       676
+# intergenic   319
+# internal     186
+
+bind_rows(
+  UTRs %>%
+    bind_rows %>%
+    mutate(len = end - start + 1) %>%
+    filter(len > 15) %>%
+    mutate(src = 'BSGatlas'),
+  nic.utrs %>%
+    filter(type != 'intergenic') %>%
+    mutate(len = end - start + 1) %>%
+    mutate(src = 'Nicolas et al.')
+) %>%
+  # filter(len > 15) %>%
+  ggplot(aes(x = len)) +
+  geom_histogram() +
+  scale_x_log10(breaks = c(15, 30, 50, 100, 500, 1e3)) +
+  facet_wrap(src ~ type, scales = 'free_y')
+
+ggsave('analysis/06_length_comparison.pdf', 
+       width = 25, height = 15, units = 'cm')
+
+
+###########################################################################
+###########################################################################
+###########################################################################
