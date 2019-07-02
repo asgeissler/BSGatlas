@@ -1,9 +1,9 @@
 source('analysis/00_load.R')
 source('scripts/overlap_matching.R')
 source('scripts/distance_matching.R')
+load('data/01_nicolas.rda')
 load('analysis/02_merging.rda')
-load('analysis/01_nicolas.rda')
-load('analysis/03_operons.rda')
+load('analysis/03_tus.rda')
 
 # investigation of ammound of refinment due to merging
 # and investigation of Nicolas et al UTRs
@@ -27,7 +27,7 @@ cmp <- overlap_matching(merged, indiv) %>%
 #   with(x.length + y.length - overlap  ==  (x5.dist + x3.dist + overlap)) %>%
 #   summary
 # Mode    TRUE 
-# logical    9643
+# logical    9637
 
 cmp %<>%
   mutate(
@@ -108,11 +108,18 @@ nicolas$all.features %>%
 
 nic.utrs
 cmp.dist <- distance_matching(nic.utrs, merged)
-cmp.over <- overlap_matching(nic.utrs, operons$operon)
+cmp.over <- overlap_matching(nic.utrs, tus)
 
 cmp.over %>%
   filter(!antisense) %>%
   drop_na(x) %>%
+  select(x, x.type, overlap, x.length) %>%
+  mutate_at('overlap', replace_na, 0) %>%
+  # against TUs take maximum
+  group_by(x) %>%
+  top_n(1, overlap) %>%
+  ungroup %>%
+  unique %>%
   # filter(x.type == 'intergenic') %>%
   group_by(x.type) %>%
   do(foo = cut(.$overlap / .$x.length * 100,
@@ -125,34 +132,13 @@ cmp.over %>%
   unnest %>%
   ggplot(aes(x = f, y = n )) +
   geom_bar(stat = 'identity') +
-  xlab('overlap with operon relative to prediction length [%]') +
+  xlab('overlap with TUs relative to prediction length [%]') +
   ylab('count') +
   facet_wrap(~ x.type, scale = 'free_y')
 
 ggsave(file = 'analysis/04_nic_overlaps.pdf',
        width = 9, height = 6, units = 'in')
 
-
-# cmp.over %>%
-#   filter(!antisense) %>%
-#   filter(is.na(y)) %>%
-#   select(x, type = x.type) %>%
-#   left_join(cmp.dist, 'x') %>%
-# filter(!antisense) %>%
-# group_by(x) %>%
-# top_n(-1) %>%
-# ungroup %>%
-#   count(type, mode)
-# type       mode             n
-# 3' UTR     x.after.y      214 okay
-# 3' UTR     x.before.y      21
-# 5' UTR     x.after.y       43
-# 5' UTR     x.before.y     557 okay
-# intergenic 5prime.equal     1
-# intergenic x.after.y      178
-# intergenic x.before.y      62
-# internal   x.after.y       46
-# internal   x.before.y      42
 
 
 cmp.dist %>%
