@@ -141,4 +141,4 @@ list(
   predicted.asRNA.targets = asRNA.predicted
 ) -> nicolas
 
-save(file = 'analysis/01_nicolas.rda', nicolas)
+save(file = 'data/01_nicolas.rda', nicolas)

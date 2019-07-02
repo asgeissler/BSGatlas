@@ -18,7 +18,7 @@ dat <- file.path(path, files) %>%
 
 bsub_raw <- map(dat, 'result')
 
-save(file = 'analysis/01_bsub_raw.rda', bsub_raw)
+save(file = 'data/01_bsub_raw.rda', bsub_raw)
 
 # Some pre-processing to simplify annotation
 
@@ -330,7 +330,7 @@ bsubcyc <- list(
   cite = pubs
 )
 
-save(file = 'analysis/01_bsubcyc.rda', bsubcyc)
+save(file = 'data/01_bsubcyc.rda', bsubcyc)
 
 # code on % of TUs without both TSS and terminator
 # > bsub_raw$transunits %>%

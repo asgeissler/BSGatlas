@@ -35,4 +35,4 @@ dar_riboswitches <- dat %>%
             upstream.gene = Gene,
             type = 'riboswitch')
 
-save(dar_riboswitches, file = 'analysis/01_dar-riboswitches.rda')
+save(dar_riboswitches, file = 'data/01_dar-riboswitches.rda')

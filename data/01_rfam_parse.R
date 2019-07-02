@@ -52,4 +52,4 @@ rfam %<>%
 rfam %<>%
   map(mutate, id = paste0('row-', 1:n()))
 
-save(file = 'analysis/01_rfam.rda', rfam)
+save(file = 'data/01_rfam.rda', rfam)

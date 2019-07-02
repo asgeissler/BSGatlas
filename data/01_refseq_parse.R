@@ -57,4 +57,4 @@ refseq$coding %<>%
   ungroup()
   
   
-save(file = 'analysis/01_refseq.rda', refseq)
+save(file = 'data/01_refseq.rda', refseq)
