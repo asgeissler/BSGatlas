@@ -102,7 +102,7 @@ DBTBS <- list(
 DBTBS$terminator <- DBTBS$operon %>%
   select(row, operon_name, starts_with('terminator_')) %>%
   set_names(c('row', 'operon_name', 'reference', 'energies', 'sequence')) %>%
-  mutate(reference = ifelse(reference == '', NA_character_, reference))
+  mutate(reference = ifelse(reference == '', NA_character_, reference)) %>%
   separate_rows(energies, sequence, sep = ';')
 
 # and remove cols
@@ -119,7 +119,7 @@ save(dbtbs_xml, file = 'data/03_dbtbs_xml.rda')
 ### Find promoter binding sites
 
 source('scripts/biostrings.R')
-load('analysis/01_refseq.rda')
+load('data/01_refseq.rda')
 genome <- refseq$seq[[1]]
 
 DBTBS$promoter %<>%
@@ -265,7 +265,7 @@ direct.map %>%
 # > 344 + 1848 + 9
 # [1] 2201
 
-load('analysis/03_subtiwiki.rda')
+load('data/03_subtiwiki.rda')
 operon %>%
   select(name = gene) %>%
   unique %>%

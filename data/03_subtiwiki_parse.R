@@ -41,7 +41,7 @@ subti$export_fixed %<>%
   filter(!is.na(locus))
 
 # 2. match their IDs to the merged gene set
-load('analysis/01_refseq.rda')
+load('data/01_refseq.rda')
 load('analysis/02_merging.rda')
 
 # loci frome merge_src + the alternatives of refseq
