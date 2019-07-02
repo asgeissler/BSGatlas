@@ -226,4 +226,4 @@ subtiwiki <- list(
   transcripts = transcripts
 )
 
-save(subtiwiki, file = 'analysis/03_subtiwiki.rda')
+save(subtiwiki, file = 'data/03_subtiwiki.rda')

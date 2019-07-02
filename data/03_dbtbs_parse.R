@@ -110,7 +110,7 @@ DBTBS$operon %<>% select(-starts_with('terminator_'))
 
 # store this as the 'unprocessed' version
 dbtbs_xml <- DBTBS
-save(dbtbs_xml, file = 'analysis/03_dbtbs_xml.rda')
+save(dbtbs_xml, file = 'data/03_dbtbs_xml.rda')
 
 ################################################################################
 # Second: Fill in the numbers for easier use
@@ -359,4 +359,4 @@ dbtbs <- list(
     arrange(start, desc(end))
 )
 
-save(dbtbs, file = 'analysis/03_dbtbs.rda')
+save(dbtbs, file = 'data/03_dbtbs.rda')
