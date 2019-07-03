@@ -84,7 +84,7 @@ bind_rows(
     bind_rows
 ) %>%
   mutate(number = 1:n()) %>%
-  select(number, id, type) -> nodes
+  select(number, name = id, type) -> nodes
 
 
 edges <- bind_rows(
@@ -95,11 +95,15 @@ edges <- bind_rows(
 ) %>%
   # filter(!complete.cases(.))
   mutate(row = 1:n()) %>%
-  gather('key', 'id', from, to) %>%
-  left_join(nodes, 'id') %>%
+  gather('key', 'name', from, to) %>%
+  left_join(nodes, 'name') %>%
   select(row, key, number) %>%
   spread(key, number) %>%
   select(from, to) %>%
   drop_na
 
 iso.graph <- tbl_graph(nodes, edges, directed = TRUE)
+
+paths <- find_paths(iso.graph)
+
+save(path, file = 'analysis/07_paths.rda')
