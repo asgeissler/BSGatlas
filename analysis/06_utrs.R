@@ -272,7 +272,12 @@ bound_chain %>%
         end.bound
     ),
     type = ifelse(bound_type == 'TSS', "5'UTR", "3'UTR")
-  ) %>%
+  ) -> raw.utrs
+
+# needed for isoforms
+save(raw.utrs, file = 'analysis/06_raw.utrs.rda')
+
+raw.utrs %>%
   # remove empyt entries (from exact or overlapping cases)
   filter(start.utr < end.utr) %>%
   group_by(type) %>%
