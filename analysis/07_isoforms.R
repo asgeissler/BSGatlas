@@ -106,4 +106,11 @@ iso.graph <- tbl_graph(nodes, edges, directed = TRUE)
 
 paths <- find_paths(iso.graph)
 
-save(path, file = 'analysis/07_paths.rda')
+paths %<>%
+  group_by(path) %>%
+  mutate(transcription.order = 1:n()) %>%
+  ungroup
+
+save(paths, file = 'analysis/07_paths.rda')
+
+###############################################################################
