@@ -73,6 +73,57 @@ raw.utrs %>%
     to = ifelse(bound_type == 'TSS', gene, bound)
   ) -> empty.edges
 
+
+# Challange: some Tus have neither TSS/term not UTR to them
+# -> find these and add dummies, such that the paths can find all TUs
+
+tus %>%
+  select(id, genes) %>%
+  separate_rows(genes, sep = ';') %>%
+  left_join(merging$merged_genes, c('genes' = 'merged_id')) %>%
+  select(- merged_name, - type) %>%
+  group_by(id) %>%
+  arrange(start, end) %>%
+  # first/last gene in tu by chromosome order
+  summarize(
+    start = first(genes),
+    end = last(genes),
+    strand = first(strand)
+  ) %>%
+  # first/last one by transcription order
+  mutate(
+    swap = start,
+    start = ifelse(strand == '+', start, end),
+    end = ifelse(strand == '+', end, swap)
+  ) %>%
+  select(-swap) -> tu.firstlast.gene
+
+tu.firstlast.gene %>%
+  anti_join(
+    raw.utrs %>%
+      filter(bound_type == 'TSS'),
+    c('start' = 'gene')
+  ) %>%
+  transmute(
+    from = paste('dummy-TSS', 1:n()),
+    to = start
+  ) -> dummy.tss
+tu.firstlast.gene %>%
+  anti_join(
+    raw.utrs %>%
+      filter(bound_type == 'terminator'),
+    c('end' = 'gene')
+  ) %>%
+  transmute(
+    from = end,
+    to = paste('dummy-terminator', 1:n())
+  ) -> dummy.term
+
+# !!!!!!!!!!!!
+# The paths must be filterd to only keep dummy terminators corresponding
+# to the original TU they were designed for
+# !!!!!!!!!!!!
+
 # Collect all nodes
 bind_rows(
   UTRs %>%
@@ -82,7 +133,11 @@ bind_rows(
     transmute(id = merged_id, type = 'a gene'),
   bsg.boundaries %>%
     map2(names(.), ~ transmute(.x, id, type = .y)) %>%
-    bind_rows
+   bind_rows,
+  dummy.tss %>%
+    transmute(id = from, type = 'dummy-TSS'),
+  dummy.term %>%
+    transmute(id = to, type = 'dummy-Terminator')
 ) %>%
   mutate(number = 1:n()) %>%
   select(number, name = id, type) -> nodes
@@ -92,7 +147,9 @@ edges.full <- bind_rows(
   tu.edges,
   utr.edges,
   tssterm.edges,
-  empty.edges
+  empty.edges,
+  dummy.term,
+  dummy.tss
 ) %>%
   unique 
   # filter(!complete.cases(.))
