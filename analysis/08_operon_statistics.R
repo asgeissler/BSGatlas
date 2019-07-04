@@ -128,7 +128,13 @@ grand.stat %>%
   mutate_at('src', as_factor) %>%
   mutate_at('Transcripts', replace_na, '-') %>%
   mutate_at(c( "Operons", "Transcriptional Units", "Transcripts"),
-            str_replace, '(\\d)(\\d{3})', '\\1,\\2')
+            str_replace, '(\\d)(\\d{3})', '\\1,\\2') %>%
+  knitr::kable('latex', booktabs = TRUE) %>%
+  kable_styling() %>%
+  strsplit('\\n') %>%
+  unlist %>%
+  `[`(2:15) %>%
+  write_lines('analysis/08_grand_table.tex')
             
   
 
@@ -273,159 +279,81 @@ ggsave('analysis/08_operon_types.pdf',
 
 
 #####################################
-# From last template run
+# features distributions similar
 
+isoforms$operons %>%
+  select(id, tus = TUs) %>%
+  separate_rows(tus, sep = ';') %>%
+  left_join(isoforms$tus, c('tus' = 'id')) %>%
+  separate_rows(genes, sep = ';') -> op.tu
 
-load('analysis/03_operons.rda')
-
-library(venn)
-genes <- merging$merged_genes %>%
-  rename(id = merged_id)
-
-# > nrow(operons$operon)
-# [1] 1897
-# > nrow(operons$transcript)
-# [1] 2474
-
-
-
-pdf(file = 'analysis/03_venn_trans.pdf')
-operons$transcrip %>%
-  select(id, src) %>%
-  separate_rows(src, sep = ';') %>%
-  group_by(src) %>%
-  do(i = list(.$id)) %>%
-  with(set_names(map(i, 1), src)) %>%
-  venn(cexil = 1.3,
-       cexsn = 1.5, zcolor = 'style')
-dev.off()
-
-
-
-# ratio of genes not described by any operon
-operons$transcript %>%
-  select(src, genes) %>%
-  separate_rows(genes, sep = ';') %>%
-  separate_rows(src, sep = ';') %>%
-  mutate(has = TRUE) %>%
-  select(id = genes, src, has) %>%
-  unique %>%
-  spread(src, has) -> has.mat
-
-# STATISTICS 
-# ratio of genes with a transcript
-select(genes, id) %>%
-  left_join(has.mat) %>%
-  mutate_all(replace_na, FALSE) %>%
-  mutate(BSGatlas = BsubCyc | DBTBS | SubtiWiki) %>%
-  select(- id) %>%
-  map(sum) %>%
-  map(divide_by, nrow(genes)) %>%
-  map(multiply_by, 100) %>%
-  tibble(`% genes with transcript` = ., src = names(.)) %>%
-  unnest %>%
-  # Total number of transcripts
-  left_join(
-    operons$transcript %>%
-      select(id, src) %>%
-      separate_rows(src, sep = ';') %>%
-      unique %>%
-      count(src) %>%
-      spread(src, n) %>%
-      mutate(BSGatlas =  nrow(operons$transcrip) ) %>%
-      gather('src', 'number of transcripts'),
-    'src'
-  ) %>%
-  # Total number of operons
-  left_join(
-    operons$operon %>%
-      select(op = id, id = isoforms) %>%
-      separate_rows(id, sep = ';') %>%
-      left_join(operons$transcrip, 'id') %>%
-      select(op, src) %>%
-      separate_rows(src, sep = ';') %>%
-      unique %>%
-      count(src) %>%
-      spread(src, n) %>%
-      mutate(BSGatlas = nrow(operons$operon)) %>%
-      gather('src', 'number of operons')
-  ) %>%    
-  gather('what', 'value', -src) %>%
-  mutate(src = fct_relevel(src, 'DBTBS', 'BsubCyc', 'SubtiWiki', 'BSGatlas')) %>%
-  ggplot(aes(x = '', y = value, fill = src)) +
-  ggsci::scale_fill_jama(name = 'resource') +
-  geom_bar(stat = 'identity', position = 'dodge') +
-  geom_text(aes(label=value %>% round()),
-            position=position_dodge(width=0.9), vjust=-0.25) +
-  xlab(NULL) +
-  ylab(NULL) +
-  facet_wrap(~ what, scales = 'free') +
-  theme_minimal(base_size = 14) +
-  theme(strip.text = element_text(size = 14))
-
-ggsave(file = 'analysis/03_bars.pdf',
-       width = 25, height = 9, units = 'cm')
-
-
-
-operons$operon %>%
-  select(id, isoforms) %>%
-  separate_rows(isoforms, sep = ';') %>%
-  left_join(operons$transcript, c('isoforms' = 'id')) %>%
-  select(id, gene = genes) %>%
-  separate_rows(gene, sep = ';') %>%
-  left_join(genes, c('gene' = 'id')) %>%
-  mutate(is.prot = type %in% c('putative-coding', 'CDS')) %>%
-  select(id, gene, is.prot) %>%
+op.tu %>%
+  select(id, tus, start, end, strand) %>%
   unique %>%
   group_by(id) %>%
-  summarize('#genes' = n(),
-            '#coding' = sum(is.prot),
-            '%coding' = sum(is.prot) / n() * 100) %>%
+  mutate(op.start = min(start), op.end = max(end)) %>%
   ungroup %>%
+  mutate(
+    first = start == op.start,
+    last = end == op.end
+  ) %>%
   left_join(
-    operons$operon %>%
-      transmute(id, isoforms, len = end - start + 1) %>%
-      separate_rows(isoforms, sep = ';') %>%
-      group_by(id) %>%
-      summarize('#isoforms' = n(), len = first(len)) %>%
-      ungroup,
-    'id'
-  ) -> operons.stat
+    isoforms$transcripts %>%
+      select(tus = TUs, TSS, Terminator),
+    'tus'
+  ) %>%
+  mutate(
+    internal.TSS = ifelse(
+      ((strand == '+') & !first) | ((strand == '-') & !last),
+      TSS,
+      NA
+    ),
+    internal.term = ifelse(
+      ((strand == '+') & !last) | ((strand == '-') & !first),
+      Terminator,
+      NA
+    )
+  ) %>%
+  select(id, internal.TSS, internal.term) %>%
+  gather('internal', 'bound', internal.TSS, internal.term) %>%
+  drop_na %>%
+  unique %>%
+  count(id, internal) %>%
+  count(internal, n) %>%
+  rename(x = n, y = nn) %>%
+  mutate(internal = ifelse(internal == 'internal.TSS',
+                           'internal TSS',
+                           'internal Terminator')) %>%
+  rename(desc = internal) %>%
+  bind_rows(
+    op.tu %>%
+      select(id, genes) %>%
+      unique %>%
+      count(id) %>%
+      count(n) %>%
+      transmute(desc = 'Genes in operons', x = n, y = nn)
+  ) -> dat
 
-save(operons.stat, file = 'analysis/03_operonstat.rda')
-
-library(ggforce)
-
-operons.stat %>%
-  pull(`#isoforms`) %>%
-  as_factor() %>%
-  fct_expand(as.character(1:10)) %>%
-  fct_relevel(as.character(1:10)) %>%
-  fct_count %>%
-  ggplot(aes(x = f, y = n)) +
-  geom_bar(stat = 'identity') +
-  xlab('isoforms per operon') + 
-  ylab('count') +
-  facet_zoom(ylim = c(0, 100))
-
-ggsave(file = 'analysis/03_bar_Nisoforms.pdf',
-       width = 13, height = 7, units = 'cm')
-
-operons.stat %>%
-  ggplot(aes(x = `#genes`)) +
-  geom_bar() +
-  # geom_freqpoly(bins = 20) +
-  scale_x_continuous(breaks = seq(1, 35) %>% keep(. %% 5 == 0 ),
-                     labels = as.character) +
-  xlab('genes per operon') + 
-  ylab('count') +
-  facet_zoom(ylim = c(0, 100))
-
-ggsave(file = 'analysis/03_bar_Ngenes.pdf',
-       width = 13, height = 7, units = 'cm')
-
-operons.stat %>%
-  ggplot(aes(x = `#genes`, y = `%coding`)) +
-  geom_point()
-
+crossing(desc = unique(dat$desc), x = 1:32) %>%
+  left_join(dat) %>%
+  mutate_at('y', replace_na, 0) %>%
+  mutate(
+    lab = ifelse(y > 500, y, ''),
+    y = pmin(500, y)
+  ) %>%
+  ggplot(aes(x = as.integer(x), y = y, fill = desc, group = desc)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  geom_text(aes(label = lab),
+            position = position_dodge(width=0.9),
+            vjust=-0.25) +
+  scale_x_continuous(breaks = seq(1, 32, 2)) +
+  ggsci::scale_fill_jama(name = NULL) +
+  xlab('Number of features in operons') +
+  ylab('Number of occurences') +
+  theme_minimal(14)  +
+  theme(legend.position = c(1, 1),
+        legend.justification = c(1, 1))
+  # scale_y_continuous(breaks = c(seq(0, 140, 20), 500, 1000, 1500))
+    
+ggsave('analysis/08_feature_dist.pdf',
+       width = 20, height = 9, units = 'cm')
