@@ -51,7 +51,7 @@ UTRs[c("5'UTR", "3'UTR")] %>%
 us %>%
   transmute(
     from = ifelse(type == "5'UTR", id, gene),
-    to = ifelse(type == "5'UTR", gene, gene)
+    to = ifelse(type == "5'UTR", gene, id)
   ) -> utr.edges
 # edges of TSS and terminators to UTRs
 us %>%
@@ -69,7 +69,7 @@ raw.utrs %>%
   # similiar to UTRs, edge direction depends on TSS or Terminator type
   transmute(
     from = ifelse(bound_type == 'TSS', bound, gene),
-    to = ifelse(bound_type == 'TSS', gene, bound),
+    to = ifelse(bound_type == 'TSS', gene, bound)
   ) -> empty.edges
 
 # Collect all nodes
@@ -114,3 +114,16 @@ paths %<>%
 save(paths, file = 'analysis/07_paths.rda')
 
 ###############################################################################
+
+paths %>%
+  select(path, transcription.order, node = value) %>%
+  left_join(select(nodes, node = name, type), 'node') %>%
+  count(path, type) %>%
+  spread(type, n, fill = 0) %>%
+  group_by_at(vars(- path)) %>%
+  count %>%
+  select(
+    TSS, `5'UTR`, `a gene`, internal_UTR,
+    `3'UTR`, `terminator`, count = n
+  ) %>%
+  View
