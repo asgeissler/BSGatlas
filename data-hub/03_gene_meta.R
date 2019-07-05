@@ -2,22 +2,25 @@
 # assumptions working dir is rproject dir
 source('analysis/00_load.R')
 
-load('analysis/01_refseq.rda')
-load('analysis/01_bsubcyc.rda')
-load('analysis/01_rfam.rda')
-load('analysis/01_nicolas.rda')
-load('analysis/01_dar-riboswitches.rda')
+load('data/01_refseq.rda')
+load('data/01_bsubcyc.rda')
+load('data/01_rfam.rda')
+load('data/01_nicolas.rda')
+load('data/01_dar-riboswitches.rda')
 
 load('analysis/01_tomerge.rda')
 
-
 load('analysis/02_merging.rda')
-load('analysis/02_mergign_stat.rda')
+load('analysis/02_merging_stat.rda')
 
-load('analysis/03_subtiwiki.rda')
-load('analysis/03_dbtbs.rda')
-load('analysis/03_operons.rda')
+load('data/03_subtiwiki.rda')
+load('data/03_dbtbs.rda')
 
+load('analysis/05_bsg_boundaries.rda')
+
+load('analysis/06_utrs.rda')
+
+load('analysis/07_isoforms.rda')
 
 ###########
 # 1. collect all meta information in unified form
@@ -281,11 +284,86 @@ meta2 <- bind_rows(
 )
 
 
+#######################################################
+# Add outlinks
+
+  
+rfam %>%
+  map2(names(.), ~ mutate(.x, src_locus = sprintf(
+    'rfam %s%%%s', 
+    .y, id
+  ))) %>%
+  bind_rows() %>%
+  select(family, src_locus) -> fams
+
+
+tribble(
+  ~db, ~db.name, ~url,
+  'bsubcyc', 'BsubCyc',
+  'https://bsubcyc.org/gene?orgid=BSUB&id=',
+  'subti', 'SubtiWiki',
+  'http://subtiwiki.uni-goettingen.de/v3/gene/search/exact/',
+  'rfam', 'Rfam',
+  'http://rfam.xfam.org/search?q='
+) -> dbs
+
+merging$merged_src %>%
+  mutate(
+    db = case_when(
+      str_detect(src, 'bsubcyc') ~ 'bsubcyc',
+      str_detect(src, 'rfam') ~ 'rfam',
+      str_detect(src, 'refseq') ~ 'subti',
+      str_detect(src, 'nicolas') ~ 'subti'
+    )
+  ) %>%
+  select(merged_id, db, locus, src_locus) %>%
+  drop_na %>%
+  unique  %>%
+  left_join(fams, 'src_locus') %>%
+  mutate(key = ifelse(is.na(family), locus, family)) %>%
+  select(merged_id, db, key) %>%
+  mutate(
+    key = ifelse(db == 'subti',
+                 str_replace(key, 'BSU_', 'BSU'),
+                 key)
+  ) %>%
+  unique %>%
+  left_join(dbs, 'db') %>%
+  mutate(
+    txt = sprintf('<a href="%s%s" target="_blank">%s</a>', url, key, db.name),
+    Resource = '1 BSGatlas',
+    meta = 'Outside Links'
+  ) %>%
+  select(Resource, merged_id, meta, info = txt) -> out.links
+  
+bind_rows(meta2, out.links) %>%
+  mutate_at('meta', fct_relevel,
+            "Name", "Alternative Name", "Locus Tag", "Family",
+            "Alternative Locus Tag", "Functions",
+             "Title",  "Description",  "Type",
+             "Product", "Category",  "Enzyme Classifications",
+             "Outside Links", "Function", "Is essential?",
+             "Isoelectric point",  "Molecular weight",
+             "Citation", "Gene Ontology", "Comment",
+             "Expression neg. correlated with",
+            "Expression pos. correlated with", 
+            "Highly expressed condition", "Lowely expressed condition"
+            ) %>%
+  arrange(merged_id, Resource, meta, info) %>%
+  mutate_at('meta', as.character) -> meta.full
+
+# meta.full %>%
+#   filter(merged_id == 'BSGatlas-gene-3138') %>%
+#   arrange(Resource, meta)
+
+
+#######################################################
 
 helper <- function(mg, out) {
   # mg <- 'BSGatlas-gene-5'
+  # out <- 'data-hub/meta'
   
-  meta %>%
+  meta.full %>%
     filter(merged_id == mg) %>%
     select(-merged_id) %>%
     mutate(
@@ -324,6 +402,7 @@ helper <- function(mg, out) {
   final <- sprintf('%s/%s.html', out, mg)
   tab %>%
     save_kable(
+      # file = final,
       file = tmp.to,
       self_contained = FALSE,
       title = paste0('BSGatlas - ', mg)
