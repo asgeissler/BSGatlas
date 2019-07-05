@@ -1,6 +1,10 @@
 # assumptions working dir is rproject dir
 source('analysis/00_load.R')
 
+load('data/01_refseq.rda')
+load('data/01_bsubcyc.rda')
+load('data/01_rfam.rda')
+
 load('analysis/01_refseq.rda')
 load('analysis/01_bsubcyc.rda')
 load('analysis/01_rfam.rda')
