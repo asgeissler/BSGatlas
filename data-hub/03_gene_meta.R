@@ -464,3 +464,6 @@ search %>%
 
 # and again manual execution
 # ixIxx search.txt search.ix search.ixx
+
+save(meta.full, file = 'data-hub/meta.full.rda')
+
