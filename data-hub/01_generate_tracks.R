@@ -497,7 +497,8 @@ bsg.boundaries$TSS %>%
     strand,
     start2 = TSS - 1, end2 = TSS,
     rgb, src,
-    extra = sprintf('Resolution limit=%s<br/>PubMed: %s', res.limit, pubmed)
+    extra = sprintf('Sigma=%s<br/>Resolution limit=%s<br/>PubMed: %s',
+                    sigma, res.limit, pubmed)
   ) %>%
   arrange(start, desc(end)) %>%
   mutate(start = pmax(start, 0)) %>%
