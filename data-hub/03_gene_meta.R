@@ -434,6 +434,7 @@ jobs[result %>%
 todo2 %>%
   set_names(., .) %>%
   map(worker)
+# probalby sth abuth the file system, it's now all
   
 
 
