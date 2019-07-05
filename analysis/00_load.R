@@ -46,7 +46,7 @@ knitr::knit_hooks$set(inline = function(x) {
 # nice tables
 library(kableExtra)
 # don't add linesep automatically
-kable <-partial(kable, linesep = "")
+kable <- partial(kable, linesep = "")
 
 # Resolve conflicts
 
