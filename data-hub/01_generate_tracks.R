@@ -1,55 +1,65 @@
-# assumptions working dir is rproject dir
+# assumption: working dir is rproject dir
 source('analysis/00_load.R')
 
 load('data/01_refseq.rda')
 load('data/01_bsubcyc.rda')
 load('data/01_rfam.rda')
-
-load('analysis/01_refseq.rda')
-load('analysis/01_bsubcyc.rda')
-load('analysis/01_rfam.rda')
-load('analysis/01_nicolas.rda')
-load('analysis/01_dar-riboswitches.rda')
+load('data/01_nicolas.rda')
+load('data/01_dar-riboswitches.rda')
 
 load('analysis/01_tomerge.rda')
 
-
 load('analysis/02_merging.rda')
-load('analysis/02_mergign_stat.rda')
+load('analysis/02_merging_stat.rda')
 
-load('analysis/03_subtiwiki.rda')
-load('analysis/03_dbtbs.rda')
-load('analysis/03_operons.rda')
+load('data/03_subtiwiki.rda')
+load('data/03_dbtbs.rda')
 
 load('analysis/05_bsg_boundaries.rda')
 
+load('analysis/06_utrs.rda')
+
+load('analysis/07_isoforms.rda')
+
+
 # Make a unified color scheme
 colors <- tribble(
-  ~type, ~normal,
-  # blue
-  'protein', '#0000FF',
+  ~type, ~normal, ~track,
+  # dodger blue
+  'protein', '#1E90FF',
+  'gene',
   # bright red
   'TSS', '#FF0000',
+  'boundaries',
   # grey
+  'riboswitch', '#999999',
+  'gene',
   'terminator', '#999999',
+  'boundaries',
   # green
   'UTR', '#358000',
+  'utrs',
   # yellow
   'tRNA', '#FFFF00',
-  # pink
-  'operon', '#FF00CC',
-  # orange
-  'transcript', '#FF9900',
+  'gene',
   # bright green
   'shortRNA', '#00FF00',
+  'gene',
   # purple
   'rRNA', '#CC33FF',
+  'gene',
+  # red
+  'other', '#CC0000',
+  'gene',
+  # pink
+  'operon', '#FF00CC',
+  'operon',
+  # orange
+  'transcript', '#FF9900',
+  'transcripts',
   # light pink
   'TF', '#FFCCCC',
-  # cyan
-  'riboswitch', '#00FFFF',
-  # red
-  'other', '#CC0000'
+  'boundaries'
 )
 
 colors %>%
@@ -73,8 +83,8 @@ colors %>%
   mutate(what = fct_recode(what,
                            'forward' = 'normal',
                            'reverse' = 'darker')) %>%
-  arrange(type, desc(what)) %>%
-  with(set_names(rgb, sprintf('%s (%s)', type, what))) %>%
+  arrange(track, type, desc(what)) %>%
+  with(set_names(rgb, sprintf('%s (%s track, %s)', type, track, what))) %>%
   map(function(i) {
     function () {scales::show_col(i, labels = TRUE)}
   }) %>%
