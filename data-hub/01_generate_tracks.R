@@ -315,24 +315,30 @@ write_tsv(tus, 'data-hub/BSGatlas_tus.bed', col_names = FALSE)
 isoforms$operons %>%
   mutate(type = 'operon') %>%
   left_join(color.scheme, c('type', 'strand')) %>%
-  transmute(chr = genome.id, start2 = start - 1, end,
+  transmute(chr = genome.id,
+            start2 = utr.start - 1,
+            end2 = utr.end,
             primary.name = id, score = 0,
             strand = strand,
-            thickStart = start2, thickEnd = end,
+            thickStart = tu.start - 1,
+            thickEnd = tu.end,
             rgb) -> oper
 oper.special <- oper %>%
-  filter(end > genome.size)
+  filter(end2 > genome.size)
 oper %>%
-  filter(end <= genome.size) %>%
+  filter(end2 <= genome.size) %>%
   bind_rows(
     oper.special %>%
-      mutate(start2 = start2, end = genome.size,
+      mutate(start2 = start2,
+             end2 = genome.size,
+             thickStart = thickStart,
              thickEnd = genome.size,
              primary.name = paste0(primary.name, '.part1')),
     oper.special %>%
-      mutate(start2 = 0, end = end %% genome.size,
+      mutate(start2 = 0,
+             end2 = end2 %% genome.size,
              thickStart = 0,
-             thickEnd = end %% genome.size,
+             thickEnd = thickEnd %% genome.size,
              primary.name = paste0(primary.name, '.part2'))
   ) %>%
   arrange(start2) -> oper
@@ -560,7 +566,7 @@ isoforms$transcripts %>%
     TSS = ifelse(is.na(TSS), 'without TSS',
                  sprintf('%s(%s)', TSS, sigma)),
     Terminator = ifelse(is.na(Terminator), 'without Terminator', Terminator),
-    extra = paste(TSS, Terminator, sep = '\\n')
+    extra = paste(TSS, Terminator, sep = '<br/>')
   ) %>%
   transmute(
     chrom = 'basu168',
