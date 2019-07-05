@@ -10,7 +10,7 @@ searchIndex name
 searchTrix search.ix
 itemRgb on
 priority 1
-bigDataUrl merged_genes.bb
+bigDataUrl BSGatlas_genes.bb
 url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
 urlLabel Meta-Information
 iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
@@ -27,7 +27,20 @@ labelFields name
 searchIndex name
 priority 2
 itemRgb on
-bigDataUrl transunit.bb
+bigDataUrl BSGatlas_tus.bb
+html track_description.html
+
+track BSGatlas_trans
+group bsgatlas
+shortLabel BSGatlas v1 transcripts/isoforms
+longLabel BSGatlas v1 transcripts/isoforms
+visibility pack
+type bigBed 9 +
+labelFields name
+searchIndex name
+priority 2
+itemRgb on
+bigDataUrl BSGatlas_transcripts.bb
 html track_description.html
 
 track BSGatlast_operons
@@ -40,7 +53,7 @@ searchIndex name
 type bigBed 9 +
 itemRgb on
 priority 3
-bigDataUrl operon.bb
+bigDataUrl BSGatlas_operons.bb
 html track_description.html
 
 track bsg_bound
@@ -61,14 +74,21 @@ html track_description.html
   parent bsg_bound
   shortLabel BSGatlas TSS
   longLabel BSGatlas TSS
-  bigDataUrl bsgatlas-tss.bb
+  bigDataUrl BSGatlas_tss.bb
   
   track bsg_bound_term
   type bigBed 9 +
   parent bsg_bound
   shortLabel BSGatlas terminators
   longLabel BSGatlas terminators
-  bigDataUrl bsgatlas-terminator.bb
+  bigDataUrl BSGatlas_terminator.bb
+  
+  track bsg_bound_utr
+  type bigBed 9 +
+  parent bsg_bound
+  shortLabel BSGatlas UTRs
+  longLabel BSGatlas UTRs
+  bigDataUrl BSGatlas_UTRs.bb
 
 
 
@@ -172,7 +192,7 @@ html track_description.html
   shortLabel Nicolas et al. predictions
   longLabel Nicolas et al. predictions
   subGroups agg=nicolas prio=e
-  bigDataUrl individual/Nicolas-et-al.-predicitons.bb
+  bigDataUrl individual/Nicolas-et-al.-predictions.bb
   
   
   
