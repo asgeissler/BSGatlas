@@ -38,7 +38,7 @@ visibility pack
 type bigBed 9 +
 labelFields name
 searchIndex name
-priority 2
+priority 3
 itemRgb on
 bigDataUrl BSGatlas_transcripts.bb
 html track_description.html
@@ -52,7 +52,7 @@ labelFields name
 searchIndex name
 type bigBed 9 +
 itemRgb on
-priority 3
+priority 4
 bigDataUrl BSGatlas_operons.bb
 html track_description.html
 
@@ -65,7 +65,7 @@ longLabel BSGatlas TSS/terminators
 visibility hide
 labelFields name
 itemRgb on
-priority 4
+priority 5
 html track_description.html
 
 
@@ -102,7 +102,7 @@ visibility hide
 labelFields name,ID
 defaultLabelFields name
 itemRgb on
-priority 5
+priority 10
 url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
 urlLabel Meta-Information
 iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
@@ -205,7 +205,7 @@ visibility hide
 labelFields name,ID
 defaultLabelFields ID
 itemRgb on
-priority 6
+priority 11
 bigDataUrl rfam-extra.bb
 html track_description.html
 
@@ -218,10 +218,10 @@ group extrans
 shortLabel BsubCyc
 longLabel BsubCyc
 visibility hide
-labelFields name,ID
-defaultLabelFields ID
+labelFields name,extra
+defaultLabelFields extra
 itemRgb on
-priority 10
+priority 20
 html track_description.html
 
   track trans_bsubcyc_tss
@@ -246,10 +246,10 @@ group extrans
 shortLabel DBTBS
 longLabel DBTBS
 visibility hide
-labelFields name,ID
-defaultLabelFields ID
+labelFields name,extra
+defaultLabelFields extra
 itemRgb on
-priority 11
+priority 21
 html track_description.html
 
   track trans_DBTSB_tss
@@ -281,10 +281,10 @@ group extrans
 shortLabel Nicolas et al.
 longLabel Nicolas et al.
 visibility hide
-labelFields name,ID
-defaultLabelFields ID
+labelFields name,extra
+defaultLabelFields extra
 itemRgb on
-priority 12
+priority 22
 html track_description.html
 
 
@@ -312,6 +312,6 @@ longLabel Nicolas et al. UTRs
 visibility hide
 labelFields name
 itemRgb on
-priority 15
+priority 25
 bigDataUrl transbounds/nicolas-utrs.bb
 html track_description.html
