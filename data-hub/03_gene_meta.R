@@ -317,6 +317,9 @@ merging$merged_src %>%
     )
   ) %>%
   select(merged_id, db, locus, src_locus) %>%
+  mutate_at('src_locus', str_replace, 
+            'rfam medium%row ', 
+            'rfam medium%row-') %>%
   drop_na %>%
   unique  %>%
   left_join(fams, 'src_locus') %>%
