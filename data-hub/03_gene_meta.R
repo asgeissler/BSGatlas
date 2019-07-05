@@ -445,7 +445,7 @@ searchable <- c(
   "Name", "Alternative Name",
   "Locus Tag", "Alternative Locus Tag"
 )
-meta %>%
+meta.full %>%
   filter(meta %in% searchable) %>%
   select(merged_id, info) %>%
   mutate_at('info', stringi::stri_enc_toascii) %>%
