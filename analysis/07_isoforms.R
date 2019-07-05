@@ -346,37 +346,10 @@ trans %>%
 assertthat::assert_that(with(trans.span, all(strand %in% c('+', '-'))))
 
 trans.span %>%
+  mutate_at(c('start', 'end'), as.integer) %>%
   arrange(start, end) %>%
-  mutate(id = sprintf('BSGatlas-TU-%s', 1:n())) %>%
-  mutate_at(c('start', 'end'), as.integer) -> new.tus
+  mutate(id = sprintf('BSGatlas-TU-%s', 1:n())) -> new.tus
   
-
-operons %>%
-  left_join(
-    new.tus %>%
-      separate_rows(path, sep = ';') %>%
-      mutate_at('path', as.integer),
-  'path') %>%
-  group_by(operon) %>%
-  summarize(
-    start = min(start),
-    end = max(end),
-    strand = clean_paste(strand),
-    TUs = id %>% clean_paste
-  ) -> operons.span
-
-assertthat::assert_that(with(operons.span, all(strand %in% c('+', '-'))))
-
-operons.span %>%
-  arrange(start, end) %>%
-  mutate(id = sprintf('BSGatlas-operon-%s', 1:n())) %>%
-  left_join(
-    operons %>% 
-      group_by(operon) %>%
-      summarize_all(clean_paste),
-    'operon'
-  ) -> new.operons
-
 # Get full transcript lengths, including UTRs
 # but without TSSs or Terminators (negative lengths)
 # These are added later on
@@ -432,6 +405,53 @@ new.transcript %>%
     'path'
   ) -> new.transcript.assoc
 
+
+# Get Operons spanS
+# once for TUs (gene part) and once via transcripts for UTR lengths
+
+# 1. TU
+operons %>%
+  left_join(
+    new.tus %>%
+      separate_rows(path, sep = ';') %>%
+      mutate_at('path', as.integer),
+  'path') %>%
+  group_by(operon) %>%
+  summarize(
+    start = min(start),
+    end = max(end),
+    strand = clean_paste(strand),
+    TUs = id %>% clean_paste
+  ) -> operons.span
+
+# 2. with UTRs
+operons %>%
+  left_join(
+    new.transcript.assoc %>%
+      separate_rows(path, sep = ';') %>%
+      mutate_at('path', as.integer),
+  'path') %>%
+  group_by(operon) %>%
+  summarize(
+    utr.start = min(start),
+    utr.end = max(end)
+  ) -> operons.utrs
+
+
+assertthat::assert_that(with(operons.span, all(strand %in% c('+', '-'))))
+
+operons.utrs %>%
+  left_join(operons.span, 'operon') %>%
+  arrange(utr.start, utr.end) %>%
+  mutate(id = sprintf('BSGatlas-operon-%s', 1:n())) %>%
+  left_join(
+    operons %>% 
+      group_by(operon) %>%
+      summarize_all(clean_paste),
+    'operon'
+  ) -> new.operons
+
+
 new.operons %>%
   select(id, path) %>%
   separate_rows(path, sep = ';') %>%
@@ -452,7 +472,8 @@ new.operons %>%
 
 isoforms <- list(
   operons = new.operons.assoc %>%
-    select(id, start, end, strand, transcripts, TUs),
+    select(id, utr.start, utr.end, strand, transcripts,
+           tu.start = start, tu.end = end, TUs),
   
   transcripts =  new.transcript.assoc %>%
     select(id, path) %>%
