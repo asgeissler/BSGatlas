@@ -15,6 +15,9 @@ load('analysis/02_merging.rda')
 load('analysis/05_bsg_boundaries.rda')
 load('analysis/07_isoforms.rda')
 
+load('analysis/06_utrs.rda')
+load('data/01_nicolas.rda')
+
 
 #####################################
 
@@ -116,12 +119,6 @@ isoforms$tus %>%
   select(-n) -> genome.stat
 
 
-op.stat %>%
-  left_join(tu.stat, 'src') %>%
-  left_join(trans.stat, 'src') %>%
-  left_join(genome.stat, 'src') -> grand.stat
-
-
 grand.stat %>%
   mutate_at('% genes with transcripts', round, 2) %>%
   mutate_all(as.character) %>%
@@ -136,7 +133,79 @@ grand.stat %>%
   `[`(2:15) %>%
   write_lines('analysis/08_grand_table.tex')
             
+#####################################
   
+bsg.boundaries %>%
+  map(select, id, src) %>%
+  map2(names(.), ~ mutate(.x, type = .y)) %>%
+  bind_rows %>%
+  separate_rows(src, sep = ';') %>%
+  mutate(src = ifelse(str_detect(src, 'Nicolas'), 'Nicolas et al.', src)) %>%
+  unique %>%
+  count(src, type) %>%
+  spread(type, n) %>%
+  bind_rows(
+    bsg.boundaries %>%
+      map(nrow) %>%
+      as_tibble %>%
+      mutate(src = 'BSGatlas')
+  ) -> bound.stat
+
+bind_rows(
+  nicolas$all.features %>%
+    mutate(type = case_when(
+      startsWith(type, "3'") ~ "3'UTR",
+      startsWith(type, "5'") ~ "5'UTR",
+      type == 'intra' ~ 'internal_UTR'
+    )) %>%
+    drop_na(type) %>%
+    count(type) %>%
+    spread(type, n) %>%
+    mutate(src = 'Nicolas et al.'),
+  UTRs %>%
+    map(nrow) %>%
+    as_tibble %>%
+    mutate(src = 'BSGatlas')
+) -> utr.stat
+
+op.stat %>%
+  left_join(tu.stat, 'src') %>%
+  left_join(trans.stat, 'src') %>%
+  left_join(genome.stat, 'src') -> grand.stat
+
+bound.stat %>%
+  left_join(utr.stat, 'src') %>%
+  mutate_at('src', fct_recode, 
+            'SubtiWiki' = 'Nicolas et al.') %>%
+  full_join(grand.stat, 'src') %>%
+  gather('key', 'value', - src) %>%
+  spread(src, value) %>%
+  # pull(key) %>% dput
+  mutate_at('key', fct_relevel,
+            "TSS",
+            "5'UTR",
+            "terminator",
+            "3'UTR",
+            "internal_UTR", 
+            "Operons",
+            "Transcriptional Units",
+            "Transcripts", 
+            "% genes with transcripts"
+            ) %>%
+  arrange(key) %>%
+  select(key, DBTBS, BsubCyc, SubtiWiki, Combined,
+         `Novel TUs`, BSGatlas) %>%
+  rename(' ' = key) %>%
+  mutate_if(is.numeric, round, 2) %>% 
+  mutate_all(as.character) %>%
+  mutate_all(replace_na, '-') %>%
+  mutate_all(str_remove, '^\\d+[.]00$') %>%
+  mutate_all(str_replace, '^(\\d)(\\d{3})$', '\\1,\\2') %>%
+  rename('Nicolas et al. / SubtiWiki' = SubtiWiki) %>%
+  knitr::kable('latex', booktabs = TRUE) %>%
+  strsplit('\\n') %>%
+  unlist %>%
+  write_lines('analysis/08_grander_table.tex')
 
 #####################################
 #####################################
