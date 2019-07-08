@@ -48,14 +48,15 @@ meta.full %>%
   filter(meta == 'Locus Tag') %>%
   select(ID = merged_id, locus_tag = info)  %>%
   unique %>%
-  merge_variants('ID') -> loci
+  merge_variants('ID', sep=',') -> loci
 
 isoforms$operons %>%
   select(Parent = id, TUs) %>%
   separate_rows(TUs, sep = ';') %>%
   left_join(isoforms$tus, c('TUs' = 'id')) %>%
   select(ID = genes, Parent) %>%
-  separate_rows(ID, sep = ';') -> gene.parent
+  separate_rows(ID, sep = ';') %>%
+  unique -> gene.parent
   
 
 merging$merged_genes %>%
@@ -92,7 +93,8 @@ isoforms$transcripts %>%
   left_join(isoforms$tus, c('TUs' = 'id')) %>%
   transmute(
     ID,
-    comment = sprintf('Based on: %s', src)
+    comment = sprintf('Based on: %s',
+                      str_replace_all(src, ';', ','))
   ) -> trans.origin
 
 isoforms$transcripts %>%
@@ -106,7 +108,7 @@ isoforms$transcripts %>%
   select(- rgb) %>%
   rename(color = html) %>%
   left_join(trans.parent, 'ID') %>%
-  merge_variants('ID') %>%
+  merge_variants('ID', sep=',') %>%
   left_join(trans.origin, 'ID') %>%
   left_join(trans.tss, 'ID') %>%
   mutate_at(c('start', 'end'), as.integer) -> trans
@@ -121,7 +123,9 @@ bsg.boundaries$TSS %>%
             type = 'TSS',
             comment = sprintf(
               'Simga: %s, Resolution: %s, Based on: %s, PubMed: %s',
-              sigma, res.limit, src, pubmed)) %>%
+              sigma, res.limit,
+              str_replace_all(src, ';', ','),
+              str_replace_all(pubmed, ';', ','))) %>%
   left_join(color.scheme, c('type', 'strand')) %>%
   select(- rgb) %>%
   rename(color = html) -> tss
@@ -135,7 +139,9 @@ isoforms$transcripts %>%
   gather('key', 'ID', Terminator, features) %>%
   select(-key) %>%
   drop_na %>%
-  unique -> region.parent
+  separate_rows(ID, sep = ';') %>%
+  unique %>%
+  merge_variants('ID', sep = ',') -> region.parent
 
 meta.full %>%
   filter(meta %in% c('Alternative Name', 'Category', 'Gene Ontology',
@@ -174,7 +180,27 @@ merging$merged_genes %>%
 
 UTRs %>%
   bind_rows %>%
-  select(ID = id, type, start, end, strand) -> rna.utrs
+  # miniscule adjustment on boundary such that there is no single nt 
+  # overlap on 5'/3' UTRs
+  mutate(
+    start = case_when(
+      (type == "5'UTR") & (strand == '+') ~ start,
+      (type == "5'UTR") & (strand == '-') ~ start + 1L,
+      (type == "3'UTR") & (strand == '+') ~ start + 1L,
+      (type == "3'UTR") & (strand == '-') ~ start,
+      TRUE ~ start
+    ),
+    end = case_when(
+      (type == "5'UTR") & (strand == '+') ~ end - 1L,
+      (type == "5'UTR") & (strand == '-') ~ end,
+      (type == "3'UTR") & (strand == '+') ~ end,
+      (type == "3'UTR") & (strand == '-') ~ end - 1L,
+      TRUE ~ end
+    )
+  ) %>%
+  transmute(ID = id, type, start, end, strand,
+            comment = type,
+            type = 'UTR') -> rna.utrs
 
 bsg.boundaries$terminator %>%
   transmute(
@@ -182,7 +208,8 @@ bsg.boundaries$terminator %>%
     type = 'terminator',
     comment = sprintf(
       'Based on: %s, Energy: %s[kcal/mol]',
-      src, energy
+      str_replace_all(src, ';', ','),
+      energy
     )
   ) -> rna.term
 
@@ -206,7 +233,15 @@ bind_rows(
   dna_region,
   trans,
   tss,
-  rna_region
+  rna_region,
+  # Helper to get the transcript vizualization done
+  trans %>%
+    transmute(
+      Parent = ID,
+      ID = paste0(ID, '_exon'),
+      type = 'exon',
+      start, end, strand
+    )
 ) %>%
   arrange(start, desc(end)) %>%
   mutate_at(c('comment', 'synonyms', 'ec', 'go', 'subtiwiki_category'),
@@ -271,7 +306,7 @@ lines <- bind_rows(
     
     row <- as.list(row)
     paste(
-      'ncbi168',
+      'basu168',
       'BSGatlas',
       row$type,
       row$start,
@@ -286,6 +321,6 @@ lines <- bind_rows(
     unnest
 )
 
-writeLines(pull(lines, line),
-           'analysis/10_bsgatlas.gff')
+pull(lines, line) %>%
+  write_lines('analysis/10_bsgatlas.gff')
  
