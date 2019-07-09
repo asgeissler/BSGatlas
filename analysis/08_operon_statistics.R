@@ -313,9 +313,9 @@ indiv.stat %>%
   mutate(
     class = case_when(
       # (class.term == 'Missing-Term.') | (class.TSS == 'Missing-TSS') ~ 'Misses Promoter and/or Term.',
-      (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter & Term.',
+      (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-TSS\n& Term.',
       (class.term == 'Multi-Term.') ~ 'Multi-Term.',
-      (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter',
+      (class.TSS == 'Multi-TSS') ~ 'Multi-TSS',
       (class.tu == 'Single TU') & (class.gene != 'Single gene') ~ 'Traditional',
       (class.tu == 'Single TU') & (class.gene == 'Single gene') ~ 'Simple',
       TRUE ~ 'Other'
@@ -334,12 +334,13 @@ op.type.stat %>%
             size = 6,
             position = position_dodge(width=0.9),
             vjust=-0.25) +
-  xlab('') + ylab('Number of Operons') +
+  xlab(NULL) + ylab('Number of Operons') +
+  ylim(0, 1100) +
   theme_bw(base_size = 18) +
   theme(legend.position = 'hide')
 
 ggsave('analysis/08_operon_types.pdf',
-       width = 28, height = 15, units = 'cm')
+       width = 20, height = 10, units = 'cm')
   
 
 
@@ -416,11 +417,11 @@ crossing(desc = unique(dat$desc), x = 1:32) %>%
   ylim(0, 550) +
   ggsci::scale_fill_jama(name = NULL) +
   xlab('Number of features in operons') +
-  ylab('Number of occurences') +
+  ylab('Count of occurences') +
   theme_minimal(18)  +
   theme(legend.position = c(1, 1),
         legend.justification = c(1, 1))
   # scale_y_continuous(breaks = c(seq(0, 140, 20), 500, 1000, 1500))
     
 ggsave('analysis/08_feature_dist.pdf',
-       width = 20, height = 10, units = 'cm')
+       width = 16, height = 8, units = 'cm')
