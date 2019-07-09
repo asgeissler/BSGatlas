@@ -119,21 +119,6 @@ isoforms$tus %>%
   select(-n) -> genome.stat
 
 
-grand.stat %>%
-  mutate_at('% genes with transcripts', round, 2) %>%
-  mutate_all(as.character) %>%
-  mutate_at('src', as_factor) %>%
-  mutate_at('Transcripts', replace_na, '-') %>%
-  mutate_at(c( "Operons", "Transcriptional Units", "Transcripts"),
-            str_replace, '(\\d)(\\d{3})', '\\1,\\2') %>%
-  knitr::kable('latex', booktabs = TRUE) %>%
-  kable_styling() %>%
-  strsplit('\\n') %>%
-  unlist %>%
-  `[`(2:15) %>%
-  write_lines('analysis/08_grand_table.tex')
-            
-#####################################
   
 bsg.boundaries %>%
   map(select, id, src) %>%
@@ -173,39 +158,48 @@ op.stat %>%
   left_join(trans.stat, 'src') %>%
   left_join(genome.stat, 'src') -> grand.stat
 
+grand.stat %>%
+  mutate_at('% genes with transcripts', round, 2) %>%
+  mutate_all(as.character) %>%
+  mutate_at('src', as_factor) %>%
+  mutate_at('Transcripts', replace_na, '-') %>%
+  mutate_at(c( "Operons", "Transcriptional Units", "Transcripts"),
+            str_replace, '(\\d)(\\d{3})', '\\1,\\2') %>%
+  rename(Resource = src) %>%
+  knitr::kable('latex', linesep = '', booktabs = TRUE) %>%
+  kable_styling() %>%
+  strsplit('\\n') %>%
+  unlist -> xs
+
+# add midrule line
+c(xs[1:10], '\\midrule', xs[11:length(xs)]) %>%
+  `[`(3:15) %>%
+  write_lines('analysis/08_operon_table.tex')
+            
+#####################################
+
 bound.stat %>%
   left_join(utr.stat, 'src') %>%
-  mutate_at('src', fct_recode, 
-            'SubtiWiki' = 'Nicolas et al.') %>%
-  full_join(grand.stat, 'src') %>%
+  # mutate_at('src', fct_recode, 
+  #           'SubtiWiki' = 'Nicolas et al.') %>%
   gather('key', 'value', - src) %>%
   spread(src, value) %>%
-  # pull(key) %>% dput
-  mutate_at('key', fct_relevel,
-            "TSS",
-            "5'UTR",
-            "terminator",
-            "3'UTR",
-            "internal_UTR", 
-            "Operons",
-            "Transcriptional Units",
-            "Transcripts", 
-            "% genes with transcripts"
-            ) %>%
-  arrange(key) %>%
-  select(key, DBTBS, BsubCyc, SubtiWiki, Combined,
-         `Novel TUs`, BSGatlas) %>%
+  arrange(desc(BSGatlas)) %>%
+  select(key,
+         DBTBS, BsubCyc, 
+         `Nicolas et al.`,
+          BSGatlas) %>%
+  mutate_at('key', fct_recode,
+            'internal UTR' = 'internal_UTR') %>%
   rename(' ' = key) %>%
-  mutate_if(is.numeric, round, 2) %>% 
   mutate_all(as.character) %>%
   mutate_all(replace_na, '-') %>%
-  mutate_all(str_remove, '^\\d+[.]00$') %>%
   mutate_all(str_replace, '^(\\d)(\\d{3})$', '\\1,\\2') %>%
-  rename('Nicolas et al. / SubtiWiki' = SubtiWiki) %>%
+  # rename('Nicolas et al. / SubtiWiki' = SubtiWiki) %>%
   knitr::kable('latex', booktabs = TRUE) %>%
   strsplit('\\n') %>%
   unlist %>%
-  write_lines('analysis/08_grander_table.tex')
+  write_lines('analysis/08_utr_table.tex')
 
 #####################################
 #####################################
@@ -235,8 +229,8 @@ op.genes %>%
   mutate(pct = n / nrow(isoforms$operons) * 100)
 
 # given     n    pct
-# 1 FALSE     6  0.261
-# 2 TRUE   2293 99.7
+# 1 FALSE     6   0.261
+# 2 TRUE   2293  99.7
 
 
 ######################################
@@ -289,6 +283,7 @@ isoforms$operons %>%
     'id'
   ) -> indiv.stat
 
+
 indiv.stat %>%
   mutate(
     class.TSS = case_when(
@@ -318,11 +313,11 @@ indiv.stat %>%
   mutate(
     class = case_when(
       # (class.term == 'Missing-Term.') | (class.TSS == 'Missing-TSS') ~ 'Misses Promoter and/or Term.',
-      (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter &\nTSS Operon',
-      (class.term == 'Multi-Term.') ~ 'Multi-Term. Operon',
-      (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter Operon',
-      (class.tu == 'Single TU') & (class.gene != 'Single gene') ~ 'Traditional Operon',
-      (class.tu == 'Single TU') & (class.gene == 'Single gene') ~ 'Simple Operon',
+      (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter & Term.',
+      (class.term == 'Multi-Term.') ~ 'Multi-Term.',
+      (class.TSS == 'Multi-TSS') ~ 'Multi-Promoter',
+      (class.tu == 'Single TU') & (class.gene != 'Single gene') ~ 'Traditional',
+      (class.tu == 'Single TU') & (class.gene == 'Single gene') ~ 'Simple',
       TRUE ~ 'Other'
     )
   ) %>%
@@ -336,10 +331,11 @@ op.type.stat %>%
   geom_bar(stat = 'identity') +
   ggsci::scale_fill_jama() +
   geom_text(aes(label = paste(round(ratio, 1), '%')),
+            size = 6,
             position = position_dodge(width=0.9),
             vjust=-0.25) +
   xlab('') + ylab('Number of Operons') +
-  theme_bw(base_size = 14) +
+  theme_bw(base_size = 18) +
   theme(legend.position = 'hide')
 
 ggsave('analysis/08_operon_types.pdf',
@@ -348,7 +344,7 @@ ggsave('analysis/08_operon_types.pdf',
 
 
 #####################################
-# features distributions similar
+# features distributions similar to existing work
 
 isoforms$operons %>%
   select(id, tus = TUs) %>%
@@ -413,16 +409,18 @@ crossing(desc = unique(dat$desc), x = 1:32) %>%
   ggplot(aes(x = as.integer(x), y = y, fill = desc, group = desc)) +
   geom_bar(stat = 'identity', position = 'dodge') +
   geom_text(aes(label = lab),
+            size = 6,
             position = position_dodge(width=0.9),
             vjust=-0.25) +
   scale_x_continuous(breaks = seq(1, 32, 2)) +
+  ylim(0, 550) +
   ggsci::scale_fill_jama(name = NULL) +
   xlab('Number of features in operons') +
   ylab('Number of occurences') +
-  theme_minimal(14)  +
+  theme_minimal(18)  +
   theme(legend.position = c(1, 1),
         legend.justification = c(1, 1))
   # scale_y_continuous(breaks = c(seq(0, 140, 20), 500, 1000, 1500))
     
 ggsave('analysis/08_feature_dist.pdf',
-       width = 20, height = 9, units = 'cm')
+       width = 20, height = 10, units = 'cm')
