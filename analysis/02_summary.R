@@ -428,6 +428,8 @@ merging_stat$stat.all %>%
   row_spec(5, hline_after = TRUE) %>%
   str_split('\\n') %>%
   unlist %>%
+  # escape percent
+  str_replace_all('%\\)', '\\\\%)') %>%
   # thousand digit mark
   str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
   # without environment
@@ -481,6 +483,8 @@ caption = 'Comparison of the resources with the merged results, aggregated by ca
   row_spec(4, hline_after = TRUE) %>%
   str_split('\\n') %>%
   unlist %>%
+  # escape percent
+  str_replace_all('%\\)', '\\\\%)') %>%
   # thousand digit mark
   str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
   # without environment
