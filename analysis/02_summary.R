@@ -328,7 +328,7 @@ categorized$merged_src %<>%
     src %in% c("nicolas lit review", 'dar riboswitches') ~ 'literature review',
     src %in% c('nicolas trusted', 'nicolas lower') ~ 'Nicolas et al predictions'
   ))
-# reduce entries but only keep positions from highest position and unify
+# reduce entries but only keep positions from highest priority and unify
 # if there are more then one, type most specific type
 categorized$merged_src %<>%
   group_by(merged_id, src) %>%
