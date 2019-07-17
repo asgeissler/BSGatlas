@@ -63,7 +63,7 @@ cmp %>%
   ggplot(aes(x = total.diff.cat, y = jaccard)) +
   geom_boxplot() +
   facet_wrap(~ nice) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   xlab('Difference to corresponding merged gene [nt]') +
   ylab('Jaccard Similarity')
 
