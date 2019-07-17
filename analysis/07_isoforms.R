@@ -20,6 +20,8 @@ load('analysis/06_raw.utrs.rda')
 
 # Collect transcriptional units, including genes and internal UTRs
 tus %>%
+  # !!!!!  DO NOT use the sigK special case
+  filter(id != 'BSGatlas-tu-1536') %>%
   select(id, genes) %>%
   separate_rows(genes, sep = ';') %>%
   left_join(merging$merged_genes, c('genes' = 'merged_id')) %>%
@@ -45,9 +47,7 @@ tus %>%
 
 # edges of genes to 3' UTR and 5' UTR to genes
 UTRs[c("5'UTR", "3'UTR")] %>%
-  bind_rows() %>%
-  mutate(len = end - start + 1) %>%
-  filter(len > 15) -> us
+  bind_rows() -> us
 
 us %>%
   transmute(
@@ -208,7 +208,6 @@ paths %>%
 # [1] 205
 
 filtered.paths <- paths %>% anti_join(blacklist)
-filtered.paths <- paths %>% anti_join(blacklist)
 
 filtered.tu <- paths.tu %>% anti_join(blacklist)
 
@@ -269,7 +268,7 @@ filtered.tu %>%
   count(n) %>%
   rename('paths per tu' = n, count = nn)
 # `paths per tu` count
-# 1  1560
+# 1  1590 - 1 due to sigK
 # 2   690
 # 3    87
 # 4   106
@@ -279,7 +278,7 @@ filtered.tu %>%
 # 9     1
 
 assertthat::are_equal(
-  nrow(tus),
+  nrow(tus) - 1,
   filtered.tu %>%
     drop_na %>%
     select(tu) %>%
