@@ -280,6 +280,8 @@ save(raw.utrs, file = 'analysis/06_raw.utrs.rda')
 raw.utrs %>%
   # remove empyt entries (from exact or overlapping cases)
   filter(start.utr < end.utr) %>%
+  # also, set min length to 15
+  filter(end.utr - start.utr + 1 > 15) %>%
   group_by(type) %>%
   arrange(start.utr, end.utr) %>%
   mutate(id = sprintf('BSGatlas-%s-%s', type, 1:n())) %>%
@@ -343,7 +345,7 @@ internals %>%
 # regulation mechanism (these computed up to 10k+ nt UTRs are not transcribed)
 
 internal.utrs %>%
-  filter(tu != 'BSGatlas-tu-1538') %>%
+  filter(tu != 'BSGatlas-tu-1536') %>%
   ggplot(aes(x = width)) + geom_histogram() +
   scale_x_log10(breaks = c(10, 20, 30, 50, 100, 500, 1e3)) +
   xlab("Length predicted internal UTRs")
@@ -353,7 +355,7 @@ ggsave('analysis/06_length_internal.pdf',
 
 # we chose min length 15
 internal.utrs %>%
-  filter(tu != 'BSGatlas-tu-1538') %>%
+  filter(tu != 'BSGatlas-tu-1536') %>%
   filter(width > 15) %>%
   select(- width) %>%
   group_by(start, end, strand) %>%
@@ -379,7 +381,7 @@ load('data/01_nicolas.rda')
 
 nicolas$all.features %>%
   drop_na(type) %>%
-  count(type)
+  # count(type)
   filter(!str_detect(type, 'indep')) %>%
   # count(type)
   transmute(
@@ -408,7 +410,6 @@ bind_rows(
   UTRs %>%
     bind_rows %>%
     mutate(len = end - start + 1) %>%
-    filter(len > 15) %>%
     mutate(src = 'BSGatlas'),
   nic.utrs %>%
     filter(type != 'intergenic') %>%
