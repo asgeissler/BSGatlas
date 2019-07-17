@@ -223,6 +223,8 @@ un %>%
 short.span %>%
   left_join(mutate(un, row = 1:n()), 'row') %>%
   arrange(start, desc(end)) %>%
+  # Filter erranous gene matching of over 1/4 of the genome
+  filter(end - start + 1 < 1e6) %>%
   mutate(
     id = sprintf('BSGatlas-tu-%s', 1:n()),
     possibly.incomplete = n.flags > 0,
@@ -234,7 +236,5 @@ short.span %>%
   select(id, start, end, strand, src, possibly.incomplete, genes) %>%
   ungroup -> tus
 
-# Filter erranous gene matching of over 1/4 of the genome
-tus %<>% filter(end - start + 1 < 1e6)
 
 save(tus, file = 'analysis/03_tus.rda')
