@@ -228,9 +228,9 @@ op.genes %>%
   count(given) %>%
   mutate(pct = n / nrow(isoforms$operons) * 100)
 
-# given     n    pct
-# 1 FALSE     6   0.261
-# 2 TRUE   2293  99.7
+# given      n    pct
+# 1 FALSE    6   0.260
+# 2 TRUE   2303  99.7
 
 
 ######################################
