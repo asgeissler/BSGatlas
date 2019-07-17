@@ -102,6 +102,8 @@ bsubcyc[c('coding', 'noncoding')] %>%
   select(`Locus Tag` = locus, pid = cite) %>%
   separate_rows(pid, sep = ';') %>%
   left_join(bsubcyc$cite, 'pid') %>%
+  filter(pid != '') %>%
+  # filter(!complete.cases(.))
   transmute(
     `Locus Tag`,
     Citation = sprintf(
