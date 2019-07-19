@@ -494,10 +494,12 @@ tribble(
          'Simple', 'Traditional',
          'Multi TSS', 'Multi TTS', 'Complex') %>%
   ggplot(aes(x = `Operon class`, y = pct, fill = org, group = org)) +
-  geom_bar(stat = 'identity', position = 'dodge') +
+  geom_bar(stat = 'identity',
+           position = position_dodge2()) +
   geom_text(aes(label = paste0(pct, '%')),
             # size = 6,
-            position = position_dodge(width=0.9),
+            # position = position_dodge(width=0.9),
+            position = position_dodge2(width=0.9),
             vjust=-0.25) +
   theme_minimal(14) +
   scale_y_continuous(breaks = NULL) +
