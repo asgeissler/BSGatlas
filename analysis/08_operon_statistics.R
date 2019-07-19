@@ -437,3 +437,82 @@ crossing(desc = unique(dat$desc), x = 1:32) %>%
     
 ggsave('analysis/08_feature_dist.pdf',
        width = 16, height = 8, units = 'cm')
+
+######################################
+######################################
+######################################
+######################################
+
+# One single cowplot for the publication
+
+
+grand.stat %>%
+  select(- Transcripts) %>%
+  filter(src != 'Novel TUs') %>%
+  gather('what', 'value', - src) %>%
+  mutate_at('src', fct_relevel,
+            "DBTBS", "BsubCyc", "SubtiWiki", "Combined", "BSGatlas") %>%
+  mutate_at('what', fct_recode,
+            'TUs' = "Transcriptional Units",
+            '% genes with TU' = "% genes with transcripts"
+            ) %>%
+  mutate_at('what', fct_relevel,
+            'Operons', 'TUs') %>%
+  ggplot(aes(x = src, y = value, fill = fct_rev(src))) +
+  ggsci::scale_fill_jama() +
+  geom_bar(stat = 'identity') + 
+  geom_text(aes(label = value %>%
+                  round %>%
+                  str_replace('(\\d)(\\d{3})', 
+                              '\\1,\\2')),
+            # size = 6,
+            position = position_dodge(width=0.9),
+            vjust=-0.25) +
+  facet_wrap(~ what, scale = 'free') +
+  theme_minimal(14) +
+  scale_y_continuous(breaks = NULL) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank()
+  ) +
+  xlab(NULL) + ylab(NULL) +
+  theme(legend.position = 'none') -> p1
+
+tribble(
+  ~ `Operon class`, ~ `Streptococcus pneumoniae`,
+  ~ `Escherichia coli`, ~ `Bacillus subtilis`,
+  'Simple', 47, 45, 43,
+  'Traditional', 10, 19, 12,
+  'Multi TSS', 1, 21, 21,
+  'Multi TTS', 16, 7, 13,
+  'Complex', 26, 8, 11
+) %>%
+  # map_if(is.numeric, sum)
+  gather('org', 'pct', - `Operon class`) %>%
+  mutate_at('Operon class', fct_relevel,
+         'Simple', 'Traditional',
+         'Multi TSS', 'Multi TTS', 'Complex') %>%
+  ggplot(aes(x = `Operon class`, y = pct, fill = org, group = org)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  geom_text(aes(label = paste0(pct, '%')),
+            # size = 6,
+            position = position_dodge(width=0.9),
+            vjust=-0.25) +
+  theme_minimal(14) +
+  scale_y_continuous(breaks = NULL) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank()
+  ) +
+  xlab(NULL) + ylab(NULL) +
+  theme(legend.text = element_text(face = "italic"),
+        legend.justification = c(1, 1), legend.position = c(0.8, 0.9)) +
+  ggsci::scale_fill_jco(name = 'Organism') -> p2
+
+cowplot::plot_grid(p1, p2, ncol = 1,
+                   labels = c('(a)', '(b)'))
+
+ggsave('analysis/08_operon.pdf',
+       width = 30, height = 15, units = 'cm')
