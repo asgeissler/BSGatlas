@@ -310,17 +310,29 @@ indiv.stat %>%
   # select(id, starts_with('class.')) %>%
   # group_by_at(vars(-id)) %>%
   # count %>%
+  # View
   mutate(
     class = case_when(
+    #   (class.term != 'Multi-Term.') & (class.TSS != 'Multi-TSS') &
+    #     (class.gene == 'Single gene') ~ 'Simple',
+    #   (class.term != 'Multi-Term.') & (class.TSS != 'Multi-TSS') &
+    #     (class.gene != 'Single gene') ~ 'Traditional',
+    #   (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-both',
+    #   (class.term == 'Multi-Term.') ~ 'Multi-Term.',
+    #   (class.TSS == 'Multi-TSS') ~ 'Multi-TSS'
       # (class.term == 'Missing-Term.') | (class.TSS == 'Missing-TSS') ~ 'Misses Promoter and/or Term.',
       (class.term == 'Multi-Term.') & (class.TSS == 'Multi-TSS') ~ 'Multi-TSS\n& Term.',
       (class.term == 'Multi-Term.') ~ 'Multi-Term.',
       (class.TSS == 'Multi-TSS') ~ 'Multi-TSS',
-      (class.tu == 'Single TU') & (class.gene != 'Single gene') ~ 'Traditional',
-      (class.tu == 'Single TU') & (class.gene == 'Single gene') ~ 'Simple',
+      (class.term != 'Multi-Term.') & (class.TSS != 'Multi-TSS') &
+        (class.gene != 'Single gene') ~ 'Traditional',
+      (class.term != 'Multi-Term.') & (class.TSS != 'Multi-TSS') &
+        (class.gene == 'Single gene') ~ 'Simple',
       TRUE ~ 'Other'
     )
   ) %>%
+  # filter(is.na(class)) %>%
+  # View
   count(`class`)  %>%
   arrange(desc(n)) %>%
   mutate(ratio = n / sum(n) * 100) -> op.type.stat
