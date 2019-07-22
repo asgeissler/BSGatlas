@@ -517,4 +517,4 @@ cowplot::plot_grid(p1, p2, ncol = 1,
                    labels = c('(a)', '(b)'))
 
 ggsave('analysis/08_operon.pdf',
-       width = 30, height = 15, units = 'cm')
+       width = 30, height = 20, units = 'cm')
