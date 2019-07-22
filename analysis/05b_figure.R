@@ -78,19 +78,25 @@ helper <- function(i) {
   dat.full %>%
     filter(src != 'BSGatlas') %>%
     filter(type == i) %>%
+    mutate_at('src', fct_recode, 'Nicolas\net al.' = 'Nicolas et al.') %>%
     group_by(src) %>%
     do(i = list(.$id)) %>%
     with(set_names(map(i, 1), src)) %>%
-    `[`(c('Nicolas et al.', 'BsubCyc', 'DBTBS')) %>%
-    venn(cexil = 1.3,
-         cexsn = 1.3,
+    `[`(c('Nicolas\net al.', 'BsubCyc', 'DBTBS')) %>%
+    venn(cexil = 1.1,
+         cexsn = 1.1,
          opacity = 0.6,
          zcolor =  ggsci::pal_jama()(5)[-c(1, 2)])
   grid.echo()
   # grid.ls()
   grid.remove('graphics-plot-1-lines-1')
-  return(grid.grab())
-  # grid.draw(grid.grab())
+  size <- 15
+  cowplot::ggdraw() + cowplot::draw_grob(
+    grid.grab(),
+    scale = 0.8
+    # width = (size + 1)/2.54,
+    # height = (size + 1)/2.54
+  )
 }
 
 ##############################################################################
@@ -173,10 +179,14 @@ cowplot::plot_grid(
     helper('TSS'), helper('TTS'), p2,
     # function() helper('TSS'),
     # partial(helper, 'TSS'), partial(helper, 'TTS'), p2,
-    labels = c('(b)', '(c)', '(d)'),
+    labels = c('(b) TSS', '(c) TTS', '(d)'),
+    rel_widths = c(1, 1, 2),
     ncol = 3, hjust = 0
   ),
   labels = c('(a)', NULL),
   ncol = 1
 )
+
+ggsave('analysis/05b_bounds.pdf', 
+       width = 30, height = 17, units = 'cm')
 
