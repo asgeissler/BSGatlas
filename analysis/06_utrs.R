@@ -420,6 +420,7 @@ bind_rows(
   ggplot(aes(x = len)) +
   geom_histogram() +
   scale_x_log10(breaks = c(15, 30, 50, 100, 500, 1e3)) +
+  geom_vline(xintercept = 47, color = 'red') +
   facet_wrap(src ~ type, scales = 'free_y')
 
 ggsave('analysis/06_length_comparison.pdf', 
@@ -612,4 +613,54 @@ k %>%
 #   summary
 #   View
 #   head
+###########################################################################
+# combined cowplot for publication
+
+cowplot::plot_grid(
+  cmp_rel %>%
+    group_by(x) %>%
+    top_n(-1, interest_dist) %>%
+    ungroup %>%
+    filter(interest_dist < 3e3) %>%
+    mutate_at('bound_type', fct_recode,
+              'TTS' = 'terminator') %>%
+    mutate_at('bound_type', fct_relevel,
+              'TSS', 'TTS') %>%
+    # filter(between(rel_dist, -500, 300)) %>%
+    ggplot(aes(x = rel_dist)) +
+    geom_histogram() +
+    theme_minimal(14) +
+    scale_x_continuous(breaks = seq(-3e3, +3e3, 1e3),
+                       labels = scales::comma) +
+    geom_vline(xintercept = 0, color = 'red') +
+    geom_vline(xintercept = c(-2e3, 2e3), color = 'blue') +
+    xlab('Distance to nearest gene') +
+    facet_wrap(~ bound_type, scales = 'free_y'),
+  bind_rows(
+    UTRs %>%
+      bind_rows %>%
+      mutate(len = end - start + 1) %>%
+      mutate(src = 'BSGatlas'),
+    nic.utrs %>%
+      filter(type != 'intergenic') %>%
+      mutate(len = end - start + 1) %>%
+      mutate(src = 'Nicolas et al.')
+  ) %>%
+    # filter(len > 15) %>%
+    ggplot(aes(x = len)) +
+    geom_histogram() +
+    theme_minimal(14) +
+    xlab('UTR length') +
+    scale_x_log10(breaks = c(15, 30, 50, 100, 500, 1e3)) +
+    geom_vline(xintercept = 47, color = 'orange') +
+    facet_wrap(type ~ src, scales = 'free_y',
+               ncol = 2),
+  ncol = 1,
+  labels = c('(a)', '(b)')
+)
+
+ggsave('analysis/06_dist_len.pdf',
+       width = 20, height = 30, units = 'cm')
+
+
 ###########################################################################
