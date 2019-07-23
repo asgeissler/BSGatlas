@@ -71,6 +71,7 @@ tss.near %>%
 ggsave(file = 'analysis/05_tss_comparison.pdf',
        width = 7, height = 7, units = 'in')
 
+
 ##############################################################################
 # 2. TSS merging
 
@@ -324,6 +325,36 @@ term.near %>%
 ggsave(file = 'analysis/05_term_comparison.pdf',
        width = 7, height = 7, units = 'in')
 
+##############################################################################
+# combined resolution plot for publication
+cowplot::plot_grid(
+  tss.near %>%
+    filter(from <= to) %>%
+    filter(abs.near < 100) %>%
+    mutate_at(c('from', 'to'),
+              ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'TSS'))) %>%
+    ggplot(aes(x = nearest)) +
+    geom_histogram() +
+    xlab('Distance to closest TSS') +
+    facet_wrap(from ~ to, scale = 'free_y', ncol = 3),
+  term.near %>%
+    filter(from <= to) %>%
+    # filter((from != to) | (x < y)) %>%
+    filter(abs.near < 1e2) %>%
+    # group_by(from, to) %>% top_n(-5, abs.near)  %>% slice(1:5) %>% View
+    mutate_at(c('from', 'to'),
+              ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'Term.'))) %>%
+    ggplot(aes(x = nearest)) +
+    geom_histogram() +
+    xlab('Distance to closest TTS') +
+    facet_wrap(from ~ to, scale = 'free_y'),
+  ncol = 1,
+  labels = c('(a)', '(b)')
+)
+
+ggsave('analysis/05_resolution.pdf',
+       width = 20, height = 30, units = 'cm')
+##############################################################################
 
 dat.term %>%
   mutate(
