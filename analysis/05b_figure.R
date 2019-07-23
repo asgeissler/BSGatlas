@@ -158,6 +158,8 @@ tss.dat %>%
 tss.prop %>%
   mutate(group = fct_reorder(group, prop, max) %>% fct_rev) %>%
   mutate(group = fct_recode(group, 'unknown' = '?')) %>%
+  mutate_at('src', fct_relevel,
+            'BSGatlas', 'Nicolas et al.', 'BsubCyc', 'DBTBS') %>%
   ggplot(aes(x = src, fill = group, y = prop)) +
   geom_bar(stat = 'identity') +
   xlab(NULL) + ylab('Proprotion [%]') +
