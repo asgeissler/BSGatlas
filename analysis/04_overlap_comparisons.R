@@ -144,12 +144,15 @@ ggsave(file = 'analysis/04_nic_overlaps.pdf',
 cmp.dist %>%
   filter(!antisense) %>%
   left_join(nic.utrs, c('x' = 'id')) %>%
+  mutate(len = end - start + 1) %>%
   group_by(x, type) %>%
-  summarize_at('distance', min) %>%
+  summarize_at(c('distance', 'len'), min) %>%
   ungroup %>%
   mutate(
-    dist.cut = cut(distance, 
-                   c(0, unlist(map(1:3, ~ 10 ** ..1)), Inf)) %>%
+    bar = ifelse(distance == 0, 0, len + distance),
+    dist.cut = cut(bar, 
+                   # c(0, unlist(map(1:3, ~ 10 ** ..1)), Inf)) %>%
+                   c(0, 100, 1e3, Inf)) %>%
       fct_explicit_na('overlaps') %>%
       fct_relevel('overlaps')
   ) %>%
@@ -158,9 +161,10 @@ cmp.dist %>%
   mutate(nice = sprintf('%s (%s%%)', n.x, round(n.x / n.y * 100, 0))) %>%
   select(type, n = nice, dist.cut) %>%
   spread(type, n, fill = 0) %>%
-  mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
-                      # '1,000..10,000', '10,000+')) %>%
-                      '1,000+')) %>%
+  mutate(dist.cut = c('Overlapping', '0..100', '100..1,000', '1,000+')) %>%
+  # mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
+  #                     # '1,000..10,000', '10,000+')) %>%
+  #                     '1,000+')) %>%
   rename('distance to closest gene' = dist.cut) %>%
   kable('latex', caption = 'foo', booktabs = TRUE) %>%
   kable_styling(latex_options = 'scale_down') %>%
