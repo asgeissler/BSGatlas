@@ -401,7 +401,7 @@ op.tu %>%
   rename(x = n, y = nn) %>%
   mutate(internal = ifelse(internal == 'internal.TSS',
                            'internal TSS',
-                           'internal Terminator')) %>%
+                           'internal TTS')) %>%
   rename(desc = internal) %>%
   bind_rows(
     op.tu %>%
@@ -436,7 +436,7 @@ crossing(desc = unique(dat$desc), x = 1:32) %>%
   # scale_y_continuous(breaks = c(seq(0, 140, 20), 500, 1000, 1500))
     
 ggsave('analysis/08_feature_dist.pdf',
-       width = 16, height = 8, units = 'cm')
+       width = 16, height = 10, units = 'cm')
 
 ######################################
 ######################################
