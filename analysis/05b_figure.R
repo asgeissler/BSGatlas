@@ -188,5 +188,5 @@ cowplot::plot_grid(
 )
 
 ggsave('analysis/05b_bounds.pdf', 
-       width = 30, height = 17, units = 'cm')
+       width = 30, height = 20, units = 'cm')
 
