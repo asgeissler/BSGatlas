@@ -626,6 +626,10 @@ cowplot::plot_grid(
               'TTS' = 'terminator') %>%
     mutate_at('bound_type', fct_relevel,
               'TSS', 'TTS') %>%
+    mutate_at('bound_type', fct_recode,
+              'TSS rel to 5\' end of gene' = 'TSS',
+              'TTS rel to 3\' end of gene' = 'TTS'
+    ) %>%
     # filter(between(rel_dist, -500, 300)) %>%
     ggplot(aes(x = rel_dist)) +
     geom_histogram() +
