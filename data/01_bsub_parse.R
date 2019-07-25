@@ -184,7 +184,8 @@ bsub_raw$regulons %>%
       select(
         reg.ids = `UNIQUE-ID`,
         type = TYPES,
-        affected.id = `REGULATED-ENTITY`
+        affected.id = `REGULATED-ENTITY`,
+        mode = MODE
       ),
     'reg.ids'
   ) %>%
@@ -225,7 +226,7 @@ bsub_raw$regulons %>%
                      unlist(),
                    actor)
   ) %>%
-  select(actor, type, name, affected, cite) %>%
+  select(actor, type, name, mode, affected, cite) %>%
   drop_na %>%
   arrange(actor, type, name, affected) %>%
   unique -> regulations
