@@ -212,7 +212,7 @@ isoforms$tus %>%
     Strand = strand,
     `Based on` = src %>%
       str_replace_all(';', ', '),
-    `Contained genes` = genes %>%
+    `Contained Genes` = genes %>%
       str_replace_all(';', ', ')
   ) %>%
   gather('meta', 'info', - id) %>%
@@ -229,14 +229,35 @@ save(all.meta, file = 'data-gff/meta.rda')
 #########################################################################
 # Make an SQLite version
 
+searchable <- c(
+  "Name", "Alternative Name",
+  "Locus Tag", "Alternative Locus Tag"
+)
+
 meta <- all.meta
 con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/meta.sqlite')
 copy_to(con, meta, temporary = FALSE)
 
 DBI::dbListTables(con)
 
+# helper for copy paste
+tbl(con, 'meta') %>%
+  filter(id == 'X') %>%
+  show_query()
+# <SQL>
+#   SELECT *
+#   FROM `meta`
+# WHERE (`id` = 'X')
+tbl(con, 'meta') %>%
+  filter(meta %in% searchable) %>%
+  filter(LIKE(id, 'X') | LIKE(info, 'X')) %>%
+  show_query()
+# SELECT *
+# FROM (SELECT *
+#         FROM `meta`
+#       WHERE (`meta` IN ('Name', 'Alternative Name', 'Locus Tag', 'Alternative Locus Tag')))
+# WHERE (LIKE(`id`, 'X') OR LIKE(`info`, 'X'))
+
 DBI::dbDisconnect(con)
 
-tbl(con, 'meta') %>%
-  show_query()
 
