@@ -1,8 +1,7 @@
 # Convert annotation to a sqlite version for the front-end
 
-load('analysis/00_load.R')
+source('analysis/00_load.R')
 
-library(dplyr)
 
 
 load('analysis/02_merging.rda')
@@ -223,6 +222,12 @@ isoforms$tus %>%
 
 all.meta <- bind_rows(genes, op.meta, op.trans, op.tu,
                       tss.meta, tts.meta, utr.meta)
+
+# fix syntax on lon strings
+all.meta %<>%
+  mutate(info == ifelse(str_detect(meta, 'Expression '),
+                        str_replace_all(info, ';', ', '),
+                        info)) 
 
 save(all.meta, file = 'data-gff/meta.rda')
 
