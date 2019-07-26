@@ -84,13 +84,54 @@ tss.pid %>%
     Resource = '1 BSGatlas',
     meta = 'Citation'
   ) %>%
+  unique %>%
   rename(info = nice) -> tss.cite
+
+bsg.boundaries$TSS %>%
+  select(id, src) %>%
+  separate_rows(src, sep = ';') %>%
+  rename(info = src) %>%
+  mutate(
+    Resource = '1 BSGatlas',
+    meta = 'Based on'
+  ) -> tss.src
+
+bsg.boundaries$TSS %>%
+  transmute(id,
+            Position = TSS,
+            Strand = strand,
+            `Sigma Factor` = sigma,
+            `Resolution` = sprintf('&#177;%s bp', res.limit)) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  bind_rows(tss.src, tss.cite) %>%
+  arrange(id, desc(meta)) %>%
+  unique -> tss.meta
 
 
 #########################################################################
 
-
-bsg.boundaries$terminator
+bsg.boundaries$terminator %>%
+  select(id, src) %>%
+  separate_rows(src, sep = ';') %>%
+  rename(info = src) %>%
+  mutate(
+    Resource = '1 BSGatlas',
+    meta = 'Based on'
+  ) -> tts.src
+  
+bsg.boundaries$terminator %>%
+  transmute(
+    id, 
+    Position = sprintf('%s..%s', start, end),
+    Strand = strand,
+    `Free Energy` = sprintf('%s [kcal/mol]', energy)
+  ) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  bind_rows(tts.src) %>%
+  unique %>%
+  arrange(id, desc(meta)) -> tts.meta
 
 
 #########################################################################
@@ -98,4 +139,104 @@ bsg.boundaries$terminator
 UTRs %>%
   {.$internal_UTR %<>% select(- boundary) ; .} %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
-  bind_rows() -> utr
+  bind_rows() %>%
+  transmute(
+    id,
+    Position = sprintf('%s..%s', start, end),
+    Type = type,
+    Strand = strand,
+    `Nearest Gene` = gene,
+    `Associated TSS/TTS` = boundary
+  ) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  bind_rows(tts.src) %>%
+  unique %>%
+  drop_na %>%
+  filter(info != '') %>%
+  arrange(id, desc(meta)) -> utr.meta
+
+
+#########################################################################
+isoforms$operons %>% 
+  select(id, transcripts) %>%
+  separate_rows(transcripts, sep = ';') %>%
+  left_join(isoforms$transcripts, c('transcripts' = 'id')) %>%
+  select(id, features) %>%
+  separate_rows(features, sep = ';') %>%
+  inner_join(merging$merged_genes, c('features' = 'merged_id')) %>%
+  mutate(info = sprintf('%s (%s)', merged_name, features)) %>%
+  group_by(id) %>%
+  summarize_at('info', clean_paste, sep = ', ') %>%
+  transmute(
+    id, info,
+    meta = 'Contained Genes',
+    Resource = '1 BSGatlas'
+  ) -> op.genes
+  
+isoforms$operons %>%
+  transmute(
+    id = id,
+    Position = sprintf('%s..%s', utr.start, utr.end),
+    Strand = strand,
+    `List of Isoforms` = transcripts %>%
+      str_replace_all(';', ', ')
+  ) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  bind_rows(op.genes) %>%
+  unique %>%
+  arrange(id, desc(meta)) -> op.meta
+#########################################################################
+isoforms$transcripts %>%
+  transmute(
+    id = id,
+    Position = sprintf('%s..%s', start, end),
+    Strand = strand,
+    `Transcribed elements` = features %>%
+      str_replace_all(';', ', '),
+    `Underlying TU` = TUs,
+    `Promoter/TSS` = TSS,
+    `Terminator/TTS` = Terminator
+  ) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  unique %>%
+  mutate_at('info', replace_na, 'unknown') %>%
+  arrange(id, meta) -> op.trans
+#########################################################################
+isoforms$tus %>%
+  transmute(
+    id = id,
+    Position = sprintf('%s..%s', start, end),
+    Strand = strand,
+    `Based on` = src %>%
+      str_replace_all(';', ', '),
+    `Contained genes` = genes %>%
+      str_replace_all(';', ', ')
+  ) %>%
+  gather('meta', 'info', - id) %>%
+  mutate(Resource = '1 BSGatlas') %>%
+  unique %>%
+  arrange(id, desc(meta)) -> op.tu
+#########################################################################
+
+all.meta <- bind_rows(genes, op.meta, op.trans, op.tu,
+                      tss.meta, tts.meta, utr.meta)
+
+save(all.meta, file = 'data-gff/meta.rda')
+
+#########################################################################
+# Make an SQLite version
+
+meta <- all.meta
+con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/meta.sqlite')
+copy_to(con, meta, temporary = FALSE)
+
+DBI::dbListTables(con)
+
+DBI::dbDisconnect(con)
+
+tbl(con, 'meta') %>%
+  show_query()
+
