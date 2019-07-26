@@ -225,7 +225,7 @@ all.meta <- bind_rows(genes, op.meta, op.trans, op.tu,
 
 # fix syntax on lon strings
 all.meta %<>%
-  mutate(info == ifelse(str_detect(meta, 'Expression '),
+  mutate(info = ifelse(str_detect(meta, 'Expression '),
                         str_replace_all(info, ';', ', '),
                         info)) 
 
