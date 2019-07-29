@@ -233,6 +233,53 @@ all.meta %<>%
 save(all.meta, file = 'data-gff/meta.rda')
 
 #########################################################################
+
+# Generated cleaned up maps for these gene set types
+interest <- c('Category', 'Gene Ontology', 'Functions')
+# ecs require some cleanup work
+ec <- 'Enzyme Classifications'
+
+# extra query nice name to make summary table work easier
+all.meta %>%
+  filter(Resource == '1 BSGatlas') %>%
+  filter(str_detect(id, 'gene')) %>%
+  filter(meta == 'Name') %>%
+  select(gene = id, name = info) -> nice.name
+  
+
+# easy part
+all.meta %>%
+  filter(meta %in% interest) %>%
+  select(group = meta, gene = id, set = info) %>%
+  left_join(nice.name, 'gene')  %>%
+  arrange(group, set, gene) -> p1
+
+
+# EC extra work
+# get Ec nice names
+ec.names <- read_tsv('data-gff/ec.tsv') %>%
+  mutate_at('ID', str_remove, ' \\(transferred.*$')
+
+all.meta %>%
+  filter(meta == ec) %>%
+  select(group = meta, gene = id, set = info) %>%
+  separate_rows(set, sep = ';') %>%
+  unique %>%
+  mutate_at('set', str_remove, '^EC-') %>%
+  left_join(ec.names, c('set' = 'ID')) %>%
+  # filter(is.na(Name)) %>%
+  # View
+  drop_na %>%
+  mutate(set = paste(set, Name)) %>%
+  select(-Name) %>%
+  arrange(group, set, gene) -> p2
+
+
+bind_rows(p1, p2) %>%
+  arrange(group, set, gene) -> genesets
+
+
+#########################################################################
 # Make an SQLite version
 
 searchable <- c(
@@ -243,6 +290,7 @@ searchable <- c(
 meta <- all.meta
 con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/meta.sqlite')
 copy_to(con, meta, temporary = FALSE)
+copy_to(con, genesets, temporary = FALSE)
 
 DBI::dbListTables(con)
 

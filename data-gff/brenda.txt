@@ -1,0 +1,14 @@
+EC description are as listed on brenda.
+The brenda.tsv was generated as decribed below.
+
+The full BRENDA contents are copyright-protected. For details see
+www.brenda-enzymes.org/copy.php
+
+
+
+echo -e 'ID\tName' > ec.txt
+
+paste  \
+    <(grep -e '^ID\t' brenda_download.txt | cut -f 2)  \
+    <(grep -e '^RN\t' brenda_download.txt | cut -f 2)  \
+    >> ec.txt
