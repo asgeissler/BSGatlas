@@ -272,6 +272,7 @@ all.meta %>%
   drop_na %>%
   mutate(set = paste(set, Name)) %>%
   select(-Name) %>%
+  left_join(nice.name, 'gene')  %>%
   arrange(group, set, gene) -> p2
 
 
