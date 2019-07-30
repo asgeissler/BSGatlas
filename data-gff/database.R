@@ -313,9 +313,7 @@ save(all.meta, file = 'data-gff/meta.rda')
 #########################################################################
 
 # Generated cleaned up maps for these gene set types
-interest <- c('Category', 'Gene Ontology', 'Functions')
-# ecs require some cleanup work
-ec <- 'Enzyme Classifications'
+interest <- c('Category', 'Gene Ontology', 'Functions', 'Enzyme Classifications')
 
 # extra query nice name to make summary table work easier
 all.meta %>%
@@ -333,26 +331,16 @@ all.meta %>%
   arrange(group, set, gene) -> p1
 
 
-# EC extra work
-
+# Types but only for the one listed in BSGatlas
 all.meta %>%
-  filter(meta == ec) %>%
-  select(group = meta, gene = id, set = info) %>%
-  separate_rows(set, sep = ';') %>%
-  unique %>%
-  mutate_at('set', str_remove, '^EC-') %>%
-  left_join(ec.names, c('set' = 'ID')) %>%
-  # filter(is.na(Name)) %>%
-  # View
-  drop_na %>%
-  mutate(set = paste(set, Name)) %>%
-  select(-Name) %>%
-  left_join(nice.name, 'gene')  %>%
+  filter(Resource == '1 BSGatlas', meta == 'Type') %>%
+  mutate_at('info', fct_recode, 'coding-sequence' = 'CDS') %>%
+  left_join(nice.name, c('id' = 'gene'))  %>%
+  transmute(group = 'Type', gene = id, set = info, name) %>%
   arrange(group, set, gene) -> p2
 
-
 bind_rows(p1, p2) %>%
-  arrange(group, set, gene) -> genesets
+  arrange(group, set, tolower(name)) -> genesets
 
 
 #########################################################################
@@ -387,6 +375,28 @@ tbl(con, 'meta') %>%
 #         FROM `meta`
 #       WHERE (`meta` IN ('Name', 'Alternative Name', 'Locus Tag', 'Alternative Locus Tag')))
 # WHERE (LIKE(`id`, 'X') OR LIKE(`info`, 'X'))
+tbl(con, 'meta') %>%
+  filter(meta %in% searchable) %>%
+  # filter(LIKE(id, '%sig%') | LIKE(info, '%sig%')) %>%
+  filter(id == 'BSGatlas-gene-1234') %>%
+  select(id) %>%
+  left_join(
+    tbl(con, 'meta') %>%
+      filter(Resource == '1 BSGatlas'),
+    'id'
+  ) %>%
+  show_query()
+# <SQL>
+#   SELECT `LHS`.`id` AS `id`, `RHS`.`meta` AS `meta`, `RHS`.`info` AS `info`, `RHS`.`Resource` AS `Resource`
+# FROM (SELECT `id`
+#       FROM (SELECT *
+#               FROM `meta`
+#             WHERE (`meta` IN ('Name', 'Alternative Name', 'Locus Tag', 'Alternative Locus Tag')))
+#       WHERE (`id` = 'BSGatlas-gene-1234')) AS `LHS`
+# LEFT JOIN (SELECT *
+#              FROM `meta`
+#            WHERE (`Resource` = '1 BSGatlas')) AS `RHS`
+# ON (`LHS`.`id` = `RHS`.`id`)
 
 DBI::dbDisconnect(con)
 
