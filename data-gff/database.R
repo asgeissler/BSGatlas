@@ -14,6 +14,10 @@ load('data-hub/03_meta.full.rda')
 # Idea structure a file in the style of meta.full
 # But with info for all elements
 
+# get Ec nice names
+ec.names <- read_tsv('data-gff/ec.tsv') %>%
+  mutate_at('ID', str_remove, ' \\(transferred.*$')
+
 #########################################################################
 
 # Split "1 BSGatlas" out of meta.full and tuck togehter with positional
@@ -30,8 +34,25 @@ merging$merged_genes %>%
   mutate(Resource = '1 BSGatlas') %>%
   # binding in this order should also preserve the order
   bind_rows(gene.part, gene.rest) %>%
-  rename(id = merged_id) -> genes
+  rename(id = merged_id) -> genes.step
 
+# prettyfy 
+genes.step %>% 
+  filter(meta == 'Enzyme Classifications') %>%
+  separate_rows(info, sep = ';') %>%
+  unique %>%
+  mutate_at('info', str_remove, '^EC-') %>%
+  left_join(ec.names, c('info' = 'ID')) %>%
+  # filter(is.na(Name)) %>%
+  # View
+  drop_na %>%
+  mutate(info = sprintf('EC %s: %s', info, Name)) %>%
+  select(-Name) %>%
+  bind_rows(
+    genes.step %>%
+    filter(meta != 'Enzyme Classifications')
+  ) %>%
+  arrange(id, Resource, meta, info) -> genes
 
 #########################################################################
 
@@ -96,18 +117,31 @@ bsg.boundaries$TSS %>%
     meta = 'Based on'
   ) -> tss.src
 
+
+isoforms$transcripts %>%
+  select(trans = id, id = TSS) %>%
+  drop_na %>%
+  mutate(trans = sprintf('<a href="details.php?id=%s">%s</a>', trans, trans)) %>%
+  group_by(id) %>%
+  summarize_at('trans', clean_paste, sep = ', ') %>%
+  ungroup %>%
+  mutate(
+    Resource = '1 BSGatlas',
+    meta = 'Associated Transript(s)'
+  ) %>%
+  rename(info = trans) -> tss.trans
+
 bsg.boundaries$TSS %>%
   transmute(id,
-            Position = TSS,
+            Coordinates = paste0(TSS, '..', TSS),
             Strand = strand,
             `Sigma Factor` = sigma,
             `Resolution` = sprintf('&#177;%s bp', res.limit)) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
-  bind_rows(tss.src, tss.cite) %>%
+  bind_rows(tss.src, tss.cite, tss.trans) %>%
   arrange(id, desc(meta)) %>%
   unique -> tss.meta
-
 
 #########################################################################
 
@@ -119,38 +153,72 @@ bsg.boundaries$terminator %>%
     Resource = '1 BSGatlas',
     meta = 'Based on'
   ) -> tts.src
+
+isoforms$transcripts %>%
+  select(trans = id, id = Terminator) %>%
+  drop_na %>%
+  mutate(trans = sprintf('<a href="details.php?id=%s">%s</a>', trans, trans)) %>%
+  group_by(id) %>%
+  summarize_at('trans', clean_paste, sep = ', ') %>%
+  ungroup %>%
+  mutate(
+    Resource = '1 BSGatlas',
+    meta = 'Associated Transript(s)'
+  ) %>%
+  rename(info = trans) -> tts.trans
   
 bsg.boundaries$terminator %>%
   transmute(
     id, 
-    Position = sprintf('%s..%s', start, end),
+    Coordinates = sprintf('%s..%s', start, end),
     Strand = strand,
     `Free Energy` = sprintf('%s [kcal/mol]', energy)
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
-  bind_rows(tts.src) %>%
+  bind_rows(tts.src, tts.trans) %>%
   unique %>%
   arrange(id, desc(meta)) -> tts.meta
 
 
 #########################################################################
 
+isoforms$transcripts %>%
+  select(trans = id, id = features) %>%
+  separate_rows(id, sep = ';') %>%
+  filter(str_detect(id, 'UTR')) %>%
+  drop_na %>%
+  mutate(trans = sprintf('<a href="details.php?id=%s">%s</a>', trans, trans)) %>%
+  group_by(id) %>%
+  summarize_at('trans', clean_paste, sep = ', ') %>%
+  ungroup %>%
+  mutate(
+    Resource = '1 BSGatlas',
+    meta = 'Associated Transript(s)'
+  ) %>%
+  rename(info = trans) -> utr.trans
+
+
 UTRs %>%
   {.$internal_UTR %<>% select(- boundary) ; .} %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows() %>%
+  bind_rows(utr.trans) %>%
   transmute(
     id,
-    Position = sprintf('%s..%s', start, end),
+    Coordinates = sprintf('%s..%s', start, end),
     Type = type,
     Strand = strand,
     `Nearest Gene` = gene,
     `Associated TSS/TTS` = boundary
   ) %>%
   gather('meta', 'info', - id) %>%
+  drop_na  %>%
+  mutate(info = ifelse(meta %in% c('Nearest Gene', 'Associated TSS/TTS'),
+                       sprintf('<a href="details.php?id=%s">%s</a>', info, info),
+                       info)) %>%
   mutate(Resource = '1 BSGatlas') %>%
-  bind_rows(tts.src) %>%
+  bind_rows(utr.trans) %>%
   unique %>%
   drop_na %>%
   filter(info != '') %>%
@@ -165,7 +233,7 @@ isoforms$operons %>%
   select(id, features) %>%
   separate_rows(features, sep = ';') %>%
   inner_join(merging$merged_genes, c('features' = 'merged_id')) %>%
-  mutate(info = sprintf('%s (%s)', merged_name, features)) %>%
+  mutate(info = sprintf('%s (<a href="details.php?id=%s">%s</a>)', merged_name, features, features)) %>%
   group_by(id) %>%
   summarize_at('info', clean_paste, sep = ', ') %>%
   transmute(
@@ -173,14 +241,17 @@ isoforms$operons %>%
     meta = 'Contained Genes',
     Resource = '1 BSGatlas'
   ) -> op.genes
+
   
 isoforms$operons %>%
   transmute(
     id = id,
-    Position = sprintf('%s..%s', utr.start, utr.end),
+    Coordinates = sprintf('%s..%s', utr.start, utr.end),
     Strand = strand,
     `List of Isoforms` = transcripts %>%
-      str_replace_all(';', ', ')
+      str_replace_all(';', ', ') %>%
+      str_replace_all('([:graph:]+)(,?)',
+                        '<a href="details.php?id=\\1">\\1</a>\\2'),
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
@@ -191,29 +262,36 @@ isoforms$operons %>%
 isoforms$transcripts %>%
   transmute(
     id = id,
-    Position = sprintf('%s..%s', start, end),
+    Coordinates = sprintf('%s..%s', start, end),
     Strand = strand,
     `Transcribed elements` = features %>%
-      str_replace_all(';', ', '),
+      str_replace_all(';', ', ') %>%
+      str_replace_all('([:graph:]+)(,?)',
+                        '<a href="details.php?id=\\1">\\1</a>\\2'),
     `Underlying TU` = TUs,
     `Promoter/TSS` = TSS,
     `Terminator/TTS` = Terminator
   ) %>%
   gather('meta', 'info', - id) %>%
+  drop_na %>%
+  mutate(info = ifelse(meta %in% c('Underlying TU', 'Terminator/TTS', 'Promoter/TSS'),
+                       sprintf('<a href="details.php?id=%s">%s</a>', info, info),
+                       info)) %>%
   mutate(Resource = '1 BSGatlas') %>%
   unique %>%
-  mutate_at('info', replace_na, 'unknown') %>%
   arrange(id, meta) -> op.trans
 #########################################################################
 isoforms$tus %>%
   transmute(
     id = id,
-    Position = sprintf('%s..%s', start, end),
+    Coordinates = sprintf('%s..%s', start, end),
     Strand = strand,
     `Based on` = src %>%
       str_replace_all(';', ', '),
     `Contained Genes` = genes %>%
-      str_replace_all(';', ', ')
+      str_replace_all(';', ', ') %>%
+      str_replace_all('([:graph:]+)(,?)',
+                        '<a href="details.php?id=\\1">\\1</a>\\2')
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
@@ -224,7 +302,7 @@ isoforms$tus %>%
 all.meta <- bind_rows(genes, op.meta, op.trans, op.tu,
                       tss.meta, tts.meta, utr.meta)
 
-# fix syntax on lon strings
+# fix syntax on long strings
 all.meta %<>%
   mutate(info = ifelse(str_detect(meta, 'Expression '),
                         str_replace_all(info, ';', ', '),
@@ -256,9 +334,6 @@ all.meta %>%
 
 
 # EC extra work
-# get Ec nice names
-ec.names <- read_tsv('data-gff/ec.tsv') %>%
-  mutate_at('ID', str_remove, ' \\(transferred.*$')
 
 all.meta %>%
   filter(meta == ec) %>%
