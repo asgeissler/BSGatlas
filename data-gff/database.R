@@ -203,7 +203,6 @@ UTRs %>%
   {.$internal_UTR %<>% select(- boundary) ; .} %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows() %>%
-  bind_rows(utr.trans) %>%
   transmute(
     id,
     Coordinates = sprintf('%s..%s', start, end),
@@ -250,8 +249,8 @@ isoforms$operons %>%
     Strand = strand,
     `List of Isoforms` = transcripts %>%
       str_replace_all(';', ', ') %>%
-      str_replace_all('([:graph:]+)(,?)',
-                        '<a href="details.php?id=\\1">\\1</a>\\2'),
+      str_replace_all("([A-Za-z0-9-_']+)(,?)",
+                        '<a href="details.php?id=\\1">\\1</a>\\2')
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
@@ -266,7 +265,7 @@ isoforms$transcripts %>%
     Strand = strand,
     `Transcribed elements` = features %>%
       str_replace_all(';', ', ') %>%
-      str_replace_all('([:graph:]+)(,?)',
+      str_replace_all("([A-Za-z0-9-_']+)(,?)",
                         '<a href="details.php?id=\\1">\\1</a>\\2'),
     `Underlying TU` = TUs,
     `Promoter/TSS` = TSS,
@@ -290,7 +289,7 @@ isoforms$tus %>%
       str_replace_all(';', ', '),
     `Contained Genes` = genes %>%
       str_replace_all(';', ', ') %>%
-      str_replace_all('([:graph:]+)(,?)',
+      str_replace_all("([A-Za-z0-9-_']+)(,?)",
                         '<a href="details.php?id=\\1">\\1</a>\\2')
   ) %>%
   gather('meta', 'info', - id) %>%
