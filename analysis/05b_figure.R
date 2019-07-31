@@ -41,34 +41,40 @@ dat.full %>%
   count(type, src) -> dat.count
 
 
-dat.count %>%
-  mutate(src = fct_reorder(src, n, max) %>%
-           fct_rev) %>%
-  mutate(lab = str_replace(n, '(\\d)(\\d{3})',  '\\1,\\2')) %>%
-  mutate(type = ifelse(type == 'TSS',
-                       'Transcription Start Sites (TSSs)',
-                       'Transcription Termination Sites (TTSs)'
-                       )) %>%
-  ggplot(aes(x = src, y = n, fill = src, group = src)) +
-  geom_bar(stat = 'identity',
-           position = 'dodge') +
-  facet_wrap(~ type) +
-  geom_text(aes(label = lab),
-            # size = 6,
-            position = position_dodge(width=0.9),
-            vjust=-0.25) +
-  scale_fill_manual(values = ggsci::pal_jama()(5)[-2]) +
-  theme_minimal(14) +
-  scale_y_continuous(breaks = NULL) +
-  theme(
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.background = element_blank()
-  ) +
-  xlab(NULL) + ylab(NULL) +
-  theme(legend.text = element_text(face = "italic"),
-        legend.position = 'none',
-        legend.justification = c(1, 1)) -> p1
+
+
+list('TSS', 'TTS') %>%
+  set_names(., .) %>%
+  map(function(i) {
+    dat.count %>%
+      mutate(src = fct_reorder(src, n, max) %>%
+               fct_rev) %>%
+      mutate(lab = str_replace(n, '(\\d)(\\d{3})',  '\\1,\\2')) %>%
+      filter(type == i) %>%
+      ggplot(aes(x = src, y = n, fill = src, group = src)) +
+      geom_bar(stat = 'identity',
+               position = 'dodge') +
+      geom_text(aes(label = lab),
+                # size = 6,
+                position = position_dodge(width=0.9),
+                vjust=-0.25) +
+      scale_fill_manual(values = ggsci::pal_jama()(5)[-2]) +
+      theme_minimal(14) +
+      # theme_bw(14) +
+      scale_y_continuous(breaks = NULL) +
+      theme(
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank()
+      ) +
+      ylab(ifelse(i == 'TSS',
+                  'Nr. annotated TSSs',
+                  'Nr. annotated TTSs')) +
+      xlab(NULL) +
+      theme(legend.text = element_text(face = "italic"),
+            legend.position = 'none',
+            legend.justification = c(1, 1))
+  }) -> p1
 
 ###############################################################################
 # comparison via venn diagrams
@@ -160,10 +166,14 @@ tss.prop %>%
   mutate(group = fct_recode(group, 'unknown' = '?')) %>%
   mutate_at('src', fct_relevel,
             'BSGatlas', 'Nicolas et al.', 'BsubCyc', 'DBTBS') %>%
+  mutate_at('group', fct_relevel,
+            'unknown', 'A', 'E', 'F', 'G', 'K', 'other') %>%
   ggplot(aes(x = src, fill = group, y = prop)) +
   geom_bar(stat = 'identity') +
   xlab(NULL) + ylab('Proprotion [%]') +
-  ggsci::scale_fill_jco(name = 'Sigma Factor') +
+  # ggsci::scale_fill_jco(name = 'Sigma Factor') +
+  scale_fill_brewer(palette = 'RdYlBu', name = 'Sigma Factor') +
+  # theme_bw(base_size = 14) -> p2
   theme_minimal(base_size = 14) +
   theme(
     panel.grid.major = element_blank(),
@@ -176,16 +186,19 @@ tss.prop %>%
 # put it all togehter
 
 cowplot::plot_grid(
-  p1,
+  cowplot::plot_grid(
+    p1$TSS, p1$TTS,
+    labels = c('(a)', '(b)'),
+    ncol = 2
+  ),
   cowplot::plot_grid(
     helper('TSS'), helper('TTS'), p2,
     # function() helper('TSS'),
     # partial(helper, 'TSS'), partial(helper, 'TTS'), p2,
-    labels = c('(b) TSS', '(c) TTS', '(d)'),
+    labels = c('(c) TSS', '(d) TTS', '(e)'),
     rel_widths = c(1, 1, 2),
     ncol = 3, hjust = 0
   ),
-  labels = c('(a)', NULL),
   ncol = 1
 )
 

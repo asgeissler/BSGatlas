@@ -99,9 +99,9 @@ over %>%
   # scale_y_log10() +
   # xlim(0, 1) +
   # geom_vline(xintercept = c(0.7, 0.8, 0.9)) +
-  facet_grid(x.priority ~ y.priority, scales = 'free') +
-  ggtitle('Comparison confidence levels', 
-          'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
+  facet_grid(x.priority ~ y.priority, scales = 'free')#+
+  # ggtitle('Comparison confidence levels', 
+  #         'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
           
 
 ggsave(filename = 'analysis/02_level-overlaps.pdf',
@@ -132,9 +132,9 @@ over %>%
   xlab(NULL) +
   theme(axis.text.x=element_blank(),
       axis.ticks.x=element_blank()) +
-  facet_grid(x.priority ~ y.priority, scales = 'free') +
-  ggtitle('Comparison confidence levels', 
-          'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
+  facet_grid(x.priority ~ y.priority, scales = 'free')#+
+  # ggtitle('Comparison confidence levels', 
+  #         'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
 
 ggsave(filename = 'analysis/02_level-overlaps_high.pdf',
        width = 30, height = 30, units = 'cm')
