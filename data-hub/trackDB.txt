@@ -11,22 +11,20 @@ searchTrix search.ix
 itemRgb on
 priority 1
 bigDataUrl BSGatlas_genes.bb
-url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
-urlLabel Meta-Information
-iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
-iframeOptions height='600' width='1024'
+directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 html track_description.html
 
 track BSGatlas_tu
 group bsgatlas
 shortLabel BSGatlas v1 transcriptional units
 longLabel BSGatlas v1 transcriptional units
-visibility pack
+visibility hide
 type bigBed 9 +
 labelFields name
 searchIndex name
 priority 2
 itemRgb on
+directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_tus.bb
 html track_description.html
 
@@ -40,6 +38,7 @@ labelFields name
 searchIndex name
 priority 3
 itemRgb on
+directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_transcripts.bb
 html track_description.html
 
@@ -53,6 +52,7 @@ searchIndex name
 type bigBed 9 +
 itemRgb on
 priority 4
+directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_operons.bb
 html track_description.html
 
@@ -60,10 +60,10 @@ track bsg_bound
 group bsgatlas
 compositeTrack on
 type bigBed 9 +
-shortLabel BSGatlas TSS/terminators
-longLabel BSGatlas TSS/terminators
-visibility hide
+shortLabel BSGatlas TSS/terminators/UTRs
+longLabel BSGatlas TSS/terminators/UTRs
 labelFields name
+visibility pack
 itemRgb on
 priority 5
 html track_description.html
@@ -71,21 +71,27 @@ html track_description.html
 
   track bsg_bound_tss
   type bigBed 9 +
-  parent bsg_bound
+  parent bsg_bound on
+  searchIndex name
   shortLabel BSGatlas TSS
   longLabel BSGatlas TSS
+  directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
   bigDataUrl BSGatlas_tss.bb
   
   track bsg_bound_term
   type bigBed 9 +
-  parent bsg_bound
+  searchIndex name
+  parent bsg_bound on
   shortLabel BSGatlas terminators
   longLabel BSGatlas terminators
+  directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
   bigDataUrl BSGatlas_terminator.bb
   
   track bsg_bound_utr
   type bigBed 9 +
-  parent bsg_bound
+  searchIndex name
+  parent bsg_bound off
+  visibility hide
   shortLabel BSGatlas UTRs
   longLabel BSGatlas UTRs
   bigDataUrl BSGatlas_UTRs.bb
@@ -96,17 +102,14 @@ track exmerged
 compositeTrack on
 type bigBed 9 +
 group exgenes
-shortLabel Unmerged Genes
+shortLabel Merged Gene Annotation Resources
 longLabel Genes that were merged separated by priority
 visibility hide
 labelFields name,ID
 defaultLabelFields name
 itemRgb on
 priority 10
-url https://nextprod.dk/browser/BSGatlas1_meta/$$.html
-urlLabel Meta-Information
-iframeUrl https://nextprod.dk/browser/BSGatlas1_meta/$$.html
-iframeOptions height='600' width='1024'
+directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 subGroup1 agg Aggracation-Category bsubcyc=BsubCyc refseq=RefSeq lit=Literature rfam=Rfam nicolas=Tilling-Array
 subGroup2 prio Merging-Priority a=0 b=1 c=2 d=3 e=4 f=5
 dimensions dimX=prio dimY=agg
@@ -200,7 +203,7 @@ track exrfamsensetive
 type bigBed 9 +
 group exgenes
 shortLabel Sensetive Rfam genes (not merged)
-longLabel Additional genes found in a sensetive Rfam run, not included in merging
+longLabel Additional genes found in a sensetive Rfam scan, not included in merging
 visibility hide
 labelFields name,ID
 defaultLabelFields ID

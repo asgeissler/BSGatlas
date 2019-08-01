@@ -1,11 +1,42 @@
-<B>TODO: Add BSGatlas citation</B>
 
 <P>
   <H1>BSGatlas v1 tracks</H1><BR/>
-  Description of tracks separated by group.
+</P>
+
+<p>
+    <b>
+BSGatlas: An enhanced annotation integration of the Bacillus subtilis genome
+    </b>
+    <br/>
+Geissler&nbsp;AS,
+Anthon&nbsp;C,
+González-Tortuero&nbsp;E,
+Poulsen&nbsp;LD,
+Seemann&nbsp;SE,
+Vinther&nbsp;J,
+Gorodkin&nbsp;J .
+    <i>
+      Under review
+    </i>
+    <br/>
+<!--
+    [
+    <a target="_blank"href=#'>
+      PubMed
+    </a>
+    |
+    <a target="_blank"href='#'>
+      Paper
+    </a>
+    ]
+-->
+</p>
+
+<P>
+  <h2>Description of tracks separated by group:</h2>
 </P>
 <P>
-  <H2>BSGatlas</H2><BR/>
+  <h3>BSGatlas</h3><br/>
   <UL>
     <LI>
       <B>Genes:</B> Results after merging various gene annotation resources.
@@ -13,21 +44,33 @@
       from the used resources.
     </LI>
     <LI>
-      <B>Transcriptional Units (TU):</B> The resources
+      <B>Transcriptional Units</B> The resources
       DBTBS, SubtiWiki, and BsubCyc provide transcriptional units. The collection
       of these are shown in this track. A click on an individual TU reveals
       which of these resources annotate it.
     </LI>
     <LI>
-      <B>Operon:</B> TUs that share at least one gene steam from the same operon.
-      The here shown operons were computed from the list of TUs by following
-      this rule.
+      <B>TSS/terminators/UTRs:</B> We integrated the
+      existing TSS and TTS data and associated these with the
+      nearest genes in the respective direction of transcription.
+      We annotate within the region inbetween with
+      5'/3' UTRs. We added based on the Trancriptional Units
+      internal UTRs.
+    </LI>
+    <LI>
+      <B>transcripts/isoforms:</B> We inferred from the
+      set of transcriptional units and TSS/TTS the full transcripts.
+    </LI>
+    <LI>
+      <B>Operon:</B> Transcripts that share at least one gene, are isoforms
+      from the same operon.
+      The here shown operons were computed according to that statement.
     </LI>
   </UL>
 </P>
 
 <P>
-  <H2>External Gene Resources</H2><BR/>
+  <H3>External Gene Resources</H3><BR/>
   <UL>
     <LI>
       <B>Unmerged Genes:</B> 
@@ -45,7 +88,7 @@
   </UL>
 </P>
 <P>
-  <H2>External Transcription start/termination resources</H2><BR/>
+  <H3>External Transcription start/termination resources</H3><BR/>
   The resources shown below provide sets of positions of
   transcription start and termination sites, as well as binding
   sites of transcriptional factors and untranslated regions (UTRs) as annotated
