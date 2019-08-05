@@ -9,7 +9,7 @@ load('analysis/02_merging.rda')
 load('analysis/05_bsg_boundaries.rda')
 load('analysis/06_utrs.rda')
 load('analysis/07_isoforms.rda')
-load('data-hub/03_meta.full.rda')
+load('data-gff/01_meta.full.rda')
 
 # Idea structure a file in the style of meta.full
 # But with info for all elements
@@ -307,7 +307,7 @@ all.meta %<>%
                         str_replace_all(info, ';', ', '),
                         info)) 
 
-save(all.meta, file = 'data-gff/meta.rda')
+save(all.meta, file = 'data-gff/03_meta.rda')
 
 #########################################################################
 
@@ -351,7 +351,7 @@ searchable <- c(
 )
 
 meta <- all.meta
-con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/meta.sqlite')
+con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/03_meta.sqlite')
 copy_to(con, meta, temporary = FALSE)
 copy_to(con, genesets, temporary = FALSE)
 

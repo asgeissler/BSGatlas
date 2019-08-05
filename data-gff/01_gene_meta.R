@@ -362,90 +362,6 @@ bind_rows(meta2, out.links) %>%
 #   arrange(Resource, meta)
 
 
-#######################################################
-
-helper <- function(mg, out) {
-  # mg <- 'BSGatlas-gene-5'
-  # out <- 'data-hub/meta'
-  
-  meta.full %>%
-    filter(merged_id == mg) %>%
-    select(-merged_id) %>%
-    mutate(
-      # group same categories together
-      meta = ifelse(meta == lag(meta, default = ''), '', meta)
-    ) -> meta.tab
-  
-  
-  meta.tab %>%
-    mutate(row = 1:n()) %>%
-    group_by(Resource) %>%
-    summarise(from = min(row), to = max(row)) -> meta.groups
-    
-  
-  meta.tab %>%
-    select(meta, info) %>%
-    kable('html', 
-          caption = mg,
-          escape = FALSE
-          ) %>%
-    kable_styling(bootstrap_options = c("striped", "hover"),
-                  font_size = 14) -> tab
-  meta.groups %>%
-    rowwise %>%
-    do(foo = {
-      j <- .
-      tab <<- pack_rows(tab, j$Resource, j$from, j$to,
-                        label_row_css = "background-color: #666; color: #fff;") 
-      j
-    })
-  
-  # write output, first to tmp folder to prevent conflict on libraries
-  tmp.dir <- tempdir()
-  tmp.to <- sprintf('%s/%s.html', tmp.dir, mg)
-  
-  final <- sprintf('%s/%s.html', out, mg)
-  tab %>%
-    save_kable(
-      # file = final,
-      file = tmp.to,
-      self_contained = FALSE,
-      title = paste0('BSGatlas - ', mg)
-    )
-  file.rename(tmp.to, final)
-  unlink(tmp.dir)
-}
-  
-jobs <- merging$merged_genes$merged_id
-worker <- safely(partial(helper, out = 'data-hub/meta/'))
-cl <- makeForkCluster(detectCores())
-jobs %>%
-  set_names(., .) %>%
-  parLapply(cl = cl, X = ., fun = worker) -> result
-
-stopCluster(cl)
-
-result %>%
-  map('error') %>%
-  map(negate(is.null)) %>%
-  unlist %>%
-  sum
-
-jobs[result %>%
-  map('error') %>%
-  map(negate(is.null)) %>%
-  unlist] -> todo2
-
-todo2 %>%
-  set_names(., .) %>%
-  map(worker)
-# probalby sth abuth the file system, it's now all
-  
-
-
-               
-#######################################################
-
 searchable <- c(
   "Name", "Alternative Name",
   "Locus Tag", "Alternative Locus Tag"
@@ -467,5 +383,5 @@ search %>%
 # and again manual execution
 # ixIxx search.txt search.ix search.ixx
 
-save(meta.full, file = 'data-hub/03_meta.full.rda')
+save(meta.full, file = 'data-gff/01_meta.full.rda')
 

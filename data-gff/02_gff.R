@@ -19,7 +19,7 @@ load('analysis/07_isoforms.rda')
 color.scheme <- read_tsv('data-hub/color_scheme.tsv')
 
 # The meta information used in the gene details view
-load('data-hub/03_meta.full.rda')
+load('data-gff/01_meta.full.rda')
 # > meta.full %>% pull(meta) %>% unique
 # [1] "Name"                            "Type"                            "Outside Links"                  
 # [4] "Alternative Name"                "Locus Tag"                       "Description"                    
@@ -322,5 +322,5 @@ lines <- bind_rows(
 )
 
 pull(lines, line) %>%
-  write_lines('analysis/10_bsgatlas.gff')
+  write_lines('data-gff/BSGatlas_v1.0.gff')
  
