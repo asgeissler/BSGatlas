@@ -339,7 +339,8 @@ all.meta %>%
   arrange(group, set, gene) -> p2
 
 bind_rows(p1, p2) %>%
-  arrange(group, set, tolower(name)) -> genesets
+  arrange(group, set, tolower(name)) %>%
+  unique -> genesets
 
 
 #########################################################################
