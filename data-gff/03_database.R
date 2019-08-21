@@ -344,17 +344,57 @@ bind_rows(p1, p2) %>%
 
 
 #########################################################################
-# Make an SQLite version
+# make explicit search index for more performance
 
 searchable <- c(
   "Name", "Alternative Name",
   "Locus Tag", "Alternative Locus Tag"
 )
 
+all.meta %>%
+  filter(Resource == '4 BsubCyc', meta == 'Description') %>%
+  select(id, info) %>%
+  unique %>%
+  drop_na %>%
+  filter(info != '') %>%
+  rename(desc = info) -> txt
+
+all.meta %>%
+  filter(meta == 'Type', Resource == '1 BSGatlas') %>%
+  select(id, type = info) %>%
+  unique %>%
+  bind_rows(
+    bsg.boundaries %>%
+      map2(names(.), ~ mutate(.x, type = .y)) %>%
+      map(select, id, type),
+    isoforms %>%
+      set_names(c('Operon', 'Transcript', 'TU')) %>%
+      map2(names(.), ~ mutate(.x, type = .y)) %>%
+      map(select, id, type)
+  ) -> types
+  
+all.meta %>%
+  filter(meta %in% searchable) %>%
+  select(- Resource) %>%
+  unique %>%
+  group_by(id, meta) %>%
+  arrange(info) %>%
+  summarize(info = info %>% invoke(.f = str_c, sep = ';')) -> look
+
+look %>%
+  spread(meta, info, fill = '') %>%
+  left_join(txt) %>%
+  left_join(types) %>%
+  mutate(desc = ifelse(is.na(desc), type, desc)) -> search
+
+#########################################################################
+# Make an SQLite version
+
 meta <- all.meta
 con <- DBI::dbConnect(RSQLite::SQLite(), 'data-gff/03_meta.sqlite')
 copy_to(con, meta, temporary = FALSE)
 copy_to(con, genesets, temporary = FALSE)
+copy_to(con, search, temporary = FALSE)
 
 DBI::dbListTables(con)
 
@@ -397,6 +437,24 @@ tbl(con, 'meta') %>%
 #              FROM `meta`
 #            WHERE (`Resource` = '1 BSGatlas')) AS `RHS`
 # ON (`LHS`.`id` = `RHS`.`id`)
+
+
+# improved search concept
+tbl(con, 'search') %>%
+  filter((id == 'BSGatlas-gene-1234')            |
+         LIKE(`Alternative Locus Tag`, '%BSU00010%') |
+         LIKE(`Locus Tag`, '%BSU00010%')         |
+         LIKE(`Name`, '%Sig%')                   |
+         LIKE(`desc`, '%gyrase%')) %>%
+  show_query()
+# <SQL>
+#   SELECT *
+#   FROM `search`
+# WHERE ((`id` = 'BSGatlas-gene-1234') OR
+#        LIKE(`Alternative Locus Tag`, '%BSU00010%') OR
+#        LIKE(`Locus Tag`, '%BSU00010%') OR
+#        LIKE(`Name`, '%Sig%') OR
+#        LIKE(`desc`, '%gyrase%'))
 
 DBI::dbDisconnect(con)
 
