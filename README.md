@@ -35,6 +35,7 @@ Due to the external resources, this repository's content has *mixed licenses*.
 * [**SubtiWiki**](http://subtiwiki.uni-goettingen.de) is provided under the **CC BY 4.0*
 * [**DBTBS**](http://dbtbs.hgc.jp) was provided by the authors Yuko Makita and Kenta Nakai and is subjected to their copyright.
 * The use of the [**BsubCyc**](https://bsubcyc.org) annotation is granted by the royality-free and re-distribution allowing **proprietary academic** license.
+  (Includes BioCycTM pathway/genome databases under license from SRI International)
 * The results of the [**Rfam**](http://rfam.org) scan were created as part of the BSGatlas and is thus available under the **Apache License Version 2.0**
 * The [**RefSeq**](https://www.ncbi.nlm.nih.gov/refseq/) annotation is in the **public domain**.
 * The data tables from the supplementary materials by [Dar *et al.*](https://science.sciencemag.org/content/352/6282/aad9822) and [*Nicolas et al.*](https://science.sciencemag.org/content/335/6072/1103) are used for the academic useage
