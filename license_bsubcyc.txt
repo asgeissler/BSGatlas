@@ -1,0 +1,63 @@
+TERMS AND CONDITIONS OF BIOCYC DATABASES LIMITED
+USE LICENSE
+http://biocyc.org/all-reg.shtml
+ 
+PLEASE READ THESE TERMS AND CONDITIONS OF USE CAREFULLY BEFORE USING THIS VERSION OF THE SRI BIOCYC™ DATABASES (HEREINAFTER REFERRED TO AS THE "BIOCYC DATABASES").
+ 
+By clicking on the "I Agree" button below or by using the BioCyc web services API, you signify your assent to these Terms and Conditions of Use. If you do not agree to these Terms and Conditions of Use, please click on the "I Do Not Agree" button and do not download or use the databases. SRI reserves the right, at its discretion, to change, modify, add, or remove portions of this license at any time.
+ 
+BIOCYC DATABASES
+ 
+"BIOCYC DATABASES" means any or all of the pathway/genome databases that are posted on the SRI Website at the URL http://biocyc.org/biocyc-pgdb-list.shtml.
+ 
+The above BIOCYC DATABASES are owned by SRI and its Licensors. Subject to these Terms and Conditions of Use, you may use, modify and redistribute the BIOCYC DATABASES on a royalty-free basis, worldwide, and for any purpose; provided that:
+ 
+If you modify any BIOCYC DATABASES, each modified copy must clearly and prominently:
+Identify the BIOCYC DATABASES from which it was derived;
+Include all applicable copyright notices and author lists from the BIOCYC DATABASES from which it was derived; and
+Identify or summarize all modifications that were made.
+ 
+If you distribute any BIOCYC DATABASES, whether in their original form, in a modified form, or embedded in a product you create, you must:
+Notify SRI that you are making BIOCYC DATABASES available in this manner;
+Provide a hyperlink from your distribution to the BioCyc website www.biocyc.org;
+Include this statement on the distribution and any marketing collateral: "Includes BioCycTM pathway/genome databases under license from SRI International." Along with a copy of the BioCyc logo.
+ 
+Any distribution of a BIOCYC DATABASE in original or modified form without complying with the above conditions is a violation of SRI's and its Licensors' copyright and other proprietary rights. All trademarks, service marks and trade names are proprietary to SRI International and its Licensors.
+ 
+The BIOCYC DATABASES, including any files incorporated in or generated from the BIOCYC DATABASES and data accompanying the BIOCYC DATABASES, are licensed to you by SRI and its Licensors. SRI and its Licensors do not transfer title or any other rights in the BIOCYC DATABASES to you. SRI and its Licensors retain full and complete title to the BIOCYC DATABASES, and all intellectual property rights therein. You may not use the BIOCYC DATABASES except as otherwise specified herein.
+ 
+JURISDICTIONAL ISSUES
+ 
+The BIOCYC DATABASES are controlled by SRI from its offices within the State of California. SRI and its Licensors make no representation that the BIOCYC DATABASES are appropriate or available for use in other locations.  Those who choose to access the BIOCYC DATABASES from other locations do so at their own initiative and are responsible for compliance with local laws, if and to the extent local laws are applicable.  The BIOCYC DATABASES are further subject to United States export controls.  The BIOCYC DATABASES may not be installed, downloaded or otherwise exported or reexported (i) into (or to a national or resident of) any country as to which the U.S. has embargoed goods; or (ii) to anyone on the U.S. Treasury Department's list of Specialty Designated Nationals or the U.S. Commerce Department's Table of Deny Orders.  By installing, downloading or using the BIOCYC DATABASES, you represent and warrant that you are not located in, under the control of, or a national or resident of any such country on any such list.
+ 
+TERMINATION
+ 
+These terms are effective commencing upon the date you first use the BIOCYC DATABASES and shall continue until terminated as specified below.  You may terminate this license at any time by destroying all BIOCYC DATABASES obtained from SRI and any and all related documentation and copies and installations thereof, whether made under the terms of this license or otherwise.  This license will terminate immediately without notice from SRI if in SRI's sole discretion you fail to comply with any term or provision of this license.  Upon termination, you must destroy all BIOCYC DATABASES obtained from SRI and any and all copies thereof, whether made under the terms of this license or otherwise.  In the event of termination for any reason, the provisions set forth under the paragraphs entitled WARRANTY DISCLAIMER AND LIMITATION OF LIABILITY shall survive.
+ 
+WARRANTY DISCLAIMER
+ 
+THE BIOCYC DATABASES ARE PROVIDED "AS IS" AND WITHOUT WARRANTIES OF ANY KIND EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMISSIBLE PURSUANT TO APPLICABLE LAW, SRI AND ITS LICENSORS DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT OF THIRD PARTY TECHNOLOGY, AND FITNESS FOR A PARTICULAR PURPOSE. SRI AND ITS LICENSORS DO NOT WARRANT THAT THE FUNCTIONS CONTAINED IN THE BIOCYC DATABASES WILL BE UNINTERRUPTED OR ERRORFREE, THAT DEFECTS WILL BE CORRECTED, OR THAT THE BIOCYC DATABASES ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.  SRI AND ITS LICENSORS DO NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE OR THE RESULTS OF THE USE OF THE BIOCYC DATABASES IN TERMS OF THEIR CORRECTNESS, ACCURACY, RELIABILITY, OR OTHERWISE. YOU (AND NOT SRI OR ITS LICENSORS) ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR, OR CORRECTION.  APPLICABLE LAW MAY NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES, SO THE ABOVE EXCLUSION MAY NOT APPLY TO YOU.
+ 
+LIMITATION OF LIABILITY
+ 
+EXCEPT TO THE EXTENT PROHIBITED BY LOCAL LAW, IN NO EVENT WILL SRI OR ITS SUBSIDIARIES, AFFILIATES, DIRECTORS, OFFICERS,  EMPLOYEES, AGENTS OR LICENSORS BE LIABLE FOR DIRECT, INDIRECT,  SPECIAL, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, OR OTHER DAMAGES  (INCLUDING LOST PROFIT, LOST DATA, OR DOWNTIME COSTS), ARISING OUT OF THE USE, INABILITY TO USE, OR THE RESULTS OF USE OF THE BIOCYC DATABASES, WHETHER BASED IN WARRANTY, CONTRACT, TORT OR OTHER LEGAL THEORY, AND  WHETHER OR NOT SRI OR ITS LICENSORS WERE ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.   YOUR USE OF THE BIOCYC DATABASES IS ENTIRELY AT YOUR OWN RISK.  SHOULD THE BIOCYC DATABASES PROVE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL SERVICE, REPAIR OR CORRECTION.  SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU TO THE EXTENT PROHIBITED BY SUCH LOCAL LAWS.
+ 
+NOTE.  EXCEPT TO THE EXTENT ALLOWED BY LOCAL LAW, THESE WARRANTY DISCLAIMER AND LIMITATION OF LIABILITY TERMS DO NOT EXCLUDE, RESTRICT OR MODIFY, AND ARE IN ADDITION TO, THE MANDATORY STATUTORY RIGHTS APPLICABLE TO THE LICENSE TO YOU OF THE BIOCYC DATABASES; PROVIDED, HOWEVER, THAT THE CONVENTION ON CONTRACTS FOR THE INTERNATIONAL SALE OF GOODS  IS SPECIFICALLY DISCLAIMED AND SHALL NOT GOVERN OR APPLY TO THE  BIOCYC DATABASES PROVIDED IN CONNECTION WITH THIS WARRANTY DISCLAIMER AND LIMITATION OF LIABILITY STATEMENT.
+ 
+NOTICE AND PROCEDURE FOR MAKING CLAIMS OF COPYRIGHT INFRINGEMENT
+ 
+Pursuant to Title 17, United States Code, Section 512(c)(2), notifications of claimed copyright infringement should be sent to SRI International, 333 Ravenswood Ave., Menlo Park, CA 94025.
+ 
+UPDATES AND NEW RELEASES:
+ 
+SRI and its Licensors shall have no obligation to release or distribute any updates to or new releases of the BIOCYC DATABASES.  Any updates or new releases of the BIOCYC DATABASES which SRI or its Licensors choose at their own discretion to distribute shall be subject to the terms hereof.
+ 
+GOVERNMENT RIGHTS
+ 
+This license may be subject to the reservation of certain rights in favor of the United States Government pursuant to Title 35 United States Code Chapter 18 and the regulations promulgated thereunder.
+ 
+OTHER
+ 
+The terms shall be governed by and construed in accordance with the laws of the State of California, without giving effect to any principles of conflicts of law.  You agree that any action at law or in equity arising out of or relating to these terms shall be filed only in the state or federal courts located in San Mateo County and you hereby consent and submit to the personal jurisdiction of such courts for the purposes of litigating any such action. If any provision of this license shall be unlawful, void, or for any reason unenforceable, then that provision shall be deemed severable from this license and shall not affect the validity and enforceability of any remaining provisions.  This is the entire agreement between you and SRI relating to the subject matter herein and shall not be modified except in writing by both parties.
+ 
+© 2012 SRI International and its Licensors.  All rights reserved.
