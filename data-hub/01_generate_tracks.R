@@ -85,7 +85,8 @@ colors %>%
                            'forward' = 'normal',
                            'reverse' = 'darker')) %>%
   arrange(track, type, desc(what)) %>%
-  with(set_names(rgb, sprintf('%s (%s track, %s)', type, track, what))) %>%
+  # with(set_names(rgb, sprintf('%s (%s track, %s)', type, track, what))) %>%
+  with(set_names(rgb, sprintf('%s\n%s', type, track, what))) %>%
   map(function(i) {
     function () {scales::show_col(i, labels = TRUE)}
   }) %>%
@@ -94,7 +95,7 @@ colors %>%
          scale = 0.7, label_size = 10, hjust = 0)
 
 ggsave(file = 'data-hub/color_scheme.pdf',
-       width=42, height = 14, units = 'cm')
+       width=42, height = 20, units = 'cm')
 
 colors %>%
   select(type, normal, darker) %>%

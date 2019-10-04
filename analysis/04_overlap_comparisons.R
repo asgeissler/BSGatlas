@@ -64,7 +64,7 @@ cmp %>%
   geom_boxplot() +
   facet_wrap(~ nice) + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab('Difference to corresponding merged gene [nt]') +
+  xlab('Difference in coordinates to corresponding merged gene') +
   ylab('Jaccard Similarity')
 
 ggsave(file = 'analysis/04_refinment_boxplot.pdf')

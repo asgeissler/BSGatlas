@@ -89,17 +89,22 @@ over %>%
         'sensetive rfam' = '5'
     )
   }) %>%
+  filter(as.integer(x.priority) >= as.integer(y.priority))  %>%
   ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
   # ggsci::scale_fill_ucscgb() +
   scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
   geom_bar() +
-  xlab(NULL) +
-  theme(axis.text.x=element_blank(),
-      axis.ticks.x=element_blank()) +
+  xlab('Jaccard Similarity') +
+  # theme(axis.text.x=element_blank(),
+  #     axis.ticks.x=element_blank()) +
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 90)) +
   # scale_y_log10() +
   # xlim(0, 1) +
   # geom_vline(xintercept = c(0.7, 0.8, 0.9)) +
-  facet_grid(x.priority ~ y.priority, scales = 'free')#+
+  facet_grid(x.priority ~ y.priority,
+             switch = 'both',
+             scales = 'free_y', drop = TRUE)
   # ggtitle('Comparison confidence levels', 
   #         'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
           
@@ -111,7 +116,7 @@ ggsave(filename = 'analysis/02_level-overlaps.pdf',
 over %>%
   filter(jaccard > 0.8) %>%
   mutate(
-    `jaccard similarity` = cut(jaccard, seq(0.8, 1, length.out = 10), include.lowest = TRUE)
+    `jaccard similarity` = cut(jaccard, seq(0.8, 1, length.out = 9), include.lowest = TRUE)
   ) %>%
   mutate_at(c('x.priority', 'y.priority'), function(i) {
     i %>% 
@@ -126,15 +131,16 @@ over %>%
         'sensetive rfam' = '5'
     )
   }) %>%
+  filter(as.integer(x.priority) >= as.integer(y.priority))  %>%
   ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
   scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
   geom_bar() +
-  xlab(NULL) +
-  theme(axis.text.x=element_blank(),
-      axis.ticks.x=element_blank()) +
-  facet_grid(x.priority ~ y.priority, scales = 'free')#+
-  # ggtitle('Comparison confidence levels', 
-  #         'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
+  xlab('Jaccard Similarity') +
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 90)) +
+  facet_grid(x.priority ~ y.priority,
+             switch = 'both',
+             scales = 'free_y', drop = TRUE)
 
 ggsave(filename = 'analysis/02_level-overlaps_high.pdf',
        width = 30, height = 30, units = 'cm')
