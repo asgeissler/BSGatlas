@@ -19,6 +19,47 @@ load('analysis/02_merging.rda')
 
 prots <- c('CDS', 'putative-coding')
 
+# A quick helper to show where the ncRNAs are from
+# merging$merged_genes %>%
+#   filter(type != 'putative-coding', type != 'CDS') %>%
+#   select(merged_id) %>%
+#   left_join(merging$merged_src) %>%
+#   select(merged_id, src) %>%
+#   mutate(src = case_when(
+#     startsWith(src, 'rfam') ~ 'Rfam',
+#     src == 'refseq noncoding' ~ 'RefSeq',
+#     src == 'bsubcyc noncoding' ~ 'BsubCyc',
+#     src %in% c('dar riboswitches', 'nicolas lit review',
+#                'nicolas trusted') ~ 'Literature',
+#     src == 'nicolas lower' ~ 'Nicolas et al'
+#   )) %>%
+#   unique %>%
+#   # pull(merged_id) %>% unique %>% length
+#   # 441 (check)
+#   # remove those that refseq also desribes
+#   anti_join(merging$merged_src %>%
+#               filter(startsWith(src, 'refseq')),
+#             'merged_id')  %>%
+#   # select(merged_id) %>% unique %>% nrow
+#   # [1] 229 > check
+#   # group_by(src) %>%
+#   # do(i = list(.$merged_id)) %>%
+#   # with(set_names(i, src)) %>%
+#   # map(1) %>%
+#   # map(unique) %>%
+#   # venn::venn(cexil = 1.3, cexsn = 1.3)
+#   left_join(merging$merged_genes) %>%
+#   filter(type != 'putative-non-coding') %>%
+#   # select(merged_id) %>% unique %>% nrow
+#   # 61 ?
+#   group_by(src) %>%
+#   do(i = list(.$merged_id)) %>%
+#   with(set_names(i, src)) %>%
+#   map(1) %>%
+#   map(unique) %>%
+#   venn::venn(cexil = 1.3, cexsn = 1.3)
+
+
 #  Make statistics
 
 # fairly long helper functions to easily compute merging stat
