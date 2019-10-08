@@ -426,6 +426,57 @@ bind_rows(
 ggsave('analysis/06_length_comparison.pdf', 
        width = 25, height = 15, units = 'cm')
 
+
+# a2) KS test for UTR lengths
+bind_rows(
+  UTRs %>%
+    bind_rows %>%
+    mutate(len = end - start + 1) %>%
+    mutate(src = 'BSGatlas'),
+  nic.utrs %>%
+    filter(type != 'intergenic') %>%
+    mutate(len = end - start + 1) %>%
+    mutate(src = 'Nicolas et al.')
+) %>%
+  filter(len >= 47) %>%
+  mutate_at('type', str_remove, ' ') %>%
+  mutate_at('type', str_remove, '_UTR') %>%
+  select(type, src, len) %>%
+  group_by(type, src) %>%
+  do(i = list(.$len)) %>%
+  group_by(type) %>%
+  do(j = set_names(.$i, .$src)) %>%
+  with(set_names(.$j, .$type)) %>%
+  map(map, 1) -> lens
+
+lens %>%
+  map(function (x) {
+    ks.test(x$`Nicolas et al.`,
+            x$BSGatlas)
+  })
+
+bind_rows(
+  UTRs %>%
+    bind_rows %>%
+    mutate(len = end - start + 1) %>%
+    mutate(src = 'BSGatlas'),
+  nic.utrs %>%
+    filter(type != 'intergenic') %>%
+    mutate(len = end - start + 1) %>%
+    mutate(src = 'Nicolas et al.')
+) %>%
+  filter(len < 47) %>%
+  # pull(len) %>% summary
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 16.00   26.00   34.00   32.94   41.00   46.00
+  # count(type, src)
+# 1 3'UTR        BSGatlas   707
+# 2 5'UTR        BSGatlas  1161
+# 3 internal_UTR BSGatlas   475
+  nrow
+# 2343
+
+
 ###########################################################################
 # b) comparison of overlaps
 UTRs %>%
@@ -434,6 +485,7 @@ UTRs %>%
   filter(len > 15) %>%
   select(id, type, start, end, strand) %>%
   overlap_matching(nic.utrs) -> cmp
+  summary
 
 
 # cmp %>% 
@@ -610,10 +662,9 @@ k %>%
 #   round %>%
 #   replace_na('X') %>%
 #   table
-#   summary
 #   View
 #   head
-###########################################################################
+##########################################################################
 # combined cowplot for publication
 
 cowplot::plot_grid(
