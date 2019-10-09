@@ -86,7 +86,8 @@ colors %>%
                            'reverse' = 'darker')) %>%
   arrange(track, type, desc(what)) %>%
   # with(set_names(rgb, sprintf('%s (%s track, %s)', type, track, what))) %>%
-  with(set_names(rgb, sprintf('%s\n%s', type, track, what))) %>%
+  with(set_names(rgb, sprintf('%s\n%s track\n%s)', type, track, what))) %>%
+  # with(set_names(rgb, sprintf('%s\n%s', type, track, what))) %>%
   map(function(i) {
     function () {scales::show_col(i, labels = TRUE)}
   }) %>%

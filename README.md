@@ -3,7 +3,7 @@
 These are the scripts that were used to create the [BSGatlas](https://rth.dk/resources/bsgatlas/)
 annotation for *Bacillus subtilis* strain 168.
 
-**BSGatlas: An enhanced annotation integration of the Bacillus subtilis genome **  
+**BSGatlas: An enhanced annotation integration of the Bacillus subtilis genome**  
 Geissler AS, Anthon C, González-Tortuero E, Poulsen LD, Kallehauge TK, Seemann SE, Vinther J, Gorodkin J . Under review 
 
 The folder structure in this project is:
