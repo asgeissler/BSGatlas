@@ -47,7 +47,7 @@ foo.help <- function(i) {
     'BsubCyc\nnon-coding' = "bsubcyc noncoding", 
     'Dar et al.\nriboswitches' = "dar riboswitches",
     'Rfam screen\nmedium' = "rfam medium",
-    'Nicolas et al.\nLess trusted predictions' = "nicolas lower"
+    'Nicolas et al.\nRemaining predictions' = "nicolas lower"
   )
 }
 
@@ -70,19 +70,61 @@ over %>%
   mutate_at('src.x', fct_relevel, src.ord) %>%
   mutate_at('src.y', fct_relevel, src.ord) %>%
   # ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
-  filter(as.integer(src.x) >= as.integer(src.y)) %>%
+  filter(as.integer(src.x) >= as.integer(src.y)) -> baz
+
+foo <- c("RefSeq\ncoding", "BsubCyc\ncoding")
+
+baz %>%
+  filter(src.x %in% foo) %>%
+  filter(src.y %in% foo) %>%
   ggplot(aes(x = `jaccard similarity`)) +
   geom_bar() +
   xlab('Jaccard Index') +
-  theme_bw(12) +
+  theme_bw(18) +
   theme(legend.position = 'none',
         axis.text.x = element_text(angle = 90)) +
   facet_grid(src.x ~ src.y,
              switch = 'both',
-             scales = 'free_y', drop = TRUE)
-          
+             scales = 'free_y', drop = TRUE) -> A
+
+baz %>%
+  filter(!(src.x %in% foo)) %>%
+  filter(src.y %in% foo) %>%
+  ggplot(aes(x = `jaccard similarity`)) +
+  geom_bar() +
+  xlab('Jaccard Index') +
+  theme_bw(18) +
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 90)) +
+  facet_grid(src.y ~ src.x,
+             switch = 'both',
+             scales = 'free_y', drop = TRUE) -> B
+baz %>%
+  filter(!(src.x %in% foo)) %>%
+  filter(!(src.y %in% foo)) %>%
+  ggplot(aes(x = `jaccard similarity`)) +
+  geom_bar() +
+  xlab('Jaccard Index') +
+  theme_bw(18) +
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 90)) +
+  facet_grid(src.x ~ src.y,
+             switch = 'both',
+             scales = 'free_y', drop = TRUE) -> C
+
+cowplot::plot_grid(
+  cowplot::plot_grid(A, B,
+                     nrow = 1,
+                     rel_widths = c(1, 2.5),
+                     labels = c('(a)', '(b)'), label_size = 24),
+  C,
+  nrow = 2,
+  rel_heights = c(1, 1.5),
+  labels = c(NA, '(c)'), label_size = 24
+)
 
 ggsave(filename = 'analysis/02a_alternative_tiles.pdf',
-       width = 40, height = 35, units = 'cm')
+       width = 4 * 4, height = 5 * 4,
+       units = 'in')
 
 
