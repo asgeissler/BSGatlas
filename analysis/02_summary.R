@@ -114,7 +114,7 @@ summarize.helper <- function(input, prefix) {
   stat.src_reclass <- stat %>%
     count(src, type.reclassRNA, type.reclassProt) %>%
     filter(type.reclassProt | type.reclassRNA) %>%
-    gather(... = c(type.reclassProt, type.reclassRNA)) %>%
+    gather('key', 'value', c(type.reclassProt, type.reclassRNA)) %>%
     filter(value) %>%
     select(- value) %>%
     mutate(key = ifelse(key == 'type.reclassProt',
@@ -205,7 +205,7 @@ summarize.helper <- function(input, prefix) {
                                              pct.helper(`uniq`, Total))
     ) %>%
     # transpose
-    gather(... = - src) %>%
+    gather('key', 'value', - src) %>%
     spread(src, value) %>%
     arrange(desc(1:n()))
     
@@ -276,7 +276,7 @@ summarize.helper <- function(input, prefix) {
   
   # transpose and sort columns correctly
   nc.part3 <- nc.part2 %>%
-    gather(... = - src) %>%
+    gather('key', 'value', - src) %>%
     spread(src, value) %>%
     mutate_at('key', fct_relevel,
               names(nc.part2) %>%
@@ -312,7 +312,7 @@ summarize.helper <- function(input, prefix) {
       'other (ribozyme, SRP, tmRNA)' = pct.helper(ribozyme + SRP + tmRNA,
                                                   total.noncoding)
     ) %>%
-    gather(... = -src) %>%
+    gather('key', 'value', -src) %>%
     spread(src, value)
   
   
