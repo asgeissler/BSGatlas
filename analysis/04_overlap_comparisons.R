@@ -67,7 +67,8 @@ cmp %>%
   xlab('Difference in coordinates to corresponding merged gene') +
   ylab('Jaccard Similarity')
 
-ggsave(file = 'analysis/04_refinment_boxplot.pdf')
+ggsave(file = 'analysis/04_refinment_boxplot.pdf',
+       width = 8, height = 8)
 
 cmp %>%
   left_join(nice.names, 'src') %>%
