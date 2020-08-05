@@ -122,7 +122,7 @@ bsg.boundaries$TSS %>%
   transmute(ID = id, start = TSS, end = TSS, strand,
             type = 'TSS',
             comment = sprintf(
-              'Simga: %s, Resolution: %s, Based on: %s, PubMed: %s',
+              'Sigma: %s, Resolution: %s, Based on: %s, PubMed: %s',
               sigma, res.limit,
               str_replace_all(src, ';', ','),
               str_replace_all(pubmed, ';', ','))) %>%
