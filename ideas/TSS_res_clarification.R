@@ -51,7 +51,7 @@ ref <- bind_rows(
     select(TSS, strand) %>%
     unique %>%
     transmute(
-      id = paste('DBTBS TSS', 1:n(), sep = '_'),
+      id = paste('DBTBS', 1:n(), sep = '_'),
       strand,
       start = TSS,
       end = TSS
@@ -60,10 +60,23 @@ ref <- bind_rows(
     select(tss, strand) %>%
     unique %>%
     transmute(
-      id = paste('BSubCyc TSS', 1:n(), sep = '_'),
+      id = paste('BSubCyc', 1:n(), sep = '_'),
       strand,
       start = tss,
       end = tss
+    ),
+  bind_rows(
+    dbtbs$tss %>%
+      select(TSS, strand),
+    bsubcyc$TSS %>%
+      select(TSS = tss, strand)
+  ) %>%
+    unique %>%
+    transmute(
+      id = paste('DBTBS+BSubCyc', 1:n(), sep = '_'),
+      strand,
+      start = TSS,
+      end = TSS
     )
 )
 list(
@@ -75,9 +88,17 @@ list(
   nicolas$all.features %>%
     filter(startsWith(type, "5'")) %>%
     transmute(id = paste0('Nicolas et al 5\' UTR start_', name),
-              strand, start, end = start)
-) %>%
+              strand,
+              tmp = ifelse(strand == "+", start, end),
+              start = tmp,
+              end = tmp) %>%
+    select(- tmp)
+) -> nics
+
+
+nics %>%
   map(function(nic) {
+    # nic <- nics[[2]]
     q <- nic$id[[1]] %>%
       strsplit('_') %>%
       map(1) %>%
@@ -96,6 +117,9 @@ list(
     
     distanceToNearest(r, qs) %>%
       as_tibble %>%
+      # bind_cols(ref) %>%
+      # filter(between(abs(distance), 20, 30)) %>%
+      # View
       transmute(
         x = ref$id,
         d = distance,
@@ -106,38 +130,69 @@ list(
   separate(x, c('src', 'i'), sep = '_') -> ds
   
 
-total <- dat %>%
-  separate(id, c('src', 'i'), sep = '_') %>%
-  count(src) %>%
-  rename(total = n)
-
-
 ds %>%
-  count(src, q, d) %>%
-  arrange(src, q, d) %>%
-  group_by(src, q) %>%
-  mutate(n.cum = cumsum(n)) %>%
-  ungroup %>%
-  left_join(total, 'src') %>%
-  mutate(r = n.cum / total * 100) -> foo
-  
-      
-foo %>%
-  # filter(r < 95) %>%
-  filter(q == 'Nicolas et al upshift') %>%
-  ggplot(aes(d, r, color = src)) +
-  geom_line() +
-  geom_hline(yintercept = seq(70, 100, 5)) +
-  geom_vline(xintercept = c(15, 25, 50, 100)) +
-  xlim(c(1, 150)) +
-  facet_wrap(~ q, scales = 'free')
-    
-
-ds %>%
-  # filter(r < 95) %>%
-  filter(q == 'Nicolas et al upshift') %>%
+  # filter(q == 'Nicolas et al upshift') %>%
+  # filter(q == 'Nicolas et al 5\' UTR start') %>%
   ggplot(aes(d, color = src)) +
-  xlim(c(0, 150)) +
-  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 0.85, 0.9, 0.95, 0.99, 1)) +
-  geom_vline(xintercept = c(15, 25, 50)) +
-  geom_density(stat = 'ecdf')
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 0.85, 0.9, 0.95, 1)) +
+  scale_x_continuous(breaks = c(0, 15, 25, 50, 100, 150),
+  # scale_x_continuous(breaks = c(0, 15, 20, 25, 50, 100, 150),
+                     minor_breaks = NULL,
+                     limits = c(0, 150)) +
+  geom_density(stat = 'ecdf', size = 1.5, alpha = 0.8) +
+  xlab("Abs. distance to closest upshift [bp]") +
+  ylab("Cumulative distribution") +
+  ggsci::scale_color_jama(name = NULL) +
+  theme_bw(18) +
+  theme(legend.position = 'bottom') +
+  facet_wrap(~ q)
+
+ggsave('ideas/TSS_res.pdf', width = 12, height = 7)
+
+## find ±33 example
+nics %>%
+  map(mutate, seqnames = 'placeholder') %>%
+  map(plyranges::as_granges) %>%
+  (function(x) distanceToNearest(x[[2]], x[[1]])) %>%
+  as_tibble %>%
+  mutate(
+    utr = nics[[2]]$id[queryHits],
+    shift = nics[[1]]$id[subjectHits]
+  ) %>%
+  arrange(desc(distance)) %>%
+  filter(distance > 22) -> utr.no.shift
+
+nic <- nics[[2]]
+q <- nic$id[[1]] %>%
+  strsplit('_') %>%
+  map(1) %>%
+  unlist
+
+qs <- nic %>%
+  mutate(
+    seqnames = 'placeholder'
+  ) %>%
+  plyranges::as_granges()
+r <- ref %>%
+  mutate(
+    seqnames = 'placeholder'
+  ) %>%
+  plyranges::as_granges()
+
+distanceToNearest(qs, r) %>%
+  as_tibble %>%
+  mutate(
+    utr = nic$id[queryHits],
+    ref = r$id[subjectHits]
+  ) %>%
+  semi_join(utr.no.shift, 'utr') -> foo
+
+View(foo)
+# foo %>%
+#   filter(between(distance, 25, 35)) %>%
+#   select(utr) %>%
+#   left_join(foo) -> bar
+# 
+# bar %>%
+#   anti_join(filter(goo, distance <= 25)) %>%
+#   View
