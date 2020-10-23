@@ -1,23 +1,52 @@
-# 05_tss-term_map.R until tss.near computation
-source('scripts/biostrings.R')
+source('analysis/00_load.R')
 
-load('data/01_nicolas.rda')
+source('scripts/distance_matching.R')
+source('scripts/overlap_matching.R')
+
 load('data/01_bsubcyc.rda')
+load('data/01_nicolas.rda')
+load('data/03_dbtbs.rda')
 load('data/03_dbtbs_xml.rda')
 load('data/01_refseq.rda')
+
+# Nicolas used binding site, not TSS for benchmark, get them again
 genome <- refseq$seq[[1]]
+comp <- Biostrings::reverseComplement(genome)
+both <- Biostrings::DNAStringSet(list(genome, comp))
+names(both) <- c('+', '-')
+
 
 dbtbs_xml$promoter %>%
   filter(sigma_factor != '') %>%
   pull(binding_sequence) %>%
   str_remove_all('[^ACTG]') %>%
   unique %>%
-  find_pattern(., genome, 0) 
+  discard(~ .x == '') %>%
+  discard(~ nchar(.x) < 30) %>%
+  length
+  map(~ Biostrings::vmatchPattern(.x, both, max.mismatch = 0)) %>%
+  map(GRanges) %>%
+  invoke(.f = c) %>%
+  as_tibble() %>%
+  mutate(strand = seqnames) %>%
+  select(- seqnames, - width) %>%
+  # fix coords of reverse complement
+  mutate(
+    tmp = start,
+    start = ifelse(strand == '+', start,
+                   as.integer(length(genome) - end + 1)),
+    end   = ifelse(strand == '+', end,
+                   as.integer(length(genome) - tmp + 1))
+  ) %>%
+  select(- tmp) -> dbtbs.full
+  
+  
+  
+# set negative strand positions to correctly match the forward
 
-DBTBS$promoter %<>%
-  mutate(clean.seq = str_remove_all(binding_sequence, '[^ACTG]'))
-
-dat <- bind_rows(
+ref <- bind_rows(
+  # dbtbs.full %>%
+  #   mutate(id = paste0("DBTBS binding site_", 1:n())),
   dbtbs$tss %>%
     select(TSS, strand) %>%
     unique %>%
@@ -26,72 +55,89 @@ dat <- bind_rows(
       strand,
       start = TSS,
       end = TSS
-    )
-  dbtbs_xml$promoter %>%
-    filter(sigma_factor != '')
-    select(TSS, strand) %>%
+    ),
+  bsubcyc$TSS %>%
+    select(tss, strand) %>%
     unique %>%
     transmute(
-      id = paste('DBTBS TSS', 1:n(), sep = '_'),
+      id = paste('BSubCyc TSS', 1:n(), sep = '_'),
       strand,
-      start = TSS,
-      end = TSS
+      start = tss,
+      end = tss
     )
 )
-
-list(c('DBTBS'), c('BsubCyc'), c('DBTBS', 'BsubCyc')) %>%
-  set_names(., .) %>%
-  map(function(i) {
-    tss.dat %>%
-      select(src, TSS, strand) %>%
-      filter(src %in% c(i, interest)) %>%
-      mutate(src = ifelse(src == interest, 'up', 'other')) %>%
-      unique %>%
+list(
+  nicolas$upshifts %>%
+    transmute(id = paste0('Nicolas et al upshift_', id),
+              strand,
+              start = pos,
+              end = pos),
+  nicolas$all.features %>%
+    filter(startsWith(type, "5'")) %>%
+    transmute(id = paste0('Nicolas et al 5\' UTR start_', name),
+              strand, start, end = start)
+) %>%
+  map(function(nic) {
+    q <- nic$id[[1]] %>%
+      strsplit('_') %>%
+      map(1) %>%
+      unlist
+    
+    qs <- nic %>%
       mutate(
-        id = 1:n(),
-        src_id = sprintf('%s_%s', src, id)
+        seqnames = 'placeholder'
       ) %>%
-      mutate(start = TSS, end = TSS) %>%
-      select(id = src_id, start, end, strand) -> tss.dat2
-    
-    tss.dat2 %>%
-      distance_matching(., .) %>%
-      filter(!antisense) %>%
-      filter(str_detect(y, 'up_')) %>%
-      filter(!str_detect(x, 'up_')) -> foo
-      
-    
-    seq(10, 50, 5) %>%
-    # c(15, 25, 50) %>%
-      map(function(j) { 
-        list(
-          x = j,
-          near = foo %>%
-            filter(abs(distance) <= j) %>%
-            select(x) %>%
-            unique %>%
-            nrow,
-          have.over = foo %>%
-            select(x) %>%
-            unique %>%
-            nrow,
-          total = tss.dat2 %>%
-            filter(str_detect(id, 'other_')) %>%
-            nrow
-        )
-      }) %>%
-      bind_rows %>%
+      plyranges::as_granges()
+    r <- ref %>%
       mutate(
-        over.r = near / have.over * 100,
-        total.r = near  / total * 100
+        seqnames = 'placeholder'
+      ) %>%
+      plyranges::as_granges()
+    
+    distanceToNearest(r, qs) %>%
+      as_tibble %>%
+      transmute(
+        x = ref$id,
+        d = distance,
+        q = q
       )
   }) %>%
-  map(select, x, near, total, total.r) -> foo
-    
-foo %>%
-  map2(c('DBTBS', 'BSubCyc', 'Both'),
-       ~ mutate(.x, lab = .y)) %>%
   bind_rows %>%
-  ggplot(aes(x, total.r, color = lab)) +
+  separate(x, c('src', 'i'), sep = '_') -> ds
+  
+
+total <- dat %>%
+  separate(id, c('src', 'i'), sep = '_') %>%
+  count(src) %>%
+  rename(total = n)
+
+
+ds %>%
+  count(src, q, d) %>%
+  arrange(src, q, d) %>%
+  group_by(src, q) %>%
+  mutate(n.cum = cumsum(n)) %>%
+  ungroup %>%
+  left_join(total, 'src') %>%
+  mutate(r = n.cum / total * 100) -> foo
+  
+      
+foo %>%
+  # filter(r < 95) %>%
+  filter(q == 'Nicolas et al upshift') %>%
+  ggplot(aes(d, r, color = src)) +
   geom_line() +
-  geom_point(size = 2)
+  geom_hline(yintercept = seq(70, 100, 5)) +
+  geom_vline(xintercept = c(15, 25, 50, 100)) +
+  xlim(c(1, 150)) +
+  facet_wrap(~ q, scales = 'free')
+    
+
+ds %>%
+  # filter(r < 95) %>%
+  filter(q == 'Nicolas et al upshift') %>%
+  ggplot(aes(d, color = src)) +
+  xlim(c(0, 150)) +
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 0.85, 0.9, 0.95, 0.99, 1)) +
+  geom_vline(xintercept = c(15, 25, 50)) +
+  geom_density(stat = 'ecdf')
