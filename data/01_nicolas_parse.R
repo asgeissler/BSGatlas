@@ -33,8 +33,9 @@ features <- read_excel(paths$S2, sheet = 'Data') %>%
   )
 # Table S4		List of promoter up-shifts with cluster information and TU definition
 upshifts <- read_excel(paths$S4, sheet = 'Data') %>%
-  select(id, strand, pos=posV3, sigma = sig) %>%
-  mutate(strand = ifelse(strand > 0, '+', '-'))
+  transmute(id, strand, pos=posV3, sigma = sig,
+            without.tu = (beginTU == -1),
+            strand = ifelse(strand > 0, '+', '-'))
 # Table S5		Information summary for each feature
 feature_names_correlation <- read_excel(paths$S5, sheet = 'Data') %>%
   select(locus = Locus_tag, name = Name,
@@ -44,49 +45,14 @@ feature_names_correlation <- read_excel(paths$S5, sheet = 'Data') %>%
          positive_correlated_genes = CorName,
          negative_correlated_genes = CorNegName) %>%
   mutate(strand = ifelse(strand > 0, '+', '-'))
-# Table S6		Analysis of newly annotated RNA features
 
-# they found these ncRNA in their literature search
-ncRNA.lit <- read_excel(paths$S6,
-                        sheet = 'Table S6.5',
-                        skip = 2,
-                        n_max = 25) %>%
-  drop_na %>%
-  transmute(name = Name, start = StartV3, end = EndV3,
-            promoter = str_remove(Promoter, '\\..*'),
-            cite = PubMed) %>%
-  left_join(select(upshifts, promoter = id, strand)) %>%
-  select(- promoter)
-
-# their RNA features validated in at least two other studies
-ncRNA.trusted <- read_excel(paths$S6,
-                            sheet = 'Table S6.3',
-                            skip = 2) %>%
-  transmute(name = Name,
-            start = StartV3,
-            end = EndV3,
-            strand = ifelse(Strand > 0, '+', '-'),
-            Irnov, 
-            Rasm = `Rasm.`) %>%
-  gather('cite', 'fid', Irnov, Rasm) %>%
-  drop_na() %>%
-  # substitute by pubmed ID
-  mutate(cite = ifelse(cite == 'Irnov', '20525796', '19682248')) %>%
-  select(-fid) %>%
-  group_by(name) %>%
-  summarize(
-    start = min(start), 
-    end = max(end),
-    strand = first(strand),
-    cite = clean_paste(cite)
-  ) %>%
-  mutate_at(c('start', 'end'), as.integer)
 
 # Table S7		List of high confidence down-shifts and classification
 downshifts <- read_excel(paths$S7,
                          sheet = 'Data') %>%
-  select(id, strand, pos = posV3, energy) %>%
-  mutate(strand = ifelse(strand > 0, '+', '-'))
+  transmute(id, strand, pos = posV3, energy,
+            without.tu = (TU == "NA"),
+            strand = ifelse(strand > 0, '+', '-'))
 # Table S11 	List of all sense-antisense RNA pairs predicted
 asRNA.predicted <- read_excel(paths$S11, sheet = 'Data') %>%
   select(locus = Locus_tag...2, expression_correlation = corrcoef,
@@ -122,18 +88,6 @@ correlated_target <- features %>% left_join(
 
 # high
 list(
-  high = list(
-    their.lit_review = ncRNA.lit,
-    their.trusted = ncRNA.trusted
-  ),
-  lower =  features %>%
-    drop_na() %>%
-    anti_join(
-      ncRNA.trusted %>%
-        transmute(name = str_replace(name, ';', ';S')) %>%
-        separate_rows(name, sep = ';'),
-      'name'
-    ),
   all.features = correlated_target,
   conditions = conditions,
   upshifts = upshifts,
