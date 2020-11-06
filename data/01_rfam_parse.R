@@ -1,14 +1,10 @@
 source('analysis/00_load.R')
 
 
-files <- list(
-  conservative = 'Basu_168_ASM904v1.1e-06.out.filtered.ee.bed.gz',
-  medium = 'Basu_168_ASM904v1.noscore.1e-06.out.filtered.ee.bed.gz',
-  sensetive = 'Basu_168_ASM904v1.noscore.0.001.out.filtered.ee.bed.gz'
-)
+files <- c('conservative', 'medium', 'relaxed')
 
-rfam <- file.path('data-raw/rfam14.1/', files) %>%
-  set_names(names(files)) %>%
+rfam <- sprintf('data-raw/rfam14.1/%s.bed', files) %>%
+  set_names(files) %>%
   map(read_delim, delim = '\t',
       col_names = c('chr', 'start', 'end', 'desc', 'score', 'strand')) %>%
   map(separate, 
@@ -49,7 +45,17 @@ rfam %<>%
 rfam %<>%
   map(select, family, name, type, start, end, strand, evalue, score)
 
-rfam %<>%
-  map(mutate, id = paste0('row-', 1:n()))
+rfam %>%
+  map(count, family) -> foo
+rfam %>%
+  map2(names(.), ~ left_join(.x, foo[[.y]], 'family')) %>%
+  map(group_by, family) %>%
+  map(arrange, `start`) %>%
+  map(mutate, id = ifelse(
+    n == 1,
+    family,
+    paste0(family, '_match_', 1:n(), '_of_', n())
+  )) %>%
+  map(select, - n) -> rfam
 
 save(file = 'data/01_rfam.rda', rfam)
