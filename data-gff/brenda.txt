@@ -1,5 +1,5 @@
 EC description are as listed on brenda.
-The brenda.tsv was generated as decribed below.
+The brenda.tsv was generated as described below.
 
 The full BRENDA contents are copyright-protected. For details see
 www.brenda-enzymes.org/copy.php
