@@ -6,9 +6,7 @@ source('scripts/overlap_matching.R')
 
 load('analysis/01_tomerge.rda')
 
-data <- to.merge$todo
-
-# Quarantee that the helper separator has no conflicts
+# Guarantee that the helper separator has no conflicts
 assertthat::assert_that(!any(str_detect(data$id, '%')))
 assertthat::assert_that(!any(str_detect(data$src, '%')))
 
@@ -18,7 +16,6 @@ assertthat::are_equal(data %>% nrow,
 
 # find overlapping pairs
 search <- data %>%
-  # ignore senseitve rfam
   filter(priority <= 4) %>%
   transmute(
     id = paste(src, id, sep = '%'),
@@ -30,9 +27,10 @@ over <- overlap_matching(search, search) %>%
     # only same sense comparisons
     ! antisense,
     # don't compare identity
-    x != y,
-    # special case do not merge known CDS and riboswitch
-    ! (paste0(x.type, y.type) %in% c('CDSriboswitch', 'riboswitchCDS'))
+    x != y
+    # # special case do not merge known CDS and riboswitch
+    # NO don't filter that here, only later when extracting the graph
+    # ! (paste0(x.type, y.type) %in% c('CDSriboswitch', 'riboswitchCDS'))
   )
 
 # Jaccard similarities when the loci match
@@ -71,101 +69,107 @@ over <- overlap_matching(search, search) %>%
 #   nrow
 # # only 5 cases below 0.8
 
+#############################################################################
+
+foo.help <- function(i) {
+  # Replace last space with line break
+  str_replace(i, ' ([^[:space:]]*)$', '\n\\1')
+}
+
+data %>%
+  filter(priority <= 4) %>%
+  select(src, priority) %>%
+  unique %>%
+  arrange(priority) %>%
+  pull(src) %>%
+  foo.help -> src.ord
 
 over %>%
   mutate(
     `jaccard similarity` = cut(jaccard, seq(0, 1, 0.1), include.lowest = TRUE)
   ) %>%
-  mutate_at(c('x.priority', 'y.priority'), function(i) {
-    i %>% 
-      as.character() %>%
-      as.factor %>%
-      fct_recode(
-        'RefSeq coding' = '0',
-        'BsubCyc coding' = '1',
-        'conservative ncRNA set\n(incl. refseq)' = '2',
-        'BsubCyc ncRNA\nterm-seq riboswitches' = '3',
-        'medium rfam\nRemaining Nicolas predictions' = '4',
-        'sensetive rfam' = '5'
-    )
-  }) %>%
-  filter(as.integer(x.priority) >= as.integer(y.priority))  %>%
-  ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
-  # ggsci::scale_fill_ucscgb() +
-  scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
+  separate(x, c('src.x', 'id.x'), sep = '%') %>%
+  separate(y, c('src.y', 'id.y'), sep = '%') %>%
+  mutate_at('src.x', foo.help) %>%
+  mutate_at('src.y', foo.help) %>%
+  mutate_at('src.x', fct_relevel, src.ord) %>%
+  mutate_at('src.y', fct_relevel, src.ord) %>%
+  filter(as.integer(src.x) >= as.integer(src.y)) -> baz
+
+foo <- c("RefSeq\ncoding", "BsubCyc\ncoding")
+
+baz %>%
+  filter(src.x %in% foo) %>%
+  filter(src.y %in% foo) %>%
+  ggplot(aes(x = `jaccard similarity`)) +
   geom_bar() +
-  xlab('Jaccard Similarity') +
-  # theme(axis.text.x=element_blank(),
-  #     axis.ticks.x=element_blank()) +
+  xlab('Jaccard Index') +
+  theme_bw(18) +
   theme(legend.position = 'none',
         axis.text.x = element_text(angle = 90)) +
-  # scale_y_log10() +
-  # xlim(0, 1) +
-  # geom_vline(xintercept = c(0.7, 0.8, 0.9)) +
-  facet_grid(x.priority ~ y.priority,
+  facet_grid(src.x ~ src.y,
              switch = 'both',
-             scales = 'free_y', drop = TRUE)
-  # ggtitle('Comparison confidence levels', 
-  #         'Similarities between each overlapping gene pair (coding and non-coding), identity is ignored')
-          
+             scales = 'free_y', drop = TRUE) -> A
 
-ggsave(filename = 'analysis/02_level-overlaps.pdf',
-       width = 30, height = 30, units = 'cm')
-
-
-over %>%
-  filter(jaccard > 0.8) %>%
-  mutate(
-    `jaccard similarity` = cut(jaccard, seq(0.8, 1, length.out = 9), include.lowest = TRUE)
-  ) %>%
-  mutate_at(c('x.priority', 'y.priority'), function(i) {
-    i %>% 
-      as.character() %>%
-      as.factor %>%
-      fct_recode(
-        'RefSeq coding' = '0',
-        'BsubCyc coding' = '1',
-        'conservative ncRNA set\n(incl. refseq)' = '2',
-        'BsubCyc ncRNA\nterm-seq riboswitches' = '3',
-        'medium rfam\nRemaining Nicolas predictions' = '4',
-        'sensetive rfam' = '5'
-    )
-  }) %>%
-  filter(as.integer(x.priority) >= as.integer(y.priority))  %>%
-  ggplot(aes(x = `jaccard similarity`, fill = `jaccard similarity`)) +
-  scale_fill_brewer(palette = 'RdYlBu', direction = -1) +
+baz %>%
+  filter(!(src.x %in% foo)) %>%
+  filter(src.y %in% foo) %>%
+  ggplot(aes(x = `jaccard similarity`)) +
   geom_bar() +
-  xlab('Jaccard Similarity') +
+  xlab('Jaccard Index') +
+  theme_bw(18) +
   theme(legend.position = 'none',
         axis.text.x = element_text(angle = 90)) +
-  facet_grid(x.priority ~ y.priority,
+  facet_grid(src.y ~ src.x,
              switch = 'both',
-             scales = 'free_y', drop = TRUE)
+             scales = 'free_y', drop = TRUE) -> B
+baz %>%
+  filter(!(src.x %in% foo)) %>%
+  filter(!(src.y %in% foo)) %>%
+  ggplot(aes(x = `jaccard similarity`)) +
+  geom_bar() +
+  xlab('Jaccard Index') +
+  theme_bw(18) +
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 90)) +
+  facet_grid(src.x ~ src.y,
+             switch = 'both',
+             scales = 'free_y', drop = TRUE) -> C
 
-ggsave(filename = 'analysis/02_level-overlaps_high.pdf',
-       width = 30, height = 30, units = 'cm')
+cowplot::plot_grid(
+  cowplot::plot_grid(A, B,
+                     nrow = 1,
+                     rel_widths = c(1, 2.5),
+                     labels = c('(a)', '(b)'), label_size = 24),
+  C,
+  nrow = 2,
+  rel_heights = c(1, 1.5),
+  labels = c(NA, '(c)'), label_size = 24
+)
 
+ggsave(filename = 'analysis/02_overlaps.pdf',
+       width = 4 * 4, height = 5 * 4,
+       units = 'in')
 
-# Decision, merge if Jaccard is 0.8
-over %>%
-  filter(jaccard > 0.8) %>%
-  mutate(merges = sprintf('priority %s - priority %s', x.priority, y.priority)) %>%
-  count(merges) %>%
-  separate(merges, c('a', 'b'), sep = ' - ') %>%
-  spread(b, n) 
+#############################################################################
+
 
 library(tidygraph)
 
-# 1. Identify group of who will be merged
+# 1. Identify groups of genes that will be merged
 nodes <- transmute(search, n = 1:n(), name = id, priority)
 prots <- c('CDS', 'putative-coding')
 edges <- over %>%
+  # ignore protein ribo overlaps
+  filter(!((x.type %in% prots) & (y.type == 'riboswitch'))) %>%
+  filter(!((y.type %in% prots) & (x.type == 'riboswitch'))) %>%
   # relaxed contion, RNA-RNA overlap or fully contained
   mutate(
+    # ! (paste0(x.type, y.type) %in% c('CDSriboswitch', 'riboswitchCDS'))
     rnarna = ! ((x.type %in% prots) | (y.type %in% prots)),
     relaxed = ((jaccard > 0.5) | str_detect(mode, 'contain')) & rnarna
   ) %>%
-  filter(jaccard > 0.8 | relaxed) %>%
+  filter((jaccard > 0.8) | relaxed) %>%
   select(from = x, to = y) %>%
   mutate(row = 1:n()) %>%
   gather('key', 'node', from, to) %>%
@@ -192,14 +196,6 @@ grph <- tbl_graph(nodes = nodes, edges = edges, directed = FALSE) %>%
 #   spread(priority, n, fill = 0) %>%
 #   count(`0`, `1`, `2`, `3`, `4`) %>%
 #   arrange(desc(n)) %>%
-#   rename(
-#     'refseq coding' = `0`,
-#     'bsubcyc coding' = `1`,
-#     'conservative ncRNA\n(incl. refseq)' = `2`,
-#     'bsubcyc ncRNA' = `3`,
-#     'mediuam ncRNA' = `4`
-#     # 'sensetive rfam' = `5`
-#   ) %>%
 #   View
 
 merging_groups <- grph %>%
@@ -240,7 +236,80 @@ merged_coordinates <- todo %>%
     name = invoke(str_c, name.y, sep = ';')
   ) %>%
   arrange(start, desc(end)) %>%
-  mutate(merged_name = paste0('BSGatlas-gene-', 1:n()))
+  mutate(id = paste0('tmp-', 1:n()))
+
+###############################################################################
+# Carry over IDs from last version
+'data-gff/BSGatlas_v1.0.gff' %>%
+  rtracklayer::import.gff3() %>%
+  as_tibble() %>%
+  filter(type == 'gene') %>%
+  select(start, end, strand, id = ID) -> last.ids
+
+merged_coordinates %>%
+  select(id, start, end, strand) %>%
+  overlap_matching(last.ids) %>%
+  filter(!antisense) -> cmp
+
+# Step 1: equal positions
+cmp %>%
+  filter(mode == 'equal') %>%
+  select(x, y) -> eq
+
+# Step 2: Max on rest, excluding form the pool the equal ones
+cmp %>%
+  anti_join(eq, 'x') %>%
+  anti_join(eq, 'y') %>%
+  group_by(x) %>%
+  top_n(1, jaccard) %>%
+  ungroup %>%
+  # count(x) %>%
+  # count(n)
+  # => clear match
+  bind_rows(eq) %>%
+  select(tmp = x, id = y) -> carry
+
+cmp %>%
+  filter(is.na(x)) %>%
+  pull(y) -> obsolete
+  
+# two new ids, start counting at last pos
+last.ids$id[nrow(last.ids)] %>%
+  strsplit('-') %>%
+  map(3) %>%
+  unlist %>%
+  as.integer -> foo
+cmp %>%
+  filter(is.na(y)) %>%
+  transmute(
+    tmp = x,
+    id = paste0('BSGatlas-gene-', (foo + 1):(foo + n()))
+  ) -> new.entries
+
+new.entries %>%
+  bind_rows(carry) -> look
+
+# Guarantee 1:1 lookup
+assertthat::are_equal(
+  look %>%
+    select(tmp) %>%
+    unique %>%
+    nrow,
+  nrow(look)
+)
+assertthat::are_equal(
+  look %>%
+    select(id) %>%
+    unique %>%
+    nrow,
+  nrow(look)
+)
+
+merged_coordinates %<>%
+  left_join(look, c('id' = 'tmp')) %>%
+  select(-id) %>%
+  rename(merged_name = id.y)
+###############################################################################
 
 
 # 4. clear map who participated to a merged gene
@@ -262,34 +331,35 @@ merged_coordinates %<>% select(- group)
 #   count(n) %>%
 #   rename(`different types per merged entry` = n, `count` = nn)
 
-# merge_map %>%
-#   select(merged_name, type) %>%
-#   arrange(merged_name, type) %>%
-#   unique %>%
-#   group_by(merged_name) %>%
-#   summarize(type = invoke(str_c, type, sep = ';')) %>%
-#   count(type) %>%
-#   View
+merge_map %>%
+  select(merged_name, type) %>%
+  arrange(merged_name, type) %>%
+  unique %>%
+  group_by(merged_name) %>%
+  summarize(type = invoke(str_c, type, sep = ';')) %>%
+  count(type) %>%
+  View
 
 # anything containing 'putative' should be discarded
 # only 2 problamatic cases are
 
-# investigate <- c(
-#   'asRNA;putative-non-coding;sRNA',
-#   'asRNA;sRNA',
-#   'riboswitch;sRNA'
+investigate <- c(
+  'asRNA;putative-non-coding;sRNA',
+  'asRNA;sRNA',
+  'riboswitch;sRNA',
+  'putative-non-coding;riboswitch;sRNA'
 # resolved:
-  ## 'putative-coding;putative-non-coding;riboswitch'
-# )
-# merge_map %>%
-#   select(merged_name, type) %>%
-#   arrange(merged_name, type) %>%
-#   unique %>%
-#   group_by(merged_name) %>%
-#   summarize(type = invoke(str_c, type, sep = ';')) %>%
-#   filter(type %in% investigate) %>%
-#   left_join(merge_map, 'merged_name') %>%
-#   View
+# 'putative-coding;putative-non-coding;riboswitch'
+)
+merge_map %>%
+  select(merged_name, type) %>%
+  arrange(merged_name, type) %>%
+  unique %>%
+  group_by(merged_name) %>%
+  summarize(type = invoke(str_c, type, sep = ';')) %>%
+  filter(type %in% investigate) %>%
+  left_join(merge_map, 'merged_name') %>%
+  View
 
 # Decision: prefer asRNA over sRNA, and prefer sRNA over riboswitch
 
@@ -312,7 +382,7 @@ type.helper <- function(i) {
     stopifnot(
       # an ugly way to make the message appear
       assertthat::are_equal(1, length(i)) |
-        {print(sprintf('unresolved type: %s', i)) ; FALSE}
+        {print(sprintf('unchanged type: %s', i)) ; FALSE}
     )
     i
   }
@@ -338,8 +408,6 @@ gene_types <- merge_map %>%
   left_join(refined_type) %>%
   mutate(type = ifelse(is.na(type), type.old, type)) %>%
   select(- type.old) %>%
-  # special case handling `S1078` with two contadicting putative types,
-  # => take higher priority
   group_by(merged_name) %>%
   top_n(-1, priority) %>%
   ungroup %>%
@@ -366,6 +434,13 @@ merged_genes <- merged_coordinates %>%
   # and unify with types from last step
   left_join(gene_types) %>%
   select(merged_id = merged_name, merged_name = name, type, start, end, strand)
+
+###############################################################################
+# 6b Additional query to prefer the names from SubtiWiki
+load('data/03_subtiwiki.rda')
+
+
+###############################################################################
 
 merged_src <- merge_map %>%
   select(merged_id = merged_name, src, priority, locus, name, type, start, end,
