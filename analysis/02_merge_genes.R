@@ -725,6 +725,7 @@ summarize.helper <- function(input, prefix) {
   stat <- input$merged_src %>%
     left_join(input$merged_genes, 'merged_id', suffix = c('', '.merged')) %>%
     mutate(type.equal  = type == type.merged,
+           before.putative = str_detect(type, 'putative'),
            # indicate of change from putative-coding to RNA classification
            type.reclassRNA = (type %in% prots) & !(type.merged %in% prots),
            # and the other way
@@ -732,13 +733,15 @@ summarize.helper <- function(input, prefix) {
            coord.equal = (start == start.merged) & (end == end.merged)) %>%
     transmute(merged_id, src, priority, type.equal, coord.equal,
               type.reclassRNA, type.reclassProt,
+              before.putative,
               # is.coding = type.merged %in% prots,
               # this should not be according to the merged type!
               # otherwise the stat for re-class cases is messed up on
               # categorization
               is.coding = type %in% prots,
               `gene type` = ifelse(is.coding, 'coding', 'non-coding')) %>%
-    unique
+    unique %>%
+    ungroup
   
   # how often is a gene specific in a source
   stat.src_uniq <- stat %>%
@@ -749,9 +752,12 @@ summarize.helper <- function(input, prefix) {
     rename(uniq = n)
   
   # how often has source type the same as merged
+  # ! diff type only if beforhand was putative
   stat.src_type <- stat %>%
-    count(src, `gene type`, type.equal) %>%
-    mutate(type.equal = ifelse(type.equal, 'same type', 'diff type')) %>%
+    mutate(type.change = !type.equal & before.putative) %>%
+    count(src, `gene type`, type.change) %>%
+    mutate(type.equal = ifelse(type.change, 'diff type', 'same type')) %>%
+    select(- type.change) %>%
     spread(type.equal, n, fill = 0)
   
   # total number of genes per resource
@@ -952,7 +958,7 @@ summarize.helper <- function(input, prefix) {
     transmute(
       src = 'BSGatlas',
       'Protein Coding Genes' = total.coding,
-      'of these hypothetical' = pct.helper(`putative-non-coding`, total.coding),
+      'of these hypothetical' = pct.helper(`putative-coding`, total.coding),
       
       'Non-Coding Structures and Genes' = total.noncoding,
       'of these predecited/hypothetical' = pct.helper(`putative-non-coding`, total.noncoding),
