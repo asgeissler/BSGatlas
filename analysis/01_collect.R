@@ -15,8 +15,6 @@ load('data/01_dar-riboswitches.rda')
 
 # bsubcyc coding
 
-# nicolas lit review
-# nicolas trusted
 # rfam conservative
 # refseq noncoding
 # 
@@ -24,19 +22,19 @@ load('data/01_dar-riboswitches.rda')
 # dar term seq
 # 
 # rfam medium
-# nicolas lower
+# nicolas all
 # 
 # rfam sensetive
 
 data <- bind_rows(
   transmute(refseq$coding,
-            priority = 0, src = 'refseq coding',
+            priority = 0, src = 'RefSeq coding',
             name,
             id = locus, start, end, strand, type) %>%
     mutate(type = ifelse(type == 'putative', 'putative-coding', type)),
   
   transmute(bsubcyc$coding,
-            priority = 1, src = 'bsubcyc coding',
+            priority = 1, src = 'BsubCyc coding',
             id = locus, start, end, strand,
             name,
             type = ifelse(
@@ -45,21 +43,13 @@ data <- bind_rows(
               'CDS'
             )),
   
-  transmute(nicolas$high$their.lit_review,
-            priority = 2, src = 'nicolas lit review',
-            name,
-            id = name, start, end, strand),
-  transmute(nicolas$high$their.trusted,
-            priority = 2, src = 'nicolas trusted',
-            name,
-            id = name, start, end, strand),
   transmute(rfam$conservative,
             name,
-            priority = 2, src = 'rfam conservative',
+            priority = 2, src = 'Rfam conservative',
             id, start, end, strand, type),
   transmute(refseq$noncoding,
             name,
-            priority = 2, src = 'refseq noncoding',
+            priority = 2, src = 'RefSeq non-coding',
             id = locus, start, end, strand, type) %>%
     mutate(type = ifelse(type %in% c('unclear', 'putative'),
                          'putative-non-coding',
@@ -67,24 +57,26 @@ data <- bind_rows(
   
   transmute(bsubcyc$noncoding,
             name,
-            priority = 3, src = 'bsubcyc noncoding',
+            priority = 3, src = 'BsubCyc non-coding',
             id = locus, start, end, strand, type),
   transmute(dar_riboswitches,
             name,
-            priority = 3, src = 'dar riboswitches',
-            id, start, end, strand, type),
+            priority = 3, src = 'Dar et al. riboswitches',
+            id = paste0('TERMseq-predicted-riboswitch_', 1:n()),
+            start, end, strand, type) %>%
+    mutate(name = ifelse(name == 'novel', 'TERMseq-predicted-riboswitch', name)),
   
   transmute(rfam$medium,
             name,
-            priority = 4, src = 'rfam medium',
-            id = paste('row', 1:n()), start, end, strand, type),
-  nicolas$lower %>%
+            priority = 4, src = 'Rfam medium',
+            id , start, end, strand, type),
+  nicolas$all.features %>%
     filter(startsWith(type, 'indep')) %>%
-    transmute(name, priority = 4, src = 'nicolas lower',
+    transmute(name, priority = 4, src = 'Nicolas et al. predicted',
               id = locus, start, end, strand),
   
-  transmute(rfam$sensetive,
-            priority = 5, src = 'rfam sensetive',
+  transmute(rfam$relaxed,
+            priority = 5, src = 'Rfam relaxed',
             name,
             id, start, end, strand, type)
 ) %>%
@@ -98,75 +90,5 @@ data <- bind_rows(
   mutate_at(c('start', 'end', 'priority'), as.integer) %>%
   mutate(seqnames = 'dummychr')
 
-tab <- data %>%
-  mutate(src = case_when(
-    src == "bsubcyc coding"     ~ 'BsubCyc',
-    src == "bsubcyc noncoding"  ~ 'BsubCyc',
-    src == "dar riboswitches"   ~ 'Dar et al. term-seq',
-    src == "nicolas lit review" ~ 'Nicolas et al.\'s literature review',
-    src == "nicolas lower"      ~ 'Nicolas et al. predictions',
-    src == "nicolas trusted"    ~ 'Nicolas et al. trusted predictions',
-    src == "refseq coding"      ~ 'RefSeq',
-    src == "refseq noncoding"   ~ 'RefSeq',
-    src == "rfam conservative"  ~ 'rfam (conservative)',
-    src == "rfam medium"        ~ 'rfam (medium)',
-    src == "rfam sensetive"     ~ 'rfam (sensetive)'
-  )) %>%
-  count(src, type) %>%
-  spread(src, n) %>%
-  mutate_all(replace_na, '-')
+save(data, file = 'analysis/01_tomerge.rda')
 
-total <- tab %>%
-  mutate_all(as.numeric) %>%
-  map(sum, na.rm = TRUE)  %>%
-  as.tibble %>%
-  mutate(type = 'Total') %>%
-  mutate_all(as.character)
-
-tab %<>% bind_rows(total)
-
-
-to.merge <- list(
-  todo = data,
-  stat = tab
-)
-
-save(to.merge, file = 'analysis/01_tomerge.rda')
-
-# output tex formatted table
-
-stat <- to.merge$stat %>%
-  mutate_all(str_replace, '^-$', '--') %>%
-  mutate(type = case_when(
-    type == 'Total' ~ 'Total number',
-    type == 'CDS' ~ 'coding',
-    TRUE ~ type
-  )) %>%
-  select(`Gene Type` = type, RefSeq, BsubCyc, everything()) %>%
-  arrange(desc(as.numeric(RefSeq)))
-
-stat %>%
-  set_names(c(
-    "Gene Type",
-    "RefSeq",
-    "BsubCyc",
-    "\\specialcell{Dar \\emph{et al.}\\\\ term-seq}",
-    "\\specialcell{Nicolas \\emph{et al.}\\\\ predictions}",
-    "\\specialcell{Nicolas \\emph{et al.}\\\\ trusted predictions}",
-    "\\specialcell{Nicolas \\emph{et al.}'s\\\\ literature review}",
-    "\\specialcell{\\emph{Rfam}\\\\ (conservative)}",
-    "\\specialcell{\\emph{Rfam}\\\\ (medium)}",
-    "\\specialcell{\\emph{Rfam}\\\\ (sensitive)}"
-  )) %>%
-  kableExtra::kable('latex', booktabs = TRUE,
-                    caption = 'Overview over gene resources',
-                    escape = FALSE,
-                    linesep = '') %>%
-  kableExtra::kable_styling() %>%
-  str_split('\\n') %>%
-  unlist %>%
-  # thousand digit mark
-  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
-  # without environment
-  `[`(5:(length(.) - 1)) %>%
-  writeLines('analysis/01_summary_table.tex')
