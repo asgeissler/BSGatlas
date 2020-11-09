@@ -993,10 +993,51 @@ stat.all <- bind_rows(
   select(key, BSGatlas, everything())
 
 ############################################################################
+categorized <- merging
+
+# manually rename sources
+categorized$merged_src %<>%
+  mutate(src = case_when(
+    startsWith(src, 'BsubCyc') ~ 'BsubCyc',
+    startsWith(src, 'RefSeq') ~ 'RefSeq',
+    startsWith(src, 'Rfam') ~ 'Rfam',
+    TRUE ~ src
+  ))
+
+# reduce entries but only keep positions from highest priority and unify
+# if there are more then one, type most specific type
+categorized$merged_src %<>%
+  group_by(merged_id, src) %>%
+  filter(priority == min(priority)) %>%
+  summarize(
+    priority = first(priority),
+    # most cmoprising coordinates
+    start = min(start), end = max(end), strand = first(strand),
+    # most specific type, or the putative one
+    type = {
+      specific <- type %>%
+      unique %>%
+      discard(str_detect, 'putative') %>%
+      unlist
+      other <- type %>%
+      unique
+      if (length(specific) == 0) {
+        other
+      } else {
+        type.helper(specific)
+      }
+    }
+  ) %>%
+  ungroup
+
+categorized.stat <- summarize.helper(categorized, 'categorized')
+  
+############################################################################
 
 
 merging_stat <- list(
-  stat.all = stat.all
+  stat.all = stat.all,
+  categorized = categorized.stat
 )
 
 save(merging_stat, file = 'analysis/02_merging_stat.rda')
