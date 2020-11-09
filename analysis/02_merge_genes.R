@@ -436,11 +436,6 @@ merged_genes <- merged_coordinates %>%
   select(merged_id = merged_name, merged_name = name, type, start, end, strand)
 
 ###############################################################################
-# 6b Additional query to prefer the names from SubtiWiki
-load('data/03_subtiwiki.rda')
-
-
-###############################################################################
 
 merged_src <- merge_map %>%
   select(merged_id = merged_name, src, priority, locus, name, type, start, end,
@@ -450,6 +445,268 @@ merging <- list(
   merged_genes = merged_genes,
   merged_src = merged_src
 )
+###############################################################################
+###############################################################################
+# 6b Additional query to prefer the names from SubtiWiki
+
+# In order to use SubtiWiki parse it here directly after the merging, and
+# just before saving
+
+source('scripts/frame_helpers.R')
+
+
+# 1. Loading raw data
+path <- file.path(rprojroot::find_rstudio_root_file(),
+                  'data-raw', 'subtiwiki')
+path %>%
+  list.files() %>%
+  # not the helper script
+  discard(endsWith, 'sh') %>%
+  # not the categories, they need special care
+  discard(`==`, 'categories.csv.gz') %>%
+  set_names(str_split(., '[.]') %>% map(1) %>% unlist) %>%
+  map(function(i) file.path(path, i)) %>%
+  map(read_csv) -> subti
+
+# special treatment for categories
+file.path(path, 'categories.csv.gz') %>%
+  read_lines() %>%
+  map(str_remove, '"$') %>%
+  map(str_remove, '^[,]*\"') %>%
+  unlist %>%
+  tibble(raw = .) %>%
+  separate(raw, c('id', 'desc'), sep = '[.] ') -> categories
+
+# unify separator
+subti$batch %<>%
+  mutate_at('names', str_replace_all, ',[ ]*', ';') %>%
+  mutate_at('names', str_replace_all, '[ ]*;[ ]*', ';') %>%
+  # force primary name to be part of all synonyms
+  rowwise %>%
+  mutate(names = names %>%
+           strsplit(';') %>%
+           c(name) %>%
+           clean_paste(sep = ';')) %>%
+  ungroup %>%
+  # and remove 11 entries that don't even have locus
+  filter(!is.na(locus))
+
+# 2. match their IDs to the merged gene set
+
+# loci frome merge_src + the alternatives of refseq
+lookup.dat <- merging$merged_src %>%
+  select(merged_id, src, locus, name) %>%
+  gather('q.key', 'q', locus, name) %>%
+  separate_rows(q, sep = ';') %>%
+  mutate_at('q', str_to_lower)
+
+# make a putative map
+putative.map <- subti$batch %>%
+  transmute(id = locus, locus, names, description) %>%
+  gather('search.key', 'search', locus, names) %>%
+  drop_na(search) %>%
+  separate_rows(search, sep = ';') %>%
+  mutate_at('search', str_to_lower) %>%
+  left_join(lookup.dat, c('search' = 'q'))
+
+# clear case, locus match
+clear.map <- putative.map %>%
+  filter(((q.key == 'locus') & (search.key == 'locus')) |
+           # also accept matchings of nicolas specific indep transcripts
+           (startsWith(search, 's') & (search.key == 'names'))) %>%
+  select(id = id, merged_id) %>%
+  drop_na %>%
+  unique
+
+rest <- putative.map %>%
+  anti_join(clear.map, 'id')
+
+rest %>%
+  filter(!str_detect(description, 'UTR'), !str_detect(description, 'intergenic')) %>%
+  filter(!str_detect(description, '3\''), !str_detect(description, '5\'')) %>%
+  View
+# handfull cases that match but have spelling variant -> accept
+# rest are either re-classified 5' UTRs or some study with unclear position
+# -> ignore
+
+look <- bind_rows(
+  clear.map,
+  rest %>%
+    select(id, merged_id) %>%
+    drop_na
+) %>%
+  drop_na()
+
+# * how often is the matching ambiguous?
+# count(look, id) %>%
+#   filter(n > 1) %>%
+#   View
+# only the 6 short peptides of unclear function and position
+# and the bsrG synonym
+
+# count(look, merged_id) %>%
+#   filter(n > 1) %>%
+#   left_join(look) %>%
+#   View
+# double entries in subtiwiki -> ignore
+
+
+# * how many genes are not described by them?
+# merging$merged_genes %>%
+#   anti_join(look, 'merged_id') %>%
+#   count(type)
+#   nrow
+# #60
+# type           n
+# <chr>      <int>
+# 1 asRNA          3
+# 2 CDS            5
+# 3 intron         1
+# 4 riboswitch    38
+# 5 sRNA          13
+
+# 3 prettify meta data, lookup proper ids
+
+categories %<>% mutate(level = str_count(id, '[.]') + 1)
+genes <- subti$batch %>%
+  left_join(look, c('locus' = 'id'))
+gene.categories <- subti$geneCategories %>%
+  left_join(look, c('gene' = 'id')) %>%
+  # filter(is.na(merged_id))
+  # only 12 weid cases
+  drop_na(merged_id) %>%
+  select(merged_id, category1, category2, category3, category4, category5) %>%
+  gather('key', 'value', starts_with('category')) %>%
+  left_join(categories, c('value' = 'desc')) %>%
+  select(merged_id, category = id) %>%
+  drop_na
+
+subti$interactions %>%
+  select(partner1 = `prot1 locus tag`, partner2 = `prot2 locus tag`) %>%
+  unique %>%
+  mutate(row = 1:n()) %>%
+  gather('key', 'locus', partner1, partner2) %>%
+  left_join(look, c('locus' = 'id')) %>%
+  select(row, key, merged_id) -> foo
+# welcome to unclear ids
+# -> simplicity: Throw out
+count(foo, row) %>%
+  filter(n == 2) %>%
+  select(- n) %>%
+  left_join(foo) %>%
+  spread(key, merged_id) %>%
+  select(- row) -> interactions
+
+
+regulations <- subti$regulations %>%
+  select(regulon, old.regulator = `regulator locus tag`, mode, old.target = `locus tag`) %>%
+  unique %>%
+  left_join(look, c('old.regulator' = 'id')) %>%
+  rename(regulator = merged_id) %>%
+  left_join(look, c('old.target' = 'id')) %>%
+  rename(target = merged_id) %>%
+  select(-starts_with('old')) %>%
+  drop_na %>%
+  unique
+
+
+
+# 4 lookup transcripts, complement
+transcripts <- subti$operons
+
+transcripts %<>%
+  mutate(operon = ifelse(is.na(operon), genes, operon)) %>%
+  drop_na %>%
+  filter(operon != 'operon') %>%
+  rename(id = operon) %>%
+  unique
+
+# count(transcripts, id) %>% filter(n > 1)
+# okay, unique id
+
+transcripts %<>%
+  separate_rows(genes, sep = '(?<!rrn[ED])(->|([ ]*[-][ ]*)|→|–)') %>%
+  mutate(
+    id = ifelse(id == '<i>yitJ</i>', 'yitJ', id),
+    genes = ifelse(genes == '<i>yitJ</i>', 'yitJ', genes),
+    genes = ifelse(genes == 'yfkK]', 'yfkK', genes),
+    genes = ifelse(genes == 'mneP', 'ydfM', genes)
+  )
+
+bad <- anti_join(transcripts, genes, by = c('genes' = 'name'))
+# # now only 5 unusable cases
+transcripts %<>% unique()
+
+transcripts %<>%
+  inner_join(genes, by = c('genes' = 'name')) %>%
+  select(transcript = id, gene = merged_id)
+
+transcripts %<>%
+  # put a flag on troublesome cases, just 2
+  left_join(
+    bind_rows(
+      bad %>%
+        select(transcript = id) %>%
+        unique,
+      transcripts %>%
+        filter(is.na(gene)) %>%
+        select(transcript) %>%
+        unique
+    ) %>%
+      unique %>%
+      mutate(incomplete.flag = TRUE),
+    'transcript'
+  ) %>%
+  mutate_at('incomplete.flag', replace_na, FALSE) %>%
+  drop_na
+
+# transcripts %>%
+#   filter(incomplete.flag) %>%
+#   select(transcript) %>%
+#   unique %>%
+#   nrow
+# transcripts %>%
+#   select(transcript) %>%
+#   unique %>%
+#   nrow
+# 9 problamatic transcripts of 2267
+
+
+subtiwiki <- list(
+  genes = genes %>% drop_na(merged_id),
+  categories = categories,
+  gene.categories = gene.categories,
+  interactions = interactions,
+  regulations = regulations,
+  transcripts = transcripts
+)
+
+save(subtiwiki, file = 'data/03_subtiwiki.rda')
+###############################################################################
+# now, continue with substituting names and saving merging results
+
+merging$merged_genes %>%
+  select(merged_id, merged_name) %>%
+  left_join(
+    subtiwiki$genes %>%
+      select(merged_id, wiki.name = name)
+  ) %>%
+  mutate(
+    # remove S+numbers
+    wiki.name = ifelse(str_detect(wiki.name, '^S[0-9]*$'), NA, wiki.name),
+    # BSU
+    wiki.name = ifelse(str_detect(wiki.name, '^BSU'), NA, wiki.name)
+  ) %>%
+  filter(merged_name != wiki.name) %>%
+  select(merged_id, new.name = wiki.name) -> update
+
+merging$merged_genes %<>%
+  left_join(update, 'merged_id') %>%
+  mutate(merged_name = ifelse(is.na(new.name), merged_name, new.name)) %>%
+  select(-new.name)
+
+###############################################################################
+###############################################################################
 
 save(merging, file = 'analysis/02_merging.rda')
 
