@@ -1030,7 +1030,8 @@ categorized$merged_src %<>%
   ) %>%
   ungroup
 
-categorized.stat <- summarize.helper(categorized, 'categorized')
+categorized.stat <- summarize.helper(categorized, 'categorized') %>%
+  select(key, BSGatlas, everything())
   
 ############################################################################
 
