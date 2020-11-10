@@ -260,10 +260,12 @@ cmp %>%
 cmp %>%
   anti_join(eq, 'x') %>%
   anti_join(eq, 'y') %>%
+  drop_na(x, y) %>%
   group_by(x) %>%
   top_n(1, jaccard) %>%
   ungroup %>%
-  # count(x) %>%
+  # # count(x) %>%
+  # count(y) %>%
   # count(n)
   # => clear match
   bind_rows(eq) %>%
@@ -292,7 +294,7 @@ new.entries %>%
 # Guarantee 1:1 lookup
 assertthat::are_equal(
   look %>%
-    select(tmp) %>%
+    select(id) %>%
     unique %>%
     nrow,
   nrow(look)
@@ -555,7 +557,7 @@ look <- bind_rows(
 # merging$merged_genes %>%
 #   anti_join(look, 'merged_id') %>%
 #   count(type)
-#   nrow
+  # nrow
 # #60
 # type           n
 # <chr>      <int>
@@ -698,7 +700,18 @@ merging$merged_genes %>%
     wiki.name = ifelse(str_detect(wiki.name, '^BSU'), NA, wiki.name)
   ) %>%
   filter(merged_name != wiki.name) %>%
-  select(merged_id, new.name = wiki.name) -> update
+  select(merged_id, new.name = wiki.name) %>%
+  unique %>%
+  group_by(merged_id) %>%
+  summarize_at('new.name', clean_paste, sep = '_') -> update
+
+assertthat::are_equal(
+  update %>%
+    count(merged_id) %>%
+    filter(n > 1) %>%
+    nrow,
+  0
+)
 
 merging$merged_genes %<>%
   left_join(update, 'merged_id') %>%
