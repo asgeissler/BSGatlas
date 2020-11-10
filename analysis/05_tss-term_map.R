@@ -170,8 +170,11 @@ grp %>%
   morph(to_subgraph, !str_detect(src, 'Nicolas')) %>%
   mutate(sub.group = group_components()) %>%
   unmorph() %>%
-  # mutate(sub.group = ifelse(str_detect(src, 'Nicolas'), NA, sub.group)) %>%
-  as_tibble -> sub.groups
+  as_tibble %>%
+  # fill-up NAs with distinged placeholder to prevent shifts form beeing merged
+  mutate(sub.group = ifelse(is.na(sub.group),
+                            paste0('placeholder-', 1:n()),
+                            sub.group)) -> sub.groups
 
 # Merging depends on type
 # Option A - TSS:
@@ -212,7 +215,7 @@ pre.merged %>% count(strand)
 pre.merged %>%
   left_join(
     sub.groups %>%
-      transmute(group, x = is.na(sub.group)) %>%
+      transmute(group, x = str_detect(sub.group, 'placeholder')) %>%
       unique %>%
       count(group) %>%
       filter(n == 1) %>%
@@ -220,7 +223,7 @@ pre.merged %>%
     'group'
   ) %>%
   mutate_at('allow.shift', replace_na, FALSE) %>%
-  filter(!is.na(sub.group) | allow.shift) -> filtered.merged
+  filter(!str_detect(sub.group, 'placeholder') | allow.shift) -> filtered.merged
 
 # Add back info from the upshifts
 
@@ -286,10 +289,93 @@ merged$TSS %>%
   summarize_at('sigma', ~ invoke(paste, sort(.x), sep = ';')) %>%
   ungroup -> merged$TSS
 
+# undo res limit
+merged$TSS %<>%
+  mutate_at('res.limit', as.integer) %>%
+  mutate(
+    start = start + res.limit,
+    end = end - res.limit
+  )
 ##############################################################################
-# save results (in a legavy naming)
-bsg.boundaries <- list(TSS = merged$TSS,
-                       terminator = merged$Terminator)
+#The naming everything backwards again part
+
+# merged$TSS %>% with(end - start + 1) %>% table()
+# sth went wrong?, fixed again
+
+'data-gff/BSGatlas_v1.0.gff' %>%
+  rtracklayer::import.gff3() %>%
+  as_tibble() %>%
+  filter(type %in% c('TSS', 'terminator')) %>%
+  select(type, id = ID, start, end, strand) %>%
+  mutate_at('type', fct_recode, 'Terminator' = 'terminator') %>%
+  mutate_at('type', as.character) -> legacy
+
+legacy %>%
+  select(type, i = id) %>%
+  mutate(i = i %>%
+           strsplit('-') %>%
+           map(3) %>%
+           unlist %>%
+           as.integer) %>%
+  group_by(type) %>%
+  summarize_all(max) %>%
+  with(set_names(i, type)) -> counts.status
+
+merged %>%
+  map(select, start, end, strand, id) %>%
+  map2(names(.), ~ mutate(.x, type = .y)) %>%
+  bind_rows() -> qs
+
+overlap_matching(qs, legacy) %>%
+  filter(x.type == y.type, !antisense) %>%
+  group_by(y) %>%
+  filter(jaccard == max(jaccard)) %>%
+  ungroup -> foo
+
+# Only keep unambiguous cases
+foo %>%
+  semi_join(
+    foo %>%
+      count(y) %>%
+      filter(n == 1),
+    'y'
+  ) %>%
+  semi_join(
+    foo %>%
+      count(x) %>%
+      filter(n == 1),
+    'x'
+  ) %>%
+  # count(mode)
+  # also happen to be only the equal cases
+  select(id = x, new.id = y) -> look
+
+# continue with incremental counts on rest
+merged %>%
+  map(left_join, look, 'id') -> bar
+
+map2(
+  bar %>%
+    map(filter, is.na(new.id)) %>%
+    map2(
+      names(.),
+      ~ mutate(.x, new.id = paste(
+        'BSGatlas', .y, counts.status[.y] + 1:n(),
+        sep = '-'
+      ))) %>%
+    map(~ mutate_at(.x, 'new.id', str_replace, 'Terminator', 'terminator')),
+  bar %>%
+    map(drop_na),
+  bind_rows
+) %>%
+  map(arrange, start) %>%
+  map(select, - id) %>%
+  map(rename, id = new.id) -> named
+
+##############################################################################
+# save results (in a legacy naming of small `t`)
+bsg.boundaries <- list(TSS = named$TSS,
+                       terminator = named$Terminator)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
 
 ##############################################################################
@@ -301,7 +387,7 @@ merged$TSS %>%
   count(res.limit)
 # res.limit     n
 #         0   706
-#        22  2676
+#        22  2684
 
 
 load('data/01_bsub_raw.rda')
