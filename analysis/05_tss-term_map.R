@@ -9,6 +9,8 @@ load('data/01_nicolas.rda')
 load('data/03_dbtbs.rda')
 
 library(tidygraph)
+library(venn)
+library(gridGraphics)
 
 ##############################################################################
 # 0. Collect input
@@ -138,16 +140,15 @@ ggsave('analysis/05_resolution.pdf',
 # Make windows for Nicolas
 # Then merge by overlaps, similar code as for gene merging
 dat %>%
-  mutate(
-    res.limit = ifelse(str_detect(src, 'Nicolas'), 22, 0),
-    start = start - res.limit,
-    end = end - res.limit
-  ) %>%
   transmute(
     i = 1:n(),
-    id = src_id, type, src, 
-    start, end, strand,
-    extra, without.tu
+    id = paste0(type, '_', src_id),
+    type, src, 
+    res.limit = ifelse(str_detect(src, 'Nicolas'), 22, 0),
+    start = start - res.limit,
+    end = end + res.limit,
+    strand,
+    extra, pubmed, without.tu
   ) -> merge.that
   
 merge.that %>%
@@ -166,250 +167,323 @@ grp <- tbl_graph(nodes = merge.that,
 grp %>%
   activate(nodes) %>%
   mutate(group = group_components()) %>%
-  filter(group == 1) %>%
-  plot(label = id)
-  as_tibble %>%
-  select(- i) %>%
-  left_join(tss.win, c('name' = 'id')) %>%
-  #tmp substitute YlaC -> C
-  mutate(sigma = case_when(
-    is.na(sigma) ~ '?',
-    sigma == '-' ~ '?',
-    sigma == 'YlaC' ~ 'C',
-    TRUE ~ sigma
-  )) -> tss.merge
+  morph(to_subgraph, !str_detect(src, 'Nicolas')) %>%
+  mutate(sub.group = group_components()) %>%
+  unmorph() %>%
+  # mutate(sub.group = ifelse(str_detect(src, 'Nicolas'), NA, sub.group)) %>%
+  as_tibble -> sub.groups
 
-tss.merge %>%
-  group_by(group) %>%
-  filter(res.limit == min(res.limit)) %>%
-  ungroup %>%
-  arrange(TSS) %>%
-  select(TSS, res.limit, start, end, strand, sigma) %>%
-  group_by(TSS, res.limit, start, end, strand) %>%
-  summarize(sigma = sigma %>% unique %>% invoke(.f = paste0)) %>%
-  ungroup %>%
-  # count(sigma) %>% View
-  mutate(id = paste0('BSGatlas-TSS-', 1:n())) %>%
-  select(id, everything()) -> bsg.tss
+# Merging depends on type
+# Option A - TSS:
+#   * Per group, detect and keep those of lowest resolution
+#     (also solved via sub-groups)
+#   * Per position within group, combine pubmed/sigma info
+#   * Add sigma info of the potential overlapping upshift
+#
+# Option B - Terminator:
+#   * Detect sug-groups, when downshift is exlcuded
+#   * Unify per sub-group (incl.pubmed)
+#   * compute average energy (including downshift info)
+# A) unite sigma factor information
 
-cmp <- overlap_matching(bsg.tss, tss.win) %>%
-  filter(!antisense) %>%
-  select(x, y) %>%
-  drop_na %>%
-  left_join(tss.dat, c('y' = 'src_id')) %>%
-  select(id = x, src, pubmed) %>%
-  unique %>%
-  gather('key', 'value', src, pubmed) %>%
-  separate_rows(value, sep = ';') %>%
-  unique %>%
-  drop_na %>%
-  filter(value != '') %>%
-  group_by(id, key) %>%
-  summarize(value = value %>% sort %>% invoke(.f = paste, sep = ';')) %>%
-  spread(key, value, fill = '')
-  
-# cleanup
-bsg.tss %<>% left_join(cmp, 'id')
-bsg.tss %<>% mutate(sigma = ifelse(sigma == 'C', 'YlaC', sigma))
-
-# sigma distribution
-
-tss.dat %>%
-  select(src, sigma) %>%
-  bind_rows(
-    bsg.tss %>%
-      transmute(src = 'BSGatlas', sigma)
+f <- partial(str_c, collapse = ';')
+sub.groups %>%
+  mutate_at('src', str_remove, ' [updown]*shift$') %>%
+  group_by(type, group, sub.group) %>%
+  summarize(
+    src = f(src),
+    res.limit = f(res.limit),
+    start = min(start),
+    end = max(end),
+    strand = f(strand),
+    wihtout.tu = invoke(all, without.tu),
+    extra = f(extra),
+    pubmed = f(pubmed)
   ) %>%
+  ungroup %>% 
+  mutate(id = paste0('tmp-', 1:n())) -> pre.merged
+
+pre.merged %>% count(strand)
+# -> no strand confusion, check
+
+# Only keep up/down-shifts if there was no more precice annotation
+# -> groups without subgroups
+
+pre.merged %>%
+  left_join(
+    sub.groups %>%
+      transmute(group, x = is.na(sub.group)) %>%
+      unique %>%
+      count(group) %>%
+      filter(n == 1) %>%
+      transmute(group, allow.shift = TRUE),
+    'group'
+  ) %>%
+  mutate_at('allow.shift', replace_na, FALSE) %>%
+  filter(!is.na(sub.group) | allow.shift) -> filtered.merged
+
+# Add back info from the upshifts
+
+filtered.merged %>%
+  left_join(
+    anti_join(pre.merged, filtered.merged) %>%
+      select(group, src, nic.extra = extra),
+    'group'
+  ) %>%
+  # Then clean up
+  select(- group, - sub.group) %>%
+  # okay to do hear, because res.limit and strand are unambiguous
+  mutate_at(c('res.limit', 'strand'), str_remove, ';.*$') %>%
+  mutate_at('pubmed', replace_na, '') %>%
+  gather('k', 'v', src.x, src.y, extra, nic.extra, pubmed) %>%
+  mutate_at('k', str_remove, '.x$') %>%
+  mutate_at('k', str_remove, '.y$') %>%
+  mutate_at('k', str_remove, '^nic.') %>%
+  separate_rows(v, sep =';') %>%
+  group_by_at(vars(- v)) %>%
+  summarise(
+    clean = clean_paste(v),
+    avg = v %>% as.double() %>% mean(na.rm = TRUE)
+  ) %>%
+  ungroup %>%
+  mutate(v = ifelse(is.na(avg) | (k == 'pubmed'), clean, avg)) %>%
+  select(- clean, -avg) %>%
+  spread(k, v) -> clean.merge
+
+# Little bit more work for the sigma factors and energies
+# But now need to separate TSS and terminators
+
+clean.merge %>%
+  group_by(type) %>%
+  do(i = list(.)) %>%
+  with(set_names(i, type)) %>%
+  map(1) %>%
+  map(select, - type, - allow.shift) -> merged
+
+merged %>%
+  map(count, wihtout.tu)
+  
+# energies 
+merged$Terminator %<>%
+  mutate_at('extra', as.double) %>%
+  rename(energy = extra) %>%
+  select(- res.limit)
+
+# sigma
+merged$TSS %>%
+  rename(sigma = extra) %>%
+  mutate(sigma = ifelse(sigma == '', '?', sigma)) %>%
+  mutate_at('sigma', str_replace_all, '-', '?') %>%
+  #tmp substitute YlaC -> C
+  mutate_at('sigma', str_replace_all, 'YlaC', 'C') %>%
+  mutate_at('sigma', str_remove_all, ';') %>%
+  mutate_at('sigma', str_replace_all, '([A-Z?])(?=[A-Z?])', '\\1;') %>%
+  separate_rows(sigma, sep = ';') %>%
+  # and C -> YlaC back transform
+  mutate(sigma = ifelse(sigma == 'C', 'YlaC', sigma)) %>%
+  unique %>%
+  group_by_at(vars(- sigma)) %>%
+  summarize_at('sigma', ~ invoke(paste, sort(.x), sep = ';')) %>%
+  ungroup -> merged$TSS
+
+##############################################################################
+# save results (in a legavy naming)
+bsg.boundaries <- list(TSS = merged$TSS,
+                       terminator = merged$Terminator)
+save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
+
+##############################################################################
+##############################################################################
+##############################################################################
+# Some finalizing stat and figure for manuscript
+
+merged$TSS %>%
+  count(res.limit)
+# res.limit     n
+#         0   706
+#        22  2676
+
+
+load('data/01_bsub_raw.rda')
+
+bsg.boundaries %>%
+  map2(c('TSS', 'TTS'), ~ mutate(.x, type = .y)) %>%
+  map(select, id, type, src) %>%
+  bind_rows -> dat
+
+dat %>%
+  separate_rows(src, sep = ';') %>%
+  unique %>%
+  bind_rows(
+    dat %>%
+      mutate(src = 'BSGatlas')
+  ) %>%
+  arrange(id) -> dat.full
+
+dat.full %>%
+  count(type, src) -> dat.count
+
+
+
+
+list('TSS', 'TTS') %>%
+  set_names(., .) %>%
+  map(function(i) {
+    dat.count %>%
+      mutate(src = fct_reorder(src, n, max) %>%
+               fct_rev) %>%
+      mutate(lab = str_replace(n, '(\\d)(\\d{3})',  '\\1,\\2')) %>%
+      filter(type == i) %>%
+      ggplot(aes(x = src, y = n, fill = src, group = src)) +
+      geom_bar(stat = 'identity',
+               position = 'dodge') +
+      geom_text(aes(label = lab),
+                # size = 6,
+                position = position_dodge(width=0.9),
+                vjust=-0.25) +
+      scale_fill_manual(values = ggsci::pal_jama()(5)[-2]) +
+      theme_minimal(14) +
+      # theme_bw(14) +
+      scale_y_continuous(breaks = NULL) +
+      theme(
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank()
+      ) +
+      ylab(ifelse(i == 'TSS',
+                  'Nr. annotated TSSs',
+                  'Nr. annotated TTSs')) +
+      xlab(NULL) +
+      theme(legend.text = element_text(face = "italic"),
+            legend.position = 'none',
+            legend.justification = c(1, 1))
+  }) -> p1
+
+###############################################################################
+# comparison via venn diagrams
+
+helper <- function(i) {
+  dat.full %>%
+    filter(src != 'BSGatlas') %>%
+    filter(type == i) %>%
+    mutate_at('src', fct_recode, 'Nicolas\net al.' = 'Nicolas et al.') %>%
+    group_by(src) %>%
+    do(i = list(.$id)) %>%
+    with(set_names(map(i, 1), src)) %>%
+    `[`(c('Nicolas\net al.', 'BsubCyc', 'DBTBS')) %>%
+    venn(ilcs = 1.1,
+         sncs = 1.1,
+         opacity = 0.6,
+         zcolor =  ggsci::pal_jama()(5)[-c(1, 2)])
+  grid.echo()
+  # grid.ls()
+  grid.remove('graphics-plot-1-lines-1')
+  size <- 15
+  cowplot::ggdraw() + cowplot::draw_grob(
+    grid.grab(),
+    scale = 0.8
+    # width = (size + 1)/2.54,
+    # height = (size + 1)/2.54
+  )
+}
+
+##############################################################################
+# comparison of sigma factor distributions
+
+# getting the raw dist from bsubcyc is annoying
+
+bsub_raw$proteins %>%
+  select(name = `COMMON-NAME`, other = SYNONYMS,
+         box = `RECOGNIZED-PROMOTERS`) %>%
+  drop_na(box) %>%
+  separate_rows(box, sep = ';') -> bs.box
+
+bsub_raw$promoters %>%
+  select(pro.id = `UNIQUE-ID`, box = `PROMOTER-BOXES`) %>%
+  separate_rows(box, sep = ';') %>%
+  left_join(bs.box, 'box') %>%
+  mutate(sigma = str_sub(other, -1)) %>%
+  mutate_at('sigma', replace_na, '?') %>%
+  transmute(id = pro.id, src = 'BsubCyc', sigma) -> bs
+
+bind_rows(
+  nicolas$upshifts %>%
+    transmute(src = 'Nicolas et al.', id, sigma) %>%
+    mutate_at('sigma', str_remove, 'Sig'),
+  dbtbs$tss %>%
+    transmute(src = 'DBTBS', id = 1:n(), sigma) %>%
+    mutate_at('id', as.character) %>%
+    mutate_at('sigma', str_remove, 'Sig'),
+  bs,
+  bsg.boundaries$TSS %>%
+    transmute(id, sigma, src = 'BSGatlas')
+) %>%
   mutate_at('sigma', replace_na, '?') %>%
   mutate_at('sigma', str_replace, '-', '?') %>%
   mutate_at('sigma', str_replace_all, '([A-Z])(?=[A-Z])', '\\1;') %>%
-  separate_rows(sigma, sep = ';') -> sigma.bind
+  separate_rows(sigma, sep = ';') %>%
+  mutate(sigma = ifelse(sigma == 'C', 'YlaC', sigma)) %>%
+  mutate(
+    group = ifelse(sigma %in% c('?', 'A', 'E','F', 'G', 'K'),
+                   sigma,
+                   'other')
+  ) -> tss.dat
 
-sigma.bind %>%
-  count(src, sigma) %>%
-  spread(src, n, fill = 0) %>%
-  arrange(desc(BSGatlas)) %>%
-  mutate(sigma = ifelse(sigma != 'YlaC',
-                        paste0('Sig', sigma),
-                        sigma),
-         group = case_when(
-           sigma == 'Sig?' ~ 'unknown',
-           1:n() <= 6 ~ sigma,
-           TRUE ~ 'other'
-        )) %>%
-  group_by(group) %>%
-  summarize_if(is.numeric, sum) %>%
-  gather('src', 'n', - group) %>%
+
+tss.dat %>%
+  count(src, group) %>%
   left_join(
-    sigma.bind %>%
+    tss.dat %>%
+      select(id, src) %>%
+      # unique() %>%
+      # nope, one position can have multiple binding sites
       count(src) %>%
       rename(total = n),
     'src'
   ) %>%
-  # mutate(prop = n) %>%
-  mutate(prop = n / total * 100) %>%
-  select(src, group, prop) %>%
-              # filter(src == 'BSGatlas') %>%
-              # with(reorder(group, - prop)) %>%
-              # levels %>% dput
-  mutate_at('src', fct_recode, "Nicolas et al.\nUpshift" = "Nicolas et al upshift") %>%
-  mutate_at('src', fct_recode, "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start") %>%
+  mutate(prop = n / total * 100) -> tss.prop
+
+tss.prop %>%
+  mutate(group = fct_reorder(group, prop, max) %>% fct_rev) %>%
+  mutate(group = fct_recode(group, 'unknown' = '?')) %>%
+  mutate_at('src', fct_relevel,
+            'BSGatlas', 'Nicolas et al.', 'BsubCyc', 'DBTBS') %>%
   mutate_at('group', fct_relevel,
-            "SigA", "other", "SigF", "unknown", "SigE", "SigK", "SigG") %>%
+            'unknown', 'A', 'E', 'F', 'G', 'K', 'other') %>%
   ggplot(aes(x = src, fill = group, y = prop)) +
   geom_bar(stat = 'identity') +
   xlab(NULL) + ylab('Proprotion [%]') +
-  ggsci::scale_fill_jama(name = 'Sigma Factor') +
-  theme_minimal(base_size = 16)
-ggsave(file = 'analysis/05_sigma_proportion.pdf',
-       width = 20, height = 12, units = 'cm')
-  
-bsg.tss %>%
-  count(res.limit)
-# res.limit     n
-#         0   706
-#        22  2679
-#        33    12
-bsg.tss %>%
-  separate_rows(src, sep = ';') %>%
-  count(src) %>%
-  bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.tss))) %>%
-#  BsubCyc                      556
-#  DBTBS                        644
-#  Nicolas et al 5' UTR start   690
-#  Nicolas et al upshift       3264
-#  BSGatlas                    3397
-  mutate(src = fct_reorder(src, - n)) %>%
-  mutate_at('src', fct_recode, "Nicolas et al.\nUpshift" = "Nicolas et al upshift") %>%
-  mutate_at('src', fct_recode, "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start") %>%
-  ggplot(aes(x = src, y = n, fill = src)) + 
-  ggsci::scale_fill_jama(name = NULL) +
-  geom_bar(stat = 'identity') +
-  theme_minimal(base_size = 16) +
-  scale_y_continuous(breaks = c(500, 1000, 1500, 2000, 2500, 3000, 3500)) +
-  ylab('count of sigma factor binding sites') + xlab(NULL) +
-  theme(legend.position = 'none')
-
-ggsave(file = 'analysis/05_count_promoter.pdf',
-       width = 30, height = 12, units = 'cm')
-
-# venn diagram
-
-library(venn)
-pdf(file = 'analysis/05_venn_tss.pdf')
-bsg.tss %>%
-  select(id, src) %>%
-  separate_rows(src, sep = ';') %>%
-  mutate_at('src', fct_recode,
-            'DBTBS (TSS)' = 'DBTBS',
-            'BsubCyc\n(TSS)' = 'BsubCyc',
-            "Nicolas et al.\n5'UTR start" = "Nicolas et al 5' UTR start",
-            'Nicolas et al.\nupshift' = 'Nicolas et al upshift') %>%
-  group_by(src) %>%
-  do(i = list(.$id)) %>%
-  with(set_names(map(i, 1), src)) %>%
-  venn(cexil = 1.3,
-       cexsn = 1.3,
-       zcolor = ggsci::pal_jama()(4))
-dev.off()
+  # ggsci::scale_fill_jco(name = 'Sigma Factor') +
+  scale_fill_brewer(palette = 'RdYlBu', name = 'Sigma Factor') +
+  # theme_bw(base_size = 14) -> p2
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank()
+  ) -> p2
 
 
-# FOO
+##############################################################################
+# put it all togehter
 
-term.merge %>%
-  group_by(group) %>%
-  top_n(-1, prio) %>%
-  summarize(start = min(start), end = max(end),
-            strand = clean_paste(strand)) -> term.pos
-# count(term.pos, strand)
-# ok, no strand problems
-term.merge %>%
-  select(group, src, energy, pubmed) %>%
-  gather('key', 'value', src, energy, pubmed) %>%
-  separate_rows(value, sep = ';') %>%
-  drop_na %>%
-  filter(value != '') %>%
-  unique %>%
-  group_by(group, key) %>%
-  summarize_at('value',
-               c(clean_paste,
-                 function(i) i %>% as.numeric %>% min)) -> term.meta
+cowplot::plot_grid(
+  cowplot::plot_grid(
+    p1$TSS, p1$TTS,
+    labels = c('(a)', '(b)'),
+    ncol = 2
+  ),
+  cowplot::plot_grid(
+    helper('TSS'), helper('TTS'), p2,
+    # function() helper('TSS'),
+    # partial(helper, 'TSS'), partial(helper, 'TTS'), p2,
+    labels = c('(c) TSS', '(d) TTS', '(e)'),
+    rel_widths = c(1, 1, 2),
+    ncol = 3, hjust = 0
+  ),
+  ncol = 1
+)
 
-term.meta %>%
-  mutate(value = ifelse(key == 'energy', as.character(fn2), fn1)) %>%
-  select(- starts_with('fn')) %>%
-  spread(key, value, fill = '') %>%
-  left_join(term.pos, 'group') %>%
-  ungroup %>%
-  arrange(start) %>%
-  unique %>%
-  transmute(id = paste0('BSGatlas-terminator-', 1:n()),
-            start, end, strand, energy, src) -> bsg.term
+ggsave('analysis/05_stat.pdf', 
+       width = 30, height = 20, units = 'cm')
 
-
-pdf(file = 'analysis/05_venn_term.pdf')
-bsg.term %>%
-  select(id, src) %>%
-  separate_rows(src, sep = ';') %>%
-  mutate_at('src', fct_recode,
-            'DBTBS (terminators)' = 'DBTBS',
-            'BsubCyc\n(term.)' = 'BsubCyc',
-            "Nicolas et al.\n3'UTR end" = "Nicolas et al 3' UTR end",
-            'Nicolas et al.\ndownshift' = 'Nicolas et al. downshift') %>%
-  group_by(src) %>%
-  do(i = list(.$id)) %>%
-  with(set_names(map(i, 1), src)) %>%
-  venn(cexil = 1.3,
-       cexsn = 1.3,
-       ilabels = TRUE,
-       zcolor = ggsci::pal_jama()(4))
-dev.off()
-
-
-bsg.term %>%
-  separate_rows(src, sep = ';') %>%
-  count(src) %>%
-  bind_rows(tibble(src = 'BSGatlas', n = nrow(bsg.term))) %>%
-  mutate(src = fct_reorder(src, -n )) %>%
-  mutate_at('src', fct_recode, "Nicolas et al.\nDownshift" = "Nicolas et al. downshift") %>%
-  mutate_at('src', fct_recode, "Nicolas et al.\n3'UTR end" = "Nicolas et al 3' UTR end") %>%
-  ggplot(aes(x = src, y = n, fill = src)) +
-  geom_bar(stat = 'identity') +
-  ggsci::scale_fill_jama() +
-  xlab(NULL) + ylab('count of transcription terminators') +
-  theme_minimal(base_size = 16) +
-  theme(legend.position = 'none')
-
-ggsave(file = 'analysis/05_term_counts.pdf',
-       width = 30, height = 12, units = 'cm')
-
-  
-# save results
-bsg.boundaries <- list(TSS = bsg.tss, terminator = bsg.term)
-save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
-
-
-bsg.boundaries %>%
-  map(separate_rows, src, sep = ';') %>%
-  map(count, src) %>%
-  map2(names(.), ~ mutate(.x, type = .y)) %>%
-  bind_rows() %>%
-  mutate(src = case_when(
-    str_detect(src, 'UTR') ~ "Nicolas et al. 5'/3' UTR ends",
-    str_detect(src, 'Nicolas') ~ 'Nicolas et al',
-    TRUE ~ src
-  )) %>%
-  bind_rows(
-    bsg.boundaries %>%
-      map(nrow) %>%
-      map2(names(.), ~ tibble(type = .y, n = .x)) %>%
-      bind_rows %>%
-      mutate(src = 'BSGatlas')
-  ) %>%
-  spread(type, n) %>%
-  kable('latex', booktabs = TRUE) %>%
-  kable_styling() %>%
-  strsplit('\n') %>%
-  unlist %>%
-  `[`(2:(length(.) - 1)) %>%
-  write_lines('analysis/05_overview.tex')
