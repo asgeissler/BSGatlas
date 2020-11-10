@@ -24,7 +24,7 @@ bind_rows(
               locus = genes, incomplete.flag = FALSE) %>%
     separate_rows(locus, sep = ';') %>%
     left_join(merging$merged_src %>%
-                filter(str_detect(src, 'bsubcyc')) %>%
+                filter(str_detect(src, 'BsubCyc')) %>%
                 select(gene = merged_id, locus),
               'locus') %>%
     select(- locus)
@@ -39,8 +39,8 @@ bind_rows(
 # 1 bsubcyc FALSE            1602
 # 2 dbtbs   FALSE            1107
 # 3 dbtbs   TRUE               16
-# 4 subti   FALSE            2249
-# 5 subti   TRUE               10
+# 4 subti   FALSE            2258
+# 5 subti   TRUE                9
 
 dat %<>% mutate(idsrc = paste0(id, '%', src))
 
@@ -49,14 +49,32 @@ dat %<>% mutate(idsrc = paste0(id, '%', src))
 
 genes <- merging$merged_genes %>%
   rename(id = merged_id)
+
+# Manually resolve minor synonyms conflicts (ids from below)
+syn.conflicts <- tribble(
+  ~idsrc,               ~id,         ~gene,
+  'bsrE%subti',        'bsrE',       'BSGatlas-gene-2240',
+  'bsrH->ratA%subti',  'bsrH->ratA', 'BSGatlas-gene-3050',
+  'SR5%subti',         'SR5',        'BSGatlas-gene-2238'
+)
+
 span <- dat %>%
   left_join(genes, c('gene' = 'id')) %>%
+  anti_join(syn.conflicts) %>%
   group_by(idsrc) %>%
   summarize(
     start = min(start),
     end = max(end),
     strand = clean_paste(strand)
   )
+
+# span %>% filter(!strand %in% c('+', '-'))  %>%
+#   select(idsrc) %>%
+#   left_join(dat) %>%
+#   left_join(genes, c('gene' = 'id'))
+# -> provides input for manual resolve (above)
+
+# => needed to fullfill assertion
 
 # no confusion about strand (hints at possible id mapping problem)
 assertthat::are_equal(
@@ -70,12 +88,12 @@ cmp <- overlap_matching(rename(span, id = idsrc), genes) %>%
 cmp %>%
   count(mode)
 # mode                n
-# 1 3-5_overlap        63
-# 2 5-3_overlap        79
-# 3 contained_by       10
-# 4 contains         9483
-# 5 equal            3004
-# 6 without_overlap   432 (genes not contained in any operon)
+# 1 3-5_overlap        61
+# 2 5-3_overlap        77
+# 3 contained_by       11
+# 4 contains        10912
+# 5 equal            3006
+# 6 without_overlap   400 (genes not contained in any operon)
 
 cmp %>%
   transmute(
@@ -116,70 +134,75 @@ complement <- cmp %>%
   select(idsrc = x, gene = y) %>%
   unique
 
-# complement %>%
-#   left_join(dat, c('idsrc', 'gene')) %>%
-#   mutate(new = is.na(src)) %>%
-#   select(idsrc, gene, new) %>%
-#   separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
-#   count(src, new)
+complement %>%
+  left_join(dat, c('idsrc', 'gene')) %>%
+  mutate(new = is.na(src)) %>%
+  select(idsrc, gene, new) %>%
+  separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
+  count(src, new)
 # src     new       n
 # 1 bsubcyc FALSE  3007
-# 2 bsubcyc TRUE     46
+# 2 bsubcyc TRUE     43
 # 3 dbtbs   FALSE  2176
-# 4 dbtbs   TRUE    753
-# 5 subti   FALSE  4547
-# 6 subti   TRUE   1968
+# 4 dbtbs   TRUE    748
+# 5 subti   FALSE  4578
+# 6 subti   TRUE   3385
 
-# complement %>%
-#   left_join(dat, c('idsrc', 'gene')) %>%
-#   mutate(new = is.na(src)) %>%
-#   select(idsrc, gene, new) %>%
-#   separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
-#   group_by(idsrc, src) %>%
-#   summarize(any.new = any(new)) %>%
-#   ungroup %>%
-#   count(src, any.new)
+complement %>%
+  left_join(dat, c('idsrc', 'gene')) %>%
+  mutate(new = is.na(src)) %>%
+  select(idsrc, gene, new) %>%
+  separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
+  group_by(idsrc, src) %>%
+  summarize(any.new = any(new)) %>%
+  ungroup %>%
+  count(src, any.new)
 # src     any.new     n
-# 1 bsubcyc FALSE    1585
-# 2 bsubcyc TRUE       17
-# 3 dbtbs   FALSE    1102
-# 4 dbtbs   TRUE       21
-# 5 subti   FALSE    2209
-# 6 subti   TRUE       50
+# 1 bsubcyc FALSE    1586
+# 2 bsubcyc TRUE       16
+# 3 dbtbs   FALSE    1103
+# 4 dbtbs   TRUE       20
+# 5 subti   FALSE    2216
+# 6 subti   TRUE       51
 
-# complement %>%
-#   left_join(dat, c('idsrc', 'gene')) %>%
-#   mutate(new = is.na(src)) %>%
-#   filter(new) %>%
-#   select(idsrc) %>%
-#   left_join(dat) %>%
-#   select(idsrc, incomplete.flag) %>%
-#   unique %>%
-#   separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
-#   count(src, incomplete.flag)
-# # src     incomplete.flag     n
-# # bsubcyc FALSE              17
-# # dbtbs   FALSE              17 of 1107
-# # dbtbs   TRUE                4 of 16
-# # subti   FALSE              49 of 2249
-# # subti   TRUE                1 of 10
-# 
-# dat %>%
-#   select(idsrc, incomplete.flag) %>%
-#   unique %>%
-#   separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
-#   count(src, incomplete.flag)
-# # src     incomplete.flag     n
-# # bsubcyc FALSE            1602
-# # dbtbs   FALSE            1107
-# # dbtbs   TRUE               16
-# # subti   FALSE            2249
-# # subti   TRUE               10
+complement %>%
+  left_join(dat, c('idsrc', 'gene')) %>%
+  mutate(new = is.na(src)) %>%
+  filter(new) %>%
+  select(idsrc) %>%
+  left_join(dat) %>%
+  select(idsrc, incomplete.flag) %>%
+  unique %>%
+  separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
+  count(src, incomplete.flag)
+# src     incomplete.flag     n
+# 1 bsubcyc FALSE              16
+# 2 dbtbs   FALSE              16
+# 3 dbtbs   TRUE                4
+# 4 subti   FALSE              50
+# 5 subti   TRUE                1
+
+dat %>%
+  select(idsrc, incomplete.flag) %>%
+  unique %>%
+  separate(idsrc, c('id', 'src'), '%', remove = FALSE) %>%
+  count(src, incomplete.flag)
+# src     incomplete.flag     n
+# 1 bsubcyc FALSE            1602
+# 2 dbtbs   FALSE            1107
+# 3 dbtbs   TRUE               16
+# 4 subti   FALSE            2258
+# 5 subti   TRUE                9
 
 
 # There was no gene supposedly part of transcript, but it did not overlap
-assertthat::are_equal(dat %>% anti_join(complement) %>% nrow,
-                      0)
+assertthat::are_equal(
+  dat %>%
+    anti_join(complement) %>%
+    anti_join(syn.conflicts) %>%
+    nrow,
+  0
+)
 
 #####################################
 # 3. Unify
@@ -205,8 +228,8 @@ short %>%
 un %>%
   count(n.flags, all.flags)
 # n.flags all.flags     n
-# 0       FALSE      2450
-# 1       FALSE        15
+# 0       FALSE      2460
+# 1       FALSE        14
 # 1       TRUE         11
 
 un %>%
@@ -223,10 +246,11 @@ un %>%
 short.span %>%
   left_join(mutate(un, row = 1:n()), 'row') %>%
   arrange(start, desc(end)) %>%
-  # Filter erranous gene matching of over 1/4 of the genome
+  # Filter erranous gene matching of over 1/4 of the genome (due to synonyms)
   filter(end - start + 1 < 1e6) %>%
   mutate(
-    id = sprintf('BSGatlas-tu-%s', 1:n()),
+    # the final names are asigned in 07_isoforms.R
+    id = sprintf('tmp-tu-%s', 1:n()),
     possibly.incomplete = n.flags > 0,
     src = src %>%
       str_replace('subti', 'SubtiWiki') %>%
@@ -235,6 +259,5 @@ short.span %>%
   ) %>%
   select(id, start, end, strand, src, possibly.incomplete, genes) %>%
   ungroup -> tus
-
 
 save(tus, file = 'analysis/03_tus.rda')
