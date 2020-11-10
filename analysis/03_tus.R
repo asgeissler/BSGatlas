@@ -246,8 +246,11 @@ un %>%
 short.span %>%
   left_join(mutate(un, row = 1:n()), 'row') %>%
   arrange(start, desc(end)) %>%
+  # nrow
   # Filter erranous gene matching of over 1/4 of the genome (due to synonyms)
   filter(end - start + 1 < 1e6) %>%
+  # nrow
+  # filtering of 3
   mutate(
     # the final names are asigned in 07_isoforms.R
     id = sprintf('tmp-tu-%s', 1:n()),
