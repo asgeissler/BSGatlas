@@ -23,11 +23,11 @@ cmp <- overlap_matching(merged, indiv) %>%
   semi_join(indiv, c('x' = 'merged_id', 'y' = 'id')) %>%
   separate(y, c('src', 'indiv_loci'), sep = '%', remove = FALSE)
 
-# cmp %>%
-#   with(x.length + y.length - overlap  ==  (x5.dist + x3.dist + overlap)) %>%
-#   summary
+cmp %>%
+  with(x.length + y.length - overlap  ==  (x5.dist + x3.dist + overlap)) %>%
+  summary
 # Mode    TRUE 
-# logical    9637
+# logical    9588
 
 cmp %<>%
   mutate(
@@ -42,24 +42,14 @@ merging$merged_src %>%
   select(src, priority) %>%
   unique() %>%
   mutate(
-    nice = case_when(
-      src == "nicolas lower"      ~ 'Nicolas et al.\npredictions',
-      src == "nicolas trusted"    ~ 'Nicolas et al.\ntrusted predictions',
-      src == "dar riboswitches"   ~ 'Dar et al. riboswitches',
-      src == "refseq coding"      ~ 'RefSeq Coding',
-      src == "bsubcyc coding"     ~ 'BsubCyc Coding',
-      src == "rfam conservative"  ~ 'Rfam, conservative',
-      src == "rfam medium"        ~ 'Rfam, medium',
-      src == "refseq noncoding"   ~ 'RefSeq Non-Coding',
-      src == "bsubcyc noncoding"  ~ 'BsubCyc Non-Coding',
-      src == "nicolas lit review" ~ 'Nicolas et al.\'s\nliterature review'
-    ),
-    nice = sprintf('%s (%s)', nice, priority) %>%
+    nice = sprintf('%s (%s)', src, priority) %>%
       fct_reorder(priority)
   ) -> nice.names
 
 cmp %>%
   left_join(nice.names, 'src') %>%
+  # S708 and S1202 are weired after changing the input to Nicolas et al. table S2
+  filter(total.diff <= 500) %>%
   ggplot(aes(x = total.diff.cat, y = jaccard)) +
   geom_boxplot() +
   facet_wrap(~ nice) + 
@@ -68,28 +58,16 @@ cmp %>%
   ylab('Jaccard Similarity')
 
 ggsave(file = 'analysis/04_refinment_boxplot.pdf',
-       width = 8, height = 8)
+       width = 6, height = 6)
 
 cmp %>%
   left_join(nice.names, 'src') %>%
+  # S708 and S1202 are weired after changing the input to Nicolas et al. table S2
+  filter(total.diff <= 500) %>%
   count(nice, total.diff.cat) %>%
   spread(total.diff.cat, n, fill = 0) -> stat
 
 View(stat)
-
-stat %>%
-  mutate_at('nice', str_replace, 'et al.', '\\\\emph{et al.}') %>%
-  mutate_at('nice', str_remove, '\\n') %>%
-  rename(Resource = nice) %>%
-  kable('latex', escape = FALSE, caption = 'foo', booktabs = TRUE) %>%
-  kable_styling(latex_options = 'scale_down') %>%
-  str_split('\\n') %>%
-  unlist %>%
-  # thousand digit mark
-  str_replace_all('(\\d)(\\d{3})', '\\1,\\2') %>%
-  # without environment
-  `[`(4:(length(.) - 1)) %>%
-  write_lines(path = 'analysis/04_refinment_stat.tex')
 
 # 2. UTRs
 
@@ -110,37 +88,6 @@ nicolas$all.features %>%
 nic.utrs
 cmp.dist <- distance_matching(nic.utrs, merged)
 cmp.over <- overlap_matching(nic.utrs, tus)
-
-cmp.over %>%
-  filter(!antisense) %>%
-  drop_na(x) %>%
-  select(x, x.type, overlap, x.length) %>%
-  mutate_at('overlap', replace_na, 0) %>%
-  # against TUs take maximum
-  group_by(x) %>%
-  top_n(1, overlap) %>%
-  ungroup %>%
-  unique %>%
-  # filter(x.type == 'intergenic') %>%
-  group_by(x.type) %>%
-  do(foo = cut(.$overlap / .$x.length * 100,
-               seq(0, 100, length.out = 5),
-               include.lowest = TRUE) %>%
-      fct_explicit_na('not overlapping') %>%
-      fct_relevel('not overlapping') %>%
-      fct_count()
-  ) %>%
-  unnest %>%
-  ggplot(aes(x = f, y = n )) +
-  geom_bar(stat = 'identity') +
-  xlab('overlap with TUs relative to prediction length [%]') +
-  ylab('count') +
-  facet_wrap(~ x.type, scale = 'free_y')
-
-ggsave(file = 'analysis/04_nic_overlaps.pdf',
-       width = 9, height = 6, units = 'in')
-
-
 
 cmp.dist %>%
   filter(!antisense) %>%
@@ -168,11 +115,5 @@ cmp.dist %>%
   #                     # '1,000..10,000', '10,000+')) %>%
   #                     '1,000+')) %>%
   rename('distance to closest gene' = dist.cut) %>%
-  kable('latex', caption = 'foo', booktabs = TRUE) %>%
-  kable_styling(latex_options = 'scale_down') %>%
-  str_split('\\n') %>%
-  unlist %>%
-  # without environment
-  `[`(4:(length(.) - 1)) %>%
-  write_lines(path = 'analysis/04_nic_dist_stat.tex')
+  View
 
