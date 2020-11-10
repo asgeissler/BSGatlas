@@ -8,107 +8,166 @@ load('data/01_bsubcyc.rda')
 load('data/01_nicolas.rda')
 load('data/03_dbtbs.rda')
 
+library(tidygraph)
+
 ##############################################################################
-# 1. find TSS resolution
+# 0. Collect input
 
-tss.dat <- bind_rows(
-  nicolas$upshifts %>%
-    transmute(src = 'Nicolas et al upshift', id, TSS = pos, strand, sigma,
-              pubmed = '') %>%
-    mutate_at('sigma', str_remove, 'Sig'),
-nicolas$all.features %>%
-  filter(startsWith(type, "5'")) %>%
-  transmute(src = 'Nicolas et al 5\' UTR start', id = locus,
-            strand, TSS = ifelse(strand == '+', start, end),
-            sigma = '?', pubmed = ''),
-  dbtbs$tss %>%
-    transmute(src = 'DBTBS', id = 1:n(), TSS, strand, sigma,
-              pubmed = reference) %>%
-    mutate_at('id', as.character) %>%
-    mutate_at('sigma', str_remove, 'Sig'),
-  bsubcyc$TSS %>%
-    transmute(src = 'BsubCyc', id = 1:n(), TSS = tss, strand, sigma,
-              pubmed = cite) %>%
-    mutate_at('id', as.character)
-) %>%
-  mutate(src_id = paste0(src, '%', id))
-  
+dat <- bind_rows(
+  # Part 1: TSS
+  bind_rows(
+    nicolas$upshifts %>%
+      transmute(src = 'Nicolas et al. upshift', id, TSS = pos, strand, sigma,
+                without.tu,
+                pubmed = '') %>%
+      mutate_at('sigma', str_remove, 'Sig'),
+    dbtbs$tss %>%
+      transmute(src = 'DBTBS', id = 1:n(), TSS, strand, sigma,
+                without.tu = FALSE,
+                pubmed = reference) %>%
+      mutate_at('id', as.character) %>%
+      mutate_at('sigma', str_remove, 'Sig'),
+    bsubcyc$TSS %>%
+      transmute(src = 'BsubCyc', id = 1:n(), TSS = tss, strand, sigma,
+                without.tu = FALSE,
+                pubmed = cite) %>%
+      mutate_at('id', as.character)
+  ) %>%
+    mutate(src_id = paste0(src, '%', id)) %>%
+    rename(extra = sigma) %>%
+    mutate(type = 'TSS', start = TSS, end = TSS) %>%
+    select(-TSS),
+  # Part 2: Terminators
+  bind_rows(
+    bsubcyc$terminator %>%
+      arrange(start) %>%
+      unique %>%
+      transmute(id = 1:n(), start, end, strand, energy,
+                without.tu = FALSE,
+                src = 'BsubCyc') %>%
+      mutate_at(c('id', 'energy'), as.character),
+    dbtbs$term %>%
+      arrange(start) %>%
+      transmute(id = 1:n(), start, end, strand, energy = energies,
+                without.tu = FALSE,
+                src = 'DBTBS',
+                pubmed = reference) %>%
+      mutate_at('id', as.character),
+    nicolas$downshifts %>%
+      transmute(id, start = pos, end = pos, strand, energy,
+                without.tu,
+                src = 'Nicolas et al. downshift') %>%
+      mutate_at('energy', as.character)
+  ) %>%
+    mutate_at('energy', replace_na, '') %>%
+    drop_na(start) %>%
+    mutate(src_id = paste0(src, '%', id)) %>%
+    rename(extra = energy) %>%
+    mutate(type = 'Terminator')
+)
+##############################################################################
+# 1. find resolutions
 
-
-tss.dat %>%
-  mutate(start = TSS, end = TSS) %>%
+dat  %>%
   select(id = src_id, start, end, strand) %>%
   distance_matching(., .) %>%
-  filter(x != y, !antisense) %>%
-  mutate(
-    from = x %>%
-      strsplit('%') %>%
-      map(1) %>%
-      unlist,
-    to = y %>%
-      strsplit('%') %>%
-      map(1) %>%
-      unlist
-  ) %>%
-  mutate(nearest = ifelse(mode == 'x.after.y',
-                          - distance,
-                          distance),
-         abs.near = abs(nearest)) %>%
-  group_by(x, from, to) %>%
-  top_n(-1, abs.near) %>%
-  ungroup -> tss.near
-
-tss.near %>%
-  filter(from <= to) %>%
-  filter(abs.near < 100) %>%
-  mutate_at(c('from', 'to'),
-            ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'TSS'))) %>%
-  ggplot(aes(x = nearest)) +
-  geom_histogram() +
-  xlab('Distance to closest TSS') +
-  facet_wrap(from ~ to, scale = 'free_y', ncol = 3)
-
-ggsave(file = 'analysis/05_tss_comparison.pdf',
-       width = 7, height = 7, units = 'in')
-
-
-##############################################################################
-# 2. TSS merging
-
-tss.dat %>%
-  transmute(id = src_id, TSS, strand, sigma) %>%
-  mutate(res.limit = case_when(
-    str_detect(id, 'upshift') ~ 22,
-    str_detect(id, 'UTR start') ~ 33,
-    TRUE ~ 0
-  ),
-  start = TSS - res.limit,
-  end = TSS + res.limit) -> tss.win
-
-tss.win %>%
-  transmute(i = 1:n(), name = id) -> nodes
-
-overlap_matching(tss.win, tss.win) %>%
   filter(!antisense) %>%
-  select(from = x, to = y) %>%
-  drop_na %>%
-  unique %>%
-  mutate(row = 1:n()) %>%
-  gather('pair', 'name', from, to) %>%
-  left_join(nodes, 'name') %>%
-  select(- name) %>%
-  spread(pair, i) %>%
-  select(- row) -> edges
+  filter(x != y) %>%
+  left_join(select(dat, x = src_id, x.type = type, x.src = src), 'x') %>%
+  left_join(select(dat, y = src_id, y.type = type, y.src = src), 'y') %>%
+  filter(x.type == y.type) %>%
+  rename(type = x.type) %>%
+  mutate(mode = ifelse(x.src == y.src, 'within', 'between')) %>%
+  select(- y.type) -> dat.cmp
 
-library(tidygraph)
-grp <- tbl_graph(nodes = nodes, edges = edges,
+
+dat.cmp %>%
+  filter(((mode == 'between') & (x.src < y.src)) | (x < y)) %>%
+  group_by(type, mode, x, x.src, y.src) %>%
+  summarize_at('distance', min) %>%
+  ungroup -> dist.stat
+
+
+cowplot::plot_grid(
+  dist.stat %>%
+    filter(mode == 'within') %>%
+    mutate_at('x.src', str_remove, ' [updown]*shift$') %>%
+    ggplot(aes(distance, col = x.src)) +
+    stat_ecdf(size = 1.5) +
+    scale_x_continuous(
+      breaks = c(10, 25, 50, 100, 150),
+      limits = c(0, 150)
+    ) +
+    ggsci::scale_color_jama(name = NULL) +
+    scale_y_continuous(breaks = c(0, .25, .5, .75, .85, .9, 1)) +
+    xlab('Distance to closest neighboring annotation [bp]') +
+    ylab('Empirical density') +
+    facet_wrap(~ type) +
+    theme_bw(18) +
+    theme(legend.position = 'bottom'),
+  dist.stat %>%
+    filter(mode == 'between') %>%
+    mutate_at('y.src', str_remove, ' [updown]*shift$') %>%
+    mutate(short = sprintf('%s vs\n%s', x.src, y.src)) %>%
+    ggplot(aes(distance)) +
+    stat_ecdf(size = 1.5) +
+    scale_x_continuous(
+      breaks = c(10, 25, 50, 100, 150),
+      limits = c(0, 150)
+    ) +
+    ggsci::scale_color_jama(name = 'Resource') +
+    scale_y_continuous(breaks = c(0, .25, .5, .75, .85, .9, 1)) +
+    geom_hline(yintercept = .9, color = 'red') +
+    xlab('Distance to closest annotation in the other resource [bp]') +
+    ylab('Empirical density') +
+    facet_grid(type ~ short) +
+    theme_bw(18) +
+    theme(legend.position = 'bottom'),
+  labels = 'AUTO',
+  ncol = 2,
+  rel_widths = c(1.5, 3),
+  label_size = 24
+)
+
+
+ggsave('analysis/05_resolution.pdf',
+       width = 18, height = 8)
+##############################################################################
+# 2. Merging
+
+# Make windows for Nicolas
+# Then merge by overlaps, similar code as for gene merging
+dat %>%
+  mutate(
+    res.limit = ifelse(str_detect(src, 'Nicolas'), 22, 0),
+    start = start - res.limit,
+    end = end - res.limit
+  ) %>%
+  transmute(
+    i = 1:n(),
+    id = src_id, type, src, 
+    start, end, strand,
+    extra, without.tu
+  ) -> merge.that
+  
+merge.that %>%
+  overlap_matching(., .) %>%
+  filter(x != y) %>%
+  filter(!antisense) %>%
+  # prevent mixture of TSS/Terminators
+  filter(x.type == y.type) %>%
+  select(from = x.i, to = y.i) %>%
+  drop_na -> edges
+
+grp <- tbl_graph(nodes = merge.that,
+                 edges = edges,
                  directed = FALSE)
 
 grp %>%
   activate(nodes) %>%
   mutate(group = group_components()) %>%
-  # filter(group == 1) %>%
-  # plot
+  filter(group == 1) %>%
+  plot(label = id)
   as_tibble %>%
   select(- i) %>%
   left_join(tss.win, c('name' = 'id')) %>%
@@ -254,142 +313,8 @@ bsg.tss %>%
        zcolor = ggsci::pal_jama()(4))
 dev.off()
 
-##############################################################################
-# 2. Terminator merging
 
-dat.term <- bind_rows(
-  bsubcyc$terminator %>%
-    arrange(start) %>%
-    unique %>%
-    transmute(id = 1:n(), start, end, strand, energy,
-              src = 'BsubCyc', prio = 1) %>%
-    mutate_at(c('id', 'energy'), as.character),
-  dbtbs$term %>%
-    arrange(start) %>%
-    transmute(id = 1:n(), start, end, strand, energy = energies,
-              src = 'DBTBS', prio = 0,
-              pubmed = reference) %>%
-    mutate_at('id', as.character),
-  nicolas$downshifts %>%
-    transmute(id, start = pos, end = pos, strand, energy,
-              src = 'Nicolas et al. downshift', prio = 2) %>%
-    mutate_at('energy', as.character),
-  nicolas$all.features %>%
-    filter(startsWith(type, "3'")) %>%
-    transmute(src = 'Nicolas et al 3\' UTR end', id = locus,
-              strand,
-              tmp = ifelse(strand == '+', end, start),
-              start = tmp, end = tmp,
-              energy = NA,
-              prio = 3) %>%
-      select(-tmp)
-) %>%
-  mutate_at('energy', replace_na, '') %>%
-  drop_na(start) %>%
-  rename(rid = id) %>%
-  mutate(id = paste0(src, '%', rid))
-
-distance_matching(dat.term, dat.term) %>%
-  filter(!antisense) %>%
-  filter(x != y) %>%
-  mutate(
-    from = x %>%
-      strsplit('%') %>%
-      map(1) %>%
-      unlist,
-    to = y %>%
-      strsplit('%') %>%
-      map(1) %>%
-      unlist
-  ) %>%
-  mutate(nearest = ifelse(mode == 'x.after.y',
-                          - distance,
-                          distance),
-         abs.near = abs(nearest)) %>%
-  group_by(x, from, to) %>%
-  top_n(-1, abs.near) %>%
-  ungroup -> term.near
-  
-term.near %>%
-  filter(from <= to) %>%
-  # filter((from != to) | (x < y)) %>%
-  filter(abs.near < 1e2) %>%
-  # group_by(from, to) %>% top_n(-5, abs.near)  %>% slice(1:5) %>% View
-  mutate_at(c('from', 'to'),
-            ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'Term.'))) %>%
-  ggplot(aes(x = nearest)) +
-  geom_histogram() +
-  xlab('Distance to closest Terminator') +
-  facet_wrap(from ~ to, scale = 'free_y')
-
-ggsave(file = 'analysis/05_term_comparison.pdf',
-       width = 7, height = 7, units = 'in')
-
-##############################################################################
-# combined resolution plot for publication
-cowplot::plot_grid(
-  tss.near %>%
-    filter(from <= to) %>%
-    filter(abs.near < 100) %>%
-    mutate_at(c('from', 'to'),
-              ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'TSS'))) %>%
-    ggplot(aes(x = nearest)) +
-    geom_histogram() +
-    xlab('Distance to closest TSS') +
-    facet_wrap(from ~ to, scale = 'free_y', ncol = 3),
-  term.near %>%
-    filter(from <= to) %>%
-    # filter((from != to) | (x < y)) %>%
-    filter(abs.near < 1e2) %>%
-    # group_by(from, to) %>% top_n(-5, abs.near)  %>% slice(1:5) %>% View
-    mutate_at(c('from', 'to'),
-              ~ ifelse(str_detect(.x, 'Nicolas'), .x, paste(.x, 'Term.'))) %>%
-    ggplot(aes(x = nearest)) +
-    geom_histogram() +
-    xlab('Distance to closest TTS') +
-    facet_wrap(from ~ to, scale = 'free_y'),
-  ncol = 1,
-  labels = c('(a)', '(b)')
-)
-
-ggsave('analysis/05_resolution.pdf',
-       width = 20, height = 30, units = 'cm')
-##############################################################################
-
-dat.term %>%
-  mutate(
-    res = case_when(
-      str_detect(id, 'downshift') ~ 22,
-      str_detect(id, 'UTR end') ~ 33,
-      TRUE ~ 0
-      ),
-    start = start - res,
-    end = end + res
-  ) -> dat.term2
-
-term.over <- overlap_matching(dat.term2, dat.term2) %>%
-  filter(!antisense) %>%
-  select(x, y) %>%
-  drop_na
-
-nodes <- dat.term2 %>%
-  transmute(i = 1:n(), name = id, i)
-edges <- term.over %>%
-  mutate(row = 1:n()) %>%
-  gather('key', 'name', x, y) %>%
-  left_join(nodes, 'name') %>%
-  select(-name) %>%
-  spread(key, i) %>%
-  select(-row)
-
-graph <- tbl_graph(nodes, edges, FALSE)
-graph %>%
-  activate(nodes) %>%
-  mutate(group = group_components()) %>%
-  as_tibble %>%
-  left_join(dat.term2, c('name' = 'id')) %>%
-  select(group, id = name, src, energy, prio, pubmed, start, end, strand) -> term.merge
-
+# FOO
 
 term.merge %>%
   group_by(group) %>%
