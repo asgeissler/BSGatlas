@@ -114,6 +114,8 @@ save(dbtbs_xml, file = 'data/03_dbtbs_xml.rda')
 
 ################################################################################
 # Second: Fill in the numbers for easier use
+load('data/03_dbtbs_xml.rda')
+DBTBS <- dbtbs_xml
 
 
 ### Find promoter binding sites
@@ -164,7 +166,7 @@ term.lookup <- DBTBS$terminator %>%
   find_pattern(., genome, 0)
 
 # term.lookup$counts$sequence %>% unique %>% length
-# 1031
+# 1115
 # term.lookup$counts %>%
 #   group_by(sequence) %>%
 #   summarize(n = sum(count_matches)) %>%
@@ -176,8 +178,8 @@ term.lookup <- DBTBS$terminator %>%
 #   count(mode)
 # # mode          n
 # # ambiguous     1
-# # exact       926
-# # none        104 (10.1%)
+# # exact      1076
+# # none         38 (3.4%)
 
 DBTBS$terminator %<>%
   left_join(term.lookup$positions, c('clean.seq' = 'sequence'))
@@ -259,10 +261,10 @@ direct.map %>%
   count(n) %>%
   rename('merged_ids matching DBTBS gene name' = n , 'count' = nn)
 # `merged_ids matching DBTBS gene name` count
-# 0             344
-# 1            1848
+# 0             345
+# 1            1847
 # 2               9
-# > 344 + 1848 + 9
+# > 345 + 1847 + 9
 # [1] 2201
 
 load('data/03_subtiwiki.rda')
@@ -290,7 +292,7 @@ subti.synonym %>%
   rename('merged_ids matching via synonyms' = n , 'count' = nn)
 # `merged_ids matching via synonyms` count
 # 1   304
-# 2    39
+# 2    40
 # 3     1
 
 
@@ -346,7 +348,7 @@ operon %<>%
 # # A tibble: 2 x 2
 # incomplete.flag     n
 # <lgl>           <int>
-#   1 FALSE            1107
+#   1 FALSE            1108
 # 2 TRUE               16
 
 dbtbs <- list(

@@ -104,7 +104,9 @@ find_pattern <- function(strings, seq, mismatch = 0) {
         ),
         # remeber positions
         positions = if(length(found) != 0) {
-          as.tibble(found) %>%
+          found %>%
+            as.data.frame() %>%
+            as_tibble %>%
             transmute(sequence = pattern, strand = strand, start, end)
         } else {
           NULL
@@ -155,7 +157,8 @@ find_pattern <- function(strings, seq, mismatch = 0) {
       'ACA', '-', 0L,
       'GGG', '-', 0L,
       'TTT', '-', 1L
-    ),
+    ) %>%
+      arrange(sequence, desc(strand)),
     positions = tribble(
       ~ sequence, ~ strand, ~ start, ~ end,
       'AAA', '+', 1L, 3L,
@@ -187,9 +190,9 @@ find_pattern <- function(strings, seq, mismatch = 0) {
       'AAA', '+', 1L, 3L,
       'AAA', '+', 2L, 4L,
       'AAA', '+', 3L, 5L,
-      'AAA', '-', 4L, 6L,
+      'AAA', '-', 6L, 8L,
       'AAA', '-', 5L, 7L,
-      'AAA', '-', 6L, 8L
+      'AAA', '-', 4L, 6L
     )
   )
   assertthat::are_equal(
