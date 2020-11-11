@@ -261,10 +261,13 @@ raw.utrs %>%
   filter(end.utr - start.utr + 1 > 15) %>%
   group_by(type) %>%
   arrange(start.utr, end.utr) %>%
-  mutate(id = sprintf('tmp-%s-%s', type, 1:n())) %>%
+  # count(start.utr, end.utr) %>% filter(n>1)
+  # # only affects 3 x 3' UTR
+  group_by(type, strand.utr, start.utr, end.utr) %>%
+  summarize(gene = str_c(gene, collapse = ';')) %>%
   ungroup %>%
-  select(id, type, start = start.utr, end = end.utr, strand = strand.utr,
-         gene, boundary = bound) %>%
+  mutate(id = sprintf('tmp-%s-%s', type, 1:n())) %>%
+  select(id, type, start = start.utr, end = end.utr, strand = strand.utr) %>%
   group_by(type) %>%
   do(foo = set_names(list(.), first(.$type))) %>%
   pull(foo) %>%
@@ -320,30 +323,103 @@ internals %>%
 
 # The sigK related UTRs should be removed, because of its unique 
 # regulation mechanism (these computed up to 10k+ nt UTRs are not transcribed)
-
 internal.utrs %>%
   filter(tu != 'tmp-tu-1544') %>%
   ggplot(aes(x = width)) + geom_histogram() +
   scale_x_log10(breaks = c(10, 20, 30, 50, 100, 500, 1e3)) +
   xlab("Length predicted internal UTRs")
 
-ggsave('analysis/06_length_internal.pdf',
-       width =  10, height = 7, units = 'cm')
-
 # we chose min length 15
 internal.utrs %>%
-  filter(tu != 'BSGatlas-tu-1536') %>%
+  filter(tu != 'tmp-tu-1544') %>%
   filter(width > 15) %>%
   select(- width) %>%
   group_by(start, end, strand) %>%
   summarize(tus = clean_paste(tu)) %>%
   ungroup %>%
   arrange(start, end) %>%
-  mutate(id = sprintf('BSGatlas-internal_UTR-%s', 1:n())) -> int.utr
+  mutate(id = sprintf('tmp-internal_UTR-%s', 1:n())) -> int.utr
 
 int.utr %>%
   rename(boundary = tus) %>%
   mutate(type = 'internal_UTR') -> UTRs$internal_UTR
+
+
+#########
+# Match with old ids again
+
+'data-gff/BSGatlas_v1.0.gff' %>%
+  rtracklayer::import.gff3() %>%
+  as_tibble %>%
+  filter(str_detect(type, 'UTR')) %>%
+  select(id = ID, start, end, strand, type) %>%
+  mutate(
+    type = id %>%
+      strsplit('-') %>%
+      map(2) %>%
+      unlist) -> legacy
+
+legacy %>%
+  mutate(i = id %>%
+           strsplit('-') %>%
+           map(3) %>%
+           unlist() %>%
+           as.integer) %>%
+  group_by(type) %>%
+  summarize_at('i', max) %>%
+  with(set_names(i, type)) -> count.status
+
+UTRs %>%
+  map2(names(.), ~ mutate(.x, type = .y)) %>%
+  bind_rows %>%
+  select(id, start, end, strand, type) %>%
+  overlap_matching(legacy) %>%
+  filter(!antisense, x.type == y.type) -> cmp
+
+cmp %>%
+  filter(mode == 'equal') %>%
+  count(x.type)
+  select(x, y) -> clear
+
+cmp %>%
+  anti_join(clear, 'x') %>%
+  anti_join(clear, 'y') %>%
+  filter(jaccard > .9) %>%
+  group_by(y) %>%
+  top_n(1, jaccard) %>%
+  ungroup %>%
+  group_by(x) %>%
+  top_n(1, jaccard) %>%
+  ungroup %>%
+  # count(y) %>% count(n)
+  # good, none
+  # count(x) %>% count(n)
+   # count(x) %>% filter(n > 1) %>% left_join(cmp) %>% View
+  # the special cases in which the two cotG genes had two UTRs
+  group_by(x) %>%
+  top_n(1, y) %>%
+  ungroup %>%
+  select(x, y) %>%
+  bind_rows(clear) -> look
+  # count(y) %>% count(n)
+
+# The ones that map
+map2(
+  UTRs %>%
+    map(inner_join, look, c('id' = 'x')) %>%
+    map(select, - id) %>%
+    map(rename, id = y),
+  # The ones with new numbers
+  UTRs %>%
+    map(anti_join, look, c('id' = 'x')) %>%
+    map2(names(.), ~ mutate(.x, id = sprintf('BSGatlas-%s-%s',
+                                             .y,
+                                             count.status[.y] + 1:n()))),
+  bind_rows
+) %>%
+  map(arrange, start)  -> UTRs
+
+#########
 
 save(UTRs, file = 'analysis/06_utrs.rda')
 
@@ -374,7 +450,7 @@ nicolas$all.features %>%
 
 # UTRs %>% map(nrow) %>% unlist
 # 3'UTR        5'UTR internal_UTR 
-# 2095         2943         1126 
+# 1449         2760         1125
 # 
 # nic.utrs %>% count(type)
 # type           n
@@ -398,10 +474,8 @@ bind_rows(
   geom_histogram() +
   scale_x_log10(breaks = c(15, 30, 50, 100, 500, 1e3)) +
   geom_vline(xintercept = 47, color = 'red') +
-  facet_wrap(src ~ type, scales = 'free_y')
-
-ggsave('analysis/06_length_comparison.pdf', 
-       width = 25, height = 15, units = 'cm')
+  theme_bw(18) +
+  facet_wrap(src ~ type, scales = 'free_y') -> p2
 
 
 # a2) KS test for UTR lengths
@@ -451,7 +525,7 @@ bind_rows(
 # 2 5'UTR        BSGatlas  1161
 # 3 internal_UTR BSGatlas   475
   nrow
-# 2343
+# 2333
 
 
 ###########################################################################
@@ -462,13 +536,6 @@ UTRs %>%
   filter(len > 15) %>%
   select(id, type, start, end, strand) %>%
   overlap_matching(nic.utrs) -> cmp
-  summary
-
-
-# cmp %>% 
-#   filter(!antisense) %>%
-#   drop_na(overlap) %>%
-#   ggplot(aes(x = overlap / y.length)) + geom_histogram()
 
 
 cmp %>%
@@ -487,21 +554,6 @@ cmp %>%
   drop_na(mode2) %>%
   select(x, y, mode2, bsgatlas = x.type, nicolas = y.type) -> possible.matches
 
-
-possible.matches %>%
-  mutate(y = ifelse(is.na(y), x, y)) %>%
-  select(-x ) %>%
-  unique %>%
-  drop_na(mode2) %>%
-  mutate(foo = TRUE) %>%
-  spread(bsgatlas, foo, fill = FALSE) %>%
-  select(- `<NA>`) %>%
-  mutate_at('nicolas', replace_na, 'N/A') %>%
-  group_by_at(vars(- y)) %>%
-  count %>% View
-# first good over-view, needs better structuring
-# separate newness and missed ones, with indication of Nicolas S6.3 table
-# only list those with problamatic matching
 
 possible.matches %>%
   mutate_at('nicolas', str_remove, ' ') %>%
@@ -603,26 +655,8 @@ bind_rows(
     TRUE ~ paste('Overlaps', Description)
   )) -> utr.stat
 
-utr.stat %>%
-  select(-type) %>%
-  kable('latex', booktabs = TRUE) %>%
-  kable_styling(latex_options = 'scale_down') -> k
-
-utr.stat %>%
-  mutate(row = 1:n()) %>%
-  group_by(type) %>%
-  summarize(from = min(row), to = max(row)) %>%
-  rowwise %>%
-  do({
-    k <<- kableExtra::group_rows(k, .$type, .$from, .$to)
-    NULL
-  })
-k %>%
-  strsplit('\n') %>%
-  unlist %>%
-  `[`(2:(length(.) - 1)) %>%
-  write_lines('analysis/06_utr_comparison.tex')
-
+write_tsv(utr.stat, 'analysis/06_utrstat.tsv')
+View(utr.stat)
 
 ###########################################################################
 # why missed
@@ -645,54 +679,14 @@ k %>%
 # combined cowplot for publication
 
 cowplot::plot_grid(
-  cmp_rel %>%
-    group_by(x) %>%
-    top_n(-1, interest_dist) %>%
-    ungroup %>%
-    filter(interest_dist < 3e3) %>%
-    mutate_at('bound_type', fct_recode,
-              'TTS' = 'terminator') %>%
-    mutate_at('bound_type', fct_relevel,
-              'TSS', 'TTS') %>%
-    mutate_at('bound_type', fct_recode,
-              'TSS rel to 5\' end of gene' = 'TSS',
-              'TTS rel to 3\' end of gene' = 'TTS'
-    ) %>%
-    # filter(between(rel_dist, -500, 300)) %>%
-    ggplot(aes(x = rel_dist)) +
-    geom_histogram() +
-    theme_minimal(14) +
-    scale_x_continuous(breaks = seq(-3e3, +3e3, 1e3),
-                       labels = scales::comma) +
-    geom_vline(xintercept = 0, color = 'red') +
-    geom_vline(xintercept = c(-2e3, 2e3), color = 'blue') +
-    xlab('Distance to nearest gene') +
-    facet_wrap(~ bound_type, scales = 'free_y'),
-  bind_rows(
-    UTRs %>%
-      bind_rows %>%
-      mutate(len = end - start + 1) %>%
-      mutate(src = 'BSGatlas'),
-    nic.utrs %>%
-      filter(type != 'intergenic') %>%
-      mutate(len = end - start + 1) %>%
-      mutate(src = 'Nicolas et al.')
-  ) %>%
-    # filter(len > 15) %>%
-    ggplot(aes(x = len)) +
-    geom_histogram() +
-    theme_minimal(14) +
-    xlab('UTR length') +
-    scale_x_log10(breaks = c(15, 30, 50, 100, 500, 1e3)) +
-    geom_vline(xintercept = 47, color = 'orange') +
-    facet_wrap(type ~ src, scales = 'free_y',
-               ncol = 2),
+  p1, p2,
   ncol = 1,
-  labels = c('(a)', '(b)')
+  labels = 'AUTO',
+  label_size = 24
 )
 
 ggsave('analysis/06_dist_len.pdf',
-       width = 20, height = 30, units = 'cm')
+       width = 35, height = 35, units = 'cm')
 
 
 ###########################################################################
