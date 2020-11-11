@@ -397,7 +397,7 @@ merged$TSS %>%
 
 load('data/01_bsub_raw.rda')
 
-bsg.boundaries %>%
+bsg.boundaries[c('TSS', 'terminator')]  %>%
   map2(c('TSS', 'TTS'), ~ mutate(.x, type = .y)) %>%
   map(select, id, type, src) %>%
   bind_rows -> dat
