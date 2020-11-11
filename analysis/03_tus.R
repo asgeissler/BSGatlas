@@ -9,7 +9,7 @@ source('scripts/frame_helpers.R')
 source('scripts/overlap_matching.R')
 
 #####################################
-# 1. collect transcriptsional units
+# 1. collect transcriptional units
 
 bind_rows(
   subtiwiki$transcripts %>%
@@ -37,7 +37,7 @@ bind_rows(
 # # A tibble: 5 x 3
 # src     incomplete.flag     n
 # 1 bsubcyc FALSE            1602
-# 2 dbtbs   FALSE            1107
+# 2 dbtbs   FALSE            1108
 # 3 dbtbs   TRUE               16
 # 4 subti   FALSE            2258
 # 5 subti   TRUE                9
@@ -61,6 +61,7 @@ syn.conflicts <- tribble(
 span <- dat %>%
   left_join(genes, c('gene' = 'id')) %>%
   anti_join(syn.conflicts) %>%
+  filter(idsrc != 'mtrAB%dbtbs') %>%
   group_by(idsrc) %>%
   summarize(
     start = min(start),
@@ -68,10 +69,10 @@ span <- dat %>%
     strand = clean_paste(strand)
   )
 
-# span %>% filter(!strand %in% c('+', '-'))  %>%
-#   select(idsrc) %>%
-#   left_join(dat) %>%
-#   left_join(genes, c('gene' = 'id'))
+span %>% filter(!strand %in% c('+', '-'))  %>%
+  select(idsrc) %>%
+  left_join(dat) %>%
+  left_join(genes, c('gene' = 'id'))
 # -> provides input for manual resolve (above)
 
 # => needed to fullfill assertion
@@ -82,6 +83,26 @@ assertthat::are_equal(
   0
 )
 
+# span %>%
+#   mutate(width = end - start + 1) %>%
+#   filter(width > 80e3) %>%
+#   left_join(dat, 'idsrc') %>%
+#   select(idsrc, width, gene) %>%
+#   left_join(genes, c('gene' = 'id'))
+# -> "mtrAB%dbtbs" is problamatic due to synomyms
+
+assertthat::are_equal(
+  span %>%
+    mutate(width = end - start + 1) %>%
+    filter(width > 80e3) %>%
+    nrow,
+  0
+)
+
+
+
+############
+
 cmp <- overlap_matching(rename(span, id = idsrc), genes) %>%
   filter(!antisense)
 
@@ -89,11 +110,11 @@ cmp %>%
   count(mode)
 # mode                n
 # 1 3-5_overlap        61
-# 2 5-3_overlap        77
-# 3 contained_by       11
-# 4 contains        10912
-# 5 equal            3006
-# 6 without_overlap   400 (genes not contained in any operon)
+# 2 5-3_overlap        78
+# 3 contained_by       12
+# 4 contains         6858
+# 5 equal            3008
+# 6 without_overlap   697 (genes not contained in any operon)
 
 cmp %>%
   transmute(
@@ -118,7 +139,7 @@ cmp %>%
   ylab('overlap rel. transcript length [%]') +
   facet_wrap(~ mode, scales = 'free')
 
-ggsave(file = 'analysis/03_overlaps.pdf')
+# ggsave(file = 'analysis/03_overlaps.pdf')
 
 cmp %>%
   filter(str_detect(mode, 'contained')) %>%
@@ -143,10 +164,11 @@ complement %>%
 # src     new       n
 # 1 bsubcyc FALSE  3007
 # 2 bsubcyc TRUE     43
-# 3 dbtbs   FALSE  2176
-# 4 dbtbs   TRUE    748
-# 5 subti   FALSE  4578
-# 6 subti   TRUE   3385
+# 3 dbtbs   FALSE  2175
+# 4 dbtbs   TRUE     36
+# 5 subti   FALSE  4571
+# 6 subti   TRUE     53 (now okay, if this number is large sth went wron 
+#                        during parsing in 02*.R script)
 
 complement %>%
   left_join(dat, c('idsrc', 'gene')) %>%
@@ -160,10 +182,10 @@ complement %>%
 # src     any.new     n
 # 1 bsubcyc FALSE    1586
 # 2 bsubcyc TRUE       16
-# 3 dbtbs   FALSE    1103
-# 4 dbtbs   TRUE       20
-# 5 subti   FALSE    2216
-# 6 subti   TRUE       51
+# 3 dbtbs   FALSE    1104
+# 4 dbtbs   TRUE       19
+# 5 subti   FALSE    2219
+# 6 subti   TRUE       48
 
 complement %>%
   left_join(dat, c('idsrc', 'gene')) %>%
@@ -179,7 +201,7 @@ complement %>%
 # 1 bsubcyc FALSE              16
 # 2 dbtbs   FALSE              16
 # 3 dbtbs   TRUE                4
-# 4 subti   FALSE              50
+# 4 subti   FALSE              47
 # 5 subti   TRUE                1
 
 dat %>%
@@ -189,7 +211,7 @@ dat %>%
   count(src, incomplete.flag)
 # src     incomplete.flag     n
 # 1 bsubcyc FALSE            1602
-# 2 dbtbs   FALSE            1107
+# 2 dbtbs   FALSE            1108
 # 3 dbtbs   TRUE               16
 # 4 subti   FALSE            2258
 # 5 subti   TRUE                9
@@ -200,6 +222,7 @@ assertthat::are_equal(
   dat %>%
     anti_join(complement) %>%
     anti_join(syn.conflicts) %>%
+    filter(idsrc != 'mtrAB%dbtbs') %>%
     nrow,
   0
 )
@@ -228,7 +251,7 @@ short %>%
 un %>%
   count(n.flags, all.flags)
 # n.flags all.flags     n
-# 0       FALSE      2460
+# 0       FALSE      2459
 # 1       FALSE        14
 # 1       TRUE         11
 
