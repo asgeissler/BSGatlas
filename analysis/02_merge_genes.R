@@ -515,7 +515,7 @@ putative.map <- subti$batch %>%
 clear.map <- putative.map %>%
   filter(((q.key == 'locus') & (search.key == 'locus')) |
            # also accept matchings of nicolas specific indep transcripts
-           (startsWith(search, 's') & (search.key == 'names'))) %>%
+           (str_detect(search, '^s[0-9]*$') & (search.key == 'names'))) %>%
   select(id = id, merged_id) %>%
   drop_na %>%
   unique
@@ -537,26 +537,27 @@ look <- bind_rows(
     select(id, merged_id) %>%
     drop_na
 ) %>%
-  drop_na()
+  drop_na() %>%
+  unique
 
 # * how often is the matching ambiguous?
-# count(look, id) %>%
-#   filter(n > 1) %>%
-#   View
-# only the 6 short peptides of unclear function and position
-# and the bsrG synonym
+count(look, id) %>%
+  filter(n > 1) %>%
+  left_join(look) %>%
+  View
+# only the one weird nested nrdEB one
 
-# count(look, merged_id) %>%
-#   filter(n > 1) %>%
-#   left_join(look) %>%
-#   View
+count(look, merged_id) %>%
+  filter(n > 1) %>%
+  left_join(look) %>%
+  View
 # double entries in subtiwiki -> ignore
 
 
 # * how many genes are not described by them?
-# merging$merged_genes %>%
-#   anti_join(look, 'merged_id') %>%
-#   count(type)
+merging$merged_genes %>%
+  anti_join(look, 'merged_id') %>%
+  count(type)
   # nrow
 # #60
 # type           n
@@ -640,8 +641,32 @@ bad <- anti_join(transcripts, genes, by = c('genes' = 'name'))
 transcripts %<>% unique()
 
 transcripts %<>%
+  # inner join also removed `bad`
   inner_join(genes, by = c('genes' = 'name')) %>%
   select(transcript = id, gene = merged_id)
+
+# Debugging code, those transcript should be less than 80k long
+# transcripts %>%
+#   drop_na %>%
+#   left_join(subti$operon, c('transcript' = 'operon')) %>%
+#   left_join(merging$merged_genes, c('gene' = 'merged_id')) %>%
+#   # select(transcript, strand) %>%
+#   # unique %>%
+#   # count(transcript, strand) %>%
+#   # count(n)
+#   # okay
+#   group_by(transcript, genes) %>%
+#   summarise(
+#     start = min(start),
+#     end = max(end),
+#     strand = first(strand)
+#   ) %>%
+#   ungroup %>%
+#   mutate(width = end - start + 1) %>%
+#   arrange(desc(width)) %>%
+#   left_join(transcripts) %>%
+#   left_join(select(merging$merged_genes, gene = merged_id, merged_name,
+#                    start, end, strand), 'gene')
 
 transcripts %<>%
   # put a flag on troublesome cases, just 2
