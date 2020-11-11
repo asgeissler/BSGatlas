@@ -11,9 +11,9 @@ load('analysis/05_bsg_boundaries.rda')
 # The data to work with
 
 foo <- bsg.boundaries
-foo$TSS %<>% mutate(start = TSS, end = TSS)
+foo$obsolete <- NULL
 foo %>%
-  map(select, id, start, end, strand) %>%
+  map(select, id, start, end, strand, without.tu = wihtout.tu) %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows -> bounds
 
@@ -38,26 +38,30 @@ distance_matching(bounds, genes) %>%
               select(y = id, gene_type = type), 
             'y') %>%
   left_join(
-    bounds %>% select(x = id, bound_type = type),
+    bounds %>% select(x = id, bound_type = type, without.tu),
     'x'
   ) %>%
   select(
     x, y,
     bound_type, gene_type,
+    without.tu,
     distance, distance_mode = mode
   ) -> cmp_dist
 
+# distance_match does not overlaps as 0,
+# accquiore more specific values with 5/3 distances from overlap_matching
 overlap_matching(bounds, genes) %>%
   filter(!antisense) %>%
   select(
     x, y, 
     bound_type = x.type, gene_type = y.type,
+    without.tu = x.without.tu,
     overlap, overlap_mode = mode,
     x5.dist, x3.dist, x.length
   ) -> cmp_over
 
 full_join(cmp_dist, cmp_over,
-          c('x', 'y', 'bound_type', 'gene_type')) %>%
+          c('x', 'y', 'bound_type', 'without.tu', 'gene_type')) %>%
   drop_na(x, y) %>%
   mutate_if(is.numeric, as.integer) %>%
   mutate(
@@ -84,22 +88,13 @@ full_join(cmp_dist, cmp_over,
       interest_mode == 'tss_exact' ~ distance,
       interest_mode == 'tss_before' ~ distance
     )
-  ) -> cmp_full
+  ) %>%
+  select(x, y, bound_type, without.tu,
+         interest_mode, interest_dist, gene_type) -> cmp_full
 
-cmp_full %>%
-  # group_by(x) %>%
-  # top_n(-1, interest_dist) %>%
-  # count(interest_mode) 
-  select(x, interest_mode) %>%
-  mutate(foo = TRUE) %>%
-  unique %>%
-  spread(interest_mode, foo, fill = '-') %>%
-  group_by_at(vars(- x)) %>%
-  count %>%
-  View
 
+# assign negative numbers for improved interpretability
 cmp_full %>%
-  select(x, y, bound_type, gene_type, interest_mode, interest_dist) %>%
   mutate(
     rel_dist = ifelse(
       interest_mode %in% c('term_contained', 'term_5_overlap', 'tss_before'),
@@ -109,62 +104,44 @@ cmp_full %>%
   ) %>%
   drop_na(rel_dist) -> cmp_rel
 
-cmp_rel %>%
-  group_by(x) %>%
-  top_n(-1, interest_dist) %>%
-  ungroup %>%
-  filter(interest_dist < 3e3) %>%
-  # filter(between(rel_dist, -500, 300)) %>%
-  ggplot(aes(x = rel_dist)) +
-  geom_histogram() +
-  scale_x_continuous(breaks = seq(-3e3, +3e3, 1e3)) +
-  geom_vline(xintercept = 0, color = 'red') +
-  facet_wrap(~ bound_type, scales = 'free_y')
-
 # Cut-off 2e3, similar to nicolas
 BOUND <- 2e3
 
+
 cmp_rel %>%
-  filter(interest_dist < BOUND) %>%
-  select(x, interest_mode) %>%
-  unique %>%
-  mutate(foo = 'yes') %>%
-  spread(interest_mode, foo, fill = '-') %>%
-  group_by_at(vars(-x)) %>%
-  count %>% View
+  group_by(x) %>%
+  top_n(-1, abs(interest_dist)) %>%
+  ungroup %>%
+  mutate(bound_type = bound_type %>%
+           fct_recode(Terminator = 'terminator') %>%
+           fct_relevel('TSS', 'Terminator')) %>%
+  mutate_at('without.tu', as.character) %>%
+  mutate_at('without.tu', fct_recode, yes = 'FALSE', no = 'TRUE')  %>%
+  ggplot(aes(x = rel_dist, color = without.tu)) +
+  stat_ecdf(size = 1.5) +
+  ggsci::scale_color_jama(name = 'Is DBTBS/BsubCyc annotation or associated\nwith a transcribed region (Nicolas et al.)') +
+  scale_y_continuous(breaks = seq(0, 1, 0.1)) +
+  scale_x_continuous(breaks = seq(-BOUND, BOUND, 500),
+                     minor_breaks = seq(-BOUND, BOUND, 100),
+                     limits = c(-BOUND, BOUND)) +
+  geom_vline(xintercept = 0, color = 'red') +
+  ylab('Empirical density') +
+  xlab("Distance in [nt] relative to 5' start of a gene (3' end for terminators)") +
+  facet_grid(~ bound_type, scales = 'free_y') +
+  theme_bw(18) +
+  theme(legend.position = 'bottom' ) -> p1
+
+# Alternative cut-offs
+# !without.tu ? 2k : 200
 
 # Find closesed partner within cut-off
 cmp_rel %>%
-  filter(interest_dist < BOUND) %>%
+  filter(abs(interest_dist) < ifelse(without.tu, 200, BOUND)) %>%
   group_by(x) %>%
   top_n(-1, interest_dist) %>%
   ungroup %>%
   unique -> bound_map
 
-# count(bound_map, interest_mode)
-# # interest_mode      n
-# # term_5_overlap   979
-# # term_after      1116
-# # term_contained   454
-# # tss_before      2924
-# # tss_contained    208
-# # tss_exact         82
-
-bound_map %>%
-  mutate(bound_type = bound_type %>%
-           fct_recode(Terminator = 'terminator') %>%
-           fct_relevel('TSS', 'Terminator')) %>%
-  ggplot(aes(x = rel_dist)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0, color = 'red') +
-  xlab("Distance in [nt] relative to 5' start of a gene (3' end for terminators)") +
-  facet_wrap(~ bound_type, scales = 'free_y')
-
-ggsave('analysis/06_distances.pdf')
-
-# bound_map %>%
-#   count(x) %>%
-#   count(n)
 
 bounds %>%
   select(id, type) %>%
@@ -177,27 +154,26 @@ bounds %>%
   mutate(has.partner = ifelse(has.partner, 'partner', 'none')) %>%
   spread(has.partner, n)
 # type        none partner
-# terminator   121    2545
-# TSS          184    3213
+# 1 terminator   209    2357
+# 2 TSS          269    3121
 
 bound_map %>%
-  # count(bound_type, interest_mode, gene_type) %>%
   count(bound_type, gene_type) %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
-# gene_type           terminator   TSS
-# CDS                       2311  2837
-# putative-non-coding         83   176
-# riboswitch                  71   104
-# putative-coding             27    34
-# sRNA                        22    26
-# tRNA                        24    16
-# rRNA                         2    12
-# asRNA                        6     3
-# tmRNA                        1     3
-# intron                       0     1
-# ribozyme                     1     1
-# SRP                          1     1
+#   gene_type           terminator   TSS
+# 1 CDS                       2165  2779
+# 2 putative-non-coding         57   140
+# 3 riboswitch                  67   103
+# 4 putative-coding             23    36
+# 5 sRNA                        17    26
+# 6 tRNA                        22    16
+# 7 rRNA                         2    13
+# 8 asRNA                        5     3
+# 9 tmRNA                        1     3
+# 10 intron                       0     1
+# 11 ribozyme                     1     1
+# 12 SRP                          1     1
 
 ###########################################################################
 # An initial good map -> minor adjustment: Chain riboswitches
@@ -225,19 +201,20 @@ bound_chain %>%
   count(bound_type, gene_type) %>%
   spread(bound_type, n, fill = 0) %>%
   arrange(desc(TSS))
-# gene_type           terminator   TSS
-# CDS                       2311  2941
-# putative-non-coding         83   176
-# putative-coding             27    34
-# sRNA                        22    26
-# tRNA                        24    16
-# rRNA                         2    12
-# asRNA                        6     3
-# tmRNA                        1     3
-# intron                       0     1
-# riboswitch                  71     1
-# ribozyme                     1     1
-# SRP                          1     1
+#   gene_type           terminator   TSS
+# 1 CDS                       2165  2882
+# 2 putative-non-coding         57   140
+# 3 putative-coding             23    36
+# 4 sRNA                        17    26
+# 5 tRNA                        22    16
+# 6 rRNA                         2    13
+# 7 asRNA                        5     3
+# 8 tmRNA                        1     3
+# 9 intron                       0     1
+# 10 riboswitch                  67     1
+# 11 ribozyme                     1     1
+# 12 SRP                          1     1
+
 
 ###########################################################################
 # 2. Compute UTR elements
@@ -284,7 +261,7 @@ raw.utrs %>%
   filter(end.utr - start.utr + 1 > 15) %>%
   group_by(type) %>%
   arrange(start.utr, end.utr) %>%
-  mutate(id = sprintf('BSGatlas-%s-%s', type, 1:n())) %>%
+  mutate(id = sprintf('tmp-%s-%s', type, 1:n())) %>%
   ungroup %>%
   select(id, type, start = start.utr, end = end.utr, strand = strand.utr,
          gene, boundary = bound) %>%
@@ -345,7 +322,7 @@ internals %>%
 # regulation mechanism (these computed up to 10k+ nt UTRs are not transcribed)
 
 internal.utrs %>%
-  filter(tu != 'BSGatlas-tu-1536') %>%
+  filter(tu != 'tmp-tu-1544') %>%
   ggplot(aes(x = width)) + geom_histogram() +
   scale_x_log10(breaks = c(10, 20, 30, 50, 100, 500, 1e3)) +
   xlab("Length predicted internal UTRs")
