@@ -372,10 +372,15 @@ map2(
   map(select, - id) %>%
   map(rename, id = new.id) -> named
 
+legacy %>%
+  select(id, type) %>%
+  anti_join(look, c('id' = 'new.id')) -> obsolete
+
 ##############################################################################
 # save results (in a legacy naming of small `t`)
 bsg.boundaries <- list(TSS = named$TSS,
-                       terminator = named$Terminator)
+                       terminator = named$Terminator,
+                       obsolete = obsolete)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
 
 ##############################################################################
