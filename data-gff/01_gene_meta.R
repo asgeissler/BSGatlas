@@ -44,7 +44,7 @@ refseq[c('coding', 'noncoding')] %>%
   mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
   left_join(
     merging$merged_src %>%
-      filter(str_detect(src, 'refseq')) %>%
+      filter(str_detect(src, 'RefSeq')) %>%
       select(`Locus Tag` = locus, merged_id),
     'Locus Tag'
   ) %>%
@@ -72,7 +72,7 @@ bsubcyc[c('coding', 'noncoding')] %>%
   mutate_all(function(i) ifelse(i == '', NA_character_, i)) %>%
   left_join(
     merging$merged_src %>%
-      filter(str_detect(src, 'bsubcyc')) %>%
+      filter(str_detect(src, 'BsubCyc')) %>%
       select(`Locus Tag` = locus, merged_id),
     'Locus Tag'
   ) -> bsub.overview
@@ -122,14 +122,14 @@ bsub.overview %>%
 # Rfam/Dar/nicolas predictions
 
 merging$merged_src %>%
-  filter(startsWith(src, 'rfam')) %>%
+  filter(startsWith(src, 'Rfam')) %>%
   select(merged_id, id = src_locus) %>%
   left_join(
     bind_rows(
       rfam$conservative %>%
-        mutate(id = paste0('rfam conservative%', id)),
+        mutate(id = paste0('Rfam conservative%', id)),
       rfam$medium %>%
-        mutate(id = paste0('rfam medium%', id) %>%
+        mutate(id = paste0('Rfam medium%', id) %>%
                  str_replace('-(\\d+)', ' \\1'))
     ),
     'id'
@@ -150,8 +150,7 @@ merging$merged_src %>%
   transmute(
     merged_id,
     Resource = case_when(
-      src == 'nicolas lower' ~ '7 Nicolas et al. predictions',
-      src == 'dar riboswitches' ~ '6 Dar et al. riboswitches',
+      src == 'Dar et al. riboswitches' ~ '6 Dar et al. riboswitches',
       TRUE ~ NA_character_
     ),
     'Locus Tag' = locus,
@@ -162,7 +161,7 @@ merging$merged_src %>%
   gather('meta', 'info', - c(merged_id, Resource)) %>%
   unique %>%
   # remove selfmade loci
-  filter(!(str_detect(info, 'row') & (meta == 'Locus Tag'))) %>%
+  filter(meta != 'Locus Tag') %>%
   drop_na -> meta.other
   
 
@@ -248,6 +247,62 @@ merging$merged_genes %>%
   transmute(merged_id, Resource = '1 BSGatlas',
             Type = type, Name = merged_name) %>%
   gather('meta', 'info', Type, Name) -> meta.bsg
+#######################################################
+# Load Kegg pathways
+
+ko.names <- 'http://rest.kegg.jp/list/pathway/bsu' %>%
+  read_tsv(col_names = FALSE) %>%
+  set_names(c('ko', 'pathway_name'))
+
+ko.genes <- 'http://rest.kegg.jp/link/bsu/pathway' %>%
+  read_tsv(col_names = FALSE) %>%
+  set_names(c('ko', 'gene'))
+
+# match to BSGatlas
+merging$merged_src %>%
+  select(merged_id, locus) %>%
+  left_join(
+    ko.genes %>%
+      mutate_at('gene', str_remove, '^bsu:'),
+    c('locus' = 'gene')
+  ) %>%
+  drop_na() -> kegg.map
+
+# Short investigation on mapping
+
+# ko.genes %>% select(gene) %>% unique %>% nrow
+# 1359
+# kegg.map %>% select(locus) %>% unique %>% nrow
+# 1359
+# kegg.map %>% select(merged_id) %>% unique %>% nrow
+# 1360
+# -> all found with only one double enrty
+
+# Prettify output and save
+
+# Note: 'bsu02020' pathway is contained by the reference numbers
+# 'map02020' and 'ko02020'. The latter seems what users are used to see.
+# Thus we present them in that way.
+
+kegg.map %>%
+  left_join(ko.names, 'ko') %>%
+  head
+  select(gene = merged_id, pathway = ko, pathway_name) %>%
+  mutate_at('pathway', str_remove, '^path:bsu') %>%
+  mutate_at('pathway', ~ paste0('ko', .x)) %>%
+  mutate_at('pathway_name', str_remove,
+            ' - Bacillus subtilis subsp. subtilis 168$') -> kegg.ids
+write_tsv(kegg.ids, 'data-gff/kegg_mapping.tsv')
+
+kegg.ids %>%
+  transmute(
+    merged_id = gene, Resource = '8 KEGG Pathways',
+    meta = 'Pathway',
+    info = sprintf(
+      '<a href="https://www.genome.jp/kegg-bin/show_pathway?%s">%s (%s)</a>',
+      pathway, pathway_name, pathway
+    )
+  ) -> kegg.meta
 
 #######################################################
 
@@ -257,6 +312,7 @@ meta <- bind_rows(
   meta.other,
   subti.overview,
   subti.path,
+  kegg.meta,
   meta.bsg,
   meta.nic.cond,
   meta.nic.cor,
@@ -272,8 +328,8 @@ meta <- bind_rows(
 # [10] "Family"                          "Function"                        "Functions"                      
 # [13] "Gene Ontology"                   "Highly expressed condition"      "Is essential?"                  
 # [16] "Isoelectric point"               "Locus Tag"                       "Lowely expressed condition"     
-# [19] "Molecular weight"                "Name"                            "Product"                        
-# [22] "Title"                           "Type" 
+# [19] "Molecular weight"                "Name"                            "Pathway"                        
+# [22] "Product"                         "Title"                           "Type"
 
 to.split <- c('Alternative Name', 'Functions')
 
@@ -312,16 +368,13 @@ tribble(
 merging$merged_src %>%
   mutate(
     db = case_when(
-      str_detect(src, 'bsubcyc') ~ 'bsubcyc',
-      str_detect(src, 'rfam') ~ 'rfam',
-      str_detect(src, 'refseq') ~ 'subti',
-      str_detect(src, 'nicolas') ~ 'subti'
+      str_detect(src, 'BsubCyc') ~ 'bsubcyc',
+      str_detect(src, 'Rfam') ~ 'rfam',
+      str_detect(src, 'RefSeq') ~ 'subti',
+      str_detect(src, 'Nicolas') ~ 'subti'
     )
   ) %>%
   select(merged_id, db, locus, src_locus) %>%
-  mutate_at('src_locus', str_replace, 
-            'rfam medium%row ', 
-            'rfam medium%row-') %>%
   drop_na %>%
   unique  %>%
   left_join(fams, 'src_locus') %>%
@@ -359,7 +412,8 @@ bind_rows(meta2, out.links) %>%
 
 # meta.full %>%
 #   filter(merged_id == 'BSGatlas-gene-3138') %>%
-#   arrange(Resource, meta)
+#   arrange(Resource, meta) %>%
+#   View
 
 
 searchable <- c(
