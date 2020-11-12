@@ -9,6 +9,7 @@
 
 source('scripts/graph_paths.R')
 source('scripts/frame_helpers.R')
+source('scripts/overlap_matching.R')
 source('analysis/00_load.R')
 
 load('analysis/02_merging.rda')
@@ -21,7 +22,7 @@ load('analysis/06_raw.utrs.rda')
 # Collect transcriptional units, including genes and internal UTRs
 tus %>%
   # !!!!!  DO NOT use the sigK special case
-  filter(id != 'BSGatlas-tu-1536') %>%
+  filter(id != 'tmp-tu-1544') %>%
   select(id, genes) %>%
   separate_rows(genes, sep = ';') %>%
   left_join(merging$merged_genes, c('genes' = 'merged_id')) %>%
@@ -49,25 +50,39 @@ tus %>%
 UTRs[c("5'UTR", "3'UTR")] %>%
   bind_rows() -> us
 
+
 us %>%
+  left_join(
+    raw.utrs %>%
+      select(start = start.utr, end = end.utr, strand = strand.utr, gene, type),
+    c('start', 'end', 'strand', 'type')
+  ) %>%
+  separate_rows(gene, sep = ';') %>%
   transmute(
     from = ifelse(type == "5'UTR", id, gene),
     to = ifelse(type == "5'UTR", gene, id)
   ) -> utr.edges
 # edges of TSS and terminators to UTRs
 us %>%
+  left_join(
+    raw.utrs %>%
+      select(start = start.utr, end = end.utr, strand = strand.utr, type,
+             boundary = bound),
+    c('start', 'end', 'strand', 'type')
+  ) %>%
   transmute(
     from = ifelse(type == "5'UTR", boundary, id),
     to = ifelse(type == "5'UTR", id, boundary)
   ) -> tssterm.edges
 
-# add edges for too short UTRs, or those that would have negativel lengths
+# add edges for too short UTRs, or those that would have negative lengths
 # (eg overlaps)
 
 raw.utrs %>%
   mutate(utr.len = end.utr - start.utr + 1) %>%
   filter(utr.len <= 15) %>%
   # similiar to UTRs, edge direction depends on TSS or Terminator type
+  separate_rows(gene, sep = ';') %>%
   transmute(
     from = ifelse(bound_type == 'TSS', bound, gene),
     to = ifelse(bound_type == 'TSS', gene, bound)
@@ -78,6 +93,7 @@ raw.utrs %>%
 # -> find these and add dummies, such that the paths can find all TUs
 
 tus %>%
+  filter(id != 'tmp-tu-1544') %>%
   select(id, genes) %>%
   separate_rows(genes, sep = ';') %>%
   left_join(merging$merged_genes, c('genes' = 'merged_id')) %>%
@@ -101,7 +117,8 @@ tus %>%
 tu.firstlast.gene %>%
   anti_join(
     raw.utrs %>%
-      filter(bound_type == 'TSS'),
+      filter(bound_type == 'TSS') %>%
+      separate_rows(gene, sep = ';'),
     c('start' = 'gene')
   ) %>%
   transmute(
@@ -112,7 +129,8 @@ tu.firstlast.gene %>%
 tu.firstlast.gene %>%
   anti_join(
     raw.utrs %>%
-      filter(bound_type == 'terminator'),
+      filter(bound_type == 'terminator') %>%
+      separate_rows(gene, sep = ';'),
     c('end' = 'gene')
   ) %>%
   transmute(
@@ -123,7 +141,7 @@ tu.firstlast.gene %>%
 
 # !!!!!!!!!!!!
 # The paths must be filterd to only keep dummy terminators corresponding
-# to the original TU they were designed for
+# to the original TU they were designed for (done after computation)
 # !!!!!!!!!!!!
 
 # Collect all nodes
@@ -134,6 +152,7 @@ bind_rows(
   merging$merged_genes %>%
     transmute(id = merged_id, type = 'a gene'),
   bsg.boundaries %>%
+    `[`(c('TSS', 'terminator')) %>%
     map2(names(.), ~ transmute(.x, id, type = .y)) %>%
    bind_rows,
   dummy.tss %>%
@@ -153,7 +172,7 @@ edges.full <- bind_rows(
   dummy.term %>% select(- tu),
   dummy.tss %>% select(- tu)
 ) %>%
-  unique 
+  unique
   # filter(!complete.cases(.))
 edges.full %>%
   mutate(row = 1:n()) %>%
@@ -166,7 +185,9 @@ edges.full %>%
 
 iso.graph <- tbl_graph(nodes, edges, directed = TRUE)
 
+x <- Sys.time()
 paths <- find_paths(iso.graph)
+Sys.time() - x
 
 paths %<>%
   group_by(path) %>%
@@ -190,7 +211,8 @@ paths %>%
               clean_paste) -> genes.sorted
 
 genes.sorted %>%
-  left_join(tus, 'genes') %>%
+  left_join(tus ,
+            'genes') %>%
   select(path, tu = id, src) -> paths.tu
 
 # Make blacklist, these are TUs that contain a dummy not ment for them
@@ -205,7 +227,7 @@ paths %>%
   unique -> blacklist
 
 # > nrow(blacklist)
-# [1] 205
+# [1] 206
 
 filtered.paths <- paths %>% anti_join(blacklist)
 
@@ -216,10 +238,10 @@ filtered.tu <- paths.tu %>% anti_join(blacklist)
 # How many genes have still no transcript
 # What are the spans?
 # How many are due to the UTRs
-# How many paths have the same genes, but just differen 5/3 UTRs
+# How many paths have the same genes, but just different 5/3 UTRs
 
 # > nrow(filtered.paths)
-# [1] 29597
+# [1] 24801
 
 filtered.paths %>%
   select(path, transcription.order, node = value) %>%
@@ -238,19 +260,23 @@ filtered.paths %>%
 
 # path constraints
 assertthat::assert_that(
+  # max one TSS
   with(paths.stat, all(`dummy-TSS` <= 1)),
   with(paths.stat, all(TSS <= 1)),
   with(paths.stat, !(TSS & `dummy-TSS`)) %>% all,
+  # max one Term
   with(paths.stat, all(terminator <= 1)),
   with(paths.stat, all(`dummy-Terminator` <= 1)),
   with(paths.stat, !(terminator & `dummy-Terminator`)) %>% all,
+  # at most one 5'/3' TUR
   with(paths.stat, all(`5'UTR` <= 1)),
   with(paths.stat, all(`3'UTR` <= 1)),
+  # note more internal UTRs then genes
   with(paths.stat, all(internal_UTR < `a gene`)),
+  # at least one gene
   with(paths.stat, all(`a gene` >= 1))
 )
 
-View(paths.stat)
 
 # check each path has only one TU
 assertthat::are_equal(
@@ -268,14 +294,13 @@ filtered.tu %>%
   count(n) %>%
   rename('paths per tu' = n, count = nn)
 # `paths per tu` count
-# 1  1590 - 1 due to sigK
-# 2   690
-# 3    87
-# 4   106
-# 5     1
-# 6    27
-# 8     2
-# 9     1
+# 1   1692 (-1 for sigK)
+# 2    614
+# 3     69
+# 4     81
+# 5      3
+# 6     21
+# 7      3
 
 assertthat::are_equal(
   nrow(tus) - 1,
@@ -300,14 +325,14 @@ operon.nodes <- trans %>%
   select(value, path) %>%
   gather('key', 'node', path, value) %>%
   unique %>%
-  transmute(i = 1:n(), node)
+  transmute(i = 1:n(), node, node.type = key)
 
 trans %>%
   select(path, value) %>%
   mutate(row = 1:n()) %>%
   gather('key', 'node', path, value) %>%
   left_join(operon.nodes, 'node') %>%
-  select(- node) %>%
+  select(row, key, i) %>%
   spread(key, i) %>%
   select(from = path, to = value) -> operon.edges
 
@@ -317,6 +342,7 @@ operon.grph %>%
   activate(nodes) %>%
   mutate(operon = group_components()) %>%
   as_tibble %>%
+  filter(node.type == 'path') %>%
   mutate(path = as.integer(node)) %>%
   select(operon, path) %>%
   drop_na -> operons
@@ -347,7 +373,7 @@ assertthat::assert_that(with(trans.span, all(strand %in% c('+', '-'))))
 trans.span %>%
   mutate_at(c('start', 'end'), as.integer) %>%
   arrange(start, end) %>%
-  mutate(id = sprintf('BSGatlas-TU-%s', 1:n())) -> new.tus
+  mutate(id = sprintf('tmp-TU-%s', 1:n())) -> new.tus
   
 # Get full transcript lengths, including UTRs
 # but without TSSs or Terminators (negative lengths)
@@ -377,7 +403,7 @@ assertthat::assert_that(with(full.span, all(strand %in% c('+', '-'))))
 
 full.span %>%
   arrange(start, end) %>%
-  mutate(id = sprintf('BSGatlas-transcript-%s', 1:n())) -> new.transcript
+  mutate(id = sprintf('tmp-transcript-%s', 1:n())) -> new.transcript
 
 new.transcript %>%
   left_join(
@@ -442,7 +468,7 @@ assertthat::assert_that(with(operons.span, all(strand %in% c('+', '-'))))
 operons.utrs %>%
   left_join(operons.span, 'operon') %>%
   arrange(utr.start, utr.end) %>%
-  mutate(id = sprintf('BSGatlas-operon-%s', 1:n())) %>%
+  mutate(id = sprintf('tmp-operon-%s', 1:n())) %>%
   left_join(
     operons %>% 
       group_by(operon) %>%
@@ -465,7 +491,7 @@ new.operons %>%
   left_join(new.operons, 'id') -> new.operons.assoc
 
 ###############################################################################
-# just some final column rearrangment, then save
+# just some final column rearrangment
 # (statistics are in separate file)
 
 
@@ -491,6 +517,59 @@ isoforms <- list(
   tus = new.tus %>%
     select(id, start, end, strand, src, genes)
 )
+###############################################################################
+# The last step before saving -> carry over legacy names
+
+foo <- new.env(parent = emptyenv())
+load('data-raw/BSGatlas_v1_isoforms.rda', foo)
+
+foo$isoforms  %>%
+  map(pull, id) %>%
+  map(strsplit, '-') %>%
+  map(map, 3) %>%
+  map(unlist) %>%
+  map(as.integer) %>%
+  map(max) %>%
+  cbind %>%
+  unlist %>%
+  set_names(c('operon', 'transcript', 'TU')) -> counter.status
+
+
+helper <- function(bar) {
+  bind_rows(
+    bar$operons %>%
+      transmute(id, start = tu.start, end = tu.end, strand, type = 'operon'),
+    bar$tus %>%
+      transmute(id, start, end, strand, type = 'TU'),
+    bar$transcripts %>%
+      transmute(id, start, end, strand, type = 'transcript')
+  )
+}
+
+overlap_matching(helper(isoforms), helper(foo$isoforms)) %>%
+  filter(!antisense, x.type == y.type) -> cmp
+
+cmp %>%
+  ggplot(aes(jaccard, color = x.type)) +
+  stat_ecdf()
+  geom_density()
+  
+cmp %>%
+  filter(jaccard > 0.9) %>%
+  group_by(x) %>%
+  top_n(1, jaccard) %>%
+  arrange(y) %>%
+  slice(1) %>%
+  group_by(y) %>%
+  top_n(1, jaccard) %>%
+  # ungroup -> foo
+  ungroup %>%
+  # count(x) %>% count(n)
+  count(x.type, y) %>% count(n, x.type)
+foo %>%
+count(y) %>% filter(n> 1) %>% left_join(foo) %>% View
+
+###############################################################################
 
 
 save(isoforms, file = 'analysis/07_isoforms.rda')
