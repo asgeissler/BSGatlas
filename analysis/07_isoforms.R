@@ -520,10 +520,10 @@ isoforms <- list(
 ###############################################################################
 # The last step before saving -> carry over legacy names
 
-foo <- new.env(parent = emptyenv())
-load('data-raw/BSGatlas_v1_isoforms.rda', foo)
+legacy <- new.env(parent = emptyenv())
+load('data-raw/BSGatlas_v1_isoforms.rda', legacy)
 
-foo$isoforms  %>%
+legacy$isoforms  %>%
   map(pull, id) %>%
   map(strsplit, '-') %>%
   map(map, 3) %>%
@@ -535,6 +535,7 @@ foo$isoforms  %>%
   set_names(c('operon', 'transcript', 'TU')) -> counter.status
 
 
+# Step 1: Candidates from overlaps
 helper <- function(bar) {
   bind_rows(
     bar$operons %>%
@@ -545,29 +546,125 @@ helper <- function(bar) {
       transmute(id, start, end, strand, type = 'transcript')
   )
 }
-
-overlap_matching(helper(isoforms), helper(foo$isoforms)) %>%
+overlap_matching(helper(isoforms), helper(legacy$isoforms)) %>%
   filter(!antisense, x.type == y.type) -> cmp
 
+# Separate out he clear cut cases by content
+helper2 <- function(bar) {
+  bind_rows(
+    bar$operons %>%
+      transmute(id, tu = TUs, type = 'operon') %>%
+      separate_rows(tu, sep = ';') %>%
+      left_join(
+        bar$tus %>%
+          select(tu = id, content = genes) %>%
+          separate_rows(content, sep = ';'),
+        'tu'
+      ) %>%
+      group_by(id, type) %>%
+      summarize_at('content', clean_paste),
+    bar$tus %>%
+      transmute(id, content = genes, type = 'TU'),
+    bar$transcripts %>%
+      transmute(id, content = paste(TSS, features, Terminator),
+                type = 'transcript')
+  )
+}
+
+inner_join(
+  helper2(isoforms),
+  helper2(legacy$isoforms),
+  c('type', 'content')
+) %>%
+  select(x = id.x, type, y = id.y) -> clear
+
+# Figure 
 cmp %>%
+  inner_join(clear)  %>%
   ggplot(aes(jaccard, color = x.type)) +
-  stat_ecdf()
-  geom_density()
-  
+  stat_ecdf() +
+  ylim(c(0, 0.1)) +
+  xlim(c(0.8, 1))
+
+#.9 is an ok cut-off
 cmp %>%
-  filter(jaccard > 0.9) %>%
+  anti_join(clear, 'x') %>%
+  anti_join(clear, 'y') %>%
+  ggplot(aes(jaccard, color = x.type)) +
+  stat_ecdf() +
+  geom_vline(xintercept = .9)
+
+cmp %>%
+  anti_join(clear, 'x') %>%
+  anti_join(clear, 'y') %>%
+  filter(jaccard >= .9) %>%
   group_by(x) %>%
   top_n(1, jaccard) %>%
-  arrange(y) %>%
   slice(1) %>%
   group_by(y) %>%
   top_n(1, jaccard) %>%
-  # ungroup -> foo
+  arrange(x) %>%
+  slice(1) %>%
   ungroup %>%
   # count(x) %>% count(n)
-  count(x.type, y) %>% count(n, x.type)
-foo %>%
-count(y) %>% filter(n> 1) %>% left_join(foo) %>% View
+  # count(y) %>% count(n)
+  select(x, type = x.type, y) %>%
+  bind_rows(clear) -> look
+
+assertthat::are_equal(
+  look %>%
+    unique %>%
+    count(x) %>%
+    filter(n > 1) %>%
+    nrow,
+  0
+)
+assertthat::are_equal(
+  look %>%
+    unique %>%
+    count(y) %>%
+    filter(n > 1) %>%
+    nrow,
+  0
+)
+  
+# update ids
+map2(c('operon', 'transcript', 'TU'),
+     isoforms,
+     ~ mutate(.y, type = .x)) %>%
+  map(left_join, look, c('id' = 'x', 'type')) %>%
+  map(mutate, n = cumsum(is.na(y)) + counter.status[type]) %>%
+  map(mutate, n = sprintf('BSGatlas-%s-%s', type, n)) %>%
+  map(rename, tmp.id = id) %>%
+  map(mutate, id = ifelse(is.na(y), n, y)) %>%
+  map(select, - c(y, n, type)) %>%
+  set_names(names(isoforms)) -> ongoing
+
+# make sure that links are coherent
+
+ongoing$transcripts %>%
+  rename(old.TUs = TUs) %>%
+  left_join(select(ongoing$tus, old.TUs = tmp.id, TUs = id), 'old.TUs') %>%
+  select(- old.TUs) -> ongoing$transcripts
+
+ongoing$operons %>%
+  select(id, transcripts, TUs) %>%
+  gather('k', 'x', transcripts, TUs) %>%
+  separate_rows('x', sep = ';') %>%
+  left_join(look, 'x') %>%
+  group_by(id, k) %>%
+  summarize_at('y', str_c, collapse = ';') %>%
+  spread(k, y) %>%
+  ungroup %>%
+  left_join(
+    ongoing$operons %>%
+      select(- transcripts, - TUs),
+    'id'
+  ) -> ongoing$operons
+
+ongoing %>%
+  map(select, - tmp.id) -> isoforms
+
 
 ###############################################################################
 
