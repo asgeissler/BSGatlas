@@ -8,6 +8,7 @@ source('scripts/frame_helpers.R')
 load('analysis/02_merging.rda')
 load('analysis/05_bsg_boundaries.rda')
 load('analysis/06_utrs.rda')
+load('analysis/06_raw.utrs.rda')
 load('analysis/07_isoforms.rda')
 load('data-gff/01_meta.full.rda')
 
@@ -87,19 +88,18 @@ queried %>%
     )
   })) -> convert
 
-# map(convert, 'error') %>% map(is.null) %>% unlist %>% summary
-# map(convert, 'error') %>% discard(is.null)
-# oh well, just 3
-
 convert %>%
   map('result') %>%
+  map(safely(drop_na)) %>%
+  map('result') %>%
+  discard(is.null) %>% # 3 weird ones
   bind_rows() -> pid.look
 
 tss.pid %>%
   select(-chunk) %>%
   left_join(pid.look) %>%
-  mutate(nice = sprintf('%s, %s <i>et al.</i> %s. %s (%s)<br>PUBMED: %s',
-                        lname, iname, title, journal, year, pid)) %>%
+  mutate(nice = sprintf('%s, %s <i>et al.</i> %s. %s (%s)<br>PUBMED: <a href="https://pubmed.ncbi.nlm.nih.gov/%s">%s</a>',
+                        lname, iname, title, journal, year, pid, pid)) %>%
   select(id, nice) %>%
   mutate(
     Resource = '1 BSGatlas',
@@ -133,7 +133,7 @@ isoforms$transcripts %>%
 
 bsg.boundaries$TSS %>%
   transmute(id,
-            Coordinates = paste0(TSS, '..', TSS),
+            Coordinates = paste0(start, '..', end),
             Strand = strand,
             `Sigma Factor` = sigma,
             `Resolution` = sprintf('&#177;%s bp', res.limit)) %>%
@@ -203,6 +203,12 @@ UTRs %>%
   {.$internal_UTR %<>% select(- boundary) ; .} %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows() %>%
+  left_join(
+    raw.utrs %>%
+      select(start = start.utr, end = end.utr, strand = strand.utr,
+             type, gene, boundary = bound),
+    c('start', 'end', 'strand', 'type')
+  ) %>%
   transmute(
     id,
     Coordinates = sprintf('%s..%s', start, end),
@@ -213,9 +219,15 @@ UTRs %>%
   ) %>%
   gather('meta', 'info', - id) %>%
   drop_na  %>%
-  mutate(info = ifelse(meta %in% c('Nearest Gene', 'Associated TSS/TTS'),
-                       sprintf('<a href="details.php?id=%s">%s</a>', info, info),
+  mutate(
+    tmp = info %>%
+      strsplit(';') %>%
+      map(1) %>%
+      unlist,
+    info = ifelse(meta %in% c('Nearest Gene', 'Associated TSS/TTS'),
+                       sprintf('<a href="details.php?id=%s">%s</a>', tmp, tmp),
                        info)) %>%
+  select(-tmp) %>%
   mutate(Resource = '1 BSGatlas') %>%
   bind_rows(utr.trans) %>%
   unique %>%
@@ -281,16 +293,21 @@ isoforms$transcripts %>%
   arrange(id, meta) -> op.trans
 #########################################################################
 isoforms$tus %>%
+  separate_rows('genes', sep = ';') %>%
+  inner_join(select(merging$merged_genes, merged_id, merged_name),
+                    c('genes' = 'merged_id')) %>%
+  mutate(genes = sprintf('%s (<a href="details.php?id=%s">%s</a>)', merged_name, genes, genes)) %>%
+  select(- merged_name) %>%
+  group_by(id) %>%
+  summarize_at('genes', clean_paste, sep = ', ') %>%
+  left_join(select(isoforms$tus, - genes), 'id') %>%
   transmute(
     id = id,
     Coordinates = sprintf('%s..%s', start, end),
     Strand = strand,
     `Based on` = src %>%
       str_replace_all(';', ', '),
-    `Contained Genes` = genes %>%
-      str_replace_all(';', ', ') %>%
-      str_replace_all("([A-Za-z0-9-_']+)(,?)",
-                        '<a href="details.php?id=\\1">\\1</a>\\2')
+    `Contained Genes` = genes
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
@@ -312,7 +329,8 @@ save(all.meta, file = 'data-gff/03_meta.rda')
 #########################################################################
 
 # Generated cleaned up maps for these gene set types
-interest <- c('Category', 'Gene Ontology', 'Functions', 'Enzyme Classifications')
+interest <- c('Category', 'Gene Ontology', 'Functions', 'Enzyme Classifications',
+              'Pathway')
 
 # extra query nice name to make summary table work easier
 all.meta %>%
@@ -327,6 +345,12 @@ all.meta %>%
   filter(meta %in% interest) %>%
   select(group = meta, gene = id, set = info) %>%
   left_join(nice.name, 'gene')  %>%
+  # get rid of link of KEGG
+  mutate(
+    foo = str_extract(set, '(?<=>).*(?=<)'),
+    set = ifelse(group == 'Pathway', foo, set)
+  ) %>%
+  select(- foo) %>%
   arrange(group, set, gene) -> p1
 
 
@@ -338,7 +362,40 @@ all.meta %>%
   transmute(group = 'Type', gene = id, set = info, name) %>%
   arrange(group, set, gene) -> p2
 
-bind_rows(p1, p2) %>%
+# Operons
+isoforms$operons %>%
+  select(id, TUs) %>%
+  separate_rows(TUs, sep = ';') %>%
+  left_join(isoforms$tus, c('TUs' = 'id')) %>%
+  separate_rows(genes, sep = ';') %>%
+  left_join(nice.name, c('genes' = 'gene')) %>%
+  transmute(
+    group = "Operons",
+    gene = genes,
+    set = id,
+    name
+  ) -> foo
+
+foo %>%
+  select(set, name) %>%
+  group_by(set) %>%
+  summarize_at('name', str_c, collapse = '-') %>%
+  ungroup %>%
+  mutate(new.name = sprintf('%s (%s)', name, set)) %>%
+  select(- name) -> bar
+foo %>%
+  left_join(bar, 'set') %>%
+  mutate(i = set %>%
+           strsplit('-') %>%
+           map(3) %>%
+           unlist %>%
+           as.integer) %>%
+  arrange(i) %>%
+  select(-set, -i) %>%
+  rename(set = new.name) -> p3
+  
+
+bind_rows(p1, p2, p3) %>%
   arrange(group, set, tolower(name)) %>%
   unique -> genesets
 
@@ -365,12 +422,15 @@ all.meta %>%
   unique %>%
   bind_rows(
     bsg.boundaries %>%
+      `[`(c('TSS', 'terminator')) %>%
       map2(names(.), ~ mutate(.x, type = .y)) %>%
-      map(select, id, type),
+      map(select, id, type) %>%
+      bind_rows,
     isoforms %>%
       set_names(c('Operon', 'Transcript', 'TU')) %>%
       map2(names(.), ~ mutate(.x, type = .y)) %>%
-      map(select, id, type)
+      map(select, id, type) %>%
+      bind_rows
   ) -> types
   
 all.meta %>%
