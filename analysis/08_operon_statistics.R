@@ -121,6 +121,7 @@ isoforms$tus %>%
 
   
 bsg.boundaries %>%
+  `[`(c('terminator', 'TSS')) %>%
   map(select, id, src) %>%
   map2(names(.), ~ mutate(.x, type = .y)) %>%
   bind_rows %>%
@@ -165,17 +166,8 @@ grand.stat %>%
   mutate_at('Transcripts', replace_na, '-') %>%
   mutate_at(c( "Operons", "Transcriptional Units", "Transcripts"),
             str_replace, '(\\d)(\\d{3})', '\\1,\\2') %>%
-  rename(Resource = src) %>%
-  knitr::kable('latex', linesep = '', booktabs = TRUE) %>%
-  kable_styling() %>%
-  strsplit('\\n') %>%
-  unlist -> xs
+  rename(Resource = src) -> grand.stat2
 
-# add midrule line
-c(xs[1:10], '\\midrule', xs[11:length(xs)]) %>%
-  `[`(3:15) %>%
-  write_lines('analysis/08_operon_table.tex')
-            
 #####################################
 
 bound.stat %>%
@@ -191,15 +183,12 @@ bound.stat %>%
           BSGatlas) %>%
   mutate_at('key', fct_recode,
             'internal UTR' = 'internal_UTR') %>%
+  filter(key != 'obsolete') %>%
   rename(' ' = key) %>%
   mutate_all(as.character) %>%
   mutate_all(replace_na, '-') %>%
-  mutate_all(str_replace, '^(\\d)(\\d{3})$', '\\1,\\2') %>%
-  # rename('Nicolas et al. / SubtiWiki' = SubtiWiki) %>%
-  knitr::kable('latex', booktabs = TRUE) %>%
-  strsplit('\\n') %>%
-  unlist %>%
-  write_lines('analysis/08_utr_table.tex')
+  mutate_all(str_replace, '^(\\d)(\\d{3})$', '\\1,\\2') -> utr.stat
+  
 
 #####################################
 #####################################
@@ -229,9 +218,13 @@ op.genes %>%
   mutate(pct = n / nrow(isoforms$operons) * 100)
 
 # given      n    pct
-# 1 FALSE    6   0.260
-# 2 TRUE   2303  99.7
+# 1 FALSE    6   0.265
+# 2 TRUE   2260  99.7
 
+list(
+  utr.stat2, grand.stat2
+) %>%
+  save('analysis/08_stats.rda')
 
 ######################################
 # Attempt similar classification to
@@ -351,11 +344,7 @@ op.type.stat %>%
   theme_bw(base_size = 18) +
   theme(legend.position = 'hide')
 
-ggsave('analysis/08_operon_types.pdf',
-       width = 20, height = 10, units = 'cm')
   
-
-
 #####################################
 # features distributions similar to existing work
 

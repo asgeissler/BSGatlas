@@ -640,6 +640,12 @@ map2(c('operon', 'transcript', 'TU'),
   map(select, - c(y, n, type)) %>%
   set_names(names(isoforms)) -> ongoing
 
+
+ongoing %>%
+  map(select, x = tmp.id, y = id) %>%
+  bind_rows -> look.full
+
+
 # make sure that links are coherent
 
 ongoing$transcripts %>%
@@ -651,7 +657,7 @@ ongoing$operons %>%
   select(id, transcripts, TUs) %>%
   gather('k', 'x', transcripts, TUs) %>%
   separate_rows('x', sep = ';') %>%
-  left_join(look, 'x') %>%
+  left_join(look.full, 'x') %>%
   group_by(id, k) %>%
   summarize_at('y', str_c, collapse = ';') %>%
   spread(k, y) %>%
