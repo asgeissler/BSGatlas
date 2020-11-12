@@ -28,7 +28,8 @@ load('data-gff/01_meta.full.rda')
 # [13] "Enzyme Classifications"          "Function"                        "Is essential?"                  
 # [16] "Isoelectric point"               "Molecular weight"                "Alternative Locus Tag"          
 # [19] "Functions"                       "Title"                           "Citation"                       
-# [22] "Gene Ontology"                   "Comment"                         "Family" 
+# [22] "Gene Ontology"                   "Comment"                         "Pathway"                        
+# [25] "Family"
 
 ####################
 # 1. the operons
@@ -119,7 +120,7 @@ isoforms$transcripts %>%
 
 
 bsg.boundaries$TSS %>%
-  transmute(ID = id, start = TSS, end = TSS, strand,
+  transmute(ID = id, start, end, strand,
             type = 'TSS',
             comment = sprintf(
               'Sigma: %s, Resolution: %s, Based on: %s, PubMed: %s',
@@ -154,10 +155,17 @@ meta.full %>%
             'comment' = 'Title') %>%
   select(-Resource) %>%
   rename(ID = merged_id) %>%
+  bind_rows(
+    read_tsv('data-gff/kegg_mapping.tsv') %>%
+      transmute(ID = gene, meta = 'kegg_pathways',
+                info = sprintf('%s (%s)', pathway_name, pathway)) %>%
+      mutate_at('info', str_remove_all, ',')
+  ) %>%
   unique %>%
   arrange(ID, meta, info) %>%
   group_by(ID, meta) %>%
   summarize_at('info', clean_paste, sep = ',') -> rna.meta
+
 
 rna.meta %<>% spread(meta, info)
 
@@ -244,7 +252,8 @@ bind_rows(
     )
 ) %>%
   arrange(start, desc(end)) %>%
-  mutate_at(c('comment', 'synonyms', 'ec', 'go', 'subtiwiki_category'),
+  mutate_at(c('comment', 'synonyms', 'ec', 'go', 'subtiwiki_category',
+              'kegg_pathways'),
             ~ ifelse(is.na(.x), NA, sprintf('"%s"', .x))) -> dat
 
 lines <- bind_rows(
@@ -322,5 +331,5 @@ lines <- bind_rows(
 )
 
 pull(lines, line) %>%
-  write_lines('data-gff/BSGatlas_v1.0.gff')
+  write_lines('data-gff/BSGatlas_v1.1.gff')
  
