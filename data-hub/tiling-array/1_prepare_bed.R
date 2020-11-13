@@ -175,7 +175,6 @@ indiv <- function(strand, title, geo, exp, expL, rep) {
 ", strand, geo, strand, title,
 expL, rep, title, geo,
 hash$cl[exp],
-hash$rep[rep], hash$exp[exp],
 geo, strand
 )
 }

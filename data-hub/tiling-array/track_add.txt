@@ -39,7 +39,7 @@ priority  50
   shortLabel LBexp_1
   longLabel growth in LB medium replicate 1 (LBexp_1-GSM672549)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/A_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672549_fwd.bw
 
 
 
@@ -50,7 +50,7 @@ priority  50
   shortLabel LBexp_2
   longLabel growth in LB medium replicate 2 (LBexp_2-GSM672550)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/B_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672550_fwd.bw
 
 
 
@@ -61,7 +61,7 @@ priority  50
   shortLabel LBexp_3
   longLabel growth in LB medium replicate 3 (LBexp_3-GSM672551)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/C_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672551_fwd.bw
 
 
 
@@ -72,7 +72,7 @@ priority  50
   shortLabel LBtran_1
   longLabel growth in LB medium replicate 1 (LBtran_1-GSM672552)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/A_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672552_fwd.bw
 
 
 
@@ -83,7 +83,7 @@ priority  50
   shortLabel LBtran_2
   longLabel growth in LB medium replicate 2 (LBtran_2-GSM672553)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/B_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672553_fwd.bw
 
 
 
@@ -94,7 +94,7 @@ priority  50
   shortLabel LBtran_3
   longLabel growth in LB medium replicate 3 (LBtran_3-GSM672554)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/C_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672554_fwd.bw
 
 
 
@@ -105,7 +105,7 @@ priority  50
   shortLabel LBstat_1
   longLabel growth in LB medium replicate 1 (LBstat_1-GSM672555)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/A_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672555_fwd.bw
 
 
 
@@ -116,7 +116,7 @@ priority  50
   shortLabel LBstat_2
   longLabel growth in LB medium replicate 2 (LBstat_2-GSM672556)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/B_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672556_fwd.bw
 
 
 
@@ -127,7 +127,7 @@ priority  50
   shortLabel LBstat_3
   longLabel growth in LB medium replicate 3 (LBstat_3-GSM672557)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/C_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672557_fwd.bw
 
 
 
@@ -138,7 +138,7 @@ priority  50
   shortLabel LBGexp_1
   longLabel growth in LB medium with added glucose replicate 1 (LBGexp_1-GSM672558)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/A_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672558_fwd.bw
 
 
 
@@ -149,7 +149,7 @@ priority  50
   shortLabel LBGexp_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGexp_2-GSM672559)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/B_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672559_fwd.bw
 
 
 
@@ -160,7 +160,7 @@ priority  50
   shortLabel LBGexp_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGexp_3-GSM672560)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/C_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672560_fwd.bw
 
 
 
@@ -171,7 +171,7 @@ priority  50
   shortLabel LBGtran_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGtran_2-GSM672561)
   color 178,31,71
-  bigDataUrl tiling-array/lifted_genome/B_05.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672561_fwd.bw
 
 
 
@@ -182,7 +182,7 @@ priority  50
   shortLabel LBGtran_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGtran_3-GSM672562)
   color 178,31,71
-  bigDataUrl tiling-array/lifted_genome/C_05.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672562_fwd.bw
 
 
 
@@ -193,7 +193,7 @@ priority  50
   shortLabel LBGstat_1
   longLabel growth in LB medium with added glucose replicate 1 (LBGstat_1-GSM672563)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/A_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672563_fwd.bw
 
 
 
@@ -204,7 +204,7 @@ priority  50
   shortLabel LBGstat_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGstat_2-GSM672564)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/B_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672564_fwd.bw
 
 
 
@@ -215,7 +215,7 @@ priority  50
   shortLabel LBGstat_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGstat_3-GSM672565)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/C_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672565_fwd.bw
 
 
 
@@ -226,7 +226,7 @@ priority  50
   shortLabel S0_1
   longLabel induction of sporulation replicate 1 (S0_1-GSM672566)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/A_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672566_fwd.bw
 
 
 
@@ -237,7 +237,7 @@ priority  50
   shortLabel S0_2
   longLabel induction of sporulation replicate 2 (S0_2-GSM672567)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/B_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672567_fwd.bw
 
 
 
@@ -248,7 +248,7 @@ priority  50
   shortLabel S0_3
   longLabel induction of sporulation replicate 3 (S0_3-GSM672568)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/C_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672568_fwd.bw
 
 
 
@@ -259,7 +259,7 @@ priority  50
   shortLabel S1_1
   longLabel induction of sporulation replicate 1 (S1_1-GSM672569)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/A_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672569_fwd.bw
 
 
 
@@ -270,7 +270,7 @@ priority  50
   shortLabel S1_2
   longLabel induction of sporulation replicate 2 (S1_2-GSM672570)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/B_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672570_fwd.bw
 
 
 
@@ -281,7 +281,7 @@ priority  50
   shortLabel S1_3
   longLabel induction of sporulation replicate 3 (S1_3-GSM672571)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/C_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672571_fwd.bw
 
 
 
@@ -292,7 +292,7 @@ priority  50
   shortLabel S2_1
   longLabel induction of sporulation replicate 1 (S2_1-GSM672572)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/A_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672572_fwd.bw
 
 
 
@@ -303,7 +303,7 @@ priority  50
   shortLabel S2_2
   longLabel induction of sporulation replicate 2 (S2_2-GSM672573)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/B_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672573_fwd.bw
 
 
 
@@ -314,7 +314,7 @@ priority  50
   shortLabel S2_3
   longLabel induction of sporulation replicate 3 (S2_3-GSM672574)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/C_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672574_fwd.bw
 
 
 
@@ -325,7 +325,7 @@ priority  50
   shortLabel S3_1
   longLabel induction of sporulation replicate 1 (S3_1-GSM672575)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/A_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672575_fwd.bw
 
 
 
@@ -336,7 +336,7 @@ priority  50
   shortLabel S3_2
   longLabel induction of sporulation replicate 2 (S3_2-GSM672576)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/B_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672576_fwd.bw
 
 
 
@@ -347,7 +347,7 @@ priority  50
   shortLabel S3_3
   longLabel induction of sporulation replicate 3 (S3_3-GSM672577)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/C_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672577_fwd.bw
 
 
 
@@ -358,7 +358,7 @@ priority  50
   shortLabel S4_1
   longLabel induction of sporulation replicate 1 (S4_1-GSM672578)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/A_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672578_fwd.bw
 
 
 
@@ -369,7 +369,7 @@ priority  50
   shortLabel S4_2
   longLabel induction of sporulation replicate 2 (S4_2-GSM672579)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/B_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672579_fwd.bw
 
 
 
@@ -380,7 +380,7 @@ priority  50
   shortLabel S4_3
   longLabel induction of sporulation replicate 3 (S4_3-GSM672580)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/C_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672580_fwd.bw
 
 
 
@@ -391,7 +391,7 @@ priority  50
   shortLabel S5_1
   longLabel induction of sporulation replicate 1 (S5_1-GSM672581)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/A_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672581_fwd.bw
 
 
 
@@ -402,7 +402,7 @@ priority  50
   shortLabel S5_2
   longLabel induction of sporulation replicate 2 (S5_2-GSM672582)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/B_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672582_fwd.bw
 
 
 
@@ -413,7 +413,7 @@ priority  50
   shortLabel S5_3
   longLabel induction of sporulation replicate 3 (S5_3-GSM672583)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/C_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672583_fwd.bw
 
 
 
@@ -424,7 +424,7 @@ priority  50
   shortLabel S6_1
   longLabel induction of sporulation replicate 1 (S6_1-GSM672584)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/A_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672584_fwd.bw
 
 
 
@@ -435,7 +435,7 @@ priority  50
   shortLabel S6_2
   longLabel induction of sporulation replicate 2 (S6_2-GSM672585)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/B_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672585_fwd.bw
 
 
 
@@ -446,7 +446,7 @@ priority  50
   shortLabel S6_3
   longLabel induction of sporulation replicate 3 (S6_3-GSM672586)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/C_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672586_fwd.bw
 
 
 
@@ -457,7 +457,7 @@ priority  50
   shortLabel S6/t_1
   longLabel induction of sporulation replicate 1 (S6/t_1-GSM672587)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/A_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672587_fwd.bw
 
 
 
@@ -468,7 +468,7 @@ priority  50
   shortLabel S6/t_2
   longLabel induction of sporulation replicate 2 (S6/t_2-GSM672588)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/B_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672588_fwd.bw
 
 
 
@@ -479,7 +479,7 @@ priority  50
   shortLabel S6/t_3
   longLabel induction of sporulation replicate 3 (S6/t_3-GSM672589)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/C_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672589_fwd.bw
 
 
 
@@ -490,7 +490,7 @@ priority  50
   shortLabel S6_4
   longLabel induction of sporulation replicate 4 (S6_4-GSM672590)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/D_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672590_fwd.bw
 
 
 
@@ -501,7 +501,7 @@ priority  50
   shortLabel S6_5
   longLabel induction of sporulation replicate 5 (S6_5-GSM672591)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/E_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672591_fwd.bw
 
 
 
@@ -512,7 +512,7 @@ priority  50
   shortLabel S6_6
   longLabel induction of sporulation replicate 6 (S6_6-GSM672592)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/F_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672592_fwd.bw
 
 
 
@@ -523,7 +523,7 @@ priority  50
   shortLabel S7_4
   longLabel induction of sporulation replicate 4 (S7_4-GSM672593)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/D_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672593_fwd.bw
 
 
 
@@ -534,7 +534,7 @@ priority  50
   shortLabel S7_5
   longLabel induction of sporulation replicate 5 (S7_5-GSM672594)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/E_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672594_fwd.bw
 
 
 
@@ -545,7 +545,7 @@ priority  50
   shortLabel S7_6
   longLabel induction of sporulation replicate 6 (S7_6-GSM672595)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/F_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672595_fwd.bw
 
 
 
@@ -556,7 +556,7 @@ priority  50
   shortLabel S8_4
   longLabel induction of sporulation replicate 4 (S8_4-GSM672596)
   color 226,83,75
-  bigDataUrl tiling-array/lifted_genome/D_10.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672596_fwd.bw
 
 
 
@@ -567,7 +567,7 @@ priority  50
   shortLabel S8_5
   longLabel induction of sporulation replicate 5 (S8_5-GSM672597)
   color 226,83,75
-  bigDataUrl tiling-array/lifted_genome/E_10.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672597_fwd.bw
 
 
 
@@ -578,7 +578,7 @@ priority  50
   shortLabel G135_1
   longLabel germination replicate 1 (G135_1-GSM672598)
   color 229,87,74
-  bigDataUrl tiling-array/lifted_genome/A_11.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672598_fwd.bw
 
 
 
@@ -589,7 +589,7 @@ priority  50
   shortLabel G135_3
   longLabel germination replicate 3 (G135_3-GSM672599)
   color 229,87,74
-  bigDataUrl tiling-array/lifted_genome/C_11.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672599_fwd.bw
 
 
 
@@ -600,7 +600,7 @@ priority  50
   shortLabel G150_1
   longLabel germination replicate 1 (G150_1-GSM672600)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/A_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672600_fwd.bw
 
 
 
@@ -611,7 +611,7 @@ priority  50
   shortLabel G150_2
   longLabel germination replicate 2 (G150_2-GSM672601)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/B_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672601_fwd.bw
 
 
 
@@ -622,7 +622,7 @@ priority  50
   shortLabel G150_3
   longLabel germination replicate 3 (G150_3-GSM672602)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/C_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672602_fwd.bw
 
 
 
@@ -633,7 +633,7 @@ priority  50
   shortLabel G180_1
   longLabel germination replicate 1 (G180_1-GSM672603)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/A_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672603_fwd.bw
 
 
 
@@ -644,7 +644,7 @@ priority  50
   shortLabel G180_2
   longLabel germination replicate 2 (G180_2-GSM672604)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/B_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672604_fwd.bw
 
 
 
@@ -655,7 +655,7 @@ priority  50
   shortLabel G180_3
   longLabel germination replicate 3 (G180_3-GSM672605)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/C_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672605_fwd.bw
 
 
 
@@ -666,7 +666,7 @@ priority  50
   shortLabel C30_1
   longLabel competence replicate 1 (C30_1-GSM672606)
   color 238,100,70
-  bigDataUrl tiling-array/lifted_genome/A_14.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672606_fwd.bw
 
 
 
@@ -677,7 +677,7 @@ priority  50
   shortLabel C30_2
   longLabel competence replicate 2 (C30_2-GSM672607)
   color 238,100,70
-  bigDataUrl tiling-array/lifted_genome/B_14.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672607_fwd.bw
 
 
 
@@ -688,7 +688,7 @@ priority  50
   shortLabel C90_1
   longLabel competence replicate 1 (C90_1-GSM672608)
   color 241,104,69
-  bigDataUrl tiling-array/lifted_genome/A_15.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672608_fwd.bw
 
 
 
@@ -699,7 +699,7 @@ priority  50
   shortLabel C90_2
   longLabel competence replicate 2 (C90_2-GSM672609)
   color 241,104,69
-  bigDataUrl tiling-array/lifted_genome/B_15.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672609_fwd.bw
 
 
 
@@ -710,7 +710,7 @@ priority  50
   shortLabel BI_1
   longLabel 18h of growth on plates replicate 1 (BI_1-GSM672610)
   color 243,108,67
-  bigDataUrl tiling-array/lifted_genome/A_16.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672610_fwd.bw
 
 
 
@@ -721,7 +721,7 @@ priority  50
   shortLabel BI_2
   longLabel 18h of growth on plates replicate 2 (BI_2-GSM672611)
   color 243,108,67
-  bigDataUrl tiling-array/lifted_genome/B_16.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672611_fwd.bw
 
 
 
@@ -732,7 +732,7 @@ priority  50
   shortLabel BC_2
   longLabel 18h of growth on plates replicate 2 (BC_2-GSM672612)
   color 245,114,69
-  bigDataUrl tiling-array/lifted_genome/B_17.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672612_fwd.bw
 
 
 
@@ -743,7 +743,7 @@ priority  50
   shortLabel BC/t_1
   longLabel 18h of growth on plates replicate 1 (BC/t_1-GSM672613)
   color 246,121,72
-  bigDataUrl tiling-array/lifted_genome/A_18.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672613_fwd.bw
 
 
 
@@ -754,7 +754,7 @@ priority  50
   shortLabel BC/t_2
   longLabel 18h of growth on plates replicate 2 (BC/t_2-GSM672614)
   color 246,121,72
-  bigDataUrl tiling-array/lifted_genome/B_18.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672614_fwd.bw
 
 
 
@@ -765,7 +765,7 @@ priority  50
   shortLabel BC_1
   longLabel 18h of growth on plates replicate 1 (BC_1-GSM672615)
   color 245,114,69
-  bigDataUrl tiling-array/lifted_genome/A_17.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672615_fwd.bw
 
 
 
@@ -776,7 +776,7 @@ priority  50
   shortLabel Sw_1
   longLabel 18h of growth on soft plates replicate 1 (Sw_1-GSM672616)
   color 247,127,75
-  bigDataUrl tiling-array/lifted_genome/A_19.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672616_fwd.bw
 
 
 
@@ -787,7 +787,7 @@ priority  50
   shortLabel Sw_2
   longLabel 18h of growth on soft plates replicate 2 (Sw_2-GSM672617)
   color 247,127,75
-  bigDataUrl tiling-array/lifted_genome/B_19.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672617_fwd.bw
 
 
 
@@ -798,7 +798,7 @@ priority  50
   shortLabel BT_1
   longLabel biofilm formation replicate 1 (BT_1-GSM672618)
   color 248,133,77
-  bigDataUrl tiling-array/lifted_genome/A_1a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672618_fwd.bw
 
 
 
@@ -809,7 +809,7 @@ priority  50
   shortLabel BT_2
   longLabel biofilm formation replicate 2 (BT_2-GSM672619)
   color 248,133,77
-  bigDataUrl tiling-array/lifted_genome/B_1a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672619_fwd.bw
 
 
 
@@ -820,7 +820,7 @@ priority  50
   shortLabel B36_1
   longLabel biofilm formation replicate 1 (B36_1-GSM672620)
   color 249,140,80
-  bigDataUrl tiling-array/lifted_genome/A_1b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672620_fwd.bw
 
 
 
@@ -831,7 +831,7 @@ priority  50
   shortLabel B36_2
   longLabel biofilm formation replicate 2 (B36_2-GSM672621)
   color 249,140,80
-  bigDataUrl tiling-array/lifted_genome/B_1b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672621_fwd.bw
 
 
 
@@ -842,7 +842,7 @@ priority  50
   shortLabel B60_1
   longLabel biofilm formation replicate 1 (B60_1-GSM672622)
   color 250,146,83
-  bigDataUrl tiling-array/lifted_genome/A_1c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672622_fwd.bw
 
 
 
@@ -853,7 +853,7 @@ priority  50
   shortLabel B60_2
   longLabel biofilm formation replicate 2 (B60_2-GSM672623)
   color 250,146,83
-  bigDataUrl tiling-array/lifted_genome/B_1c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672623_fwd.bw
 
 
 
@@ -864,7 +864,7 @@ priority  50
   shortLabel M9exp_1
   longLabel growth in M9 medium with glucose replicate 1 (M9exp_1-GSM672624)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/A_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672624_fwd.bw
 
 
 
@@ -875,7 +875,7 @@ priority  50
   shortLabel M9exp_2
   longLabel growth in M9 medium with glucose replicate 2 (M9exp_2-GSM672625)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/B_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672625_fwd.bw
 
 
 
@@ -886,7 +886,7 @@ priority  50
   shortLabel M9exp_3
   longLabel growth in M9 medium with glucose replicate 3 (M9exp_3-GSM672626)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/C_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672626_fwd.bw
 
 
 
@@ -897,7 +897,7 @@ priority  50
   shortLabel M9tran_1
   longLabel growth in M9 medium with glucose replicate 1 (M9tran_1-GSM672627)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/A_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672627_fwd.bw
 
 
 
@@ -908,7 +908,7 @@ priority  50
   shortLabel M9tran_2
   longLabel growth in M9 medium with glucose replicate 2 (M9tran_2-GSM672628)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/B_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672628_fwd.bw
 
 
 
@@ -919,7 +919,7 @@ priority  50
   shortLabel M9tran_3
   longLabel growth in M9 medium with glucose replicate 3 (M9tran_3-GSM672629)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/C_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672629_fwd.bw
 
 
 
@@ -930,7 +930,7 @@ priority  50
   shortLabel M9stat_1
   longLabel growth in M9 medium with glucose replicate 1 (M9stat_1-GSM672630)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/A_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672630_fwd.bw
 
 
 
@@ -941,7 +941,7 @@ priority  50
   shortLabel M9stat_2
   longLabel growth in M9 medium with glucose replicate 2 (M9stat_2-GSM672631)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/B_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672631_fwd.bw
 
 
 
@@ -952,7 +952,7 @@ priority  50
   shortLabel M9stat_3
   longLabel growth in M9 medium with glucose replicate 3 (M9stat_3-GSM672632)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/C_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672632_fwd.bw
 
 
 
@@ -963,7 +963,7 @@ priority  50
   shortLabel M+G_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (M+G_1-GSM672633)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/A_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672633_fwd.bw
 
 
 
@@ -974,7 +974,7 @@ priority  50
   shortLabel M+G_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (M+G_2-GSM672634)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/B_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672634_fwd.bw
 
 
 
@@ -985,7 +985,7 @@ priority  50
   shortLabel M+G_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (M+G_3-GSM672635)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/C_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672635_fwd.bw
 
 
 
@@ -996,7 +996,7 @@ priority  50
   shortLabel Glu_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glu_1-GSM672636)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/A_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672636_fwd.bw
 
 
 
@@ -1007,7 +1007,7 @@ priority  50
   shortLabel Glu_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glu_2-GSM672637)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/B_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672637_fwd.bw
 
 
 
@@ -1018,7 +1018,7 @@ priority  50
   shortLabel Glu_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glu_3-GSM672638)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/C_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672638_fwd.bw
 
 
 
@@ -1029,7 +1029,7 @@ priority  50
   shortLabel Fru_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Fru_1-GSM672639)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/A_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672639_fwd.bw
 
 
 
@@ -1040,7 +1040,7 @@ priority  50
   shortLabel Fru_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Fru_2-GSM672640)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/B_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672640_fwd.bw
 
 
 
@@ -1051,7 +1051,7 @@ priority  50
   shortLabel Fru_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Fru_3-GSM672641)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/C_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672641_fwd.bw
 
 
 
@@ -1062,7 +1062,7 @@ priority  50
   shortLabel Mal_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Mal_1-GSM672642)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/A_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672642_fwd.bw
 
 
 
@@ -1073,7 +1073,7 @@ priority  50
   shortLabel Mal_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Mal_2-GSM672643)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/B_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672643_fwd.bw
 
 
 
@@ -1084,7 +1084,7 @@ priority  50
   shortLabel Mal_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Mal_3-GSM672644)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/C_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672644_fwd.bw
 
 
 
@@ -1095,7 +1095,7 @@ priority  50
   shortLabel G+S_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (G+S_1-GSM672645)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/A_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672645_fwd.bw
 
 
 
@@ -1106,7 +1106,7 @@ priority  50
   shortLabel G+S_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (G+S_2-GSM672646)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/B_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672646_fwd.bw
 
 
 
@@ -1117,7 +1117,7 @@ priority  50
   shortLabel G+S_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (G+S_3-GSM672647)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/C_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672647_fwd.bw
 
 
 
@@ -1128,7 +1128,7 @@ priority  50
   shortLabel Pyr_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Pyr_1-GSM672648)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/A_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672648_fwd.bw
 
 
 
@@ -1139,7 +1139,7 @@ priority  50
   shortLabel Pyr_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Pyr_2-GSM672649)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/B_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672649_fwd.bw
 
 
 
@@ -1150,7 +1150,7 @@ priority  50
   shortLabel Pyr_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Pyr_3-GSM672650)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/C_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672650_fwd.bw
 
 
 
@@ -1161,7 +1161,7 @@ priority  50
   shortLabel Gly_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Gly_1-GSM672651)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/A_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672651_fwd.bw
 
 
 
@@ -1172,7 +1172,7 @@ priority  50
   shortLabel Gly_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Gly_2-GSM672652)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/B_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672652_fwd.bw
 
 
 
@@ -1183,7 +1183,7 @@ priority  50
   shortLabel Gly_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Gly_3-GSM672653)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/C_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672653_fwd.bw
 
 
 
@@ -1194,7 +1194,7 @@ priority  50
   shortLabel Glucon_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glucon_1-GSM672654)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/A_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672654_fwd.bw
 
 
 
@@ -1205,7 +1205,7 @@ priority  50
   shortLabel Glucon_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glucon_2-GSM672655)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/B_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672655_fwd.bw
 
 
 
@@ -1216,7 +1216,7 @@ priority  50
   shortLabel Glucon_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glucon_3-GSM672656)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/C_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672656_fwd.bw
 
 
 
@@ -1227,7 +1227,7 @@ priority  50
   shortLabel aero_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (aero_1-GSM672657)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/A_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672657_fwd.bw
 
 
 
@@ -1238,7 +1238,7 @@ priority  50
   shortLabel aero_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (aero_2-GSM672658)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/B_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672658_fwd.bw
 
 
 
@@ -1249,7 +1249,7 @@ priority  50
   shortLabel aero_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (aero_3-GSM672659)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/C_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672659_fwd.bw
 
 
 
@@ -1260,7 +1260,7 @@ priority  50
   shortLabel nit_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (nit_1-GSM672660)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/A_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672660_fwd.bw
 
 
 
@@ -1271,7 +1271,7 @@ priority  50
   shortLabel nit_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (nit_2-GSM672661)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/B_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672661_fwd.bw
 
 
 
@@ -1282,7 +1282,7 @@ priority  50
   shortLabel nit_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (nit_3-GSM672662)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/C_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672662_fwd.bw
 
 
 
@@ -1293,7 +1293,7 @@ priority  50
   shortLabel ferm_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (ferm_1-GSM672663)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/A_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672663_fwd.bw
 
 
 
@@ -1304,7 +1304,7 @@ priority  50
   shortLabel ferm_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (ferm_2-GSM672664)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/B_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672664_fwd.bw
 
 
 
@@ -1315,7 +1315,7 @@ priority  50
   shortLabel ferm_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (ferm_3-GSM672665)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/C_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672665_fwd.bw
 
 
 
@@ -1326,7 +1326,7 @@ priority  50
   shortLabel T-5.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-5.40H_1-GSM672666)
   color 254,222,137
-  bigDataUrl tiling-array/lifted_genome/A_2b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672666_fwd.bw
 
 
 
@@ -1337,7 +1337,7 @@ priority  50
   shortLabel T-4.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-4.40H_1-GSM672667)
   color 254,226,142
-  bigDataUrl tiling-array/lifted_genome/A_2c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672667_fwd.bw
 
 
 
@@ -1348,7 +1348,7 @@ priority  50
   shortLabel T-3.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-3.40H_1-GSM672668)
   color 254,229,147
-  bigDataUrl tiling-array/lifted_genome/A_2d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672668_fwd.bw
 
 
 
@@ -1359,7 +1359,7 @@ priority  50
   shortLabel T-2.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-2.40H_1-GSM672669)
   color 255,232,152
-  bigDataUrl tiling-array/lifted_genome/A_2e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672669_fwd.bw
 
 
 
@@ -1370,7 +1370,7 @@ priority  50
   shortLabel T-1.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-1.40H_1-GSM672670)
   color 255,234,157
-  bigDataUrl tiling-array/lifted_genome/A_2f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672670_fwd.bw
 
 
 
@@ -1381,7 +1381,7 @@ priority  50
   shortLabel T-1.10H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-1.10H_1-GSM672671)
   color 255,237,162
-  bigDataUrl tiling-array/lifted_genome/A_30.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672671_fwd.bw
 
 
 
@@ -1392,7 +1392,7 @@ priority  50
   shortLabel T-0.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-0.40H_1-GSM672672)
   color 255,240,166
-  bigDataUrl tiling-array/lifted_genome/A_31.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672672_fwd.bw
 
 
 
@@ -1403,7 +1403,7 @@ priority  50
   shortLabel T0.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T0.0H_1-GSM672673)
   color 255,243,171
-  bigDataUrl tiling-array/lifted_genome/A_32.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672673_fwd.bw
 
 
 
@@ -1414,7 +1414,7 @@ priority  50
   shortLabel T0.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T0.30H_1-GSM672674)
   color 255,246,176
-  bigDataUrl tiling-array/lifted_genome/A_33.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672674_fwd.bw
 
 
 
@@ -1425,7 +1425,7 @@ priority  50
   shortLabel T1.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T1.0H_1-GSM672675)
   color 255,249,181
-  bigDataUrl tiling-array/lifted_genome/A_34.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672675_fwd.bw
 
 
 
@@ -1436,7 +1436,7 @@ priority  50
   shortLabel T1.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T1.30H_1-GSM672676)
   color 255,252,186
-  bigDataUrl tiling-array/lifted_genome/A_35.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672676_fwd.bw
 
 
 
@@ -1447,7 +1447,7 @@ priority  50
   shortLabel T2.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T2.0H_1-GSM672677)
   color 255,255,191
-  bigDataUrl tiling-array/lifted_genome/A_36.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672677_fwd.bw
 
 
 
@@ -1458,7 +1458,7 @@ priority  50
   shortLabel T2.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T2.30H_1-GSM672678)
   color 253,254,187
-  bigDataUrl tiling-array/lifted_genome/A_37.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672678_fwd.bw
 
 
 
@@ -1469,7 +1469,7 @@ priority  50
   shortLabel T3.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T3.0H_1-GSM672679)
   color 250,253,184
-  bigDataUrl tiling-array/lifted_genome/A_38.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672679_fwd.bw
 
 
 
@@ -1480,7 +1480,7 @@ priority  50
   shortLabel T3.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T3.30H_1-GSM672680)
   color 248,252,180
-  bigDataUrl tiling-array/lifted_genome/A_39.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672680_fwd.bw
 
 
 
@@ -1491,7 +1491,7 @@ priority  50
   shortLabel T4.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T4.0H_1-GSM672681)
   color 246,251,176
-  bigDataUrl tiling-array/lifted_genome/A_3a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672681_fwd.bw
 
 
 
@@ -1502,7 +1502,7 @@ priority  50
   shortLabel T5.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T5.0H_1-GSM672682)
   color 243,250,173
-  bigDataUrl tiling-array/lifted_genome/A_3b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672682_fwd.bw
 
 
 
@@ -1513,7 +1513,7 @@ priority  50
   shortLabel HPh_1
   longLabel growth in high phosphate medium replicate 1 (HPh_1-GSM672683)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/A_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672683_fwd.bw
 
 
 
@@ -1524,7 +1524,7 @@ priority  50
   shortLabel HPh_2
   longLabel growth in high phosphate medium replicate 2 (HPh_2-GSM672684)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/B_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672684_fwd.bw
 
 
 
@@ -1535,7 +1535,7 @@ priority  50
   shortLabel HPh_3
   longLabel growth in high phosphate medium replicate 3 (HPh_3-GSM672685)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/C_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672685_fwd.bw
 
 
 
@@ -1546,7 +1546,7 @@ priority  50
   shortLabel LPh_1
   longLabel growth in low phosphate medium replicate 1 (LPh_1-GSM672686)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/A_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672686_fwd.bw
 
 
 
@@ -1557,7 +1557,7 @@ priority  50
   shortLabel LPh_2
   longLabel growth in low phosphate medium replicate 2 (LPh_2-GSM672687)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/B_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672687_fwd.bw
 
 
 
@@ -1568,7 +1568,7 @@ priority  50
   shortLabel LPh_3
   longLabel growth in low phosphate medium replicate 3 (LPh_3-GSM672688)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/C_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672688_fwd.bw
 
 
 
@@ -1579,7 +1579,7 @@ priority  50
   shortLabel LPhT_1
   longLabel growth in low phosphate medium replicate 1 (LPhT_1-GSM672689)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/A_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672689_fwd.bw
 
 
 
@@ -1590,7 +1590,7 @@ priority  50
   shortLabel LPhT_2
   longLabel growth in low phosphate medium replicate 2 (LPhT_2-GSM672690)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/B_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672690_fwd.bw
 
 
 
@@ -1601,7 +1601,7 @@ priority  50
   shortLabel LPhT_3
   longLabel growth in low phosphate medium replicate 3 (LPhT_3-GSM672691)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/C_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672691_fwd.bw
 
 
 
@@ -1612,7 +1612,7 @@ priority  50
   shortLabel SMMPr_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (SMMPr_1-GSM672692)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/A_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672692_fwd.bw
 
 
 
@@ -1623,7 +1623,7 @@ priority  50
   shortLabel SMMPr_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (SMMPr_2-GSM672693)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/B_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672693_fwd.bw
 
 
 
@@ -1634,7 +1634,7 @@ priority  50
   shortLabel SMMPr_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (SMMPr_3-GSM672694)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/C_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672694_fwd.bw
 
 
 
@@ -1645,7 +1645,7 @@ priority  50
   shortLabel HiTm_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiTm_1-GSM672695)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/A_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672695_fwd.bw
 
 
 
@@ -1656,7 +1656,7 @@ priority  50
   shortLabel HiTm_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiTm_2-GSM672696)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/B_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672696_fwd.bw
 
 
 
@@ -1667,7 +1667,7 @@ priority  50
   shortLabel HiTm_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiTm_3-GSM672697)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/C_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672697_fwd.bw
 
 
 
@@ -1678,7 +1678,7 @@ priority  50
   shortLabel LoTm_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (LoTm_1-GSM672698)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/A_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672698_fwd.bw
 
 
 
@@ -1689,7 +1689,7 @@ priority  50
   shortLabel LoTm_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (LoTm_2-GSM672699)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/B_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672699_fwd.bw
 
 
 
@@ -1700,7 +1700,7 @@ priority  50
   shortLabel LoTm_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (LoTm_3-GSM672700)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/C_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672700_fwd.bw
 
 
 
@@ -1711,7 +1711,7 @@ priority  50
   shortLabel HiOs_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiOs_1-GSM672701)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/A_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672701_fwd.bw
 
 
 
@@ -1722,7 +1722,7 @@ priority  50
   shortLabel HiOs_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiOs_2-GSM672702)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/B_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672702_fwd.bw
 
 
 
@@ -1733,7 +1733,7 @@ priority  50
   shortLabel HiOs_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiOs_3-GSM672703)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/C_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672703_fwd.bw
 
 
 
@@ -1744,7 +1744,7 @@ priority  50
   shortLabel BMM_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (BMM_1-GSM672704)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/A_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672704_fwd.bw
 
 
 
@@ -1755,7 +1755,7 @@ priority  50
   shortLabel BMM_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (BMM_2-GSM672705)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/B_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672705_fwd.bw
 
 
 
@@ -1766,7 +1766,7 @@ priority  50
   shortLabel BMM_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (BMM_3-GSM672706)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/C_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672706_fwd.bw
 
 
 
@@ -1777,7 +1777,7 @@ priority  50
   shortLabel Heat_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Heat_1-GSM672707)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/A_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672707_fwd.bw
 
 
 
@@ -1788,7 +1788,7 @@ priority  50
   shortLabel Heat_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Heat_2-GSM672708)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/B_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672708_fwd.bw
 
 
 
@@ -1799,7 +1799,7 @@ priority  50
   shortLabel Heat_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Heat_3-GSM672709)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/C_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672709_fwd.bw
 
 
 
@@ -1810,7 +1810,7 @@ priority  50
   shortLabel Cold_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Cold_1-GSM672710)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/A_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672710_fwd.bw
 
 
 
@@ -1821,7 +1821,7 @@ priority  50
   shortLabel Cold_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Cold_2-GSM672711)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/B_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672711_fwd.bw
 
 
 
@@ -1832,7 +1832,7 @@ priority  50
   shortLabel Cold_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Cold_3-GSM672712)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/C_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672712_fwd.bw
 
 
 
@@ -1843,7 +1843,7 @@ priority  50
   shortLabel Etha_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Etha_1-GSM672713)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/A_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672713_fwd.bw
 
 
 
@@ -1854,7 +1854,7 @@ priority  50
   shortLabel Etha_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Etha_2-GSM672714)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/B_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672714_fwd.bw
 
 
 
@@ -1865,7 +1865,7 @@ priority  50
   shortLabel Etha_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Etha_3-GSM672715)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/C_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672715_fwd.bw
 
 
 
@@ -1876,7 +1876,7 @@ priority  50
   shortLabel SMM_1
   longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (SMM_1-GSM672716)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/A_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672716_fwd.bw
 
 
 
@@ -1887,7 +1887,7 @@ priority  50
   shortLabel SMM_2
   longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (SMM_2-GSM672717)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/B_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672717_fwd.bw
 
 
 
@@ -1898,7 +1898,7 @@ priority  50
   shortLabel SMM_3
   longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (SMM_3-GSM672718)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/C_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672718_fwd.bw
 
 
 
@@ -1909,7 +1909,7 @@ priority  50
   shortLabel Salt_1
   longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (Salt_1-GSM672719)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/A_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672719_fwd.bw
 
 
 
@@ -1920,7 +1920,7 @@ priority  50
   shortLabel Salt_2
   longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (Salt_2-GSM672720)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/B_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672720_fwd.bw
 
 
 
@@ -1931,7 +1931,7 @@ priority  50
   shortLabel Salt_3
   longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (Salt_3-GSM672721)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/C_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672721_fwd.bw
 
 
 
@@ -1942,7 +1942,7 @@ priority  50
   shortLabel Mt0_1
   longLabel growth in LB until exponential phase replicate 1 (Mt0_1-GSM672722)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/A_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672722_fwd.bw
 
 
 
@@ -1953,7 +1953,7 @@ priority  50
   shortLabel Mt0_2
   longLabel growth in LB until exponential phase replicate 2 (Mt0_2-GSM672723)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/B_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672723_fwd.bw
 
 
 
@@ -1964,7 +1964,7 @@ priority  50
   shortLabel Mt0_3
   longLabel growth in LB until exponential phase replicate 3 (Mt0_3-GSM672724)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/C_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672724_fwd.bw
 
 
 
@@ -1975,7 +1975,7 @@ priority  50
   shortLabel M0t45_1
   longLabel growth in LB until exponential phase replicate 1 (M0t45_1-GSM672725)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/A_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672725_fwd.bw
 
 
 
@@ -1986,7 +1986,7 @@ priority  50
   shortLabel M0t45_2
   longLabel growth in LB until exponential phase replicate 2 (M0t45_2-GSM672726)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/B_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672726_fwd.bw
 
 
 
@@ -1997,7 +1997,7 @@ priority  50
   shortLabel M0t45_3
   longLabel growth in LB until exponential phase replicate 3 (M0t45_3-GSM672727)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/C_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672727_fwd.bw
 
 
 
@@ -2008,7 +2008,7 @@ priority  50
   shortLabel M0t90_1
   longLabel growth in LB until exponential phase replicate 1 (M0t90_1-GSM672728)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/A_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672728_fwd.bw
 
 
 
@@ -2019,7 +2019,7 @@ priority  50
   shortLabel M0t90_2
   longLabel growth in LB until exponential phase replicate 2 (M0t90_2-GSM672729)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/B_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672729_fwd.bw
 
 
 
@@ -2030,7 +2030,7 @@ priority  50
   shortLabel M0t90_3
   longLabel growth in LB until exponential phase replicate 3 (M0t90_3-GSM672730)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/C_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672730_fwd.bw
 
 
 
@@ -2041,7 +2041,7 @@ priority  50
   shortLabel M40t45_1
   longLabel growth in LB until exponential phase replicate 1 (M40t45_1-GSM672731)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/A_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672731_fwd.bw
 
 
 
@@ -2052,7 +2052,7 @@ priority  50
   shortLabel M40t45_2
   longLabel growth in LB until exponential phase replicate 2 (M40t45_2-GSM672732)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/B_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672732_fwd.bw
 
 
 
@@ -2063,7 +2063,7 @@ priority  50
   shortLabel M40t45_3
   longLabel growth in LB until exponential phase replicate 3 (M40t45_3-GSM672733)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/C_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672733_fwd.bw
 
 
 
@@ -2074,7 +2074,7 @@ priority  50
   shortLabel M40t90_1
   longLabel growth in LB until exponential phase replicate 1 (M40t90_1-GSM672734)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/A_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672734_fwd.bw
 
 
 
@@ -2085,7 +2085,7 @@ priority  50
   shortLabel M40t90_2
   longLabel growth in LB until exponential phase replicate 2 (M40t90_2-GSM672735)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/B_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672735_fwd.bw
 
 
 
@@ -2096,7 +2096,7 @@ priority  50
   shortLabel M40t90_3
   longLabel growth in LB until exponential phase replicate 3 (M40t90_3-GSM672736)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/C_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672736_fwd.bw
 
 
 
@@ -2107,7 +2107,7 @@ priority  50
   shortLabel dia0_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia0_1-GSM672737)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/A_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672737_fwd.bw
 
 
 
@@ -2118,7 +2118,7 @@ priority  50
   shortLabel dia0_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia0_2-GSM672738)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/B_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672738_fwd.bw
 
 
 
@@ -2129,7 +2129,7 @@ priority  50
   shortLabel dia0_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia0_3-GSM672739)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/C_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672739_fwd.bw
 
 
 
@@ -2140,7 +2140,7 @@ priority  50
   shortLabel dia5_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia5_1-GSM672740)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/A_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672740_fwd.bw
 
 
 
@@ -2151,7 +2151,7 @@ priority  50
   shortLabel dia5_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia5_2-GSM672741)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/B_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672741_fwd.bw
 
 
 
@@ -2162,7 +2162,7 @@ priority  50
   shortLabel dia5_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia5_3-GSM672742)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/C_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672742_fwd.bw
 
 
 
@@ -2173,7 +2173,7 @@ priority  50
   shortLabel dia15_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia15_1-GSM672743)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/A_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672743_fwd.bw
 
 
 
@@ -2184,7 +2184,7 @@ priority  50
   shortLabel dia15_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia15_2-GSM672744)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/B_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672744_fwd.bw
 
 
 
@@ -2195,7 +2195,7 @@ priority  50
   shortLabel dia15_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia15_3-GSM672745)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/C_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672745_fwd.bw
 
 
 
@@ -2206,7 +2206,7 @@ priority  50
   shortLabel Diami_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Diami_1-GSM672746)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/A_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672746_fwd.bw
 
 
 
@@ -2217,7 +2217,7 @@ priority  50
   shortLabel Diami_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Diami_2-GSM672747)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/B_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672747_fwd.bw
 
 
 
@@ -2228,7 +2228,7 @@ priority  50
   shortLabel Diami_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Diami_3-GSM672748)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/C_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672748_fwd.bw
 
 
 
@@ -2239,7 +2239,7 @@ priority  50
   shortLabel Paraq_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Paraq_1-GSM672749)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/A_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672749_fwd.bw
 
 
 
@@ -2250,7 +2250,7 @@ priority  50
   shortLabel Paraq_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Paraq_2-GSM672750)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/B_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672750_fwd.bw
 
 
 
@@ -2261,7 +2261,7 @@ priority  50
   shortLabel Paraq_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Paraq_3-GSM672751)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/C_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672751_fwd.bw
 
 
 
@@ -2272,7 +2272,7 @@ priority  50
   shortLabel H2O2_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (H2O2_1-GSM672752)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/A_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672752_fwd.bw
 
 
 
@@ -2283,7 +2283,7 @@ priority  50
   shortLabel H2O2_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (H2O2_2-GSM672753)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/B_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672753_fwd.bw
 
 
 
@@ -2294,7 +2294,7 @@ priority  50
   shortLabel H2O2_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (H2O2_3-GSM672754)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/C_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672754_fwd.bw
 
 
 
@@ -2305,7 +2305,7 @@ priority  50
   shortLabel Oxctl_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Oxctl_1-GSM672755)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/A_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672755_fwd.bw
 
 
 
@@ -2316,7 +2316,7 @@ priority  50
   shortLabel Oxctl_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Oxctl_2-GSM672756)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/B_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672756_fwd.bw
 
 
 
@@ -2327,7 +2327,7 @@ priority  50
   shortLabel Oxctl_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Oxctl_3-GSM672757)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/C_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672757_fwd.bw
 
 
 
@@ -2338,7 +2338,7 @@ priority  50
   shortLabel GM-0.1_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM-0.1_1-GSM672758)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/A_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672758_fwd.bw
 
 
 
@@ -2349,7 +2349,7 @@ priority  50
   shortLabel GM-0.2_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM-0.2_1-GSM672759)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/A_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672759_fwd.bw
 
 
 
@@ -2360,7 +2360,7 @@ priority  50
   shortLabel GM+5_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+5_1-GSM672760)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/A_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672760_fwd.bw
 
 
 
@@ -2371,7 +2371,7 @@ priority  50
   shortLabel GM+15_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+15_1-GSM672761)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/A_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672761_fwd.bw
 
 
 
@@ -2382,7 +2382,7 @@ priority  50
   shortLabel GM+25_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+25_1-GSM672762)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/A_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672762_fwd.bw
 
 
 
@@ -2393,7 +2393,7 @@ priority  50
   shortLabel GM+45_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+45_1-GSM672763)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/A_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672763_fwd.bw
 
 
 
@@ -2404,7 +2404,7 @@ priority  50
   shortLabel GM+60_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+60_1-GSM672764)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/A_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672764_fwd.bw
 
 
 
@@ -2415,7 +2415,7 @@ priority  50
   shortLabel GM+90_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+90_1-GSM672765)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/A_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672765_fwd.bw
 
 
 
@@ -2426,7 +2426,7 @@ priority  50
   shortLabel GM+120_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+120_1-GSM672766)
   color 74,154,182
-  bigDataUrl tiling-array/lifted_genome/A_5d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672766_fwd.bw
 
 
 
@@ -2437,7 +2437,7 @@ priority  50
   shortLabel GM+150_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+150_1-GSM672767)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/A_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672767_fwd.bw
 
 
 
@@ -2448,7 +2448,7 @@ priority  50
   shortLabel GM-0.1_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM-0.1_2-GSM672768)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/B_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672768_fwd.bw
 
 
 
@@ -2459,7 +2459,7 @@ priority  50
   shortLabel GM-0.2_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM-0.2_2-GSM672769)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/B_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672769_fwd.bw
 
 
 
@@ -2470,7 +2470,7 @@ priority  50
   shortLabel GM+5_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+5_2-GSM672770)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/B_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672770_fwd.bw
 
 
 
@@ -2481,7 +2481,7 @@ priority  50
   shortLabel GM+10_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+10_2-GSM672771)
   color 61,143,186
-  bigDataUrl tiling-array/lifted_genome/B_5f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672771_fwd.bw
 
 
 
@@ -2492,7 +2492,7 @@ priority  50
   shortLabel GM+15_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+15_2-GSM672772)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/B_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672772_fwd.bw
 
 
 
@@ -2503,7 +2503,7 @@ priority  50
   shortLabel GM+25_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+25_2-GSM672773)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/B_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672773_fwd.bw
 
 
 
@@ -2514,7 +2514,7 @@ priority  50
   shortLabel GM+45_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+45_2-GSM672774)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/B_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672774_fwd.bw
 
 
 
@@ -2525,7 +2525,7 @@ priority  50
   shortLabel GM+60_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+60_2-GSM672775)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/B_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672775_fwd.bw
 
 
 
@@ -2536,7 +2536,7 @@ priority  50
   shortLabel GM+90_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+90_2-GSM672776)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/B_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672776_fwd.bw
 
 
 
@@ -2547,7 +2547,7 @@ priority  50
   shortLabel GM+150_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+150_2-GSM672777)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/B_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672777_fwd.bw
 
 
 
@@ -2558,7 +2558,7 @@ priority  50
   shortLabel GM-0.1_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM-0.1_3-GSM672778)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/C_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672778_fwd.bw
 
 
 
@@ -2569,7 +2569,7 @@ priority  50
   shortLabel GM-0.2_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM-0.2_3-GSM672779)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/C_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672779_fwd.bw
 
 
 
@@ -2580,7 +2580,7 @@ priority  50
   shortLabel GM+5_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+5_3-GSM672780)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/C_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672780_fwd.bw
 
 
 
@@ -2591,7 +2591,7 @@ priority  50
   shortLabel GM+10_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+10_3-GSM672781)
   color 61,143,186
-  bigDataUrl tiling-array/lifted_genome/C_5f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672781_fwd.bw
 
 
 
@@ -2602,7 +2602,7 @@ priority  50
   shortLabel GM+15_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+15_3-GSM672782)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/C_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672782_fwd.bw
 
 
 
@@ -2613,7 +2613,7 @@ priority  50
   shortLabel GM+25_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+25_3-GSM672783)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/C_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672783_fwd.bw
 
 
 
@@ -2624,7 +2624,7 @@ priority  50
   shortLabel GM+45_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+45_3-GSM672784)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/C_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672784_fwd.bw
 
 
 
@@ -2635,7 +2635,7 @@ priority  50
   shortLabel GM+60_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+60_3-GSM672785)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/C_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672785_fwd.bw
 
 
 
@@ -2646,7 +2646,7 @@ priority  50
   shortLabel GM+90_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+90_3-GSM672786)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/C_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672786_fwd.bw
 
 
 
@@ -2657,7 +2657,7 @@ priority  50
   shortLabel GM+120_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+120_3-GSM672787)
   color 74,154,182
-  bigDataUrl tiling-array/lifted_genome/C_5d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672787_fwd.bw
 
 
 
@@ -2668,7 +2668,7 @@ priority  50
   shortLabel GM+150_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+150_3-GSM672788)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/C_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672788_fwd.bw
 
 
 
@@ -2679,7 +2679,7 @@ priority  50
   shortLabel MG-0.1_1
   longLabel shift from malate to malate+glucose replicate 1 (MG-0.1_1-GSM672789)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/A_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672789_fwd.bw
 
 
 
@@ -2690,7 +2690,7 @@ priority  50
   shortLabel MG+5_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+5_1-GSM672790)
   color 55,133,187
-  bigDataUrl tiling-array/lifted_genome/A_61.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672790_fwd.bw
 
 
 
@@ -2701,7 +2701,7 @@ priority  50
   shortLabel MG+10_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+10_1-GSM672791)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/A_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672791_fwd.bw
 
 
 
@@ -2712,7 +2712,7 @@ priority  50
   shortLabel MG+15_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+15_1-GSM672792)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/A_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672792_fwd.bw
 
 
 
@@ -2723,7 +2723,7 @@ priority  50
   shortLabel MG+25_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+25_1-GSM672793)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/A_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672793_fwd.bw
 
 
 
@@ -2734,7 +2734,7 @@ priority  50
   shortLabel MG+45_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+45_1-GSM672794)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/A_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672794_fwd.bw
 
 
 
@@ -2745,7 +2745,7 @@ priority  50
   shortLabel MG+120_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+120_1-GSM672795)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/A_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672795_fwd.bw
 
 
 
@@ -2756,7 +2756,7 @@ priority  50
   shortLabel MG+150_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+150_1-GSM672796)
   color 84,101,172
-  bigDataUrl tiling-array/lifted_genome/A_67.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672796_fwd.bw
 
 
 
@@ -2767,7 +2767,7 @@ priority  50
   shortLabel MG-0.1_2
   longLabel shift from malate to malate+glucose replicate 2 (MG-0.1_2-GSM672797)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/B_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672797_fwd.bw
 
 
 
@@ -2778,7 +2778,7 @@ priority  50
   shortLabel MG-0.2_2
   longLabel shift from malate to malate+glucose replicate 2 (MG-0.2_2-GSM672798)
   color 87,96,170
-  bigDataUrl tiling-array/lifted_genome/B_68.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672798_fwd.bw
 
 
 
@@ -2789,7 +2789,7 @@ priority  50
   shortLabel MG+t5_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+t5_2-GSM672799)
   color 90,90,167
-  bigDataUrl tiling-array/lifted_genome/B_69.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672799_fwd.bw
 
 
 
@@ -2800,7 +2800,7 @@ priority  50
   shortLabel MG+10_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+10_2-GSM672800)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/B_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672800_fwd.bw
 
 
 
@@ -2811,7 +2811,7 @@ priority  50
   shortLabel MG+15_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+15_2-GSM672801)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/B_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672801_fwd.bw
 
 
 
@@ -2822,7 +2822,7 @@ priority  50
   shortLabel MG+25_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+25_2-GSM672802)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/B_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672802_fwd.bw
 
 
 
@@ -2833,7 +2833,7 @@ priority  50
   shortLabel MG+45_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+45_2-GSM672803)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/B_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672803_fwd.bw
 
 
 
@@ -2844,7 +2844,7 @@ priority  50
   shortLabel MG+60_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+60_2-GSM672804)
   color 92,85,165
-  bigDataUrl tiling-array/lifted_genome/B_6a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672804_fwd.bw
 
 
 
@@ -2855,7 +2855,7 @@ priority  50
   shortLabel MG+90_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+90_2-GSM672805)
   color 94,79,162
-  bigDataUrl tiling-array/lifted_genome/B_6b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672805_fwd.bw
 
 
 
@@ -2866,7 +2866,7 @@ priority  50
   shortLabel MG+120_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+120_2-GSM672806)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/B_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672806_fwd.bw
 
 
 
@@ -2877,7 +2877,7 @@ priority  50
   shortLabel MG-0.1_3
   longLabel shift from malate to malate+glucose replicate 3 (MG-0.1_3-GSM672807)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/C_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672807_fwd.bw
 
 
 
@@ -2888,7 +2888,7 @@ priority  50
   shortLabel MG-0.2_3
   longLabel shift from malate to malate+glucose replicate 3 (MG-0.2_3-GSM672808)
   color 87,96,170
-  bigDataUrl tiling-array/lifted_genome/C_68.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672808_fwd.bw
 
 
 
@@ -2899,7 +2899,7 @@ priority  50
   shortLabel MG+5_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+5_3-GSM672809)
   color 55,133,187
-  bigDataUrl tiling-array/lifted_genome/C_61.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672809_fwd.bw
 
 
 
@@ -2910,7 +2910,7 @@ priority  50
   shortLabel MG+10_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+10_3-GSM672810)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/C_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672810_fwd.bw
 
 
 
@@ -2921,7 +2921,7 @@ priority  50
   shortLabel MG+15_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+15_3-GSM672811)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/C_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672811_fwd.bw
 
 
 
@@ -2932,7 +2932,7 @@ priority  50
   shortLabel MG+25_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+25_3-GSM672812)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/C_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672812_fwd.bw
 
 
 
@@ -2943,7 +2943,7 @@ priority  50
   shortLabel MG+45_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+45_3-GSM672813)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/C_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672813_fwd.bw
 
 
 
@@ -2954,7 +2954,7 @@ priority  50
   shortLabel MG+60_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+60_3-GSM672814)
   color 92,85,165
-  bigDataUrl tiling-array/lifted_genome/C_6a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672814_fwd.bw
 
 
 
@@ -2965,7 +2965,7 @@ priority  50
   shortLabel MG+90_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+90_3-GSM672815)
   color 94,79,162
-  bigDataUrl tiling-array/lifted_genome/C_6b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672815_fwd.bw
 
 
 
@@ -2976,7 +2976,7 @@ priority  50
   shortLabel MG+120_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+120_3-GSM672816)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/C_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672816_fwd.bw
 
 
 
@@ -2987,7 +2987,7 @@ priority  50
   shortLabel MG+150_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+150_3-GSM672817)
   color 84,101,172
-  bigDataUrl tiling-array/lifted_genome/C_67.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672817_fwd.bw
 
 
 
@@ -3020,7 +3020,7 @@ priority  50
   shortLabel LBexp_1
   longLabel growth in LB medium replicate 1 (LBexp_1-GSM672549)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/A_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672549_rev.bw
 
 
 
@@ -3031,7 +3031,7 @@ priority  50
   shortLabel LBexp_2
   longLabel growth in LB medium replicate 2 (LBexp_2-GSM672550)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/B_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672550_rev.bw
 
 
 
@@ -3042,7 +3042,7 @@ priority  50
   shortLabel LBexp_3
   longLabel growth in LB medium replicate 3 (LBexp_3-GSM672551)
   color 158,1,66
-  bigDataUrl tiling-array/lifted_genome/C_01.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672551_rev.bw
 
 
 
@@ -3053,7 +3053,7 @@ priority  50
   shortLabel LBtran_1
   longLabel growth in LB medium replicate 1 (LBtran_1-GSM672552)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/A_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672552_rev.bw
 
 
 
@@ -3064,7 +3064,7 @@ priority  50
   shortLabel LBtran_2
   longLabel growth in LB medium replicate 2 (LBtran_2-GSM672553)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/B_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672553_rev.bw
 
 
 
@@ -3075,7 +3075,7 @@ priority  50
   shortLabel LBtran_3
   longLabel growth in LB medium replicate 3 (LBtran_3-GSM672554)
   color 163,10,67
-  bigDataUrl tiling-array/lifted_genome/C_02.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672554_rev.bw
 
 
 
@@ -3086,7 +3086,7 @@ priority  50
   shortLabel LBstat_1
   longLabel growth in LB medium replicate 1 (LBstat_1-GSM672555)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/A_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672555_rev.bw
 
 
 
@@ -3097,7 +3097,7 @@ priority  50
   shortLabel LBstat_2
   longLabel growth in LB medium replicate 2 (LBstat_2-GSM672556)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/B_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672556_rev.bw
 
 
 
@@ -3108,7 +3108,7 @@ priority  50
   shortLabel LBstat_3
   longLabel growth in LB medium replicate 3 (LBstat_3-GSM672557)
   color 168,18,69
-  bigDataUrl tiling-array/lifted_genome/C_03.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672557_rev.bw
 
 
 
@@ -3119,7 +3119,7 @@ priority  50
   shortLabel LBGexp_1
   longLabel growth in LB medium with added glucose replicate 1 (LBGexp_1-GSM672558)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/A_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672558_rev.bw
 
 
 
@@ -3130,7 +3130,7 @@ priority  50
   shortLabel LBGexp_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGexp_2-GSM672559)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/B_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672559_rev.bw
 
 
 
@@ -3141,7 +3141,7 @@ priority  50
   shortLabel LBGexp_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGexp_3-GSM672560)
   color 173,25,70
-  bigDataUrl tiling-array/lifted_genome/C_04.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672560_rev.bw
 
 
 
@@ -3152,7 +3152,7 @@ priority  50
   shortLabel LBGtran_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGtran_2-GSM672561)
   color 178,31,71
-  bigDataUrl tiling-array/lifted_genome/B_05.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672561_rev.bw
 
 
 
@@ -3163,7 +3163,7 @@ priority  50
   shortLabel LBGtran_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGtran_3-GSM672562)
   color 178,31,71
-  bigDataUrl tiling-array/lifted_genome/C_05.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672562_rev.bw
 
 
 
@@ -3174,7 +3174,7 @@ priority  50
   shortLabel LBGstat_1
   longLabel growth in LB medium with added glucose replicate 1 (LBGstat_1-GSM672563)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/A_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672563_rev.bw
 
 
 
@@ -3185,7 +3185,7 @@ priority  50
   shortLabel LBGstat_2
   longLabel growth in LB medium with added glucose replicate 2 (LBGstat_2-GSM672564)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/B_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672564_rev.bw
 
 
 
@@ -3196,7 +3196,7 @@ priority  50
   shortLabel LBGstat_3
   longLabel growth in LB medium with added glucose replicate 3 (LBGstat_3-GSM672565)
   color 184,36,72
-  bigDataUrl tiling-array/lifted_genome/C_06.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672565_rev.bw
 
 
 
@@ -3207,7 +3207,7 @@ priority  50
   shortLabel S0_1
   longLabel induction of sporulation replicate 1 (S0_1-GSM672566)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/A_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672566_rev.bw
 
 
 
@@ -3218,7 +3218,7 @@ priority  50
   shortLabel S0_2
   longLabel induction of sporulation replicate 2 (S0_2-GSM672567)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/B_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672567_rev.bw
 
 
 
@@ -3229,7 +3229,7 @@ priority  50
   shortLabel S0_3
   longLabel induction of sporulation replicate 3 (S0_3-GSM672568)
   color 189,41,73
-  bigDataUrl tiling-array/lifted_genome/C_07.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672568_rev.bw
 
 
 
@@ -3240,7 +3240,7 @@ priority  50
   shortLabel S1_1
   longLabel induction of sporulation replicate 1 (S1_1-GSM672569)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/A_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672569_rev.bw
 
 
 
@@ -3251,7 +3251,7 @@ priority  50
   shortLabel S1_2
   longLabel induction of sporulation replicate 2 (S1_2-GSM672570)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/B_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672570_rev.bw
 
 
 
@@ -3262,7 +3262,7 @@ priority  50
   shortLabel S1_3
   longLabel induction of sporulation replicate 3 (S1_3-GSM672571)
   color 194,46,75
-  bigDataUrl tiling-array/lifted_genome/C_08.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672571_rev.bw
 
 
 
@@ -3273,7 +3273,7 @@ priority  50
   shortLabel S2_1
   longLabel induction of sporulation replicate 1 (S2_1-GSM672572)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/A_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672572_rev.bw
 
 
 
@@ -3284,7 +3284,7 @@ priority  50
   shortLabel S2_2
   longLabel induction of sporulation replicate 2 (S2_2-GSM672573)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/B_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672573_rev.bw
 
 
 
@@ -3295,7 +3295,7 @@ priority  50
   shortLabel S2_3
   longLabel induction of sporulation replicate 3 (S2_3-GSM672574)
   color 199,50,76
-  bigDataUrl tiling-array/lifted_genome/C_09.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672574_rev.bw
 
 
 
@@ -3306,7 +3306,7 @@ priority  50
   shortLabel S3_1
   longLabel induction of sporulation replicate 1 (S3_1-GSM672575)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/A_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672575_rev.bw
 
 
 
@@ -3317,7 +3317,7 @@ priority  50
   shortLabel S3_2
   longLabel induction of sporulation replicate 2 (S3_2-GSM672576)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/B_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672576_rev.bw
 
 
 
@@ -3328,7 +3328,7 @@ priority  50
   shortLabel S3_3
   longLabel induction of sporulation replicate 3 (S3_3-GSM672577)
   color 205,55,77
-  bigDataUrl tiling-array/lifted_genome/C_0a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672577_rev.bw
 
 
 
@@ -3339,7 +3339,7 @@ priority  50
   shortLabel S4_1
   longLabel induction of sporulation replicate 1 (S4_1-GSM672578)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/A_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672578_rev.bw
 
 
 
@@ -3350,7 +3350,7 @@ priority  50
   shortLabel S4_2
   longLabel induction of sporulation replicate 2 (S4_2-GSM672579)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/B_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672579_rev.bw
 
 
 
@@ -3361,7 +3361,7 @@ priority  50
   shortLabel S4_3
   longLabel induction of sporulation replicate 3 (S4_3-GSM672580)
   color 210,59,78
-  bigDataUrl tiling-array/lifted_genome/C_0b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672580_rev.bw
 
 
 
@@ -3372,7 +3372,7 @@ priority  50
   shortLabel S5_1
   longLabel induction of sporulation replicate 1 (S5_1-GSM672581)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/A_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672581_rev.bw
 
 
 
@@ -3383,7 +3383,7 @@ priority  50
   shortLabel S5_2
   longLabel induction of sporulation replicate 2 (S5_2-GSM672582)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/B_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672582_rev.bw
 
 
 
@@ -3394,7 +3394,7 @@ priority  50
   shortLabel S5_3
   longLabel induction of sporulation replicate 3 (S5_3-GSM672583)
   color 214,64,79
-  bigDataUrl tiling-array/lifted_genome/C_0c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672583_rev.bw
 
 
 
@@ -3405,7 +3405,7 @@ priority  50
   shortLabel S6_1
   longLabel induction of sporulation replicate 1 (S6_1-GSM672584)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/A_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672584_rev.bw
 
 
 
@@ -3416,7 +3416,7 @@ priority  50
   shortLabel S6_2
   longLabel induction of sporulation replicate 2 (S6_2-GSM672585)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/B_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672585_rev.bw
 
 
 
@@ -3427,7 +3427,7 @@ priority  50
   shortLabel S6_3
   longLabel induction of sporulation replicate 3 (S6_3-GSM672586)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/C_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672586_rev.bw
 
 
 
@@ -3438,7 +3438,7 @@ priority  50
   shortLabel S6/t_1
   longLabel induction of sporulation replicate 1 (S6/t_1-GSM672587)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/A_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672587_rev.bw
 
 
 
@@ -3449,7 +3449,7 @@ priority  50
   shortLabel S6/t_2
   longLabel induction of sporulation replicate 2 (S6/t_2-GSM672588)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/B_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672588_rev.bw
 
 
 
@@ -3460,7 +3460,7 @@ priority  50
   shortLabel S6/t_3
   longLabel induction of sporulation replicate 3 (S6/t_3-GSM672589)
   color 220,74,77
-  bigDataUrl tiling-array/lifted_genome/C_0e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672589_rev.bw
 
 
 
@@ -3471,7 +3471,7 @@ priority  50
   shortLabel S6_4
   longLabel induction of sporulation replicate 4 (S6_4-GSM672590)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/D_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672590_rev.bw
 
 
 
@@ -3482,7 +3482,7 @@ priority  50
   shortLabel S6_5
   longLabel induction of sporulation replicate 5 (S6_5-GSM672591)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/E_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672591_rev.bw
 
 
 
@@ -3493,7 +3493,7 @@ priority  50
   shortLabel S6_6
   longLabel induction of sporulation replicate 6 (S6_6-GSM672592)
   color 217,69,78
-  bigDataUrl tiling-array/lifted_genome/F_0d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672592_rev.bw
 
 
 
@@ -3504,7 +3504,7 @@ priority  50
   shortLabel S7_4
   longLabel induction of sporulation replicate 4 (S7_4-GSM672593)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/D_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672593_rev.bw
 
 
 
@@ -3515,7 +3515,7 @@ priority  50
   shortLabel S7_5
   longLabel induction of sporulation replicate 5 (S7_5-GSM672594)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/E_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672594_rev.bw
 
 
 
@@ -3526,7 +3526,7 @@ priority  50
   shortLabel S7_6
   longLabel induction of sporulation replicate 6 (S7_6-GSM672595)
   color 223,78,76
-  bigDataUrl tiling-array/lifted_genome/F_0f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672595_rev.bw
 
 
 
@@ -3537,7 +3537,7 @@ priority  50
   shortLabel S8_4
   longLabel induction of sporulation replicate 4 (S8_4-GSM672596)
   color 226,83,75
-  bigDataUrl tiling-array/lifted_genome/D_10.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672596_rev.bw
 
 
 
@@ -3548,7 +3548,7 @@ priority  50
   shortLabel S8_5
   longLabel induction of sporulation replicate 5 (S8_5-GSM672597)
   color 226,83,75
-  bigDataUrl tiling-array/lifted_genome/E_10.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672597_rev.bw
 
 
 
@@ -3559,7 +3559,7 @@ priority  50
   shortLabel G135_1
   longLabel germination replicate 1 (G135_1-GSM672598)
   color 229,87,74
-  bigDataUrl tiling-array/lifted_genome/A_11.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672598_rev.bw
 
 
 
@@ -3570,7 +3570,7 @@ priority  50
   shortLabel G135_3
   longLabel germination replicate 3 (G135_3-GSM672599)
   color 229,87,74
-  bigDataUrl tiling-array/lifted_genome/C_11.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672599_rev.bw
 
 
 
@@ -3581,7 +3581,7 @@ priority  50
   shortLabel G150_1
   longLabel germination replicate 1 (G150_1-GSM672600)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/A_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672600_rev.bw
 
 
 
@@ -3592,7 +3592,7 @@ priority  50
   shortLabel G150_2
   longLabel germination replicate 2 (G150_2-GSM672601)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/B_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672601_rev.bw
 
 
 
@@ -3603,7 +3603,7 @@ priority  50
   shortLabel G150_3
   longLabel germination replicate 3 (G150_3-GSM672602)
   color 232,91,72
-  bigDataUrl tiling-array/lifted_genome/C_12.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672602_rev.bw
 
 
 
@@ -3614,7 +3614,7 @@ priority  50
   shortLabel G180_1
   longLabel germination replicate 1 (G180_1-GSM672603)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/A_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672603_rev.bw
 
 
 
@@ -3625,7 +3625,7 @@ priority  50
   shortLabel G180_2
   longLabel germination replicate 2 (G180_2-GSM672604)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/B_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672604_rev.bw
 
 
 
@@ -3636,7 +3636,7 @@ priority  50
   shortLabel G180_3
   longLabel germination replicate 3 (G180_3-GSM672605)
   color 235,96,71
-  bigDataUrl tiling-array/lifted_genome/C_13.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672605_rev.bw
 
 
 
@@ -3647,7 +3647,7 @@ priority  50
   shortLabel C30_1
   longLabel competence replicate 1 (C30_1-GSM672606)
   color 238,100,70
-  bigDataUrl tiling-array/lifted_genome/A_14.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672606_rev.bw
 
 
 
@@ -3658,7 +3658,7 @@ priority  50
   shortLabel C30_2
   longLabel competence replicate 2 (C30_2-GSM672607)
   color 238,100,70
-  bigDataUrl tiling-array/lifted_genome/B_14.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672607_rev.bw
 
 
 
@@ -3669,7 +3669,7 @@ priority  50
   shortLabel C90_1
   longLabel competence replicate 1 (C90_1-GSM672608)
   color 241,104,69
-  bigDataUrl tiling-array/lifted_genome/A_15.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672608_rev.bw
 
 
 
@@ -3680,7 +3680,7 @@ priority  50
   shortLabel C90_2
   longLabel competence replicate 2 (C90_2-GSM672609)
   color 241,104,69
-  bigDataUrl tiling-array/lifted_genome/B_15.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672609_rev.bw
 
 
 
@@ -3691,7 +3691,7 @@ priority  50
   shortLabel BI_1
   longLabel 18h of growth on plates replicate 1 (BI_1-GSM672610)
   color 243,108,67
-  bigDataUrl tiling-array/lifted_genome/A_16.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672610_rev.bw
 
 
 
@@ -3702,7 +3702,7 @@ priority  50
   shortLabel BI_2
   longLabel 18h of growth on plates replicate 2 (BI_2-GSM672611)
   color 243,108,67
-  bigDataUrl tiling-array/lifted_genome/B_16.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672611_rev.bw
 
 
 
@@ -3713,7 +3713,7 @@ priority  50
   shortLabel BC_2
   longLabel 18h of growth on plates replicate 2 (BC_2-GSM672612)
   color 245,114,69
-  bigDataUrl tiling-array/lifted_genome/B_17.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672612_rev.bw
 
 
 
@@ -3724,7 +3724,7 @@ priority  50
   shortLabel BC/t_1
   longLabel 18h of growth on plates replicate 1 (BC/t_1-GSM672613)
   color 246,121,72
-  bigDataUrl tiling-array/lifted_genome/A_18.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672613_rev.bw
 
 
 
@@ -3735,7 +3735,7 @@ priority  50
   shortLabel BC/t_2
   longLabel 18h of growth on plates replicate 2 (BC/t_2-GSM672614)
   color 246,121,72
-  bigDataUrl tiling-array/lifted_genome/B_18.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672614_rev.bw
 
 
 
@@ -3746,7 +3746,7 @@ priority  50
   shortLabel BC_1
   longLabel 18h of growth on plates replicate 1 (BC_1-GSM672615)
   color 245,114,69
-  bigDataUrl tiling-array/lifted_genome/A_17.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672615_rev.bw
 
 
 
@@ -3757,7 +3757,7 @@ priority  50
   shortLabel Sw_1
   longLabel 18h of growth on soft plates replicate 1 (Sw_1-GSM672616)
   color 247,127,75
-  bigDataUrl tiling-array/lifted_genome/A_19.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672616_rev.bw
 
 
 
@@ -3768,7 +3768,7 @@ priority  50
   shortLabel Sw_2
   longLabel 18h of growth on soft plates replicate 2 (Sw_2-GSM672617)
   color 247,127,75
-  bigDataUrl tiling-array/lifted_genome/B_19.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672617_rev.bw
 
 
 
@@ -3779,7 +3779,7 @@ priority  50
   shortLabel BT_1
   longLabel biofilm formation replicate 1 (BT_1-GSM672618)
   color 248,133,77
-  bigDataUrl tiling-array/lifted_genome/A_1a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672618_rev.bw
 
 
 
@@ -3790,7 +3790,7 @@ priority  50
   shortLabel BT_2
   longLabel biofilm formation replicate 2 (BT_2-GSM672619)
   color 248,133,77
-  bigDataUrl tiling-array/lifted_genome/B_1a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672619_rev.bw
 
 
 
@@ -3801,7 +3801,7 @@ priority  50
   shortLabel B36_1
   longLabel biofilm formation replicate 1 (B36_1-GSM672620)
   color 249,140,80
-  bigDataUrl tiling-array/lifted_genome/A_1b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672620_rev.bw
 
 
 
@@ -3812,7 +3812,7 @@ priority  50
   shortLabel B36_2
   longLabel biofilm formation replicate 2 (B36_2-GSM672621)
   color 249,140,80
-  bigDataUrl tiling-array/lifted_genome/B_1b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672621_rev.bw
 
 
 
@@ -3823,7 +3823,7 @@ priority  50
   shortLabel B60_1
   longLabel biofilm formation replicate 1 (B60_1-GSM672622)
   color 250,146,83
-  bigDataUrl tiling-array/lifted_genome/A_1c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672622_rev.bw
 
 
 
@@ -3834,7 +3834,7 @@ priority  50
   shortLabel B60_2
   longLabel biofilm formation replicate 2 (B60_2-GSM672623)
   color 250,146,83
-  bigDataUrl tiling-array/lifted_genome/B_1c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672623_rev.bw
 
 
 
@@ -3845,7 +3845,7 @@ priority  50
   shortLabel M9exp_1
   longLabel growth in M9 medium with glucose replicate 1 (M9exp_1-GSM672624)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/A_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672624_rev.bw
 
 
 
@@ -3856,7 +3856,7 @@ priority  50
   shortLabel M9exp_2
   longLabel growth in M9 medium with glucose replicate 2 (M9exp_2-GSM672625)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/B_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672625_rev.bw
 
 
 
@@ -3867,7 +3867,7 @@ priority  50
   shortLabel M9exp_3
   longLabel growth in M9 medium with glucose replicate 3 (M9exp_3-GSM672626)
   color 251,152,86
-  bigDataUrl tiling-array/lifted_genome/C_1d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672626_rev.bw
 
 
 
@@ -3878,7 +3878,7 @@ priority  50
   shortLabel M9tran_1
   longLabel growth in M9 medium with glucose replicate 1 (M9tran_1-GSM672627)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/A_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672627_rev.bw
 
 
 
@@ -3889,7 +3889,7 @@ priority  50
   shortLabel M9tran_2
   longLabel growth in M9 medium with glucose replicate 2 (M9tran_2-GSM672628)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/B_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672628_rev.bw
 
 
 
@@ -3900,7 +3900,7 @@ priority  50
   shortLabel M9tran_3
   longLabel growth in M9 medium with glucose replicate 3 (M9tran_3-GSM672629)
   color 251,158,89
-  bigDataUrl tiling-array/lifted_genome/C_1e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672629_rev.bw
 
 
 
@@ -3911,7 +3911,7 @@ priority  50
   shortLabel M9stat_1
   longLabel growth in M9 medium with glucose replicate 1 (M9stat_1-GSM672630)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/A_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672630_rev.bw
 
 
 
@@ -3922,7 +3922,7 @@ priority  50
   shortLabel M9stat_2
   longLabel growth in M9 medium with glucose replicate 2 (M9stat_2-GSM672631)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/B_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672631_rev.bw
 
 
 
@@ -3933,7 +3933,7 @@ priority  50
   shortLabel M9stat_3
   longLabel growth in M9 medium with glucose replicate 3 (M9stat_3-GSM672632)
   color 252,164,92
-  bigDataUrl tiling-array/lifted_genome/C_1f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672632_rev.bw
 
 
 
@@ -3944,7 +3944,7 @@ priority  50
   shortLabel M+G_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (M+G_1-GSM672633)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/A_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672633_rev.bw
 
 
 
@@ -3955,7 +3955,7 @@ priority  50
   shortLabel M+G_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (M+G_2-GSM672634)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/B_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672634_rev.bw
 
 
 
@@ -3966,7 +3966,7 @@ priority  50
   shortLabel M+G_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (M+G_3-GSM672635)
   color 253,169,95
-  bigDataUrl tiling-array/lifted_genome/C_20.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672635_rev.bw
 
 
 
@@ -3977,7 +3977,7 @@ priority  50
   shortLabel Glu_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glu_1-GSM672636)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/A_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672636_rev.bw
 
 
 
@@ -3988,7 +3988,7 @@ priority  50
   shortLabel Glu_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glu_2-GSM672637)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/B_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672637_rev.bw
 
 
 
@@ -3999,7 +3999,7 @@ priority  50
   shortLabel Glu_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glu_3-GSM672638)
   color 253,175,98
-  bigDataUrl tiling-array/lifted_genome/C_21.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672638_rev.bw
 
 
 
@@ -4010,7 +4010,7 @@ priority  50
   shortLabel Fru_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Fru_1-GSM672639)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/A_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672639_rev.bw
 
 
 
@@ -4021,7 +4021,7 @@ priority  50
   shortLabel Fru_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Fru_2-GSM672640)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/B_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672640_rev.bw
 
 
 
@@ -4032,7 +4032,7 @@ priority  50
   shortLabel Fru_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Fru_3-GSM672641)
   color 253,180,102
-  bigDataUrl tiling-array/lifted_genome/C_22.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672641_rev.bw
 
 
 
@@ -4043,7 +4043,7 @@ priority  50
   shortLabel Mal_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Mal_1-GSM672642)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/A_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672642_rev.bw
 
 
 
@@ -4054,7 +4054,7 @@ priority  50
   shortLabel Mal_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Mal_2-GSM672643)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/B_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672643_rev.bw
 
 
 
@@ -4065,7 +4065,7 @@ priority  50
   shortLabel Mal_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Mal_3-GSM672644)
   color 254,184,106
-  bigDataUrl tiling-array/lifted_genome/C_23.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672644_rev.bw
 
 
 
@@ -4076,7 +4076,7 @@ priority  50
   shortLabel G+S_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (G+S_1-GSM672645)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/A_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672645_rev.bw
 
 
 
@@ -4087,7 +4087,7 @@ priority  50
   shortLabel G+S_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (G+S_2-GSM672646)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/B_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672646_rev.bw
 
 
 
@@ -4098,7 +4098,7 @@ priority  50
   shortLabel G+S_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (G+S_3-GSM672647)
   color 254,189,110
-  bigDataUrl tiling-array/lifted_genome/C_24.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672647_rev.bw
 
 
 
@@ -4109,7 +4109,7 @@ priority  50
   shortLabel Pyr_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Pyr_1-GSM672648)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/A_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672648_rev.bw
 
 
 
@@ -4120,7 +4120,7 @@ priority  50
   shortLabel Pyr_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Pyr_2-GSM672649)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/B_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672649_rev.bw
 
 
 
@@ -4131,7 +4131,7 @@ priority  50
   shortLabel Pyr_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Pyr_3-GSM672650)
   color 254,194,113
-  bigDataUrl tiling-array/lifted_genome/C_25.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672650_rev.bw
 
 
 
@@ -4142,7 +4142,7 @@ priority  50
   shortLabel Gly_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Gly_1-GSM672651)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/A_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672651_rev.bw
 
 
 
@@ -4153,7 +4153,7 @@ priority  50
   shortLabel Gly_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Gly_2-GSM672652)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/B_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672652_rev.bw
 
 
 
@@ -4164,7 +4164,7 @@ priority  50
   shortLabel Gly_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Gly_3-GSM672653)
   color 254,199,117
-  bigDataUrl tiling-array/lifted_genome/C_26.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672653_rev.bw
 
 
 
@@ -4175,7 +4175,7 @@ priority  50
   shortLabel Glucon_1
   longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glucon_1-GSM672654)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/A_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672654_rev.bw
 
 
 
@@ -4186,7 +4186,7 @@ priority  50
   shortLabel Glucon_2
   longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glucon_2-GSM672655)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/B_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672655_rev.bw
 
 
 
@@ -4197,7 +4197,7 @@ priority  50
   shortLabel Glucon_3
   longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glucon_3-GSM672656)
   color 254,203,121
-  bigDataUrl tiling-array/lifted_genome/C_27.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672656_rev.bw
 
 
 
@@ -4208,7 +4208,7 @@ priority  50
   shortLabel aero_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (aero_1-GSM672657)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/A_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672657_rev.bw
 
 
 
@@ -4219,7 +4219,7 @@ priority  50
   shortLabel aero_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (aero_2-GSM672658)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/B_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672658_rev.bw
 
 
 
@@ -4230,7 +4230,7 @@ priority  50
   shortLabel aero_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (aero_3-GSM672659)
   color 254,208,125
-  bigDataUrl tiling-array/lifted_genome/C_28.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672659_rev.bw
 
 
 
@@ -4241,7 +4241,7 @@ priority  50
   shortLabel nit_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (nit_1-GSM672660)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/A_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672660_rev.bw
 
 
 
@@ -4252,7 +4252,7 @@ priority  50
   shortLabel nit_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (nit_2-GSM672661)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/B_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672661_rev.bw
 
 
 
@@ -4263,7 +4263,7 @@ priority  50
   shortLabel nit_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (nit_3-GSM672662)
   color 254,213,129
-  bigDataUrl tiling-array/lifted_genome/C_29.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672662_rev.bw
 
 
 
@@ -4274,7 +4274,7 @@ priority  50
   shortLabel ferm_1
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (ferm_1-GSM672663)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/A_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672663_rev.bw
 
 
 
@@ -4285,7 +4285,7 @@ priority  50
   shortLabel ferm_2
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (ferm_2-GSM672664)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/B_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672664_rev.bw
 
 
 
@@ -4296,7 +4296,7 @@ priority  50
   shortLabel ferm_3
   longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (ferm_3-GSM672665)
   color 254,217,133
-  bigDataUrl tiling-array/lifted_genome/C_2a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672665_rev.bw
 
 
 
@@ -4307,7 +4307,7 @@ priority  50
   shortLabel T-5.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-5.40H_1-GSM672666)
   color 254,222,137
-  bigDataUrl tiling-array/lifted_genome/A_2b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672666_rev.bw
 
 
 
@@ -4318,7 +4318,7 @@ priority  50
   shortLabel T-4.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-4.40H_1-GSM672667)
   color 254,226,142
-  bigDataUrl tiling-array/lifted_genome/A_2c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672667_rev.bw
 
 
 
@@ -4329,7 +4329,7 @@ priority  50
   shortLabel T-3.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-3.40H_1-GSM672668)
   color 254,229,147
-  bigDataUrl tiling-array/lifted_genome/A_2d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672668_rev.bw
 
 
 
@@ -4340,7 +4340,7 @@ priority  50
   shortLabel T-2.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-2.40H_1-GSM672669)
   color 255,232,152
-  bigDataUrl tiling-array/lifted_genome/A_2e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672669_rev.bw
 
 
 
@@ -4351,7 +4351,7 @@ priority  50
   shortLabel T-1.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-1.40H_1-GSM672670)
   color 255,234,157
-  bigDataUrl tiling-array/lifted_genome/A_2f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672670_rev.bw
 
 
 
@@ -4362,7 +4362,7 @@ priority  50
   shortLabel T-1.10H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-1.10H_1-GSM672671)
   color 255,237,162
-  bigDataUrl tiling-array/lifted_genome/A_30.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672671_rev.bw
 
 
 
@@ -4373,7 +4373,7 @@ priority  50
   shortLabel T-0.40H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T-0.40H_1-GSM672672)
   color 255,240,166
-  bigDataUrl tiling-array/lifted_genome/A_31.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672672_rev.bw
 
 
 
@@ -4384,7 +4384,7 @@ priority  50
   shortLabel T0.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T0.0H_1-GSM672673)
   color 255,243,171
-  bigDataUrl tiling-array/lifted_genome/A_32.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672673_rev.bw
 
 
 
@@ -4395,7 +4395,7 @@ priority  50
   shortLabel T0.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T0.30H_1-GSM672674)
   color 255,246,176
-  bigDataUrl tiling-array/lifted_genome/A_33.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672674_rev.bw
 
 
 
@@ -4406,7 +4406,7 @@ priority  50
   shortLabel T1.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T1.0H_1-GSM672675)
   color 255,249,181
-  bigDataUrl tiling-array/lifted_genome/A_34.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672675_rev.bw
 
 
 
@@ -4417,7 +4417,7 @@ priority  50
   shortLabel T1.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T1.30H_1-GSM672676)
   color 255,252,186
-  bigDataUrl tiling-array/lifted_genome/A_35.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672676_rev.bw
 
 
 
@@ -4428,7 +4428,7 @@ priority  50
   shortLabel T2.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T2.0H_1-GSM672677)
   color 255,255,191
-  bigDataUrl tiling-array/lifted_genome/A_36.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672677_rev.bw
 
 
 
@@ -4439,7 +4439,7 @@ priority  50
   shortLabel T2.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T2.30H_1-GSM672678)
   color 253,254,187
-  bigDataUrl tiling-array/lifted_genome/A_37.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672678_rev.bw
 
 
 
@@ -4450,7 +4450,7 @@ priority  50
   shortLabel T3.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T3.0H_1-GSM672679)
   color 250,253,184
-  bigDataUrl tiling-array/lifted_genome/A_38.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672679_rev.bw
 
 
 
@@ -4461,7 +4461,7 @@ priority  50
   shortLabel T3.30H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T3.30H_1-GSM672680)
   color 248,252,180
-  bigDataUrl tiling-array/lifted_genome/A_39.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672680_rev.bw
 
 
 
@@ -4472,7 +4472,7 @@ priority  50
   shortLabel T4.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T4.0H_1-GSM672681)
   color 246,251,176
-  bigDataUrl tiling-array/lifted_genome/A_3a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672681_rev.bw
 
 
 
@@ -4483,7 +4483,7 @@ priority  50
   shortLabel T5.0H_1
   longLabel batch fermentation in modified M9 medium replicate 1 (T5.0H_1-GSM672682)
   color 243,250,173
-  bigDataUrl tiling-array/lifted_genome/A_3b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672682_rev.bw
 
 
 
@@ -4494,7 +4494,7 @@ priority  50
   shortLabel HPh_1
   longLabel growth in high phosphate medium replicate 1 (HPh_1-GSM672683)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/A_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672683_rev.bw
 
 
 
@@ -4505,7 +4505,7 @@ priority  50
   shortLabel HPh_2
   longLabel growth in high phosphate medium replicate 2 (HPh_2-GSM672684)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/B_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672684_rev.bw
 
 
 
@@ -4516,7 +4516,7 @@ priority  50
   shortLabel HPh_3
   longLabel growth in high phosphate medium replicate 3 (HPh_3-GSM672685)
   color 241,249,169
-  bigDataUrl tiling-array/lifted_genome/C_3c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672685_rev.bw
 
 
 
@@ -4527,7 +4527,7 @@ priority  50
   shortLabel LPh_1
   longLabel growth in low phosphate medium replicate 1 (LPh_1-GSM672686)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/A_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672686_rev.bw
 
 
 
@@ -4538,7 +4538,7 @@ priority  50
   shortLabel LPh_2
   longLabel growth in low phosphate medium replicate 2 (LPh_2-GSM672687)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/B_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672687_rev.bw
 
 
 
@@ -4549,7 +4549,7 @@ priority  50
   shortLabel LPh_3
   longLabel growth in low phosphate medium replicate 3 (LPh_3-GSM672688)
   color 239,248,165
-  bigDataUrl tiling-array/lifted_genome/C_3d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672688_rev.bw
 
 
 
@@ -4560,7 +4560,7 @@ priority  50
   shortLabel LPhT_1
   longLabel growth in low phosphate medium replicate 1 (LPhT_1-GSM672689)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/A_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672689_rev.bw
 
 
 
@@ -4571,7 +4571,7 @@ priority  50
   shortLabel LPhT_2
   longLabel growth in low phosphate medium replicate 2 (LPhT_2-GSM672690)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/B_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672690_rev.bw
 
 
 
@@ -4582,7 +4582,7 @@ priority  50
   shortLabel LPhT_3
   longLabel growth in low phosphate medium replicate 3 (LPhT_3-GSM672691)
   color 236,247,162
-  bigDataUrl tiling-array/lifted_genome/C_3e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672691_rev.bw
 
 
 
@@ -4593,7 +4593,7 @@ priority  50
   shortLabel SMMPr_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (SMMPr_1-GSM672692)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/A_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672692_rev.bw
 
 
 
@@ -4604,7 +4604,7 @@ priority  50
   shortLabel SMMPr_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (SMMPr_2-GSM672693)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/B_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672693_rev.bw
 
 
 
@@ -4615,7 +4615,7 @@ priority  50
   shortLabel SMMPr_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (SMMPr_3-GSM672694)
   color 234,247,158
-  bigDataUrl tiling-array/lifted_genome/C_3f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672694_rev.bw
 
 
 
@@ -4626,7 +4626,7 @@ priority  50
   shortLabel HiTm_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiTm_1-GSM672695)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/A_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672695_rev.bw
 
 
 
@@ -4637,7 +4637,7 @@ priority  50
   shortLabel HiTm_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiTm_2-GSM672696)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/B_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672696_rev.bw
 
 
 
@@ -4648,7 +4648,7 @@ priority  50
   shortLabel HiTm_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiTm_3-GSM672697)
   color 231,246,154
-  bigDataUrl tiling-array/lifted_genome/C_40.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672697_rev.bw
 
 
 
@@ -4659,7 +4659,7 @@ priority  50
   shortLabel LoTm_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (LoTm_1-GSM672698)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/A_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672698_rev.bw
 
 
 
@@ -4670,7 +4670,7 @@ priority  50
   shortLabel LoTm_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (LoTm_2-GSM672699)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/B_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672699_rev.bw
 
 
 
@@ -4681,7 +4681,7 @@ priority  50
   shortLabel LoTm_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (LoTm_3-GSM672700)
   color 228,244,152
-  bigDataUrl tiling-array/lifted_genome/C_41.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672700_rev.bw
 
 
 
@@ -4692,7 +4692,7 @@ priority  50
   shortLabel HiOs_1
   longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiOs_1-GSM672701)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/A_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672701_rev.bw
 
 
 
@@ -4703,7 +4703,7 @@ priority  50
   shortLabel HiOs_2
   longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiOs_2-GSM672702)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/B_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672702_rev.bw
 
 
 
@@ -4714,7 +4714,7 @@ priority  50
   shortLabel HiOs_3
   longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiOs_3-GSM672703)
   color 223,242,154
-  bigDataUrl tiling-array/lifted_genome/C_42.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672703_rev.bw
 
 
 
@@ -4725,7 +4725,7 @@ priority  50
   shortLabel BMM_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (BMM_1-GSM672704)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/A_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672704_rev.bw
 
 
 
@@ -4736,7 +4736,7 @@ priority  50
   shortLabel BMM_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (BMM_2-GSM672705)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/B_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672705_rev.bw
 
 
 
@@ -4747,7 +4747,7 @@ priority  50
   shortLabel BMM_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (BMM_3-GSM672706)
   color 217,240,155
-  bigDataUrl tiling-array/lifted_genome/C_43.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672706_rev.bw
 
 
 
@@ -4758,7 +4758,7 @@ priority  50
   shortLabel Heat_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Heat_1-GSM672707)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/A_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672707_rev.bw
 
 
 
@@ -4769,7 +4769,7 @@ priority  50
   shortLabel Heat_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Heat_2-GSM672708)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/B_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672708_rev.bw
 
 
 
@@ -4780,7 +4780,7 @@ priority  50
   shortLabel Heat_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Heat_3-GSM672709)
   color 212,237,156
-  bigDataUrl tiling-array/lifted_genome/C_44.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672709_rev.bw
 
 
 
@@ -4791,7 +4791,7 @@ priority  50
   shortLabel Cold_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Cold_1-GSM672710)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/A_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672710_rev.bw
 
 
 
@@ -4802,7 +4802,7 @@ priority  50
   shortLabel Cold_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Cold_2-GSM672711)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/B_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672711_rev.bw
 
 
 
@@ -4813,7 +4813,7 @@ priority  50
   shortLabel Cold_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Cold_3-GSM672712)
   color 206,235,157
-  bigDataUrl tiling-array/lifted_genome/C_45.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672712_rev.bw
 
 
 
@@ -4824,7 +4824,7 @@ priority  50
   shortLabel Etha_1
   longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Etha_1-GSM672713)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/A_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672713_rev.bw
 
 
 
@@ -4835,7 +4835,7 @@ priority  50
   shortLabel Etha_2
   longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Etha_2-GSM672714)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/B_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672714_rev.bw
 
 
 
@@ -4846,7 +4846,7 @@ priority  50
   shortLabel Etha_3
   longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Etha_3-GSM672715)
   color 201,233,158
-  bigDataUrl tiling-array/lifted_genome/C_46.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672715_rev.bw
 
 
 
@@ -4857,7 +4857,7 @@ priority  50
   shortLabel SMM_1
   longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (SMM_1-GSM672716)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/A_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672716_rev.bw
 
 
 
@@ -4868,7 +4868,7 @@ priority  50
   shortLabel SMM_2
   longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (SMM_2-GSM672717)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/B_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672717_rev.bw
 
 
 
@@ -4879,7 +4879,7 @@ priority  50
   shortLabel SMM_3
   longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (SMM_3-GSM672718)
   color 195,230,159
-  bigDataUrl tiling-array/lifted_genome/C_47.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672718_rev.bw
 
 
 
@@ -4890,7 +4890,7 @@ priority  50
   shortLabel Salt_1
   longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (Salt_1-GSM672719)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/A_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672719_rev.bw
 
 
 
@@ -4901,7 +4901,7 @@ priority  50
   shortLabel Salt_2
   longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (Salt_2-GSM672720)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/B_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672720_rev.bw
 
 
 
@@ -4912,7 +4912,7 @@ priority  50
   shortLabel Salt_3
   longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (Salt_3-GSM672721)
   color 190,228,161
-  bigDataUrl tiling-array/lifted_genome/C_48.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672721_rev.bw
 
 
 
@@ -4923,7 +4923,7 @@ priority  50
   shortLabel Mt0_1
   longLabel growth in LB until exponential phase replicate 1 (Mt0_1-GSM672722)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/A_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672722_rev.bw
 
 
 
@@ -4934,7 +4934,7 @@ priority  50
   shortLabel Mt0_2
   longLabel growth in LB until exponential phase replicate 2 (Mt0_2-GSM672723)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/B_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672723_rev.bw
 
 
 
@@ -4945,7 +4945,7 @@ priority  50
   shortLabel Mt0_3
   longLabel growth in LB until exponential phase replicate 3 (Mt0_3-GSM672724)
   color 184,226,162
-  bigDataUrl tiling-array/lifted_genome/C_49.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672724_rev.bw
 
 
 
@@ -4956,7 +4956,7 @@ priority  50
   shortLabel M0t45_1
   longLabel growth in LB until exponential phase replicate 1 (M0t45_1-GSM672725)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/A_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672725_rev.bw
 
 
 
@@ -4967,7 +4967,7 @@ priority  50
   shortLabel M0t45_2
   longLabel growth in LB until exponential phase replicate 2 (M0t45_2-GSM672726)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/B_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672726_rev.bw
 
 
 
@@ -4978,7 +4978,7 @@ priority  50
   shortLabel M0t45_3
   longLabel growth in LB until exponential phase replicate 3 (M0t45_3-GSM672727)
   color 178,224,163
-  bigDataUrl tiling-array/lifted_genome/C_4a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672727_rev.bw
 
 
 
@@ -4989,7 +4989,7 @@ priority  50
   shortLabel M0t90_1
   longLabel growth in LB until exponential phase replicate 1 (M0t90_1-GSM672728)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/A_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672728_rev.bw
 
 
 
@@ -5000,7 +5000,7 @@ priority  50
   shortLabel M0t90_2
   longLabel growth in LB until exponential phase replicate 2 (M0t90_2-GSM672729)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/B_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672729_rev.bw
 
 
 
@@ -5011,7 +5011,7 @@ priority  50
   shortLabel M0t90_3
   longLabel growth in LB until exponential phase replicate 3 (M0t90_3-GSM672730)
   color 172,221,164
-  bigDataUrl tiling-array/lifted_genome/C_4b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672730_rev.bw
 
 
 
@@ -5022,7 +5022,7 @@ priority  50
   shortLabel M40t45_1
   longLabel growth in LB until exponential phase replicate 1 (M40t45_1-GSM672731)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/A_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672731_rev.bw
 
 
 
@@ -5033,7 +5033,7 @@ priority  50
   shortLabel M40t45_2
   longLabel growth in LB until exponential phase replicate 2 (M40t45_2-GSM672732)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/B_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672732_rev.bw
 
 
 
@@ -5044,7 +5044,7 @@ priority  50
   shortLabel M40t45_3
   longLabel growth in LB until exponential phase replicate 3 (M40t45_3-GSM672733)
   color 166,219,164
-  bigDataUrl tiling-array/lifted_genome/C_4c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672733_rev.bw
 
 
 
@@ -5055,7 +5055,7 @@ priority  50
   shortLabel M40t90_1
   longLabel growth in LB until exponential phase replicate 1 (M40t90_1-GSM672734)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/A_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672734_rev.bw
 
 
 
@@ -5066,7 +5066,7 @@ priority  50
   shortLabel M40t90_2
   longLabel growth in LB until exponential phase replicate 2 (M40t90_2-GSM672735)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/B_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672735_rev.bw
 
 
 
@@ -5077,7 +5077,7 @@ priority  50
   shortLabel M40t90_3
   longLabel growth in LB until exponential phase replicate 3 (M40t90_3-GSM672736)
   color 160,216,164
-  bigDataUrl tiling-array/lifted_genome/C_4d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672736_rev.bw
 
 
 
@@ -5088,7 +5088,7 @@ priority  50
   shortLabel dia0_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia0_1-GSM672737)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/A_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672737_rev.bw
 
 
 
@@ -5099,7 +5099,7 @@ priority  50
   shortLabel dia0_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia0_2-GSM672738)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/B_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672738_rev.bw
 
 
 
@@ -5110,7 +5110,7 @@ priority  50
   shortLabel dia0_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia0_3-GSM672739)
   color 154,214,164
-  bigDataUrl tiling-array/lifted_genome/C_4e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672739_rev.bw
 
 
 
@@ -5121,7 +5121,7 @@ priority  50
   shortLabel dia5_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia5_1-GSM672740)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/A_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672740_rev.bw
 
 
 
@@ -5132,7 +5132,7 @@ priority  50
   shortLabel dia5_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia5_2-GSM672741)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/B_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672741_rev.bw
 
 
 
@@ -5143,7 +5143,7 @@ priority  50
   shortLabel dia5_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia5_3-GSM672742)
   color 148,211,164
-  bigDataUrl tiling-array/lifted_genome/C_4f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672742_rev.bw
 
 
 
@@ -5154,7 +5154,7 @@ priority  50
   shortLabel dia15_1
   longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia15_1-GSM672743)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/A_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672743_rev.bw
 
 
 
@@ -5165,7 +5165,7 @@ priority  50
   shortLabel dia15_2
   longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia15_2-GSM672744)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/B_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672744_rev.bw
 
 
 
@@ -5176,7 +5176,7 @@ priority  50
   shortLabel dia15_3
   longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia15_3-GSM672745)
   color 142,209,165
-  bigDataUrl tiling-array/lifted_genome/C_50.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672745_rev.bw
 
 
 
@@ -5187,7 +5187,7 @@ priority  50
   shortLabel Diami_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Diami_1-GSM672746)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/A_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672746_rev.bw
 
 
 
@@ -5198,7 +5198,7 @@ priority  50
   shortLabel Diami_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Diami_2-GSM672747)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/B_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672747_rev.bw
 
 
 
@@ -5209,7 +5209,7 @@ priority  50
   shortLabel Diami_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Diami_3-GSM672748)
   color 136,206,165
-  bigDataUrl tiling-array/lifted_genome/C_51.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672748_rev.bw
 
 
 
@@ -5220,7 +5220,7 @@ priority  50
   shortLabel Paraq_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Paraq_1-GSM672749)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/A_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672749_rev.bw
 
 
 
@@ -5231,7 +5231,7 @@ priority  50
   shortLabel Paraq_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Paraq_2-GSM672750)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/B_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672750_rev.bw
 
 
 
@@ -5242,7 +5242,7 @@ priority  50
   shortLabel Paraq_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Paraq_3-GSM672751)
   color 129,204,165
-  bigDataUrl tiling-array/lifted_genome/C_52.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672751_rev.bw
 
 
 
@@ -5253,7 +5253,7 @@ priority  50
   shortLabel H2O2_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (H2O2_1-GSM672752)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/A_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672752_rev.bw
 
 
 
@@ -5264,7 +5264,7 @@ priority  50
   shortLabel H2O2_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (H2O2_2-GSM672753)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/B_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672753_rev.bw
 
 
 
@@ -5275,7 +5275,7 @@ priority  50
   shortLabel H2O2_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (H2O2_3-GSM672754)
   color 122,201,165
-  bigDataUrl tiling-array/lifted_genome/C_53.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672754_rev.bw
 
 
 
@@ -5286,7 +5286,7 @@ priority  50
   shortLabel Oxctl_1
   longLabel growth in LB until OD540 of 0.3 replicate 1 (Oxctl_1-GSM672755)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/A_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672755_rev.bw
 
 
 
@@ -5297,7 +5297,7 @@ priority  50
   shortLabel Oxctl_2
   longLabel growth in LB until OD540 of 0.3 replicate 2 (Oxctl_2-GSM672756)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/B_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672756_rev.bw
 
 
 
@@ -5308,7 +5308,7 @@ priority  50
   shortLabel Oxctl_3
   longLabel growth in LB until OD540 of 0.3 replicate 3 (Oxctl_3-GSM672757)
   color 115,199,165
-  bigDataUrl tiling-array/lifted_genome/C_54.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672757_rev.bw
 
 
 
@@ -5319,7 +5319,7 @@ priority  50
   shortLabel GM-0.1_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM-0.1_1-GSM672758)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/A_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672758_rev.bw
 
 
 
@@ -5330,7 +5330,7 @@ priority  50
   shortLabel GM-0.2_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM-0.2_1-GSM672759)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/A_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672759_rev.bw
 
 
 
@@ -5341,7 +5341,7 @@ priority  50
   shortLabel GM+5_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+5_1-GSM672760)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/A_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672760_rev.bw
 
 
 
@@ -5352,7 +5352,7 @@ priority  50
   shortLabel GM+15_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+15_1-GSM672761)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/A_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672761_rev.bw
 
 
 
@@ -5363,7 +5363,7 @@ priority  50
   shortLabel GM+25_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+25_1-GSM672762)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/A_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672762_rev.bw
 
 
 
@@ -5374,7 +5374,7 @@ priority  50
   shortLabel GM+45_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+45_1-GSM672763)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/A_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672763_rev.bw
 
 
 
@@ -5385,7 +5385,7 @@ priority  50
   shortLabel GM+60_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+60_1-GSM672764)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/A_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672764_rev.bw
 
 
 
@@ -5396,7 +5396,7 @@ priority  50
   shortLabel GM+90_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+90_1-GSM672765)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/A_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672765_rev.bw
 
 
 
@@ -5407,7 +5407,7 @@ priority  50
   shortLabel GM+120_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+120_1-GSM672766)
   color 74,154,182
-  bigDataUrl tiling-array/lifted_genome/A_5d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672766_rev.bw
 
 
 
@@ -5418,7 +5418,7 @@ priority  50
   shortLabel GM+150_1
   longLabel shift from glucose to malate+glucose replicate 1 (GM+150_1-GSM672767)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/A_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672767_rev.bw
 
 
 
@@ -5429,7 +5429,7 @@ priority  50
   shortLabel GM-0.1_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM-0.1_2-GSM672768)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/B_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672768_rev.bw
 
 
 
@@ -5440,7 +5440,7 @@ priority  50
   shortLabel GM-0.2_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM-0.2_2-GSM672769)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/B_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672769_rev.bw
 
 
 
@@ -5451,7 +5451,7 @@ priority  50
   shortLabel GM+5_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+5_2-GSM672770)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/B_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672770_rev.bw
 
 
 
@@ -5462,7 +5462,7 @@ priority  50
   shortLabel GM+10_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+10_2-GSM672771)
   color 61,143,186
-  bigDataUrl tiling-array/lifted_genome/B_5f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672771_rev.bw
 
 
 
@@ -5473,7 +5473,7 @@ priority  50
   shortLabel GM+15_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+15_2-GSM672772)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/B_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672772_rev.bw
 
 
 
@@ -5484,7 +5484,7 @@ priority  50
   shortLabel GM+25_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+25_2-GSM672773)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/B_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672773_rev.bw
 
 
 
@@ -5495,7 +5495,7 @@ priority  50
   shortLabel GM+45_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+45_2-GSM672774)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/B_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672774_rev.bw
 
 
 
@@ -5506,7 +5506,7 @@ priority  50
   shortLabel GM+60_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+60_2-GSM672775)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/B_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672775_rev.bw
 
 
 
@@ -5517,7 +5517,7 @@ priority  50
   shortLabel GM+90_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+90_2-GSM672776)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/B_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672776_rev.bw
 
 
 
@@ -5528,7 +5528,7 @@ priority  50
   shortLabel GM+150_2
   longLabel shift from glucose to malate+glucose replicate 2 (GM+150_2-GSM672777)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/B_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672777_rev.bw
 
 
 
@@ -5539,7 +5539,7 @@ priority  50
   shortLabel GM-0.1_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM-0.1_3-GSM672778)
   color 108,196,165
-  bigDataUrl tiling-array/lifted_genome/C_55.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672778_rev.bw
 
 
 
@@ -5550,7 +5550,7 @@ priority  50
   shortLabel GM-0.2_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM-0.2_3-GSM672779)
   color 101,193,166
-  bigDataUrl tiling-array/lifted_genome/C_56.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672779_rev.bw
 
 
 
@@ -5561,7 +5561,7 @@ priority  50
   shortLabel GM+5_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+5_3-GSM672780)
   color 98,187,168
-  bigDataUrl tiling-array/lifted_genome/C_57.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672780_rev.bw
 
 
 
@@ -5572,7 +5572,7 @@ priority  50
   shortLabel GM+10_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+10_3-GSM672781)
   color 61,143,186
-  bigDataUrl tiling-array/lifted_genome/C_5f.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672781_rev.bw
 
 
 
@@ -5583,7 +5583,7 @@ priority  50
   shortLabel GM+15_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+15_3-GSM672782)
   color 95,182,170
-  bigDataUrl tiling-array/lifted_genome/C_58.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672782_rev.bw
 
 
 
@@ -5594,7 +5594,7 @@ priority  50
   shortLabel GM+25_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+25_3-GSM672783)
   color 92,176,173
-  bigDataUrl tiling-array/lifted_genome/C_59.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672783_rev.bw
 
 
 
@@ -5605,7 +5605,7 @@ priority  50
   shortLabel GM+45_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+45_3-GSM672784)
   color 88,171,175
-  bigDataUrl tiling-array/lifted_genome/C_5a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672784_rev.bw
 
 
 
@@ -5616,7 +5616,7 @@ priority  50
   shortLabel GM+60_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+60_3-GSM672785)
   color 83,165,177
-  bigDataUrl tiling-array/lifted_genome/C_5b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672785_rev.bw
 
 
 
@@ -5627,7 +5627,7 @@ priority  50
   shortLabel GM+90_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+90_3-GSM672786)
   color 79,160,180
-  bigDataUrl tiling-array/lifted_genome/C_5c.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672786_rev.bw
 
 
 
@@ -5638,7 +5638,7 @@ priority  50
   shortLabel GM+120_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+120_3-GSM672787)
   color 74,154,182
-  bigDataUrl tiling-array/lifted_genome/C_5d.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672787_rev.bw
 
 
 
@@ -5649,7 +5649,7 @@ priority  50
   shortLabel GM+150_3
   longLabel shift from glucose to malate+glucose replicate 3 (GM+150_3-GSM672788)
   color 68,149,184
-  bigDataUrl tiling-array/lifted_genome/C_5e.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672788_rev.bw
 
 
 
@@ -5660,7 +5660,7 @@ priority  50
   shortLabel MG-0.1_1
   longLabel shift from malate to malate+glucose replicate 1 (MG-0.1_1-GSM672789)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/A_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672789_rev.bw
 
 
 
@@ -5671,7 +5671,7 @@ priority  50
   shortLabel MG+5_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+5_1-GSM672790)
   color 55,133,187
-  bigDataUrl tiling-array/lifted_genome/A_61.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672790_rev.bw
 
 
 
@@ -5682,7 +5682,7 @@ priority  50
   shortLabel MG+10_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+10_1-GSM672791)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/A_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672791_rev.bw
 
 
 
@@ -5693,7 +5693,7 @@ priority  50
   shortLabel MG+15_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+15_1-GSM672792)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/A_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672792_rev.bw
 
 
 
@@ -5704,7 +5704,7 @@ priority  50
   shortLabel MG+25_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+25_1-GSM672793)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/A_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672793_rev.bw
 
 
 
@@ -5715,7 +5715,7 @@ priority  50
   shortLabel MG+45_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+45_1-GSM672794)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/A_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672794_rev.bw
 
 
 
@@ -5726,7 +5726,7 @@ priority  50
   shortLabel MG+120_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+120_1-GSM672795)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/A_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672795_rev.bw
 
 
 
@@ -5737,7 +5737,7 @@ priority  50
   shortLabel MG+150_1
   longLabel shift from malate to malate+glucose replicate 1 (MG+150_1-GSM672796)
   color 84,101,172
-  bigDataUrl tiling-array/lifted_genome/A_67.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672796_rev.bw
 
 
 
@@ -5748,7 +5748,7 @@ priority  50
   shortLabel MG-0.1_2
   longLabel shift from malate to malate+glucose replicate 2 (MG-0.1_2-GSM672797)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/B_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672797_rev.bw
 
 
 
@@ -5759,7 +5759,7 @@ priority  50
   shortLabel MG-0.2_2
   longLabel shift from malate to malate+glucose replicate 2 (MG-0.2_2-GSM672798)
   color 87,96,170
-  bigDataUrl tiling-array/lifted_genome/B_68.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672798_rev.bw
 
 
 
@@ -5770,7 +5770,7 @@ priority  50
   shortLabel MG+t5_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+t5_2-GSM672799)
   color 90,90,167
-  bigDataUrl tiling-array/lifted_genome/B_69.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672799_rev.bw
 
 
 
@@ -5781,7 +5781,7 @@ priority  50
   shortLabel MG+10_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+10_2-GSM672800)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/B_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672800_rev.bw
 
 
 
@@ -5792,7 +5792,7 @@ priority  50
   shortLabel MG+15_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+15_2-GSM672801)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/B_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672801_rev.bw
 
 
 
@@ -5803,7 +5803,7 @@ priority  50
   shortLabel MG+25_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+25_2-GSM672802)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/B_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672802_rev.bw
 
 
 
@@ -5814,7 +5814,7 @@ priority  50
   shortLabel MG+45_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+45_2-GSM672803)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/B_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672803_rev.bw
 
 
 
@@ -5825,7 +5825,7 @@ priority  50
   shortLabel MG+60_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+60_2-GSM672804)
   color 92,85,165
-  bigDataUrl tiling-array/lifted_genome/B_6a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672804_rev.bw
 
 
 
@@ -5836,7 +5836,7 @@ priority  50
   shortLabel MG+90_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+90_2-GSM672805)
   color 94,79,162
-  bigDataUrl tiling-array/lifted_genome/B_6b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672805_rev.bw
 
 
 
@@ -5847,7 +5847,7 @@ priority  50
   shortLabel MG+120_2
   longLabel shift from malate to malate+glucose replicate 2 (MG+120_2-GSM672806)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/B_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672806_rev.bw
 
 
 
@@ -5858,7 +5858,7 @@ priority  50
   shortLabel MG-0.1_3
   longLabel shift from malate to malate+glucose replicate 3 (MG-0.1_3-GSM672807)
   color 54,138,188
-  bigDataUrl tiling-array/lifted_genome/C_60.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672807_rev.bw
 
 
 
@@ -5869,7 +5869,7 @@ priority  50
   shortLabel MG-0.2_3
   longLabel shift from malate to malate+glucose replicate 3 (MG-0.2_3-GSM672808)
   color 87,96,170
-  bigDataUrl tiling-array/lifted_genome/C_68.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672808_rev.bw
 
 
 
@@ -5880,7 +5880,7 @@ priority  50
   shortLabel MG+5_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+5_3-GSM672809)
   color 55,133,187
-  bigDataUrl tiling-array/lifted_genome/C_61.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672809_rev.bw
 
 
 
@@ -5891,7 +5891,7 @@ priority  50
   shortLabel MG+10_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+10_3-GSM672810)
   color 62,128,185
-  bigDataUrl tiling-array/lifted_genome/C_62.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672810_rev.bw
 
 
 
@@ -5902,7 +5902,7 @@ priority  50
   shortLabel MG+15_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+15_3-GSM672811)
   color 68,122,182
-  bigDataUrl tiling-array/lifted_genome/C_63.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672811_rev.bw
 
 
 
@@ -5913,7 +5913,7 @@ priority  50
   shortLabel MG+25_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+25_3-GSM672812)
   color 73,117,180
-  bigDataUrl tiling-array/lifted_genome/C_64.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672812_rev.bw
 
 
 
@@ -5924,7 +5924,7 @@ priority  50
   shortLabel MG+45_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+45_3-GSM672813)
   color 77,112,177
-  bigDataUrl tiling-array/lifted_genome/C_65.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672813_rev.bw
 
 
 
@@ -5935,7 +5935,7 @@ priority  50
   shortLabel MG+60_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+60_3-GSM672814)
   color 92,85,165
-  bigDataUrl tiling-array/lifted_genome/C_6a.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672814_rev.bw
 
 
 
@@ -5946,7 +5946,7 @@ priority  50
   shortLabel MG+90_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+90_3-GSM672815)
   color 94,79,162
-  bigDataUrl tiling-array/lifted_genome/C_6b.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672815_rev.bw
 
 
 
@@ -5957,7 +5957,7 @@ priority  50
   shortLabel MG+120_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+120_3-GSM672816)
   color 81,107,175
-  bigDataUrl tiling-array/lifted_genome/C_66.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672816_rev.bw
 
 
 
@@ -5968,6 +5968,6 @@ priority  50
   shortLabel MG+150_3
   longLabel shift from malate to malate+glucose replicate 3 (MG+150_3-GSM672817)
   color 84,101,172
-  bigDataUrl tiling-array/lifted_genome/C_67.bw
+  bigDataUrl tiling-array/lifted_genome/GSM672817_rev.bw
 
 
