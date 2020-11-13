@@ -258,16 +258,17 @@ bind_rows(
 
 # (optional)
 dat.full %>%
-  filter(!(type %in% c('exon', 'TSS', 'terminator', 'transcript'))) %>%
+  filter(!(type %in% c('TSS', 'terminator', 'operon'))) %>%
   select(- transcribed_from) %>%
-  mutate_at('Parent', str_remove_all, 'BSGatlas-transcript-[0-9]*') %>%
+  mutate_at('Parent', str_remove_all, 'BSGatlas-operon-[0-9]*') %>%
   mutate_at('Parent', str_replace_all, ',,*', ',') %>%
-  mutate_at('Parent', str_remove_all, '^,$') %>%
+  mutate_at('Parent', str_remove_all, ',$') %>%
+  mutate_at('Parent', str_remove_all, '^,') %>%
   mutate_at('Parent', ~ ifelse(.x == '', NA_character_, .x)) -> dat.simple
 
 list(
   'data-gff/BSGatlas_v1.1.gff' = dat.full,
-  'data-gff/BSGatlas-without_transcripts_v1.1.gff' = dat.simple
+  'data-gff/BSGatlas_v1.1-simplified.gff' = dat.simple
 ) %>%
   map2(names(.), function(dat, path){
     lines <- bind_rows(
