@@ -266,7 +266,7 @@ dat.full %>%
   mutate_at('Parent', ~ ifelse(.x == '', NA_character_, .x)) -> dat.simple
 
 list(
-  'data-gff/BSGatlas _v1.1.gff' = dat.full,
+  'data-gff/BSGatlas_v1.1.gff' = dat.full,
   'data-gff/BSGatlas-without_transcripts_v1.1.gff' = dat.simple
 ) %>%
   map2(names(.), function(dat, path){
