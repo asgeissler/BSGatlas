@@ -7,3 +7,5 @@ defaultPos basu168:2599677-2604522
 scientificName Bacillus subtilis
 htmlPath hub_description.html
 groups groups.txt
+blat rth.dk 17777
+transBlat rth.dk 17779
