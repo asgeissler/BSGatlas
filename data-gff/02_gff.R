@@ -258,7 +258,7 @@ bind_rows(
 
 # (optional)
 dat.full %>%
-  filter(!(type %in% c('TSS', 'terminator', 'operon'))) %>%
+  filter(!(type %in% c('exon', 'TSS', 'terminator', 'operon'))) %>%
   select(- transcribed_from) %>%
   mutate_at('Parent', str_remove_all, 'BSGatlas-operon-[0-9]*') %>%
   mutate_at('Parent', str_replace_all, ',,*', ',') %>%
