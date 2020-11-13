@@ -39,3 +39,33 @@ Due to the external resources, this repository's content has *mixed licenses*.
 * The results of the [**Rfam**](http://rfam.org) scan were created as part of the BSGatlas and is thus available under the **Apache License Version 2.0**
 * The [**RefSeq**](https://www.ncbi.nlm.nih.gov/refseq/) annotation is in the **public domain**.
 * The data tables from the supplementary materials by [Dar *et al.*](https://science.sciencemag.org/content/352/6282/aad9822) and [*Nicolas et al.*](https://science.sciencemag.org/content/335/6072/1103) are used for the academic useage
+
+
+## Note on Nicolas et al. tiling-array signals
+
+With the BSGatlas v1.1, the signals of Nicolas *et al.*'s tiling-array experiments
+were added to the browser hub. 
+Due their massive size, the raw-files are not included in this repository,
+however, they can easily be reloaded from GEO. If you intend to re-run
+the script that process the raw data for the browser hub, download the files 
+and recreate the following file hierarchy under `data-raw/GEO`.
+
+
+        data-raw/GEO
+        ├── GPL8486_family.soft.gz
+        ├── GSE27219_RAW
+        │   ├── GPL13149_070910_BaSysBio_expr.ndf.gz
+        │   ├── GPL13149_070910_BaSysBio_expr.pos.gz
+        │   ├── GSM672549.pair.gz
+        │   ├── GSM672550.pair.gz
+        │   ├── GSM672551.pair.gz
+        │   ├── ...
+        │   ├── GSM672813.pair.gz
+        │   ├── GSM672814.pair.gz
+        │   ├── GSM672815.pair.gz
+        │   ├── GSM672816.pair.gz
+        │   └── GSM672817.pair.gz
+        ├── GSE27219_RAW.tar
+        └── GSE27219_family.soft.gz
+
+

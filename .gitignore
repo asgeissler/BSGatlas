@@ -1,6 +1,10 @@
 
 # Created by https://www.gitignore.io/api/r,vim,macos,bookdown
 # Edit at https://www.gitignore.io/?templates=r,vim,macos,bookdown
+#
+
+# GEO is too large
+data-raw/GEO
 
 ### Bookdown ###
 # R package: bookdown caching files
