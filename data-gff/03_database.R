@@ -172,7 +172,7 @@ bsg.boundaries$terminator %>%
     id, 
     Coordinates = sprintf('%s..%s', start, end),
     Strand = strand,
-    `Free Energy` = sprintf('%s [kcal/mol]', energy)
+    `Free Energy` = sprintf('%.2f [kcal/mol]', energy)
   ) %>%
   gather('meta', 'info', - id) %>%
   mutate(Resource = '1 BSGatlas') %>%
