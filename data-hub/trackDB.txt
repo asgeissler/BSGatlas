@@ -5,7 +5,7 @@ longLabel BSGatlas v1 genes
 visibility pack
 type bigBed 9 +
 labelFields name,ID
-defaultLabelFields name
+defaultLabelFields ID
 searchIndex name
 searchTrix search.ix
 itemRgb on
