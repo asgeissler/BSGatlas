@@ -1,6 +1,6 @@
 hub BSGatlas1
-shortLabel BSGatlas v1
-longLabel BSGatlas v1
+shortLabel BSGatlas v1.1
+longLabel BSGatlas v1.1
 genomesFile genomes.txt
 email adrian@rth.dk
 descriptionUrl hub_description.html
