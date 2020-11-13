@@ -107,8 +107,9 @@ bsubcyc[c('coding', 'noncoding')] %>%
   transmute(
     `Locus Tag`,
     Citation = sprintf(
-      '%s<br/>%s<br/>%s (%s)<br/>PubMed: %s',
-      authors, title, journal, year, pid)) -> bsub.cite
+      
+      '%s<br/>%s<br/>%s (%s)<br/>PUBMED: <a href="https://pubmed.ncbi.nlm.nih.gov/%s">%s</a>',
+      authors, title, journal, year, pid, pid)) -> bsub.cite
 
 bsub.overview %>%
   left_join(bsub.go, 'Locus Tag') %>%
