@@ -325,6 +325,7 @@ internals %>%
 # regulation mechanism (these computed up to 10k+ nt UTRs are not transcribed)
 internal.utrs %>%
   filter(tu != 'tmp-tu-1544') %>%
+  # arrange(desc(width))
   ggplot(aes(x = width)) + geom_histogram() +
   scale_x_log10(breaks = c(10, 20, 30, 50, 100, 500, 1e3)) +
   xlab("Length predicted internal UTRs")
@@ -378,7 +379,7 @@ UTRs %>%
 
 cmp %>%
   filter(mode == 'equal') %>%
-  count(x.type)
+  # count(x.type)
   select(x, y) -> clear
 
 cmp %>%

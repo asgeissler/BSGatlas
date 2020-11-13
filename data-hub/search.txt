@@ -14953,8 +14953,9 @@ BSGatlas-gene-4772 BSU_41060
 BSGatlas-gene-4772 BSU41060
 BSGatlas-gene-4773 S1583
 BSGatlas-gene-4773 new_4215473_4215670
-BSGatlas-gene-4774 AsrC
-BSGatlas-gene-4775 Ysr141
+BSGatlas-gene-4774 rli54
+BSGatlas-gene-4775 AsrC
+BSGatlas-gene-4776 Ysr141
 BSGatlas-gene-478 gabT
 BSGatlas-gene-478 ycnG
 BSGatlas-gene-478 BSU_03900

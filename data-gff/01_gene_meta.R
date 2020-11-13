@@ -286,7 +286,6 @@ merging$merged_src %>%
 
 kegg.map %>%
   left_join(ko.names, 'ko') %>%
-  head
   select(gene = merged_id, pathway = ko, pathway_name) %>%
   mutate_at('pathway', str_remove, '^path:bsu') %>%
   mutate_at('pathway', ~ paste0('ko', .x)) %>%

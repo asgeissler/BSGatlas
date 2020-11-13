@@ -282,9 +282,10 @@ last.ids$id[nrow(last.ids)] %>%
   unlist %>%
   as.integer -> foo
 cmp %>%
-  filter(is.na(y)) %>%
-  transmute(
-    tmp = x,
+  select(tmp = x) %>%
+  drop_na %>%
+  anti_join(carry, 'tmp') %>%
+  mutate(
     id = paste0('BSGatlas-gene-', (foo + 1):(foo + n()))
   ) -> new.entries
 

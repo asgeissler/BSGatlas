@@ -317,8 +317,8 @@ basu168	BSGatlas	CDS	60130	60360	.	+	0	ID=BSGatlas-gene-77_transcribed;color=#1E
 basu168	BSGatlas	UTR	60361	60429	.	+	.	ID=BSGatlas-internal_UTR-30;comment="internal_UTR"
 basu168	BSGatlas	gene	60430	63963	.	+	.	ID=BSGatlas-gene-78;color=#1E90FF;Name=mfd;locus_tag=BSU_00550,BSU00550;Parent=BSGatlas-operon-30
 basu168	BSGatlas	CDS	60430	63963	.	+	0	ID=BSGatlas-gene-78_transcribed;color=#1E90FF;Name=mfd;comment="transcription-repair coupling factor";ec="3.6.4.-";go="GO:0000166 nucleotide binding,GO:0000716 transcription-coupled nucleotide-excision repair, DNA damage recognition,GO:0003676 nucleic acid binding,GO:0003677 DNA binding,GO:0003684 damaged DNA binding,GO:0004386 helicase activity,GO:0005524 ATP binding,GO:0005737 cytoplasm,GO:0006281 DNA repair,GO:0006355 regulation of transcription, DNA-templated,GO:0006974 cellular response to DNA damage stimulus,GO:0008026 ATP-dependent helicase activity,GO:0016787 hydrolase activity";kegg_pathways="Nucleotide excision repair (ko03420)";subtiwiki_category="SW 3 Information processing,SW 3.1 Genetics,SW 3.1.5 DNA repair/ recombination,SW 3.1.5.6 Other proteins,SW 3.2 RNA synthesis and degradation,SW 3.2.1 Transcription,SW 3.2.1.3 Transcription elongation/ termination";synonyms="mfd";derives_from=BSGatlas-gene-78
-basu168	BSGatlas	gene	62314	62515	.	-	.	ID=BSGatlas-gene-4775;color=#24B324;Name=Ysr141
-basu168	BSGatlas	sRNA	62314	62515	.	-	.	ID=BSGatlas-gene-4775_transcribed;color=#24B324;Name=Ysr141;derives_from=BSGatlas-gene-4775
+basu168	BSGatlas	gene	62314	62515	.	-	.	ID=BSGatlas-gene-4776;color=#24B324;Name=Ysr141
+basu168	BSGatlas	sRNA	62314	62515	.	-	.	ID=BSGatlas-gene-4776_transcribed;color=#24B324;Name=Ysr141;derives_from=BSGatlas-gene-4776
 basu168	BSGatlas	UTR	63964	64098	.	+	.	ID=BSGatlas-internal_UTR-31;comment="internal_UTR"
 basu168	BSGatlas	UTR	64016	64098	.	+	.	ID=BSGatlas-5'UTR-44;comment="5'UTR"
 basu168	BSGatlas	gene	64099	64635	.	+	.	ID=BSGatlas-gene-79;color=#1E90FF;Name=spoVT;locus_tag=BSU_00560,BSU00560;Parent=BSGatlas-operon-30
@@ -6313,9 +6313,10 @@ basu168	BSGatlas	UTR	1527068	1527099	.	-	.	ID=BSGatlas-5'UTR-1060;comment="5'UTR
 basu168	BSGatlas	UTR	1527198	1527230	.	+	.	ID=BSGatlas-5'UTR-1063;comment="5'UTR"
 basu168	BSGatlas	gene	1527231	1527902	.	+	.	ID=BSGatlas-gene-1729;color=#1E90FF;Name=ykyA;locus_tag=BSU_14570,BSU14570;Parent=BSGatlas-operon-871
 basu168	BSGatlas	CDS	1527231	1527902	.	+	0	ID=BSGatlas-gene-1729_transcribed;color=#1E90FF;Name=ykyA;comment="putative lipoprotein";go="GO:0005886 plasma membrane,GO:0016020 membrane";subtiwiki_category="SW 6 Groups of genes,SW 6.2 Membrane proteins,SW 6.7 Proteins of unknown function";synonyms="ykrC,ykyA";derives_from=BSGatlas-gene-1729
-basu168	BSGatlas	gene	1528249	1528460	.	+	.	color=#999999;Name=rli54
-basu168	BSGatlas	riboswitch	1528249	1528460	.	+	.	ID=NA_transcribed;color=#999999;Name=rli54
-basu168	BSGatlas	operon	1528255	1533336	.	+	.	ID=BSGatlas-operon-872;color=#FF00CC
+basu168	BSGatlas	operon	1528100	1533336	.	+	.	ID=BSGatlas-operon-872;color=#FF00CC
+basu168	BSGatlas	UTR	1528100	1528325	.	+	.	ID=BSGatlas-5'UTR-1064;comment="5'UTR"
+basu168	BSGatlas	gene	1528249	1528460	.	+	.	ID=BSGatlas-gene-4774;color=#999999;Name=rli54
+basu168	BSGatlas	riboswitch	1528249	1528460	.	+	.	ID=BSGatlas-gene-4774_transcribed;color=#999999;Name=rli54;derives_from=BSGatlas-gene-4774
 basu168	BSGatlas	UTR	1528255	1528325	.	+	.	ID=BSGatlas-5'UTR-1065;comment="5'UTR"
 basu168	BSGatlas	gene	1528326	1529441	.	+	.	ID=BSGatlas-gene-1730;color=#1E90FF;Name=pdhA;locus_tag=BSU_14580,BSU14580;Parent=BSGatlas-operon-872
 basu168	BSGatlas	CDS	1528326	1529441	.	+	0	ID=BSGatlas-gene-1730_transcribed;color=#1E90FF;Name=pdhA;comment="pyruvate dehydrogenase (E1 alpha subunit)";ec="1.2.4.1";go="GO:0004739 pyruvate dehydrogenase (acetyl-transferring) activity,GO:0006096 glycolytic process,GO:0008152 metabolic process,GO:0016491 oxidoreductase activity,GO:0016624 oxidoreductase activity, acting on the aldehyde or oxo group of donors, disulfide as acceptor,GO:0030976 thiamine pyrophosphate binding,GO:0055114 oxidation-reduction process";kegg_pathways="Biosynthesis of secondary metabolites (ko01110),Carbon metabolism (ko01200),Citrate cycle (TCA cycle) (ko00020),Glycolysis / Gluconeogenesis (ko00010),Metabolic pathways (ko01100),Microbial metabolism in diverse environments (ko01120),Pyruvate metabolism (ko00620)";subtiwiki_category="SW 2 Metabolism,SW 2.2 Carbon metabolism,SW 2.2.1 Carbon core metabolism,SW 2.2.1.4 TCA cycle";synonyms="aceA,pdhA";derives_from=BSGatlas-gene-1730
@@ -10600,8 +10601,8 @@ basu168	BSGatlas	UTR	2630858	2630909	.	-	.	ID=BSGatlas-internal_UTR-687;comment=
 basu168	BSGatlas	UTR	2630869	2630909	.	-	.	ID=BSGatlas-3'UTR-965;comment="3'UTR"
 basu168	BSGatlas	gene	2630910	2632748	.	-	.	ID=BSGatlas-gene-2983;color=#3474B3;Name=lepA;locus_tag=BSU_25510,BSU25510;Parent=BSGatlas-operon-1431
 basu168	BSGatlas	CDS	2630910	2632748	.	-	0	ID=BSGatlas-gene-2983_transcribed;color=#3474B3;Name=lepA;comment="ribosomal elongation factor, GTPase";go="GO:0000166 nucleotide binding,GO:0003746 translation elongation factor activity,GO:0003924 GTPase activity,GO:0005525 GTP binding,GO:0005886 plasma membrane,GO:0006412 translation,GO:0006414 translational elongation,GO:0016020 membrane,GO:0016787 hydrolase activity,GO:0043022 ribosome binding,GO:0045727 positive regulation of translation";subtiwiki_category="SW 6 Groups of genes,SW 6.3 GTP-binding proteins";synonyms="lepA,yqeQ,yqxB";derives_from=BSGatlas-gene-2983
-basu168	BSGatlas	gene	2632644	2632712	.	+	.	ID=BSGatlas-gene-4774;color=#00FF00;Name=AsrC
-basu168	BSGatlas	asRNA	2632644	2632712	.	+	.	ID=BSGatlas-gene-4774_transcribed;color=#00FF00;Name=AsrC;derives_from=BSGatlas-gene-4774
+basu168	BSGatlas	gene	2632644	2632712	.	+	.	ID=BSGatlas-gene-4775;color=#00FF00;Name=AsrC
+basu168	BSGatlas	asRNA	2632644	2632712	.	+	.	ID=BSGatlas-gene-4775_transcribed;color=#00FF00;Name=AsrC;derives_from=BSGatlas-gene-4775
 basu168	BSGatlas	UTR	2632749	2632785	.	-	.	ID=BSGatlas-5'UTR-1740;comment="5'UTR"
 basu168	BSGatlas	operon	2632820	2635635	.	-	.	ID=BSGatlas-operon-1433;color=#B32496
 basu168	BSGatlas	UTR	2632820	2632881	.	-	.	ID=BSGatlas-3'UTR-966;comment="3'UTR"
