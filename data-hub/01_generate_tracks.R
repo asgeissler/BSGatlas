@@ -184,7 +184,7 @@ merged.genes %>%
 
 
 # 0b. sensetive rfam genes that would be new
-rfam$sensetive %>%
+rfam$relaxed %>%
   anti_join(rfam$medium, c('family', 'start', 'end', 'strand')) %>%
   mutate(rgb.type = case_when(
     type %in% c('putative-coding', 'CDS') ~ 'protein',
@@ -194,9 +194,10 @@ rfam$sensetive %>%
   )) %>%
   left_join(color.scheme, c('rgb.type' = 'type', 'strand')) %>%
   arrange(start) %>%
+  ungroup %>%
   transmute(chr = genome.id,
             start2 = start - 1, end,
-            primary.name = sprintf('Rfam-sensetive-extra-%s', 1:n()),
+            primary.name = id,
             score = 0,
             strand = strand,
             thickStart = start2, thickEnd = end,
@@ -218,18 +219,15 @@ merging$merged_src %>%
   )) %>%
   left_join(color.scheme, c('rgb.type' = 'type', 'strand')) %>%
   arrange(start) %>%
-  mutate(src = src %>%
-           str_replace('^rfam', 'Rfam') %>%
-           str_replace('^refseq', 'RefSeq') %>%
-           str_replace('^bsubcyc', 'BsubCyc') %>%
-           str_replace('nicolas lower', 'nicolas predictions') %>%
-           str_replace('^nicolas', 'Nicolas et al.') %>%
-           str_replace('^dar', 'Dar et al.')) %>%
+  mutate(
+    name = str_replace_all(name, '[^A-Za-z0-9-_]', '_'),
+    nice.name = sprintf('%s(%s)', name, locus)
+  ) %>%
   transmute(chr = genome.id, start2 = start - 1, end,
             primary.name = merged_id, score = priority,
             strand = strand,
             thickStart = start2, thickEnd = end,
-            rgb, nice.name = locus,
+            rgb, nice.name,
             src) -> raw
 
 raw.special <- raw %>%
@@ -250,8 +248,6 @@ raw %>%
   arrange(start2) -> raw
 
 raw %>%
-  mutate(nice.name = ifelse(str_detect(nice.name, 'row[- ]\\d+'),
-                            'NA', nice.name)) %>%
   mutate_if(is.character, str_replace_all, ' ', '-') %>%
   group_by(src) %>%
   do(foo = set_names(list(.), first(.$src))) %>%
@@ -500,16 +496,17 @@ bsg.boundaries$TSS %>%
   left_join(color.scheme, c('type', 'strand')) %>%
   transmute(
     chrom = 'basu168',
-    start = TSS - res.limit - 1, end = TSS + res.limit,
+    start1 = start - res.limit - 1, end1 = end + res.limit,
     name = id, score = res.limit,
     strand,
-    start2 = TSS - 1, end2 = TSS,
+    start2 = start - 1, end2 = end,
     rgb, src,
     extra = sprintf('Sigma=%s<br/>Resolution limit=%s<br/>PubMed: %s',
                     sigma, res.limit, pubmed)
   ) %>%
-  arrange(start, desc(end)) %>%
-  mutate(start = pmax(start, 0)) %>%
+  arrange(start1, desc(end1)) %>%
+  mutate(start1 = pmax(start1, 0)) %>%
+  mutate_if(is.numeric, ~ pmin(genome.size, .x )) %>%
   write_tsv('data-hub/BSGatlas_tss.bed', col_names = FALSE)
 
 bsg.boundaries$terminator %>%
@@ -522,7 +519,7 @@ bsg.boundaries$terminator %>%
     strand,
     start2 = start3, end2 = end,
     rgb, src,
-    extra = sprintf('Free energy: %s[kcal/mol]', energy)
+    extra = sprintf('Free energy: %.2f[kcal/mol]', energy)
   ) %>%
   write_tsv('data-hub/BSGatlas_terminator.bed', col_names = FALSE)
 
@@ -566,7 +563,7 @@ isoforms$transcripts %>%
   ) %>%
   mutate(
     TSS = ifelse(is.na(TSS), 'without TSS',
-                 sprintf('%s(%s)', TSS, sigma)),
+                 sprintf('%s(sigma: %s)', TSS, sigma)),
     Terminator = ifelse(is.na(Terminator), 'without Terminator', Terminator),
     extra = paste(TSS, Terminator, sep = '<br/>')
   ) %>%
@@ -607,3 +604,5 @@ trans %>%
 
 trans %>%
   write_tsv('data-hub/BSGatlas_transcripts.bed', col_names = FALSE)
+
+# cat bsgatlas_trackDB.txt tiling-array/track_add.txt > trackDB.txt
