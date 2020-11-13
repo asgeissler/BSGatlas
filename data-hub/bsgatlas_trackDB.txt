@@ -11,7 +11,7 @@ searchTrix search.ix
 itemRgb on
 priority 1
 bigDataUrl BSGatlas_genes.bb
-directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
 html track_description.html
 
 track BSGatlas_tu
@@ -24,7 +24,7 @@ labelFields name
 searchIndex name
 priority 2
 itemRgb on
-directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_tus.bb
 html track_description.html
 
@@ -38,7 +38,7 @@ labelFields name
 searchIndex name
 priority 3
 itemRgb on
-directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_transcripts.bb
 html track_description.html
 
@@ -52,7 +52,7 @@ searchIndex name
 type bigBed 9 +
 itemRgb on
 priority 4
-directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
 bigDataUrl BSGatlas_operons.bb
 html track_description.html
 
@@ -75,7 +75,7 @@ html track_description.html
   searchIndex name
   shortLabel BSGatlas TSS
   longLabel BSGatlas TSS
-  directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+  directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
   bigDataUrl BSGatlas_tss.bb
   
   track bsg_bound_term
@@ -84,7 +84,7 @@ html track_description.html
   parent bsg_bound on
   shortLabel BSGatlas terminators
   longLabel BSGatlas terminators
-  directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
+  directUrl https://rth.dk/resources/bsgatlas/details.php?id=%s
   bigDataUrl BSGatlas_terminator.bb
   
   track bsg_bound_utr
@@ -109,7 +109,6 @@ labelFields name,ID
 defaultLabelFields name
 itemRgb on
 priority 10
-directUrl https://dev.rth.dk/resources/bsgatlas/details.php?id=%s
 subGroup1 agg Aggracation-Category bsubcyc=BsubCyc refseq=RefSeq lit=Literature rfam=Rfam nicolas=Tilling-Array
 subGroup2 prio Merging-Priority a=0 b=1 c=2 d=3 e=4 f=5
 dimensions dimX=prio dimY=agg
