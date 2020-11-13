@@ -29,7 +29,7 @@ custom.filter <- function(xs) {
   return(xs[i:j])
 }
 
-'GEO/GPL8486_family.soft.gz' %>%
+'data-raw/GEO/GPL8486_family.soft.gz' %>%
   read_lines() %>%
   custom.filter %>%
   read_tsv() -> design
@@ -49,11 +49,11 @@ design %>%
   # filter(start > end)
   # ommitted 6 probes over origin for viz simplisity
   filter(start < end) %>%
-  write_tsv('old_genome/probes.bed', col_names = FALSE)
+  write_tsv('data-hub/tiling-array/old_genome/probes.bed', col_names = FALSE)
   
 
 # Sample meta info
-nicolas <- GEOquery::getGEO(filename = 'GEO/GSE27219_family.soft.gz')
+nicolas <- GEOquery::getGEO(filename = 'data-raw/GEO/GSE27219_family.soft.gz')
 GEOquery::GSMList(nicolas) %>%
   map(GEOquery::Meta) %>%
   map(`[`, c('title', 'description', 'geo_accession')) %>%
@@ -72,7 +72,7 @@ GEOquery::GSMList(nicolas) %>%
 meta$geo_accession %>%
   # head %>%
   map(function(i) {
-    x <- sprintf('GEO/GSE27219_RAW/%s.pair.gz', i)
+    x <- sprintf('data-raw/GEO/GSE27219_RAW/%s.pair.gz', i)
     x %>%
       read_tsv(comment = '#') %>%
       filter(str_starts(SEQ_ID, 'Bsub_')) %>%
@@ -98,7 +98,7 @@ meta$geo_accession %>%
           strand = ifelse(strand == 'fwd', '+', '-'),
           v = value) %>%
       # map2(names(.), ~ write_tsv(.x, sprintf('old_genome/%s_%s.bedgraph', i, .y),
-      map2(names(.), ~ write_tsv(.x, sprintf('old_genome/%s_%s.bed', i, .y),
+      map2(names(.), ~ write_tsv(.x, sprintf('data-hub/tiling-array/old_genome/%s_%s.bed', i, .y),
                                  col_names = FALSE)) -> bar
     x
   })
@@ -149,23 +149,12 @@ windowingFunction mean
 smoothingWindow 10
 yLineOnOff on
 yLineMark 10
-maxHeightPixels 300:250:150
+maxHeightPixels 300:250:100
 showSubtrackColorOnUi on
 aggregate solidOverlay
 graphTypeDefault points
 priority  50
-subGroup1 exp Experiment %s
-subGroup2 rep Replicate %s
-dimensions dimX=sap dimY=day
-sortOrder exp=+ rep=+
-
-", strand, strand, strand,
-hash$exp %>%
-  map2(names(.), ~ paste(.x, .y, sep = '=')) %>%
-  invoke(.f = paste),
-hash$rep %>%
-  map2(names(.), ~ paste(.x, .y, sep = '=')) %>%
-  invoke(.f = paste)
+", strand, strand, strand
 )
 }
 
@@ -181,8 +170,7 @@ indiv <- function(strand, title, geo, exp, expL, rep) {
   shortLabel %s
   longLabel %s replicate %s (%s-%s)
   color %s
-  subGroups rep=%s exp=%s
-  bigDataUrl lifted_genome/%s_%s.bw
+  bigDataUrl tiling-array/lifted_genome/%s_%s.bw
 
 ", strand, geo, strand, title,
 expL, rep, title, geo,
@@ -204,7 +192,7 @@ track tiling_probes
   longLabel LiftedOver Probe coordinates
   visibility hide
   colorByStrand 0,0,50 50,0,0
-  bigDataUrl lifted_genome/probes.bb
+  bigDataUrl tiling-array/lifted_genome/probes.bb
 
   ',
   block('fwd'),
@@ -212,7 +200,7 @@ track tiling_probes
   block('rev'),
   with(meta, indiv('rev', title, geo_accession, experiment, description, replicate))
 ) %>%
-  write_lines('track_add.txt')
+  write_lines('data-hub/tiling-array/track_add.txt')
 
 
 

@@ -1,0 +1,5973 @@
+
+track tiling_probes
+  type bigBed 6 .
+  group tiling
+  shortLabel Lifted Probes
+  longLabel LiftedOver Probe coordinates
+  visibility hide
+  colorByStrand 0,0,50 50,0,0
+  bigDataUrl tiling-array/lifted_genome/probes.bb
+
+  
+
+
+track tiling_fwd
+type bigWig
+group tiling
+container multiWig
+shortLabel Tiling array fwd
+longLabel log2 signals from Nicolas et al. tiling array - fwd strand
+visibility full
+autoScale off
+alwaysZero off
+viewLimits 2:20
+windowingFunction mean
+smoothingWindow 10
+yLineOnOff on
+yLineMark 10
+maxHeightPixels 300:250:100
+showSubtrackColorOnUi on
+aggregate solidOverlay
+graphTypeDefault points
+priority  50
+
+
+
+  track tiling_fwd_GSM672549
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBexp_1
+  longLabel growth in LB medium replicate 1 (LBexp_1-GSM672549)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/A_01.bw
+
+
+
+
+  track tiling_fwd_GSM672550
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBexp_2
+  longLabel growth in LB medium replicate 2 (LBexp_2-GSM672550)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/B_01.bw
+
+
+
+
+  track tiling_fwd_GSM672551
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBexp_3
+  longLabel growth in LB medium replicate 3 (LBexp_3-GSM672551)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/C_01.bw
+
+
+
+
+  track tiling_fwd_GSM672552
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBtran_1
+  longLabel growth in LB medium replicate 1 (LBtran_1-GSM672552)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/A_02.bw
+
+
+
+
+  track tiling_fwd_GSM672553
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBtran_2
+  longLabel growth in LB medium replicate 2 (LBtran_2-GSM672553)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/B_02.bw
+
+
+
+
+  track tiling_fwd_GSM672554
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBtran_3
+  longLabel growth in LB medium replicate 3 (LBtran_3-GSM672554)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/C_02.bw
+
+
+
+
+  track tiling_fwd_GSM672555
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBstat_1
+  longLabel growth in LB medium replicate 1 (LBstat_1-GSM672555)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/A_03.bw
+
+
+
+
+  track tiling_fwd_GSM672556
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBstat_2
+  longLabel growth in LB medium replicate 2 (LBstat_2-GSM672556)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/B_03.bw
+
+
+
+
+  track tiling_fwd_GSM672557
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBstat_3
+  longLabel growth in LB medium replicate 3 (LBstat_3-GSM672557)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/C_03.bw
+
+
+
+
+  track tiling_fwd_GSM672558
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGexp_1
+  longLabel growth in LB medium with added glucose replicate 1 (LBGexp_1-GSM672558)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/A_04.bw
+
+
+
+
+  track tiling_fwd_GSM672559
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGexp_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGexp_2-GSM672559)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/B_04.bw
+
+
+
+
+  track tiling_fwd_GSM672560
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGexp_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGexp_3-GSM672560)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/C_04.bw
+
+
+
+
+  track tiling_fwd_GSM672561
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGtran_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGtran_2-GSM672561)
+  color 178,31,71
+  bigDataUrl tiling-array/lifted_genome/B_05.bw
+
+
+
+
+  track tiling_fwd_GSM672562
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGtran_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGtran_3-GSM672562)
+  color 178,31,71
+  bigDataUrl tiling-array/lifted_genome/C_05.bw
+
+
+
+
+  track tiling_fwd_GSM672563
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGstat_1
+  longLabel growth in LB medium with added glucose replicate 1 (LBGstat_1-GSM672563)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/A_06.bw
+
+
+
+
+  track tiling_fwd_GSM672564
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGstat_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGstat_2-GSM672564)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/B_06.bw
+
+
+
+
+  track tiling_fwd_GSM672565
+  type bigWig
+  parent tiling_fwd
+  shortLabel LBGstat_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGstat_3-GSM672565)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/C_06.bw
+
+
+
+
+  track tiling_fwd_GSM672566
+  type bigWig
+  parent tiling_fwd
+  shortLabel S0_1
+  longLabel induction of sporulation replicate 1 (S0_1-GSM672566)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/A_07.bw
+
+
+
+
+  track tiling_fwd_GSM672567
+  type bigWig
+  parent tiling_fwd
+  shortLabel S0_2
+  longLabel induction of sporulation replicate 2 (S0_2-GSM672567)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/B_07.bw
+
+
+
+
+  track tiling_fwd_GSM672568
+  type bigWig
+  parent tiling_fwd
+  shortLabel S0_3
+  longLabel induction of sporulation replicate 3 (S0_3-GSM672568)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/C_07.bw
+
+
+
+
+  track tiling_fwd_GSM672569
+  type bigWig
+  parent tiling_fwd
+  shortLabel S1_1
+  longLabel induction of sporulation replicate 1 (S1_1-GSM672569)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/A_08.bw
+
+
+
+
+  track tiling_fwd_GSM672570
+  type bigWig
+  parent tiling_fwd
+  shortLabel S1_2
+  longLabel induction of sporulation replicate 2 (S1_2-GSM672570)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/B_08.bw
+
+
+
+
+  track tiling_fwd_GSM672571
+  type bigWig
+  parent tiling_fwd
+  shortLabel S1_3
+  longLabel induction of sporulation replicate 3 (S1_3-GSM672571)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/C_08.bw
+
+
+
+
+  track tiling_fwd_GSM672572
+  type bigWig
+  parent tiling_fwd
+  shortLabel S2_1
+  longLabel induction of sporulation replicate 1 (S2_1-GSM672572)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/A_09.bw
+
+
+
+
+  track tiling_fwd_GSM672573
+  type bigWig
+  parent tiling_fwd
+  shortLabel S2_2
+  longLabel induction of sporulation replicate 2 (S2_2-GSM672573)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/B_09.bw
+
+
+
+
+  track tiling_fwd_GSM672574
+  type bigWig
+  parent tiling_fwd
+  shortLabel S2_3
+  longLabel induction of sporulation replicate 3 (S2_3-GSM672574)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/C_09.bw
+
+
+
+
+  track tiling_fwd_GSM672575
+  type bigWig
+  parent tiling_fwd
+  shortLabel S3_1
+  longLabel induction of sporulation replicate 1 (S3_1-GSM672575)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/A_0a.bw
+
+
+
+
+  track tiling_fwd_GSM672576
+  type bigWig
+  parent tiling_fwd
+  shortLabel S3_2
+  longLabel induction of sporulation replicate 2 (S3_2-GSM672576)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/B_0a.bw
+
+
+
+
+  track tiling_fwd_GSM672577
+  type bigWig
+  parent tiling_fwd
+  shortLabel S3_3
+  longLabel induction of sporulation replicate 3 (S3_3-GSM672577)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/C_0a.bw
+
+
+
+
+  track tiling_fwd_GSM672578
+  type bigWig
+  parent tiling_fwd
+  shortLabel S4_1
+  longLabel induction of sporulation replicate 1 (S4_1-GSM672578)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/A_0b.bw
+
+
+
+
+  track tiling_fwd_GSM672579
+  type bigWig
+  parent tiling_fwd
+  shortLabel S4_2
+  longLabel induction of sporulation replicate 2 (S4_2-GSM672579)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/B_0b.bw
+
+
+
+
+  track tiling_fwd_GSM672580
+  type bigWig
+  parent tiling_fwd
+  shortLabel S4_3
+  longLabel induction of sporulation replicate 3 (S4_3-GSM672580)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/C_0b.bw
+
+
+
+
+  track tiling_fwd_GSM672581
+  type bigWig
+  parent tiling_fwd
+  shortLabel S5_1
+  longLabel induction of sporulation replicate 1 (S5_1-GSM672581)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/A_0c.bw
+
+
+
+
+  track tiling_fwd_GSM672582
+  type bigWig
+  parent tiling_fwd
+  shortLabel S5_2
+  longLabel induction of sporulation replicate 2 (S5_2-GSM672582)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/B_0c.bw
+
+
+
+
+  track tiling_fwd_GSM672583
+  type bigWig
+  parent tiling_fwd
+  shortLabel S5_3
+  longLabel induction of sporulation replicate 3 (S5_3-GSM672583)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/C_0c.bw
+
+
+
+
+  track tiling_fwd_GSM672584
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_1
+  longLabel induction of sporulation replicate 1 (S6_1-GSM672584)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/A_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672585
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_2
+  longLabel induction of sporulation replicate 2 (S6_2-GSM672585)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/B_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672586
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_3
+  longLabel induction of sporulation replicate 3 (S6_3-GSM672586)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/C_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672587
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6/t_1
+  longLabel induction of sporulation replicate 1 (S6/t_1-GSM672587)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/A_0e.bw
+
+
+
+
+  track tiling_fwd_GSM672588
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6/t_2
+  longLabel induction of sporulation replicate 2 (S6/t_2-GSM672588)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/B_0e.bw
+
+
+
+
+  track tiling_fwd_GSM672589
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6/t_3
+  longLabel induction of sporulation replicate 3 (S6/t_3-GSM672589)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/C_0e.bw
+
+
+
+
+  track tiling_fwd_GSM672590
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_4
+  longLabel induction of sporulation replicate 4 (S6_4-GSM672590)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/D_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672591
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_5
+  longLabel induction of sporulation replicate 5 (S6_5-GSM672591)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/E_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672592
+  type bigWig
+  parent tiling_fwd
+  shortLabel S6_6
+  longLabel induction of sporulation replicate 6 (S6_6-GSM672592)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/F_0d.bw
+
+
+
+
+  track tiling_fwd_GSM672593
+  type bigWig
+  parent tiling_fwd
+  shortLabel S7_4
+  longLabel induction of sporulation replicate 4 (S7_4-GSM672593)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/D_0f.bw
+
+
+
+
+  track tiling_fwd_GSM672594
+  type bigWig
+  parent tiling_fwd
+  shortLabel S7_5
+  longLabel induction of sporulation replicate 5 (S7_5-GSM672594)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/E_0f.bw
+
+
+
+
+  track tiling_fwd_GSM672595
+  type bigWig
+  parent tiling_fwd
+  shortLabel S7_6
+  longLabel induction of sporulation replicate 6 (S7_6-GSM672595)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/F_0f.bw
+
+
+
+
+  track tiling_fwd_GSM672596
+  type bigWig
+  parent tiling_fwd
+  shortLabel S8_4
+  longLabel induction of sporulation replicate 4 (S8_4-GSM672596)
+  color 226,83,75
+  bigDataUrl tiling-array/lifted_genome/D_10.bw
+
+
+
+
+  track tiling_fwd_GSM672597
+  type bigWig
+  parent tiling_fwd
+  shortLabel S8_5
+  longLabel induction of sporulation replicate 5 (S8_5-GSM672597)
+  color 226,83,75
+  bigDataUrl tiling-array/lifted_genome/E_10.bw
+
+
+
+
+  track tiling_fwd_GSM672598
+  type bigWig
+  parent tiling_fwd
+  shortLabel G135_1
+  longLabel germination replicate 1 (G135_1-GSM672598)
+  color 229,87,74
+  bigDataUrl tiling-array/lifted_genome/A_11.bw
+
+
+
+
+  track tiling_fwd_GSM672599
+  type bigWig
+  parent tiling_fwd
+  shortLabel G135_3
+  longLabel germination replicate 3 (G135_3-GSM672599)
+  color 229,87,74
+  bigDataUrl tiling-array/lifted_genome/C_11.bw
+
+
+
+
+  track tiling_fwd_GSM672600
+  type bigWig
+  parent tiling_fwd
+  shortLabel G150_1
+  longLabel germination replicate 1 (G150_1-GSM672600)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/A_12.bw
+
+
+
+
+  track tiling_fwd_GSM672601
+  type bigWig
+  parent tiling_fwd
+  shortLabel G150_2
+  longLabel germination replicate 2 (G150_2-GSM672601)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/B_12.bw
+
+
+
+
+  track tiling_fwd_GSM672602
+  type bigWig
+  parent tiling_fwd
+  shortLabel G150_3
+  longLabel germination replicate 3 (G150_3-GSM672602)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/C_12.bw
+
+
+
+
+  track tiling_fwd_GSM672603
+  type bigWig
+  parent tiling_fwd
+  shortLabel G180_1
+  longLabel germination replicate 1 (G180_1-GSM672603)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/A_13.bw
+
+
+
+
+  track tiling_fwd_GSM672604
+  type bigWig
+  parent tiling_fwd
+  shortLabel G180_2
+  longLabel germination replicate 2 (G180_2-GSM672604)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/B_13.bw
+
+
+
+
+  track tiling_fwd_GSM672605
+  type bigWig
+  parent tiling_fwd
+  shortLabel G180_3
+  longLabel germination replicate 3 (G180_3-GSM672605)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/C_13.bw
+
+
+
+
+  track tiling_fwd_GSM672606
+  type bigWig
+  parent tiling_fwd
+  shortLabel C30_1
+  longLabel competence replicate 1 (C30_1-GSM672606)
+  color 238,100,70
+  bigDataUrl tiling-array/lifted_genome/A_14.bw
+
+
+
+
+  track tiling_fwd_GSM672607
+  type bigWig
+  parent tiling_fwd
+  shortLabel C30_2
+  longLabel competence replicate 2 (C30_2-GSM672607)
+  color 238,100,70
+  bigDataUrl tiling-array/lifted_genome/B_14.bw
+
+
+
+
+  track tiling_fwd_GSM672608
+  type bigWig
+  parent tiling_fwd
+  shortLabel C90_1
+  longLabel competence replicate 1 (C90_1-GSM672608)
+  color 241,104,69
+  bigDataUrl tiling-array/lifted_genome/A_15.bw
+
+
+
+
+  track tiling_fwd_GSM672609
+  type bigWig
+  parent tiling_fwd
+  shortLabel C90_2
+  longLabel competence replicate 2 (C90_2-GSM672609)
+  color 241,104,69
+  bigDataUrl tiling-array/lifted_genome/B_15.bw
+
+
+
+
+  track tiling_fwd_GSM672610
+  type bigWig
+  parent tiling_fwd
+  shortLabel BI_1
+  longLabel 18h of growth on plates replicate 1 (BI_1-GSM672610)
+  color 243,108,67
+  bigDataUrl tiling-array/lifted_genome/A_16.bw
+
+
+
+
+  track tiling_fwd_GSM672611
+  type bigWig
+  parent tiling_fwd
+  shortLabel BI_2
+  longLabel 18h of growth on plates replicate 2 (BI_2-GSM672611)
+  color 243,108,67
+  bigDataUrl tiling-array/lifted_genome/B_16.bw
+
+
+
+
+  track tiling_fwd_GSM672612
+  type bigWig
+  parent tiling_fwd
+  shortLabel BC_2
+  longLabel 18h of growth on plates replicate 2 (BC_2-GSM672612)
+  color 245,114,69
+  bigDataUrl tiling-array/lifted_genome/B_17.bw
+
+
+
+
+  track tiling_fwd_GSM672613
+  type bigWig
+  parent tiling_fwd
+  shortLabel BC/t_1
+  longLabel 18h of growth on plates replicate 1 (BC/t_1-GSM672613)
+  color 246,121,72
+  bigDataUrl tiling-array/lifted_genome/A_18.bw
+
+
+
+
+  track tiling_fwd_GSM672614
+  type bigWig
+  parent tiling_fwd
+  shortLabel BC/t_2
+  longLabel 18h of growth on plates replicate 2 (BC/t_2-GSM672614)
+  color 246,121,72
+  bigDataUrl tiling-array/lifted_genome/B_18.bw
+
+
+
+
+  track tiling_fwd_GSM672615
+  type bigWig
+  parent tiling_fwd
+  shortLabel BC_1
+  longLabel 18h of growth on plates replicate 1 (BC_1-GSM672615)
+  color 245,114,69
+  bigDataUrl tiling-array/lifted_genome/A_17.bw
+
+
+
+
+  track tiling_fwd_GSM672616
+  type bigWig
+  parent tiling_fwd
+  shortLabel Sw_1
+  longLabel 18h of growth on soft plates replicate 1 (Sw_1-GSM672616)
+  color 247,127,75
+  bigDataUrl tiling-array/lifted_genome/A_19.bw
+
+
+
+
+  track tiling_fwd_GSM672617
+  type bigWig
+  parent tiling_fwd
+  shortLabel Sw_2
+  longLabel 18h of growth on soft plates replicate 2 (Sw_2-GSM672617)
+  color 247,127,75
+  bigDataUrl tiling-array/lifted_genome/B_19.bw
+
+
+
+
+  track tiling_fwd_GSM672618
+  type bigWig
+  parent tiling_fwd
+  shortLabel BT_1
+  longLabel biofilm formation replicate 1 (BT_1-GSM672618)
+  color 248,133,77
+  bigDataUrl tiling-array/lifted_genome/A_1a.bw
+
+
+
+
+  track tiling_fwd_GSM672619
+  type bigWig
+  parent tiling_fwd
+  shortLabel BT_2
+  longLabel biofilm formation replicate 2 (BT_2-GSM672619)
+  color 248,133,77
+  bigDataUrl tiling-array/lifted_genome/B_1a.bw
+
+
+
+
+  track tiling_fwd_GSM672620
+  type bigWig
+  parent tiling_fwd
+  shortLabel B36_1
+  longLabel biofilm formation replicate 1 (B36_1-GSM672620)
+  color 249,140,80
+  bigDataUrl tiling-array/lifted_genome/A_1b.bw
+
+
+
+
+  track tiling_fwd_GSM672621
+  type bigWig
+  parent tiling_fwd
+  shortLabel B36_2
+  longLabel biofilm formation replicate 2 (B36_2-GSM672621)
+  color 249,140,80
+  bigDataUrl tiling-array/lifted_genome/B_1b.bw
+
+
+
+
+  track tiling_fwd_GSM672622
+  type bigWig
+  parent tiling_fwd
+  shortLabel B60_1
+  longLabel biofilm formation replicate 1 (B60_1-GSM672622)
+  color 250,146,83
+  bigDataUrl tiling-array/lifted_genome/A_1c.bw
+
+
+
+
+  track tiling_fwd_GSM672623
+  type bigWig
+  parent tiling_fwd
+  shortLabel B60_2
+  longLabel biofilm formation replicate 2 (B60_2-GSM672623)
+  color 250,146,83
+  bigDataUrl tiling-array/lifted_genome/B_1c.bw
+
+
+
+
+  track tiling_fwd_GSM672624
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9exp_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9exp_1-GSM672624)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/A_1d.bw
+
+
+
+
+  track tiling_fwd_GSM672625
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9exp_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9exp_2-GSM672625)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/B_1d.bw
+
+
+
+
+  track tiling_fwd_GSM672626
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9exp_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9exp_3-GSM672626)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/C_1d.bw
+
+
+
+
+  track tiling_fwd_GSM672627
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9tran_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9tran_1-GSM672627)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/A_1e.bw
+
+
+
+
+  track tiling_fwd_GSM672628
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9tran_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9tran_2-GSM672628)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/B_1e.bw
+
+
+
+
+  track tiling_fwd_GSM672629
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9tran_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9tran_3-GSM672629)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/C_1e.bw
+
+
+
+
+  track tiling_fwd_GSM672630
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9stat_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9stat_1-GSM672630)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/A_1f.bw
+
+
+
+
+  track tiling_fwd_GSM672631
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9stat_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9stat_2-GSM672631)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/B_1f.bw
+
+
+
+
+  track tiling_fwd_GSM672632
+  type bigWig
+  parent tiling_fwd
+  shortLabel M9stat_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9stat_3-GSM672632)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/C_1f.bw
+
+
+
+
+  track tiling_fwd_GSM672633
+  type bigWig
+  parent tiling_fwd
+  shortLabel M+G_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (M+G_1-GSM672633)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/A_20.bw
+
+
+
+
+  track tiling_fwd_GSM672634
+  type bigWig
+  parent tiling_fwd
+  shortLabel M+G_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (M+G_2-GSM672634)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/B_20.bw
+
+
+
+
+  track tiling_fwd_GSM672635
+  type bigWig
+  parent tiling_fwd
+  shortLabel M+G_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (M+G_3-GSM672635)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/C_20.bw
+
+
+
+
+  track tiling_fwd_GSM672636
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glu_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glu_1-GSM672636)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/A_21.bw
+
+
+
+
+  track tiling_fwd_GSM672637
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glu_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glu_2-GSM672637)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/B_21.bw
+
+
+
+
+  track tiling_fwd_GSM672638
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glu_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glu_3-GSM672638)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/C_21.bw
+
+
+
+
+  track tiling_fwd_GSM672639
+  type bigWig
+  parent tiling_fwd
+  shortLabel Fru_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Fru_1-GSM672639)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/A_22.bw
+
+
+
+
+  track tiling_fwd_GSM672640
+  type bigWig
+  parent tiling_fwd
+  shortLabel Fru_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Fru_2-GSM672640)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/B_22.bw
+
+
+
+
+  track tiling_fwd_GSM672641
+  type bigWig
+  parent tiling_fwd
+  shortLabel Fru_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Fru_3-GSM672641)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/C_22.bw
+
+
+
+
+  track tiling_fwd_GSM672642
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mal_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Mal_1-GSM672642)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/A_23.bw
+
+
+
+
+  track tiling_fwd_GSM672643
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mal_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Mal_2-GSM672643)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/B_23.bw
+
+
+
+
+  track tiling_fwd_GSM672644
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mal_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Mal_3-GSM672644)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/C_23.bw
+
+
+
+
+  track tiling_fwd_GSM672645
+  type bigWig
+  parent tiling_fwd
+  shortLabel G+S_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (G+S_1-GSM672645)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/A_24.bw
+
+
+
+
+  track tiling_fwd_GSM672646
+  type bigWig
+  parent tiling_fwd
+  shortLabel G+S_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (G+S_2-GSM672646)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/B_24.bw
+
+
+
+
+  track tiling_fwd_GSM672647
+  type bigWig
+  parent tiling_fwd
+  shortLabel G+S_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (G+S_3-GSM672647)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/C_24.bw
+
+
+
+
+  track tiling_fwd_GSM672648
+  type bigWig
+  parent tiling_fwd
+  shortLabel Pyr_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Pyr_1-GSM672648)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/A_25.bw
+
+
+
+
+  track tiling_fwd_GSM672649
+  type bigWig
+  parent tiling_fwd
+  shortLabel Pyr_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Pyr_2-GSM672649)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/B_25.bw
+
+
+
+
+  track tiling_fwd_GSM672650
+  type bigWig
+  parent tiling_fwd
+  shortLabel Pyr_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Pyr_3-GSM672650)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/C_25.bw
+
+
+
+
+  track tiling_fwd_GSM672651
+  type bigWig
+  parent tiling_fwd
+  shortLabel Gly_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Gly_1-GSM672651)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/A_26.bw
+
+
+
+
+  track tiling_fwd_GSM672652
+  type bigWig
+  parent tiling_fwd
+  shortLabel Gly_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Gly_2-GSM672652)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/B_26.bw
+
+
+
+
+  track tiling_fwd_GSM672653
+  type bigWig
+  parent tiling_fwd
+  shortLabel Gly_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Gly_3-GSM672653)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/C_26.bw
+
+
+
+
+  track tiling_fwd_GSM672654
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glucon_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glucon_1-GSM672654)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/A_27.bw
+
+
+
+
+  track tiling_fwd_GSM672655
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glucon_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glucon_2-GSM672655)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/B_27.bw
+
+
+
+
+  track tiling_fwd_GSM672656
+  type bigWig
+  parent tiling_fwd
+  shortLabel Glucon_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glucon_3-GSM672656)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/C_27.bw
+
+
+
+
+  track tiling_fwd_GSM672657
+  type bigWig
+  parent tiling_fwd
+  shortLabel aero_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (aero_1-GSM672657)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/A_28.bw
+
+
+
+
+  track tiling_fwd_GSM672658
+  type bigWig
+  parent tiling_fwd
+  shortLabel aero_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (aero_2-GSM672658)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/B_28.bw
+
+
+
+
+  track tiling_fwd_GSM672659
+  type bigWig
+  parent tiling_fwd
+  shortLabel aero_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (aero_3-GSM672659)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/C_28.bw
+
+
+
+
+  track tiling_fwd_GSM672660
+  type bigWig
+  parent tiling_fwd
+  shortLabel nit_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (nit_1-GSM672660)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/A_29.bw
+
+
+
+
+  track tiling_fwd_GSM672661
+  type bigWig
+  parent tiling_fwd
+  shortLabel nit_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (nit_2-GSM672661)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/B_29.bw
+
+
+
+
+  track tiling_fwd_GSM672662
+  type bigWig
+  parent tiling_fwd
+  shortLabel nit_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (nit_3-GSM672662)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/C_29.bw
+
+
+
+
+  track tiling_fwd_GSM672663
+  type bigWig
+  parent tiling_fwd
+  shortLabel ferm_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (ferm_1-GSM672663)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/A_2a.bw
+
+
+
+
+  track tiling_fwd_GSM672664
+  type bigWig
+  parent tiling_fwd
+  shortLabel ferm_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (ferm_2-GSM672664)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/B_2a.bw
+
+
+
+
+  track tiling_fwd_GSM672665
+  type bigWig
+  parent tiling_fwd
+  shortLabel ferm_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (ferm_3-GSM672665)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/C_2a.bw
+
+
+
+
+  track tiling_fwd_GSM672666
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-5.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-5.40H_1-GSM672666)
+  color 254,222,137
+  bigDataUrl tiling-array/lifted_genome/A_2b.bw
+
+
+
+
+  track tiling_fwd_GSM672667
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-4.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-4.40H_1-GSM672667)
+  color 254,226,142
+  bigDataUrl tiling-array/lifted_genome/A_2c.bw
+
+
+
+
+  track tiling_fwd_GSM672668
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-3.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-3.40H_1-GSM672668)
+  color 254,229,147
+  bigDataUrl tiling-array/lifted_genome/A_2d.bw
+
+
+
+
+  track tiling_fwd_GSM672669
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-2.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-2.40H_1-GSM672669)
+  color 255,232,152
+  bigDataUrl tiling-array/lifted_genome/A_2e.bw
+
+
+
+
+  track tiling_fwd_GSM672670
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-1.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-1.40H_1-GSM672670)
+  color 255,234,157
+  bigDataUrl tiling-array/lifted_genome/A_2f.bw
+
+
+
+
+  track tiling_fwd_GSM672671
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-1.10H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-1.10H_1-GSM672671)
+  color 255,237,162
+  bigDataUrl tiling-array/lifted_genome/A_30.bw
+
+
+
+
+  track tiling_fwd_GSM672672
+  type bigWig
+  parent tiling_fwd
+  shortLabel T-0.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-0.40H_1-GSM672672)
+  color 255,240,166
+  bigDataUrl tiling-array/lifted_genome/A_31.bw
+
+
+
+
+  track tiling_fwd_GSM672673
+  type bigWig
+  parent tiling_fwd
+  shortLabel T0.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T0.0H_1-GSM672673)
+  color 255,243,171
+  bigDataUrl tiling-array/lifted_genome/A_32.bw
+
+
+
+
+  track tiling_fwd_GSM672674
+  type bigWig
+  parent tiling_fwd
+  shortLabel T0.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T0.30H_1-GSM672674)
+  color 255,246,176
+  bigDataUrl tiling-array/lifted_genome/A_33.bw
+
+
+
+
+  track tiling_fwd_GSM672675
+  type bigWig
+  parent tiling_fwd
+  shortLabel T1.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T1.0H_1-GSM672675)
+  color 255,249,181
+  bigDataUrl tiling-array/lifted_genome/A_34.bw
+
+
+
+
+  track tiling_fwd_GSM672676
+  type bigWig
+  parent tiling_fwd
+  shortLabel T1.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T1.30H_1-GSM672676)
+  color 255,252,186
+  bigDataUrl tiling-array/lifted_genome/A_35.bw
+
+
+
+
+  track tiling_fwd_GSM672677
+  type bigWig
+  parent tiling_fwd
+  shortLabel T2.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T2.0H_1-GSM672677)
+  color 255,255,191
+  bigDataUrl tiling-array/lifted_genome/A_36.bw
+
+
+
+
+  track tiling_fwd_GSM672678
+  type bigWig
+  parent tiling_fwd
+  shortLabel T2.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T2.30H_1-GSM672678)
+  color 253,254,187
+  bigDataUrl tiling-array/lifted_genome/A_37.bw
+
+
+
+
+  track tiling_fwd_GSM672679
+  type bigWig
+  parent tiling_fwd
+  shortLabel T3.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T3.0H_1-GSM672679)
+  color 250,253,184
+  bigDataUrl tiling-array/lifted_genome/A_38.bw
+
+
+
+
+  track tiling_fwd_GSM672680
+  type bigWig
+  parent tiling_fwd
+  shortLabel T3.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T3.30H_1-GSM672680)
+  color 248,252,180
+  bigDataUrl tiling-array/lifted_genome/A_39.bw
+
+
+
+
+  track tiling_fwd_GSM672681
+  type bigWig
+  parent tiling_fwd
+  shortLabel T4.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T4.0H_1-GSM672681)
+  color 246,251,176
+  bigDataUrl tiling-array/lifted_genome/A_3a.bw
+
+
+
+
+  track tiling_fwd_GSM672682
+  type bigWig
+  parent tiling_fwd
+  shortLabel T5.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T5.0H_1-GSM672682)
+  color 243,250,173
+  bigDataUrl tiling-array/lifted_genome/A_3b.bw
+
+
+
+
+  track tiling_fwd_GSM672683
+  type bigWig
+  parent tiling_fwd
+  shortLabel HPh_1
+  longLabel growth in high phosphate medium replicate 1 (HPh_1-GSM672683)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/A_3c.bw
+
+
+
+
+  track tiling_fwd_GSM672684
+  type bigWig
+  parent tiling_fwd
+  shortLabel HPh_2
+  longLabel growth in high phosphate medium replicate 2 (HPh_2-GSM672684)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/B_3c.bw
+
+
+
+
+  track tiling_fwd_GSM672685
+  type bigWig
+  parent tiling_fwd
+  shortLabel HPh_3
+  longLabel growth in high phosphate medium replicate 3 (HPh_3-GSM672685)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/C_3c.bw
+
+
+
+
+  track tiling_fwd_GSM672686
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPh_1
+  longLabel growth in low phosphate medium replicate 1 (LPh_1-GSM672686)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/A_3d.bw
+
+
+
+
+  track tiling_fwd_GSM672687
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPh_2
+  longLabel growth in low phosphate medium replicate 2 (LPh_2-GSM672687)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/B_3d.bw
+
+
+
+
+  track tiling_fwd_GSM672688
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPh_3
+  longLabel growth in low phosphate medium replicate 3 (LPh_3-GSM672688)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/C_3d.bw
+
+
+
+
+  track tiling_fwd_GSM672689
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPhT_1
+  longLabel growth in low phosphate medium replicate 1 (LPhT_1-GSM672689)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/A_3e.bw
+
+
+
+
+  track tiling_fwd_GSM672690
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPhT_2
+  longLabel growth in low phosphate medium replicate 2 (LPhT_2-GSM672690)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/B_3e.bw
+
+
+
+
+  track tiling_fwd_GSM672691
+  type bigWig
+  parent tiling_fwd
+  shortLabel LPhT_3
+  longLabel growth in low phosphate medium replicate 3 (LPhT_3-GSM672691)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/C_3e.bw
+
+
+
+
+  track tiling_fwd_GSM672692
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMMPr_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (SMMPr_1-GSM672692)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/A_3f.bw
+
+
+
+
+  track tiling_fwd_GSM672693
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMMPr_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (SMMPr_2-GSM672693)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/B_3f.bw
+
+
+
+
+  track tiling_fwd_GSM672694
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMMPr_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (SMMPr_3-GSM672694)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/C_3f.bw
+
+
+
+
+  track tiling_fwd_GSM672695
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiTm_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiTm_1-GSM672695)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/A_40.bw
+
+
+
+
+  track tiling_fwd_GSM672696
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiTm_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiTm_2-GSM672696)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/B_40.bw
+
+
+
+
+  track tiling_fwd_GSM672697
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiTm_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiTm_3-GSM672697)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/C_40.bw
+
+
+
+
+  track tiling_fwd_GSM672698
+  type bigWig
+  parent tiling_fwd
+  shortLabel LoTm_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (LoTm_1-GSM672698)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/A_41.bw
+
+
+
+
+  track tiling_fwd_GSM672699
+  type bigWig
+  parent tiling_fwd
+  shortLabel LoTm_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (LoTm_2-GSM672699)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/B_41.bw
+
+
+
+
+  track tiling_fwd_GSM672700
+  type bigWig
+  parent tiling_fwd
+  shortLabel LoTm_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (LoTm_3-GSM672700)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/C_41.bw
+
+
+
+
+  track tiling_fwd_GSM672701
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiOs_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiOs_1-GSM672701)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/A_42.bw
+
+
+
+
+  track tiling_fwd_GSM672702
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiOs_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiOs_2-GSM672702)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/B_42.bw
+
+
+
+
+  track tiling_fwd_GSM672703
+  type bigWig
+  parent tiling_fwd
+  shortLabel HiOs_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiOs_3-GSM672703)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/C_42.bw
+
+
+
+
+  track tiling_fwd_GSM672704
+  type bigWig
+  parent tiling_fwd
+  shortLabel BMM_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (BMM_1-GSM672704)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/A_43.bw
+
+
+
+
+  track tiling_fwd_GSM672705
+  type bigWig
+  parent tiling_fwd
+  shortLabel BMM_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (BMM_2-GSM672705)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/B_43.bw
+
+
+
+
+  track tiling_fwd_GSM672706
+  type bigWig
+  parent tiling_fwd
+  shortLabel BMM_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (BMM_3-GSM672706)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/C_43.bw
+
+
+
+
+  track tiling_fwd_GSM672707
+  type bigWig
+  parent tiling_fwd
+  shortLabel Heat_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Heat_1-GSM672707)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/A_44.bw
+
+
+
+
+  track tiling_fwd_GSM672708
+  type bigWig
+  parent tiling_fwd
+  shortLabel Heat_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Heat_2-GSM672708)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/B_44.bw
+
+
+
+
+  track tiling_fwd_GSM672709
+  type bigWig
+  parent tiling_fwd
+  shortLabel Heat_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Heat_3-GSM672709)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/C_44.bw
+
+
+
+
+  track tiling_fwd_GSM672710
+  type bigWig
+  parent tiling_fwd
+  shortLabel Cold_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Cold_1-GSM672710)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/A_45.bw
+
+
+
+
+  track tiling_fwd_GSM672711
+  type bigWig
+  parent tiling_fwd
+  shortLabel Cold_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Cold_2-GSM672711)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/B_45.bw
+
+
+
+
+  track tiling_fwd_GSM672712
+  type bigWig
+  parent tiling_fwd
+  shortLabel Cold_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Cold_3-GSM672712)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/C_45.bw
+
+
+
+
+  track tiling_fwd_GSM672713
+  type bigWig
+  parent tiling_fwd
+  shortLabel Etha_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Etha_1-GSM672713)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/A_46.bw
+
+
+
+
+  track tiling_fwd_GSM672714
+  type bigWig
+  parent tiling_fwd
+  shortLabel Etha_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Etha_2-GSM672714)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/B_46.bw
+
+
+
+
+  track tiling_fwd_GSM672715
+  type bigWig
+  parent tiling_fwd
+  shortLabel Etha_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Etha_3-GSM672715)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/C_46.bw
+
+
+
+
+  track tiling_fwd_GSM672716
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMM_1
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (SMM_1-GSM672716)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/A_47.bw
+
+
+
+
+  track tiling_fwd_GSM672717
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMM_2
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (SMM_2-GSM672717)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/B_47.bw
+
+
+
+
+  track tiling_fwd_GSM672718
+  type bigWig
+  parent tiling_fwd
+  shortLabel SMM_3
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (SMM_3-GSM672718)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/C_47.bw
+
+
+
+
+  track tiling_fwd_GSM672719
+  type bigWig
+  parent tiling_fwd
+  shortLabel Salt_1
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (Salt_1-GSM672719)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/A_48.bw
+
+
+
+
+  track tiling_fwd_GSM672720
+  type bigWig
+  parent tiling_fwd
+  shortLabel Salt_2
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (Salt_2-GSM672720)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/B_48.bw
+
+
+
+
+  track tiling_fwd_GSM672721
+  type bigWig
+  parent tiling_fwd
+  shortLabel Salt_3
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (Salt_3-GSM672721)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/C_48.bw
+
+
+
+
+  track tiling_fwd_GSM672722
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mt0_1
+  longLabel growth in LB until exponential phase replicate 1 (Mt0_1-GSM672722)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/A_49.bw
+
+
+
+
+  track tiling_fwd_GSM672723
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mt0_2
+  longLabel growth in LB until exponential phase replicate 2 (Mt0_2-GSM672723)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/B_49.bw
+
+
+
+
+  track tiling_fwd_GSM672724
+  type bigWig
+  parent tiling_fwd
+  shortLabel Mt0_3
+  longLabel growth in LB until exponential phase replicate 3 (Mt0_3-GSM672724)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/C_49.bw
+
+
+
+
+  track tiling_fwd_GSM672725
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t45_1
+  longLabel growth in LB until exponential phase replicate 1 (M0t45_1-GSM672725)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/A_4a.bw
+
+
+
+
+  track tiling_fwd_GSM672726
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t45_2
+  longLabel growth in LB until exponential phase replicate 2 (M0t45_2-GSM672726)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/B_4a.bw
+
+
+
+
+  track tiling_fwd_GSM672727
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t45_3
+  longLabel growth in LB until exponential phase replicate 3 (M0t45_3-GSM672727)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/C_4a.bw
+
+
+
+
+  track tiling_fwd_GSM672728
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t90_1
+  longLabel growth in LB until exponential phase replicate 1 (M0t90_1-GSM672728)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/A_4b.bw
+
+
+
+
+  track tiling_fwd_GSM672729
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t90_2
+  longLabel growth in LB until exponential phase replicate 2 (M0t90_2-GSM672729)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/B_4b.bw
+
+
+
+
+  track tiling_fwd_GSM672730
+  type bigWig
+  parent tiling_fwd
+  shortLabel M0t90_3
+  longLabel growth in LB until exponential phase replicate 3 (M0t90_3-GSM672730)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/C_4b.bw
+
+
+
+
+  track tiling_fwd_GSM672731
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t45_1
+  longLabel growth in LB until exponential phase replicate 1 (M40t45_1-GSM672731)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/A_4c.bw
+
+
+
+
+  track tiling_fwd_GSM672732
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t45_2
+  longLabel growth in LB until exponential phase replicate 2 (M40t45_2-GSM672732)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/B_4c.bw
+
+
+
+
+  track tiling_fwd_GSM672733
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t45_3
+  longLabel growth in LB until exponential phase replicate 3 (M40t45_3-GSM672733)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/C_4c.bw
+
+
+
+
+  track tiling_fwd_GSM672734
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t90_1
+  longLabel growth in LB until exponential phase replicate 1 (M40t90_1-GSM672734)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/A_4d.bw
+
+
+
+
+  track tiling_fwd_GSM672735
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t90_2
+  longLabel growth in LB until exponential phase replicate 2 (M40t90_2-GSM672735)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/B_4d.bw
+
+
+
+
+  track tiling_fwd_GSM672736
+  type bigWig
+  parent tiling_fwd
+  shortLabel M40t90_3
+  longLabel growth in LB until exponential phase replicate 3 (M40t90_3-GSM672736)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/C_4d.bw
+
+
+
+
+  track tiling_fwd_GSM672737
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia0_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia0_1-GSM672737)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/A_4e.bw
+
+
+
+
+  track tiling_fwd_GSM672738
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia0_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia0_2-GSM672738)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/B_4e.bw
+
+
+
+
+  track tiling_fwd_GSM672739
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia0_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia0_3-GSM672739)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/C_4e.bw
+
+
+
+
+  track tiling_fwd_GSM672740
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia5_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia5_1-GSM672740)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/A_4f.bw
+
+
+
+
+  track tiling_fwd_GSM672741
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia5_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia5_2-GSM672741)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/B_4f.bw
+
+
+
+
+  track tiling_fwd_GSM672742
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia5_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia5_3-GSM672742)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/C_4f.bw
+
+
+
+
+  track tiling_fwd_GSM672743
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia15_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia15_1-GSM672743)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/A_50.bw
+
+
+
+
+  track tiling_fwd_GSM672744
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia15_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia15_2-GSM672744)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/B_50.bw
+
+
+
+
+  track tiling_fwd_GSM672745
+  type bigWig
+  parent tiling_fwd
+  shortLabel dia15_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia15_3-GSM672745)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/C_50.bw
+
+
+
+
+  track tiling_fwd_GSM672746
+  type bigWig
+  parent tiling_fwd
+  shortLabel Diami_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Diami_1-GSM672746)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/A_51.bw
+
+
+
+
+  track tiling_fwd_GSM672747
+  type bigWig
+  parent tiling_fwd
+  shortLabel Diami_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Diami_2-GSM672747)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/B_51.bw
+
+
+
+
+  track tiling_fwd_GSM672748
+  type bigWig
+  parent tiling_fwd
+  shortLabel Diami_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Diami_3-GSM672748)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/C_51.bw
+
+
+
+
+  track tiling_fwd_GSM672749
+  type bigWig
+  parent tiling_fwd
+  shortLabel Paraq_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Paraq_1-GSM672749)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/A_52.bw
+
+
+
+
+  track tiling_fwd_GSM672750
+  type bigWig
+  parent tiling_fwd
+  shortLabel Paraq_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Paraq_2-GSM672750)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/B_52.bw
+
+
+
+
+  track tiling_fwd_GSM672751
+  type bigWig
+  parent tiling_fwd
+  shortLabel Paraq_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Paraq_3-GSM672751)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/C_52.bw
+
+
+
+
+  track tiling_fwd_GSM672752
+  type bigWig
+  parent tiling_fwd
+  shortLabel H2O2_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (H2O2_1-GSM672752)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/A_53.bw
+
+
+
+
+  track tiling_fwd_GSM672753
+  type bigWig
+  parent tiling_fwd
+  shortLabel H2O2_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (H2O2_2-GSM672753)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/B_53.bw
+
+
+
+
+  track tiling_fwd_GSM672754
+  type bigWig
+  parent tiling_fwd
+  shortLabel H2O2_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (H2O2_3-GSM672754)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/C_53.bw
+
+
+
+
+  track tiling_fwd_GSM672755
+  type bigWig
+  parent tiling_fwd
+  shortLabel Oxctl_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Oxctl_1-GSM672755)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/A_54.bw
+
+
+
+
+  track tiling_fwd_GSM672756
+  type bigWig
+  parent tiling_fwd
+  shortLabel Oxctl_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Oxctl_2-GSM672756)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/B_54.bw
+
+
+
+
+  track tiling_fwd_GSM672757
+  type bigWig
+  parent tiling_fwd
+  shortLabel Oxctl_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Oxctl_3-GSM672757)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/C_54.bw
+
+
+
+
+  track tiling_fwd_GSM672758
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.1_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM-0.1_1-GSM672758)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/A_55.bw
+
+
+
+
+  track tiling_fwd_GSM672759
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.2_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM-0.2_1-GSM672759)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/A_56.bw
+
+
+
+
+  track tiling_fwd_GSM672760
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+5_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+5_1-GSM672760)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/A_57.bw
+
+
+
+
+  track tiling_fwd_GSM672761
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+15_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+15_1-GSM672761)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/A_58.bw
+
+
+
+
+  track tiling_fwd_GSM672762
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+25_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+25_1-GSM672762)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/A_59.bw
+
+
+
+
+  track tiling_fwd_GSM672763
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+45_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+45_1-GSM672763)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/A_5a.bw
+
+
+
+
+  track tiling_fwd_GSM672764
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+60_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+60_1-GSM672764)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/A_5b.bw
+
+
+
+
+  track tiling_fwd_GSM672765
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+90_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+90_1-GSM672765)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/A_5c.bw
+
+
+
+
+  track tiling_fwd_GSM672766
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+120_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+120_1-GSM672766)
+  color 74,154,182
+  bigDataUrl tiling-array/lifted_genome/A_5d.bw
+
+
+
+
+  track tiling_fwd_GSM672767
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+150_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+150_1-GSM672767)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/A_5e.bw
+
+
+
+
+  track tiling_fwd_GSM672768
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.1_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM-0.1_2-GSM672768)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/B_55.bw
+
+
+
+
+  track tiling_fwd_GSM672769
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.2_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM-0.2_2-GSM672769)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/B_56.bw
+
+
+
+
+  track tiling_fwd_GSM672770
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+5_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+5_2-GSM672770)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/B_57.bw
+
+
+
+
+  track tiling_fwd_GSM672771
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+10_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+10_2-GSM672771)
+  color 61,143,186
+  bigDataUrl tiling-array/lifted_genome/B_5f.bw
+
+
+
+
+  track tiling_fwd_GSM672772
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+15_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+15_2-GSM672772)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/B_58.bw
+
+
+
+
+  track tiling_fwd_GSM672773
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+25_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+25_2-GSM672773)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/B_59.bw
+
+
+
+
+  track tiling_fwd_GSM672774
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+45_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+45_2-GSM672774)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/B_5a.bw
+
+
+
+
+  track tiling_fwd_GSM672775
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+60_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+60_2-GSM672775)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/B_5b.bw
+
+
+
+
+  track tiling_fwd_GSM672776
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+90_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+90_2-GSM672776)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/B_5c.bw
+
+
+
+
+  track tiling_fwd_GSM672777
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+150_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+150_2-GSM672777)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/B_5e.bw
+
+
+
+
+  track tiling_fwd_GSM672778
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.1_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM-0.1_3-GSM672778)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/C_55.bw
+
+
+
+
+  track tiling_fwd_GSM672779
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM-0.2_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM-0.2_3-GSM672779)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/C_56.bw
+
+
+
+
+  track tiling_fwd_GSM672780
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+5_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+5_3-GSM672780)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/C_57.bw
+
+
+
+
+  track tiling_fwd_GSM672781
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+10_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+10_3-GSM672781)
+  color 61,143,186
+  bigDataUrl tiling-array/lifted_genome/C_5f.bw
+
+
+
+
+  track tiling_fwd_GSM672782
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+15_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+15_3-GSM672782)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/C_58.bw
+
+
+
+
+  track tiling_fwd_GSM672783
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+25_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+25_3-GSM672783)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/C_59.bw
+
+
+
+
+  track tiling_fwd_GSM672784
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+45_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+45_3-GSM672784)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/C_5a.bw
+
+
+
+
+  track tiling_fwd_GSM672785
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+60_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+60_3-GSM672785)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/C_5b.bw
+
+
+
+
+  track tiling_fwd_GSM672786
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+90_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+90_3-GSM672786)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/C_5c.bw
+
+
+
+
+  track tiling_fwd_GSM672787
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+120_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+120_3-GSM672787)
+  color 74,154,182
+  bigDataUrl tiling-array/lifted_genome/C_5d.bw
+
+
+
+
+  track tiling_fwd_GSM672788
+  type bigWig
+  parent tiling_fwd
+  shortLabel GM+150_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+150_3-GSM672788)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/C_5e.bw
+
+
+
+
+  track tiling_fwd_GSM672789
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG-0.1_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG-0.1_1-GSM672789)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/A_60.bw
+
+
+
+
+  track tiling_fwd_GSM672790
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+5_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+5_1-GSM672790)
+  color 55,133,187
+  bigDataUrl tiling-array/lifted_genome/A_61.bw
+
+
+
+
+  track tiling_fwd_GSM672791
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+10_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+10_1-GSM672791)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/A_62.bw
+
+
+
+
+  track tiling_fwd_GSM672792
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+15_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+15_1-GSM672792)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/A_63.bw
+
+
+
+
+  track tiling_fwd_GSM672793
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+25_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+25_1-GSM672793)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/A_64.bw
+
+
+
+
+  track tiling_fwd_GSM672794
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+45_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+45_1-GSM672794)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/A_65.bw
+
+
+
+
+  track tiling_fwd_GSM672795
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+120_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+120_1-GSM672795)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/A_66.bw
+
+
+
+
+  track tiling_fwd_GSM672796
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+150_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+150_1-GSM672796)
+  color 84,101,172
+  bigDataUrl tiling-array/lifted_genome/A_67.bw
+
+
+
+
+  track tiling_fwd_GSM672797
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG-0.1_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG-0.1_2-GSM672797)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/B_60.bw
+
+
+
+
+  track tiling_fwd_GSM672798
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG-0.2_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG-0.2_2-GSM672798)
+  color 87,96,170
+  bigDataUrl tiling-array/lifted_genome/B_68.bw
+
+
+
+
+  track tiling_fwd_GSM672799
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+t5_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+t5_2-GSM672799)
+  color 90,90,167
+  bigDataUrl tiling-array/lifted_genome/B_69.bw
+
+
+
+
+  track tiling_fwd_GSM672800
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+10_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+10_2-GSM672800)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/B_62.bw
+
+
+
+
+  track tiling_fwd_GSM672801
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+15_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+15_2-GSM672801)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/B_63.bw
+
+
+
+
+  track tiling_fwd_GSM672802
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+25_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+25_2-GSM672802)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/B_64.bw
+
+
+
+
+  track tiling_fwd_GSM672803
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+45_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+45_2-GSM672803)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/B_65.bw
+
+
+
+
+  track tiling_fwd_GSM672804
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+60_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+60_2-GSM672804)
+  color 92,85,165
+  bigDataUrl tiling-array/lifted_genome/B_6a.bw
+
+
+
+
+  track tiling_fwd_GSM672805
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+90_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+90_2-GSM672805)
+  color 94,79,162
+  bigDataUrl tiling-array/lifted_genome/B_6b.bw
+
+
+
+
+  track tiling_fwd_GSM672806
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+120_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+120_2-GSM672806)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/B_66.bw
+
+
+
+
+  track tiling_fwd_GSM672807
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG-0.1_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG-0.1_3-GSM672807)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/C_60.bw
+
+
+
+
+  track tiling_fwd_GSM672808
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG-0.2_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG-0.2_3-GSM672808)
+  color 87,96,170
+  bigDataUrl tiling-array/lifted_genome/C_68.bw
+
+
+
+
+  track tiling_fwd_GSM672809
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+5_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+5_3-GSM672809)
+  color 55,133,187
+  bigDataUrl tiling-array/lifted_genome/C_61.bw
+
+
+
+
+  track tiling_fwd_GSM672810
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+10_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+10_3-GSM672810)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/C_62.bw
+
+
+
+
+  track tiling_fwd_GSM672811
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+15_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+15_3-GSM672811)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/C_63.bw
+
+
+
+
+  track tiling_fwd_GSM672812
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+25_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+25_3-GSM672812)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/C_64.bw
+
+
+
+
+  track tiling_fwd_GSM672813
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+45_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+45_3-GSM672813)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/C_65.bw
+
+
+
+
+  track tiling_fwd_GSM672814
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+60_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+60_3-GSM672814)
+  color 92,85,165
+  bigDataUrl tiling-array/lifted_genome/C_6a.bw
+
+
+
+
+  track tiling_fwd_GSM672815
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+90_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+90_3-GSM672815)
+  color 94,79,162
+  bigDataUrl tiling-array/lifted_genome/C_6b.bw
+
+
+
+
+  track tiling_fwd_GSM672816
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+120_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+120_3-GSM672816)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/C_66.bw
+
+
+
+
+  track tiling_fwd_GSM672817
+  type bigWig
+  parent tiling_fwd
+  shortLabel MG+150_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+150_3-GSM672817)
+  color 84,101,172
+  bigDataUrl tiling-array/lifted_genome/C_67.bw
+
+
+
+
+track tiling_rev
+type bigWig
+group tiling
+container multiWig
+shortLabel Tiling array rev
+longLabel log2 signals from Nicolas et al. tiling array - rev strand
+visibility full
+autoScale off
+alwaysZero off
+viewLimits 2:20
+windowingFunction mean
+smoothingWindow 10
+yLineOnOff on
+yLineMark 10
+maxHeightPixels 300:250:100
+showSubtrackColorOnUi on
+aggregate solidOverlay
+graphTypeDefault points
+priority  50
+
+
+
+  track tiling_rev_GSM672549
+  type bigWig
+  parent tiling_rev
+  shortLabel LBexp_1
+  longLabel growth in LB medium replicate 1 (LBexp_1-GSM672549)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/A_01.bw
+
+
+
+
+  track tiling_rev_GSM672550
+  type bigWig
+  parent tiling_rev
+  shortLabel LBexp_2
+  longLabel growth in LB medium replicate 2 (LBexp_2-GSM672550)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/B_01.bw
+
+
+
+
+  track tiling_rev_GSM672551
+  type bigWig
+  parent tiling_rev
+  shortLabel LBexp_3
+  longLabel growth in LB medium replicate 3 (LBexp_3-GSM672551)
+  color 158,1,66
+  bigDataUrl tiling-array/lifted_genome/C_01.bw
+
+
+
+
+  track tiling_rev_GSM672552
+  type bigWig
+  parent tiling_rev
+  shortLabel LBtran_1
+  longLabel growth in LB medium replicate 1 (LBtran_1-GSM672552)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/A_02.bw
+
+
+
+
+  track tiling_rev_GSM672553
+  type bigWig
+  parent tiling_rev
+  shortLabel LBtran_2
+  longLabel growth in LB medium replicate 2 (LBtran_2-GSM672553)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/B_02.bw
+
+
+
+
+  track tiling_rev_GSM672554
+  type bigWig
+  parent tiling_rev
+  shortLabel LBtran_3
+  longLabel growth in LB medium replicate 3 (LBtran_3-GSM672554)
+  color 163,10,67
+  bigDataUrl tiling-array/lifted_genome/C_02.bw
+
+
+
+
+  track tiling_rev_GSM672555
+  type bigWig
+  parent tiling_rev
+  shortLabel LBstat_1
+  longLabel growth in LB medium replicate 1 (LBstat_1-GSM672555)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/A_03.bw
+
+
+
+
+  track tiling_rev_GSM672556
+  type bigWig
+  parent tiling_rev
+  shortLabel LBstat_2
+  longLabel growth in LB medium replicate 2 (LBstat_2-GSM672556)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/B_03.bw
+
+
+
+
+  track tiling_rev_GSM672557
+  type bigWig
+  parent tiling_rev
+  shortLabel LBstat_3
+  longLabel growth in LB medium replicate 3 (LBstat_3-GSM672557)
+  color 168,18,69
+  bigDataUrl tiling-array/lifted_genome/C_03.bw
+
+
+
+
+  track tiling_rev_GSM672558
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGexp_1
+  longLabel growth in LB medium with added glucose replicate 1 (LBGexp_1-GSM672558)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/A_04.bw
+
+
+
+
+  track tiling_rev_GSM672559
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGexp_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGexp_2-GSM672559)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/B_04.bw
+
+
+
+
+  track tiling_rev_GSM672560
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGexp_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGexp_3-GSM672560)
+  color 173,25,70
+  bigDataUrl tiling-array/lifted_genome/C_04.bw
+
+
+
+
+  track tiling_rev_GSM672561
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGtran_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGtran_2-GSM672561)
+  color 178,31,71
+  bigDataUrl tiling-array/lifted_genome/B_05.bw
+
+
+
+
+  track tiling_rev_GSM672562
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGtran_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGtran_3-GSM672562)
+  color 178,31,71
+  bigDataUrl tiling-array/lifted_genome/C_05.bw
+
+
+
+
+  track tiling_rev_GSM672563
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGstat_1
+  longLabel growth in LB medium with added glucose replicate 1 (LBGstat_1-GSM672563)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/A_06.bw
+
+
+
+
+  track tiling_rev_GSM672564
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGstat_2
+  longLabel growth in LB medium with added glucose replicate 2 (LBGstat_2-GSM672564)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/B_06.bw
+
+
+
+
+  track tiling_rev_GSM672565
+  type bigWig
+  parent tiling_rev
+  shortLabel LBGstat_3
+  longLabel growth in LB medium with added glucose replicate 3 (LBGstat_3-GSM672565)
+  color 184,36,72
+  bigDataUrl tiling-array/lifted_genome/C_06.bw
+
+
+
+
+  track tiling_rev_GSM672566
+  type bigWig
+  parent tiling_rev
+  shortLabel S0_1
+  longLabel induction of sporulation replicate 1 (S0_1-GSM672566)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/A_07.bw
+
+
+
+
+  track tiling_rev_GSM672567
+  type bigWig
+  parent tiling_rev
+  shortLabel S0_2
+  longLabel induction of sporulation replicate 2 (S0_2-GSM672567)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/B_07.bw
+
+
+
+
+  track tiling_rev_GSM672568
+  type bigWig
+  parent tiling_rev
+  shortLabel S0_3
+  longLabel induction of sporulation replicate 3 (S0_3-GSM672568)
+  color 189,41,73
+  bigDataUrl tiling-array/lifted_genome/C_07.bw
+
+
+
+
+  track tiling_rev_GSM672569
+  type bigWig
+  parent tiling_rev
+  shortLabel S1_1
+  longLabel induction of sporulation replicate 1 (S1_1-GSM672569)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/A_08.bw
+
+
+
+
+  track tiling_rev_GSM672570
+  type bigWig
+  parent tiling_rev
+  shortLabel S1_2
+  longLabel induction of sporulation replicate 2 (S1_2-GSM672570)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/B_08.bw
+
+
+
+
+  track tiling_rev_GSM672571
+  type bigWig
+  parent tiling_rev
+  shortLabel S1_3
+  longLabel induction of sporulation replicate 3 (S1_3-GSM672571)
+  color 194,46,75
+  bigDataUrl tiling-array/lifted_genome/C_08.bw
+
+
+
+
+  track tiling_rev_GSM672572
+  type bigWig
+  parent tiling_rev
+  shortLabel S2_1
+  longLabel induction of sporulation replicate 1 (S2_1-GSM672572)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/A_09.bw
+
+
+
+
+  track tiling_rev_GSM672573
+  type bigWig
+  parent tiling_rev
+  shortLabel S2_2
+  longLabel induction of sporulation replicate 2 (S2_2-GSM672573)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/B_09.bw
+
+
+
+
+  track tiling_rev_GSM672574
+  type bigWig
+  parent tiling_rev
+  shortLabel S2_3
+  longLabel induction of sporulation replicate 3 (S2_3-GSM672574)
+  color 199,50,76
+  bigDataUrl tiling-array/lifted_genome/C_09.bw
+
+
+
+
+  track tiling_rev_GSM672575
+  type bigWig
+  parent tiling_rev
+  shortLabel S3_1
+  longLabel induction of sporulation replicate 1 (S3_1-GSM672575)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/A_0a.bw
+
+
+
+
+  track tiling_rev_GSM672576
+  type bigWig
+  parent tiling_rev
+  shortLabel S3_2
+  longLabel induction of sporulation replicate 2 (S3_2-GSM672576)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/B_0a.bw
+
+
+
+
+  track tiling_rev_GSM672577
+  type bigWig
+  parent tiling_rev
+  shortLabel S3_3
+  longLabel induction of sporulation replicate 3 (S3_3-GSM672577)
+  color 205,55,77
+  bigDataUrl tiling-array/lifted_genome/C_0a.bw
+
+
+
+
+  track tiling_rev_GSM672578
+  type bigWig
+  parent tiling_rev
+  shortLabel S4_1
+  longLabel induction of sporulation replicate 1 (S4_1-GSM672578)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/A_0b.bw
+
+
+
+
+  track tiling_rev_GSM672579
+  type bigWig
+  parent tiling_rev
+  shortLabel S4_2
+  longLabel induction of sporulation replicate 2 (S4_2-GSM672579)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/B_0b.bw
+
+
+
+
+  track tiling_rev_GSM672580
+  type bigWig
+  parent tiling_rev
+  shortLabel S4_3
+  longLabel induction of sporulation replicate 3 (S4_3-GSM672580)
+  color 210,59,78
+  bigDataUrl tiling-array/lifted_genome/C_0b.bw
+
+
+
+
+  track tiling_rev_GSM672581
+  type bigWig
+  parent tiling_rev
+  shortLabel S5_1
+  longLabel induction of sporulation replicate 1 (S5_1-GSM672581)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/A_0c.bw
+
+
+
+
+  track tiling_rev_GSM672582
+  type bigWig
+  parent tiling_rev
+  shortLabel S5_2
+  longLabel induction of sporulation replicate 2 (S5_2-GSM672582)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/B_0c.bw
+
+
+
+
+  track tiling_rev_GSM672583
+  type bigWig
+  parent tiling_rev
+  shortLabel S5_3
+  longLabel induction of sporulation replicate 3 (S5_3-GSM672583)
+  color 214,64,79
+  bigDataUrl tiling-array/lifted_genome/C_0c.bw
+
+
+
+
+  track tiling_rev_GSM672584
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_1
+  longLabel induction of sporulation replicate 1 (S6_1-GSM672584)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/A_0d.bw
+
+
+
+
+  track tiling_rev_GSM672585
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_2
+  longLabel induction of sporulation replicate 2 (S6_2-GSM672585)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/B_0d.bw
+
+
+
+
+  track tiling_rev_GSM672586
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_3
+  longLabel induction of sporulation replicate 3 (S6_3-GSM672586)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/C_0d.bw
+
+
+
+
+  track tiling_rev_GSM672587
+  type bigWig
+  parent tiling_rev
+  shortLabel S6/t_1
+  longLabel induction of sporulation replicate 1 (S6/t_1-GSM672587)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/A_0e.bw
+
+
+
+
+  track tiling_rev_GSM672588
+  type bigWig
+  parent tiling_rev
+  shortLabel S6/t_2
+  longLabel induction of sporulation replicate 2 (S6/t_2-GSM672588)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/B_0e.bw
+
+
+
+
+  track tiling_rev_GSM672589
+  type bigWig
+  parent tiling_rev
+  shortLabel S6/t_3
+  longLabel induction of sporulation replicate 3 (S6/t_3-GSM672589)
+  color 220,74,77
+  bigDataUrl tiling-array/lifted_genome/C_0e.bw
+
+
+
+
+  track tiling_rev_GSM672590
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_4
+  longLabel induction of sporulation replicate 4 (S6_4-GSM672590)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/D_0d.bw
+
+
+
+
+  track tiling_rev_GSM672591
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_5
+  longLabel induction of sporulation replicate 5 (S6_5-GSM672591)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/E_0d.bw
+
+
+
+
+  track tiling_rev_GSM672592
+  type bigWig
+  parent tiling_rev
+  shortLabel S6_6
+  longLabel induction of sporulation replicate 6 (S6_6-GSM672592)
+  color 217,69,78
+  bigDataUrl tiling-array/lifted_genome/F_0d.bw
+
+
+
+
+  track tiling_rev_GSM672593
+  type bigWig
+  parent tiling_rev
+  shortLabel S7_4
+  longLabel induction of sporulation replicate 4 (S7_4-GSM672593)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/D_0f.bw
+
+
+
+
+  track tiling_rev_GSM672594
+  type bigWig
+  parent tiling_rev
+  shortLabel S7_5
+  longLabel induction of sporulation replicate 5 (S7_5-GSM672594)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/E_0f.bw
+
+
+
+
+  track tiling_rev_GSM672595
+  type bigWig
+  parent tiling_rev
+  shortLabel S7_6
+  longLabel induction of sporulation replicate 6 (S7_6-GSM672595)
+  color 223,78,76
+  bigDataUrl tiling-array/lifted_genome/F_0f.bw
+
+
+
+
+  track tiling_rev_GSM672596
+  type bigWig
+  parent tiling_rev
+  shortLabel S8_4
+  longLabel induction of sporulation replicate 4 (S8_4-GSM672596)
+  color 226,83,75
+  bigDataUrl tiling-array/lifted_genome/D_10.bw
+
+
+
+
+  track tiling_rev_GSM672597
+  type bigWig
+  parent tiling_rev
+  shortLabel S8_5
+  longLabel induction of sporulation replicate 5 (S8_5-GSM672597)
+  color 226,83,75
+  bigDataUrl tiling-array/lifted_genome/E_10.bw
+
+
+
+
+  track tiling_rev_GSM672598
+  type bigWig
+  parent tiling_rev
+  shortLabel G135_1
+  longLabel germination replicate 1 (G135_1-GSM672598)
+  color 229,87,74
+  bigDataUrl tiling-array/lifted_genome/A_11.bw
+
+
+
+
+  track tiling_rev_GSM672599
+  type bigWig
+  parent tiling_rev
+  shortLabel G135_3
+  longLabel germination replicate 3 (G135_3-GSM672599)
+  color 229,87,74
+  bigDataUrl tiling-array/lifted_genome/C_11.bw
+
+
+
+
+  track tiling_rev_GSM672600
+  type bigWig
+  parent tiling_rev
+  shortLabel G150_1
+  longLabel germination replicate 1 (G150_1-GSM672600)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/A_12.bw
+
+
+
+
+  track tiling_rev_GSM672601
+  type bigWig
+  parent tiling_rev
+  shortLabel G150_2
+  longLabel germination replicate 2 (G150_2-GSM672601)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/B_12.bw
+
+
+
+
+  track tiling_rev_GSM672602
+  type bigWig
+  parent tiling_rev
+  shortLabel G150_3
+  longLabel germination replicate 3 (G150_3-GSM672602)
+  color 232,91,72
+  bigDataUrl tiling-array/lifted_genome/C_12.bw
+
+
+
+
+  track tiling_rev_GSM672603
+  type bigWig
+  parent tiling_rev
+  shortLabel G180_1
+  longLabel germination replicate 1 (G180_1-GSM672603)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/A_13.bw
+
+
+
+
+  track tiling_rev_GSM672604
+  type bigWig
+  parent tiling_rev
+  shortLabel G180_2
+  longLabel germination replicate 2 (G180_2-GSM672604)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/B_13.bw
+
+
+
+
+  track tiling_rev_GSM672605
+  type bigWig
+  parent tiling_rev
+  shortLabel G180_3
+  longLabel germination replicate 3 (G180_3-GSM672605)
+  color 235,96,71
+  bigDataUrl tiling-array/lifted_genome/C_13.bw
+
+
+
+
+  track tiling_rev_GSM672606
+  type bigWig
+  parent tiling_rev
+  shortLabel C30_1
+  longLabel competence replicate 1 (C30_1-GSM672606)
+  color 238,100,70
+  bigDataUrl tiling-array/lifted_genome/A_14.bw
+
+
+
+
+  track tiling_rev_GSM672607
+  type bigWig
+  parent tiling_rev
+  shortLabel C30_2
+  longLabel competence replicate 2 (C30_2-GSM672607)
+  color 238,100,70
+  bigDataUrl tiling-array/lifted_genome/B_14.bw
+
+
+
+
+  track tiling_rev_GSM672608
+  type bigWig
+  parent tiling_rev
+  shortLabel C90_1
+  longLabel competence replicate 1 (C90_1-GSM672608)
+  color 241,104,69
+  bigDataUrl tiling-array/lifted_genome/A_15.bw
+
+
+
+
+  track tiling_rev_GSM672609
+  type bigWig
+  parent tiling_rev
+  shortLabel C90_2
+  longLabel competence replicate 2 (C90_2-GSM672609)
+  color 241,104,69
+  bigDataUrl tiling-array/lifted_genome/B_15.bw
+
+
+
+
+  track tiling_rev_GSM672610
+  type bigWig
+  parent tiling_rev
+  shortLabel BI_1
+  longLabel 18h of growth on plates replicate 1 (BI_1-GSM672610)
+  color 243,108,67
+  bigDataUrl tiling-array/lifted_genome/A_16.bw
+
+
+
+
+  track tiling_rev_GSM672611
+  type bigWig
+  parent tiling_rev
+  shortLabel BI_2
+  longLabel 18h of growth on plates replicate 2 (BI_2-GSM672611)
+  color 243,108,67
+  bigDataUrl tiling-array/lifted_genome/B_16.bw
+
+
+
+
+  track tiling_rev_GSM672612
+  type bigWig
+  parent tiling_rev
+  shortLabel BC_2
+  longLabel 18h of growth on plates replicate 2 (BC_2-GSM672612)
+  color 245,114,69
+  bigDataUrl tiling-array/lifted_genome/B_17.bw
+
+
+
+
+  track tiling_rev_GSM672613
+  type bigWig
+  parent tiling_rev
+  shortLabel BC/t_1
+  longLabel 18h of growth on plates replicate 1 (BC/t_1-GSM672613)
+  color 246,121,72
+  bigDataUrl tiling-array/lifted_genome/A_18.bw
+
+
+
+
+  track tiling_rev_GSM672614
+  type bigWig
+  parent tiling_rev
+  shortLabel BC/t_2
+  longLabel 18h of growth on plates replicate 2 (BC/t_2-GSM672614)
+  color 246,121,72
+  bigDataUrl tiling-array/lifted_genome/B_18.bw
+
+
+
+
+  track tiling_rev_GSM672615
+  type bigWig
+  parent tiling_rev
+  shortLabel BC_1
+  longLabel 18h of growth on plates replicate 1 (BC_1-GSM672615)
+  color 245,114,69
+  bigDataUrl tiling-array/lifted_genome/A_17.bw
+
+
+
+
+  track tiling_rev_GSM672616
+  type bigWig
+  parent tiling_rev
+  shortLabel Sw_1
+  longLabel 18h of growth on soft plates replicate 1 (Sw_1-GSM672616)
+  color 247,127,75
+  bigDataUrl tiling-array/lifted_genome/A_19.bw
+
+
+
+
+  track tiling_rev_GSM672617
+  type bigWig
+  parent tiling_rev
+  shortLabel Sw_2
+  longLabel 18h of growth on soft plates replicate 2 (Sw_2-GSM672617)
+  color 247,127,75
+  bigDataUrl tiling-array/lifted_genome/B_19.bw
+
+
+
+
+  track tiling_rev_GSM672618
+  type bigWig
+  parent tiling_rev
+  shortLabel BT_1
+  longLabel biofilm formation replicate 1 (BT_1-GSM672618)
+  color 248,133,77
+  bigDataUrl tiling-array/lifted_genome/A_1a.bw
+
+
+
+
+  track tiling_rev_GSM672619
+  type bigWig
+  parent tiling_rev
+  shortLabel BT_2
+  longLabel biofilm formation replicate 2 (BT_2-GSM672619)
+  color 248,133,77
+  bigDataUrl tiling-array/lifted_genome/B_1a.bw
+
+
+
+
+  track tiling_rev_GSM672620
+  type bigWig
+  parent tiling_rev
+  shortLabel B36_1
+  longLabel biofilm formation replicate 1 (B36_1-GSM672620)
+  color 249,140,80
+  bigDataUrl tiling-array/lifted_genome/A_1b.bw
+
+
+
+
+  track tiling_rev_GSM672621
+  type bigWig
+  parent tiling_rev
+  shortLabel B36_2
+  longLabel biofilm formation replicate 2 (B36_2-GSM672621)
+  color 249,140,80
+  bigDataUrl tiling-array/lifted_genome/B_1b.bw
+
+
+
+
+  track tiling_rev_GSM672622
+  type bigWig
+  parent tiling_rev
+  shortLabel B60_1
+  longLabel biofilm formation replicate 1 (B60_1-GSM672622)
+  color 250,146,83
+  bigDataUrl tiling-array/lifted_genome/A_1c.bw
+
+
+
+
+  track tiling_rev_GSM672623
+  type bigWig
+  parent tiling_rev
+  shortLabel B60_2
+  longLabel biofilm formation replicate 2 (B60_2-GSM672623)
+  color 250,146,83
+  bigDataUrl tiling-array/lifted_genome/B_1c.bw
+
+
+
+
+  track tiling_rev_GSM672624
+  type bigWig
+  parent tiling_rev
+  shortLabel M9exp_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9exp_1-GSM672624)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/A_1d.bw
+
+
+
+
+  track tiling_rev_GSM672625
+  type bigWig
+  parent tiling_rev
+  shortLabel M9exp_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9exp_2-GSM672625)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/B_1d.bw
+
+
+
+
+  track tiling_rev_GSM672626
+  type bigWig
+  parent tiling_rev
+  shortLabel M9exp_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9exp_3-GSM672626)
+  color 251,152,86
+  bigDataUrl tiling-array/lifted_genome/C_1d.bw
+
+
+
+
+  track tiling_rev_GSM672627
+  type bigWig
+  parent tiling_rev
+  shortLabel M9tran_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9tran_1-GSM672627)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/A_1e.bw
+
+
+
+
+  track tiling_rev_GSM672628
+  type bigWig
+  parent tiling_rev
+  shortLabel M9tran_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9tran_2-GSM672628)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/B_1e.bw
+
+
+
+
+  track tiling_rev_GSM672629
+  type bigWig
+  parent tiling_rev
+  shortLabel M9tran_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9tran_3-GSM672629)
+  color 251,158,89
+  bigDataUrl tiling-array/lifted_genome/C_1e.bw
+
+
+
+
+  track tiling_rev_GSM672630
+  type bigWig
+  parent tiling_rev
+  shortLabel M9stat_1
+  longLabel growth in M9 medium with glucose replicate 1 (M9stat_1-GSM672630)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/A_1f.bw
+
+
+
+
+  track tiling_rev_GSM672631
+  type bigWig
+  parent tiling_rev
+  shortLabel M9stat_2
+  longLabel growth in M9 medium with glucose replicate 2 (M9stat_2-GSM672631)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/B_1f.bw
+
+
+
+
+  track tiling_rev_GSM672632
+  type bigWig
+  parent tiling_rev
+  shortLabel M9stat_3
+  longLabel growth in M9 medium with glucose replicate 3 (M9stat_3-GSM672632)
+  color 252,164,92
+  bigDataUrl tiling-array/lifted_genome/C_1f.bw
+
+
+
+
+  track tiling_rev_GSM672633
+  type bigWig
+  parent tiling_rev
+  shortLabel M+G_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (M+G_1-GSM672633)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/A_20.bw
+
+
+
+
+  track tiling_rev_GSM672634
+  type bigWig
+  parent tiling_rev
+  shortLabel M+G_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (M+G_2-GSM672634)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/B_20.bw
+
+
+
+
+  track tiling_rev_GSM672635
+  type bigWig
+  parent tiling_rev
+  shortLabel M+G_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (M+G_3-GSM672635)
+  color 253,169,95
+  bigDataUrl tiling-array/lifted_genome/C_20.bw
+
+
+
+
+  track tiling_rev_GSM672636
+  type bigWig
+  parent tiling_rev
+  shortLabel Glu_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glu_1-GSM672636)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/A_21.bw
+
+
+
+
+  track tiling_rev_GSM672637
+  type bigWig
+  parent tiling_rev
+  shortLabel Glu_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glu_2-GSM672637)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/B_21.bw
+
+
+
+
+  track tiling_rev_GSM672638
+  type bigWig
+  parent tiling_rev
+  shortLabel Glu_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glu_3-GSM672638)
+  color 253,175,98
+  bigDataUrl tiling-array/lifted_genome/C_21.bw
+
+
+
+
+  track tiling_rev_GSM672639
+  type bigWig
+  parent tiling_rev
+  shortLabel Fru_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Fru_1-GSM672639)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/A_22.bw
+
+
+
+
+  track tiling_rev_GSM672640
+  type bigWig
+  parent tiling_rev
+  shortLabel Fru_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Fru_2-GSM672640)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/B_22.bw
+
+
+
+
+  track tiling_rev_GSM672641
+  type bigWig
+  parent tiling_rev
+  shortLabel Fru_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Fru_3-GSM672641)
+  color 253,180,102
+  bigDataUrl tiling-array/lifted_genome/C_22.bw
+
+
+
+
+  track tiling_rev_GSM672642
+  type bigWig
+  parent tiling_rev
+  shortLabel Mal_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Mal_1-GSM672642)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/A_23.bw
+
+
+
+
+  track tiling_rev_GSM672643
+  type bigWig
+  parent tiling_rev
+  shortLabel Mal_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Mal_2-GSM672643)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/B_23.bw
+
+
+
+
+  track tiling_rev_GSM672644
+  type bigWig
+  parent tiling_rev
+  shortLabel Mal_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Mal_3-GSM672644)
+  color 254,184,106
+  bigDataUrl tiling-array/lifted_genome/C_23.bw
+
+
+
+
+  track tiling_rev_GSM672645
+  type bigWig
+  parent tiling_rev
+  shortLabel G+S_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (G+S_1-GSM672645)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/A_24.bw
+
+
+
+
+  track tiling_rev_GSM672646
+  type bigWig
+  parent tiling_rev
+  shortLabel G+S_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (G+S_2-GSM672646)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/B_24.bw
+
+
+
+
+  track tiling_rev_GSM672647
+  type bigWig
+  parent tiling_rev
+  shortLabel G+S_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (G+S_3-GSM672647)
+  color 254,189,110
+  bigDataUrl tiling-array/lifted_genome/C_24.bw
+
+
+
+
+  track tiling_rev_GSM672648
+  type bigWig
+  parent tiling_rev
+  shortLabel Pyr_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Pyr_1-GSM672648)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/A_25.bw
+
+
+
+
+  track tiling_rev_GSM672649
+  type bigWig
+  parent tiling_rev
+  shortLabel Pyr_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Pyr_2-GSM672649)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/B_25.bw
+
+
+
+
+  track tiling_rev_GSM672650
+  type bigWig
+  parent tiling_rev
+  shortLabel Pyr_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Pyr_3-GSM672650)
+  color 254,194,113
+  bigDataUrl tiling-array/lifted_genome/C_25.bw
+
+
+
+
+  track tiling_rev_GSM672651
+  type bigWig
+  parent tiling_rev
+  shortLabel Gly_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Gly_1-GSM672651)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/A_26.bw
+
+
+
+
+  track tiling_rev_GSM672652
+  type bigWig
+  parent tiling_rev
+  shortLabel Gly_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Gly_2-GSM672652)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/B_26.bw
+
+
+
+
+  track tiling_rev_GSM672653
+  type bigWig
+  parent tiling_rev
+  shortLabel Gly_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Gly_3-GSM672653)
+  color 254,199,117
+  bigDataUrl tiling-array/lifted_genome/C_26.bw
+
+
+
+
+  track tiling_rev_GSM672654
+  type bigWig
+  parent tiling_rev
+  shortLabel Glucon_1
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 1 (Glucon_1-GSM672654)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/A_27.bw
+
+
+
+
+  track tiling_rev_GSM672655
+  type bigWig
+  parent tiling_rev
+  shortLabel Glucon_2
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 2 (Glucon_2-GSM672655)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/B_27.bw
+
+
+
+
+  track tiling_rev_GSM672656
+  type bigWig
+  parent tiling_rev
+  shortLabel Glucon_3
+  longLabel growth in M9 medium until OD600 of 0.5 replicate 3 (Glucon_3-GSM672656)
+  color 254,203,121
+  bigDataUrl tiling-array/lifted_genome/C_27.bw
+
+
+
+
+  track tiling_rev_GSM672657
+  type bigWig
+  parent tiling_rev
+  shortLabel aero_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (aero_1-GSM672657)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/A_28.bw
+
+
+
+
+  track tiling_rev_GSM672658
+  type bigWig
+  parent tiling_rev
+  shortLabel aero_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (aero_2-GSM672658)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/B_28.bw
+
+
+
+
+  track tiling_rev_GSM672659
+  type bigWig
+  parent tiling_rev
+  shortLabel aero_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (aero_3-GSM672659)
+  color 254,208,125
+  bigDataUrl tiling-array/lifted_genome/C_28.bw
+
+
+
+
+  track tiling_rev_GSM672660
+  type bigWig
+  parent tiling_rev
+  shortLabel nit_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (nit_1-GSM672660)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/A_29.bw
+
+
+
+
+  track tiling_rev_GSM672661
+  type bigWig
+  parent tiling_rev
+  shortLabel nit_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (nit_2-GSM672661)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/B_29.bw
+
+
+
+
+  track tiling_rev_GSM672662
+  type bigWig
+  parent tiling_rev
+  shortLabel nit_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (nit_3-GSM672662)
+  color 254,213,129
+  bigDataUrl tiling-array/lifted_genome/C_29.bw
+
+
+
+
+  track tiling_rev_GSM672663
+  type bigWig
+  parent tiling_rev
+  shortLabel ferm_1
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 1 (ferm_1-GSM672663)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/A_2a.bw
+
+
+
+
+  track tiling_rev_GSM672664
+  type bigWig
+  parent tiling_rev
+  shortLabel ferm_2
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 2 (ferm_2-GSM672664)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/B_2a.bw
+
+
+
+
+  track tiling_rev_GSM672665
+  type bigWig
+  parent tiling_rev
+  shortLabel ferm_3
+  longLabel growth in synthetic medium until OD578 of 0.5 replicate 3 (ferm_3-GSM672665)
+  color 254,217,133
+  bigDataUrl tiling-array/lifted_genome/C_2a.bw
+
+
+
+
+  track tiling_rev_GSM672666
+  type bigWig
+  parent tiling_rev
+  shortLabel T-5.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-5.40H_1-GSM672666)
+  color 254,222,137
+  bigDataUrl tiling-array/lifted_genome/A_2b.bw
+
+
+
+
+  track tiling_rev_GSM672667
+  type bigWig
+  parent tiling_rev
+  shortLabel T-4.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-4.40H_1-GSM672667)
+  color 254,226,142
+  bigDataUrl tiling-array/lifted_genome/A_2c.bw
+
+
+
+
+  track tiling_rev_GSM672668
+  type bigWig
+  parent tiling_rev
+  shortLabel T-3.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-3.40H_1-GSM672668)
+  color 254,229,147
+  bigDataUrl tiling-array/lifted_genome/A_2d.bw
+
+
+
+
+  track tiling_rev_GSM672669
+  type bigWig
+  parent tiling_rev
+  shortLabel T-2.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-2.40H_1-GSM672669)
+  color 255,232,152
+  bigDataUrl tiling-array/lifted_genome/A_2e.bw
+
+
+
+
+  track tiling_rev_GSM672670
+  type bigWig
+  parent tiling_rev
+  shortLabel T-1.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-1.40H_1-GSM672670)
+  color 255,234,157
+  bigDataUrl tiling-array/lifted_genome/A_2f.bw
+
+
+
+
+  track tiling_rev_GSM672671
+  type bigWig
+  parent tiling_rev
+  shortLabel T-1.10H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-1.10H_1-GSM672671)
+  color 255,237,162
+  bigDataUrl tiling-array/lifted_genome/A_30.bw
+
+
+
+
+  track tiling_rev_GSM672672
+  type bigWig
+  parent tiling_rev
+  shortLabel T-0.40H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T-0.40H_1-GSM672672)
+  color 255,240,166
+  bigDataUrl tiling-array/lifted_genome/A_31.bw
+
+
+
+
+  track tiling_rev_GSM672673
+  type bigWig
+  parent tiling_rev
+  shortLabel T0.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T0.0H_1-GSM672673)
+  color 255,243,171
+  bigDataUrl tiling-array/lifted_genome/A_32.bw
+
+
+
+
+  track tiling_rev_GSM672674
+  type bigWig
+  parent tiling_rev
+  shortLabel T0.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T0.30H_1-GSM672674)
+  color 255,246,176
+  bigDataUrl tiling-array/lifted_genome/A_33.bw
+
+
+
+
+  track tiling_rev_GSM672675
+  type bigWig
+  parent tiling_rev
+  shortLabel T1.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T1.0H_1-GSM672675)
+  color 255,249,181
+  bigDataUrl tiling-array/lifted_genome/A_34.bw
+
+
+
+
+  track tiling_rev_GSM672676
+  type bigWig
+  parent tiling_rev
+  shortLabel T1.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T1.30H_1-GSM672676)
+  color 255,252,186
+  bigDataUrl tiling-array/lifted_genome/A_35.bw
+
+
+
+
+  track tiling_rev_GSM672677
+  type bigWig
+  parent tiling_rev
+  shortLabel T2.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T2.0H_1-GSM672677)
+  color 255,255,191
+  bigDataUrl tiling-array/lifted_genome/A_36.bw
+
+
+
+
+  track tiling_rev_GSM672678
+  type bigWig
+  parent tiling_rev
+  shortLabel T2.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T2.30H_1-GSM672678)
+  color 253,254,187
+  bigDataUrl tiling-array/lifted_genome/A_37.bw
+
+
+
+
+  track tiling_rev_GSM672679
+  type bigWig
+  parent tiling_rev
+  shortLabel T3.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T3.0H_1-GSM672679)
+  color 250,253,184
+  bigDataUrl tiling-array/lifted_genome/A_38.bw
+
+
+
+
+  track tiling_rev_GSM672680
+  type bigWig
+  parent tiling_rev
+  shortLabel T3.30H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T3.30H_1-GSM672680)
+  color 248,252,180
+  bigDataUrl tiling-array/lifted_genome/A_39.bw
+
+
+
+
+  track tiling_rev_GSM672681
+  type bigWig
+  parent tiling_rev
+  shortLabel T4.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T4.0H_1-GSM672681)
+  color 246,251,176
+  bigDataUrl tiling-array/lifted_genome/A_3a.bw
+
+
+
+
+  track tiling_rev_GSM672682
+  type bigWig
+  parent tiling_rev
+  shortLabel T5.0H_1
+  longLabel batch fermentation in modified M9 medium replicate 1 (T5.0H_1-GSM672682)
+  color 243,250,173
+  bigDataUrl tiling-array/lifted_genome/A_3b.bw
+
+
+
+
+  track tiling_rev_GSM672683
+  type bigWig
+  parent tiling_rev
+  shortLabel HPh_1
+  longLabel growth in high phosphate medium replicate 1 (HPh_1-GSM672683)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/A_3c.bw
+
+
+
+
+  track tiling_rev_GSM672684
+  type bigWig
+  parent tiling_rev
+  shortLabel HPh_2
+  longLabel growth in high phosphate medium replicate 2 (HPh_2-GSM672684)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/B_3c.bw
+
+
+
+
+  track tiling_rev_GSM672685
+  type bigWig
+  parent tiling_rev
+  shortLabel HPh_3
+  longLabel growth in high phosphate medium replicate 3 (HPh_3-GSM672685)
+  color 241,249,169
+  bigDataUrl tiling-array/lifted_genome/C_3c.bw
+
+
+
+
+  track tiling_rev_GSM672686
+  type bigWig
+  parent tiling_rev
+  shortLabel LPh_1
+  longLabel growth in low phosphate medium replicate 1 (LPh_1-GSM672686)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/A_3d.bw
+
+
+
+
+  track tiling_rev_GSM672687
+  type bigWig
+  parent tiling_rev
+  shortLabel LPh_2
+  longLabel growth in low phosphate medium replicate 2 (LPh_2-GSM672687)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/B_3d.bw
+
+
+
+
+  track tiling_rev_GSM672688
+  type bigWig
+  parent tiling_rev
+  shortLabel LPh_3
+  longLabel growth in low phosphate medium replicate 3 (LPh_3-GSM672688)
+  color 239,248,165
+  bigDataUrl tiling-array/lifted_genome/C_3d.bw
+
+
+
+
+  track tiling_rev_GSM672689
+  type bigWig
+  parent tiling_rev
+  shortLabel LPhT_1
+  longLabel growth in low phosphate medium replicate 1 (LPhT_1-GSM672689)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/A_3e.bw
+
+
+
+
+  track tiling_rev_GSM672690
+  type bigWig
+  parent tiling_rev
+  shortLabel LPhT_2
+  longLabel growth in low phosphate medium replicate 2 (LPhT_2-GSM672690)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/B_3e.bw
+
+
+
+
+  track tiling_rev_GSM672691
+  type bigWig
+  parent tiling_rev
+  shortLabel LPhT_3
+  longLabel growth in low phosphate medium replicate 3 (LPhT_3-GSM672691)
+  color 236,247,162
+  bigDataUrl tiling-array/lifted_genome/C_3e.bw
+
+
+
+
+  track tiling_rev_GSM672692
+  type bigWig
+  parent tiling_rev
+  shortLabel SMMPr_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (SMMPr_1-GSM672692)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/A_3f.bw
+
+
+
+
+  track tiling_rev_GSM672693
+  type bigWig
+  parent tiling_rev
+  shortLabel SMMPr_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (SMMPr_2-GSM672693)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/B_3f.bw
+
+
+
+
+  track tiling_rev_GSM672694
+  type bigWig
+  parent tiling_rev
+  shortLabel SMMPr_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (SMMPr_3-GSM672694)
+  color 234,247,158
+  bigDataUrl tiling-array/lifted_genome/C_3f.bw
+
+
+
+
+  track tiling_rev_GSM672695
+  type bigWig
+  parent tiling_rev
+  shortLabel HiTm_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiTm_1-GSM672695)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/A_40.bw
+
+
+
+
+  track tiling_rev_GSM672696
+  type bigWig
+  parent tiling_rev
+  shortLabel HiTm_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiTm_2-GSM672696)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/B_40.bw
+
+
+
+
+  track tiling_rev_GSM672697
+  type bigWig
+  parent tiling_rev
+  shortLabel HiTm_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiTm_3-GSM672697)
+  color 231,246,154
+  bigDataUrl tiling-array/lifted_genome/C_40.bw
+
+
+
+
+  track tiling_rev_GSM672698
+  type bigWig
+  parent tiling_rev
+  shortLabel LoTm_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (LoTm_1-GSM672698)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/A_41.bw
+
+
+
+
+  track tiling_rev_GSM672699
+  type bigWig
+  parent tiling_rev
+  shortLabel LoTm_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (LoTm_2-GSM672699)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/B_41.bw
+
+
+
+
+  track tiling_rev_GSM672700
+  type bigWig
+  parent tiling_rev
+  shortLabel LoTm_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (LoTm_3-GSM672700)
+  color 228,244,152
+  bigDataUrl tiling-array/lifted_genome/C_41.bw
+
+
+
+
+  track tiling_rev_GSM672701
+  type bigWig
+  parent tiling_rev
+  shortLabel HiOs_1
+  longLabel growth in SMM medium until OD578 of 1 replicate 1 (HiOs_1-GSM672701)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/A_42.bw
+
+
+
+
+  track tiling_rev_GSM672702
+  type bigWig
+  parent tiling_rev
+  shortLabel HiOs_2
+  longLabel growth in SMM medium until OD578 of 1 replicate 2 (HiOs_2-GSM672702)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/B_42.bw
+
+
+
+
+  track tiling_rev_GSM672703
+  type bigWig
+  parent tiling_rev
+  shortLabel HiOs_3
+  longLabel growth in SMM medium until OD578 of 1 replicate 3 (HiOs_3-GSM672703)
+  color 223,242,154
+  bigDataUrl tiling-array/lifted_genome/C_42.bw
+
+
+
+
+  track tiling_rev_GSM672704
+  type bigWig
+  parent tiling_rev
+  shortLabel BMM_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (BMM_1-GSM672704)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/A_43.bw
+
+
+
+
+  track tiling_rev_GSM672705
+  type bigWig
+  parent tiling_rev
+  shortLabel BMM_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (BMM_2-GSM672705)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/B_43.bw
+
+
+
+
+  track tiling_rev_GSM672706
+  type bigWig
+  parent tiling_rev
+  shortLabel BMM_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (BMM_3-GSM672706)
+  color 217,240,155
+  bigDataUrl tiling-array/lifted_genome/C_43.bw
+
+
+
+
+  track tiling_rev_GSM672707
+  type bigWig
+  parent tiling_rev
+  shortLabel Heat_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Heat_1-GSM672707)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/A_44.bw
+
+
+
+
+  track tiling_rev_GSM672708
+  type bigWig
+  parent tiling_rev
+  shortLabel Heat_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Heat_2-GSM672708)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/B_44.bw
+
+
+
+
+  track tiling_rev_GSM672709
+  type bigWig
+  parent tiling_rev
+  shortLabel Heat_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Heat_3-GSM672709)
+  color 212,237,156
+  bigDataUrl tiling-array/lifted_genome/C_44.bw
+
+
+
+
+  track tiling_rev_GSM672710
+  type bigWig
+  parent tiling_rev
+  shortLabel Cold_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Cold_1-GSM672710)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/A_45.bw
+
+
+
+
+  track tiling_rev_GSM672711
+  type bigWig
+  parent tiling_rev
+  shortLabel Cold_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Cold_2-GSM672711)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/B_45.bw
+
+
+
+
+  track tiling_rev_GSM672712
+  type bigWig
+  parent tiling_rev
+  shortLabel Cold_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Cold_3-GSM672712)
+  color 206,235,157
+  bigDataUrl tiling-array/lifted_genome/C_45.bw
+
+
+
+
+  track tiling_rev_GSM672713
+  type bigWig
+  parent tiling_rev
+  shortLabel Etha_1
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 1 (Etha_1-GSM672713)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/A_46.bw
+
+
+
+
+  track tiling_rev_GSM672714
+  type bigWig
+  parent tiling_rev
+  shortLabel Etha_2
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 2 (Etha_2-GSM672714)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/B_46.bw
+
+
+
+
+  track tiling_rev_GSM672715
+  type bigWig
+  parent tiling_rev
+  shortLabel Etha_3
+  longLabel growth in BMM medium until OD500 of 0.4 replicate 3 (Etha_3-GSM672715)
+  color 201,233,158
+  bigDataUrl tiling-array/lifted_genome/C_46.bw
+
+
+
+
+  track tiling_rev_GSM672716
+  type bigWig
+  parent tiling_rev
+  shortLabel SMM_1
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (SMM_1-GSM672716)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/A_47.bw
+
+
+
+
+  track tiling_rev_GSM672717
+  type bigWig
+  parent tiling_rev
+  shortLabel SMM_2
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (SMM_2-GSM672717)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/B_47.bw
+
+
+
+
+  track tiling_rev_GSM672718
+  type bigWig
+  parent tiling_rev
+  shortLabel SMM_3
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (SMM_3-GSM672718)
+  color 195,230,159
+  bigDataUrl tiling-array/lifted_genome/C_47.bw
+
+
+
+
+  track tiling_rev_GSM672719
+  type bigWig
+  parent tiling_rev
+  shortLabel Salt_1
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 1 (Salt_1-GSM672719)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/A_48.bw
+
+
+
+
+  track tiling_rev_GSM672720
+  type bigWig
+  parent tiling_rev
+  shortLabel Salt_2
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 2 (Salt_2-GSM672720)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/B_48.bw
+
+
+
+
+  track tiling_rev_GSM672721
+  type bigWig
+  parent tiling_rev
+  shortLabel Salt_3
+  longLabel growth in SMM medium until OD500 of 0.4 replicate 3 (Salt_3-GSM672721)
+  color 190,228,161
+  bigDataUrl tiling-array/lifted_genome/C_48.bw
+
+
+
+
+  track tiling_rev_GSM672722
+  type bigWig
+  parent tiling_rev
+  shortLabel Mt0_1
+  longLabel growth in LB until exponential phase replicate 1 (Mt0_1-GSM672722)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/A_49.bw
+
+
+
+
+  track tiling_rev_GSM672723
+  type bigWig
+  parent tiling_rev
+  shortLabel Mt0_2
+  longLabel growth in LB until exponential phase replicate 2 (Mt0_2-GSM672723)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/B_49.bw
+
+
+
+
+  track tiling_rev_GSM672724
+  type bigWig
+  parent tiling_rev
+  shortLabel Mt0_3
+  longLabel growth in LB until exponential phase replicate 3 (Mt0_3-GSM672724)
+  color 184,226,162
+  bigDataUrl tiling-array/lifted_genome/C_49.bw
+
+
+
+
+  track tiling_rev_GSM672725
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t45_1
+  longLabel growth in LB until exponential phase replicate 1 (M0t45_1-GSM672725)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/A_4a.bw
+
+
+
+
+  track tiling_rev_GSM672726
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t45_2
+  longLabel growth in LB until exponential phase replicate 2 (M0t45_2-GSM672726)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/B_4a.bw
+
+
+
+
+  track tiling_rev_GSM672727
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t45_3
+  longLabel growth in LB until exponential phase replicate 3 (M0t45_3-GSM672727)
+  color 178,224,163
+  bigDataUrl tiling-array/lifted_genome/C_4a.bw
+
+
+
+
+  track tiling_rev_GSM672728
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t90_1
+  longLabel growth in LB until exponential phase replicate 1 (M0t90_1-GSM672728)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/A_4b.bw
+
+
+
+
+  track tiling_rev_GSM672729
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t90_2
+  longLabel growth in LB until exponential phase replicate 2 (M0t90_2-GSM672729)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/B_4b.bw
+
+
+
+
+  track tiling_rev_GSM672730
+  type bigWig
+  parent tiling_rev
+  shortLabel M0t90_3
+  longLabel growth in LB until exponential phase replicate 3 (M0t90_3-GSM672730)
+  color 172,221,164
+  bigDataUrl tiling-array/lifted_genome/C_4b.bw
+
+
+
+
+  track tiling_rev_GSM672731
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t45_1
+  longLabel growth in LB until exponential phase replicate 1 (M40t45_1-GSM672731)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/A_4c.bw
+
+
+
+
+  track tiling_rev_GSM672732
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t45_2
+  longLabel growth in LB until exponential phase replicate 2 (M40t45_2-GSM672732)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/B_4c.bw
+
+
+
+
+  track tiling_rev_GSM672733
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t45_3
+  longLabel growth in LB until exponential phase replicate 3 (M40t45_3-GSM672733)
+  color 166,219,164
+  bigDataUrl tiling-array/lifted_genome/C_4c.bw
+
+
+
+
+  track tiling_rev_GSM672734
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t90_1
+  longLabel growth in LB until exponential phase replicate 1 (M40t90_1-GSM672734)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/A_4d.bw
+
+
+
+
+  track tiling_rev_GSM672735
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t90_2
+  longLabel growth in LB until exponential phase replicate 2 (M40t90_2-GSM672735)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/B_4d.bw
+
+
+
+
+  track tiling_rev_GSM672736
+  type bigWig
+  parent tiling_rev
+  shortLabel M40t90_3
+  longLabel growth in LB until exponential phase replicate 3 (M40t90_3-GSM672736)
+  color 160,216,164
+  bigDataUrl tiling-array/lifted_genome/C_4d.bw
+
+
+
+
+  track tiling_rev_GSM672737
+  type bigWig
+  parent tiling_rev
+  shortLabel dia0_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia0_1-GSM672737)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/A_4e.bw
+
+
+
+
+  track tiling_rev_GSM672738
+  type bigWig
+  parent tiling_rev
+  shortLabel dia0_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia0_2-GSM672738)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/B_4e.bw
+
+
+
+
+  track tiling_rev_GSM672739
+  type bigWig
+  parent tiling_rev
+  shortLabel dia0_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia0_3-GSM672739)
+  color 154,214,164
+  bigDataUrl tiling-array/lifted_genome/C_4e.bw
+
+
+
+
+  track tiling_rev_GSM672740
+  type bigWig
+  parent tiling_rev
+  shortLabel dia5_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia5_1-GSM672740)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/A_4f.bw
+
+
+
+
+  track tiling_rev_GSM672741
+  type bigWig
+  parent tiling_rev
+  shortLabel dia5_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia5_2-GSM672741)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/B_4f.bw
+
+
+
+
+  track tiling_rev_GSM672742
+  type bigWig
+  parent tiling_rev
+  shortLabel dia5_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia5_3-GSM672742)
+  color 148,211,164
+  bigDataUrl tiling-array/lifted_genome/C_4f.bw
+
+
+
+
+  track tiling_rev_GSM672743
+  type bigWig
+  parent tiling_rev
+  shortLabel dia15_1
+  longLabel growth in LB until  OD600 of 0.6 replicate 1 (dia15_1-GSM672743)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/A_50.bw
+
+
+
+
+  track tiling_rev_GSM672744
+  type bigWig
+  parent tiling_rev
+  shortLabel dia15_2
+  longLabel growth in LB until  OD600 of 0.6 replicate 2 (dia15_2-GSM672744)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/B_50.bw
+
+
+
+
+  track tiling_rev_GSM672745
+  type bigWig
+  parent tiling_rev
+  shortLabel dia15_3
+  longLabel growth in LB until  OD600 of 0.6 replicate 3 (dia15_3-GSM672745)
+  color 142,209,165
+  bigDataUrl tiling-array/lifted_genome/C_50.bw
+
+
+
+
+  track tiling_rev_GSM672746
+  type bigWig
+  parent tiling_rev
+  shortLabel Diami_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Diami_1-GSM672746)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/A_51.bw
+
+
+
+
+  track tiling_rev_GSM672747
+  type bigWig
+  parent tiling_rev
+  shortLabel Diami_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Diami_2-GSM672747)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/B_51.bw
+
+
+
+
+  track tiling_rev_GSM672748
+  type bigWig
+  parent tiling_rev
+  shortLabel Diami_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Diami_3-GSM672748)
+  color 136,206,165
+  bigDataUrl tiling-array/lifted_genome/C_51.bw
+
+
+
+
+  track tiling_rev_GSM672749
+  type bigWig
+  parent tiling_rev
+  shortLabel Paraq_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Paraq_1-GSM672749)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/A_52.bw
+
+
+
+
+  track tiling_rev_GSM672750
+  type bigWig
+  parent tiling_rev
+  shortLabel Paraq_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Paraq_2-GSM672750)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/B_52.bw
+
+
+
+
+  track tiling_rev_GSM672751
+  type bigWig
+  parent tiling_rev
+  shortLabel Paraq_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Paraq_3-GSM672751)
+  color 129,204,165
+  bigDataUrl tiling-array/lifted_genome/C_52.bw
+
+
+
+
+  track tiling_rev_GSM672752
+  type bigWig
+  parent tiling_rev
+  shortLabel H2O2_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (H2O2_1-GSM672752)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/A_53.bw
+
+
+
+
+  track tiling_rev_GSM672753
+  type bigWig
+  parent tiling_rev
+  shortLabel H2O2_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (H2O2_2-GSM672753)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/B_53.bw
+
+
+
+
+  track tiling_rev_GSM672754
+  type bigWig
+  parent tiling_rev
+  shortLabel H2O2_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (H2O2_3-GSM672754)
+  color 122,201,165
+  bigDataUrl tiling-array/lifted_genome/C_53.bw
+
+
+
+
+  track tiling_rev_GSM672755
+  type bigWig
+  parent tiling_rev
+  shortLabel Oxctl_1
+  longLabel growth in LB until OD540 of 0.3 replicate 1 (Oxctl_1-GSM672755)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/A_54.bw
+
+
+
+
+  track tiling_rev_GSM672756
+  type bigWig
+  parent tiling_rev
+  shortLabel Oxctl_2
+  longLabel growth in LB until OD540 of 0.3 replicate 2 (Oxctl_2-GSM672756)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/B_54.bw
+
+
+
+
+  track tiling_rev_GSM672757
+  type bigWig
+  parent tiling_rev
+  shortLabel Oxctl_3
+  longLabel growth in LB until OD540 of 0.3 replicate 3 (Oxctl_3-GSM672757)
+  color 115,199,165
+  bigDataUrl tiling-array/lifted_genome/C_54.bw
+
+
+
+
+  track tiling_rev_GSM672758
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.1_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM-0.1_1-GSM672758)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/A_55.bw
+
+
+
+
+  track tiling_rev_GSM672759
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.2_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM-0.2_1-GSM672759)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/A_56.bw
+
+
+
+
+  track tiling_rev_GSM672760
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+5_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+5_1-GSM672760)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/A_57.bw
+
+
+
+
+  track tiling_rev_GSM672761
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+15_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+15_1-GSM672761)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/A_58.bw
+
+
+
+
+  track tiling_rev_GSM672762
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+25_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+25_1-GSM672762)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/A_59.bw
+
+
+
+
+  track tiling_rev_GSM672763
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+45_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+45_1-GSM672763)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/A_5a.bw
+
+
+
+
+  track tiling_rev_GSM672764
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+60_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+60_1-GSM672764)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/A_5b.bw
+
+
+
+
+  track tiling_rev_GSM672765
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+90_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+90_1-GSM672765)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/A_5c.bw
+
+
+
+
+  track tiling_rev_GSM672766
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+120_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+120_1-GSM672766)
+  color 74,154,182
+  bigDataUrl tiling-array/lifted_genome/A_5d.bw
+
+
+
+
+  track tiling_rev_GSM672767
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+150_1
+  longLabel shift from glucose to malate+glucose replicate 1 (GM+150_1-GSM672767)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/A_5e.bw
+
+
+
+
+  track tiling_rev_GSM672768
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.1_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM-0.1_2-GSM672768)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/B_55.bw
+
+
+
+
+  track tiling_rev_GSM672769
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.2_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM-0.2_2-GSM672769)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/B_56.bw
+
+
+
+
+  track tiling_rev_GSM672770
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+5_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+5_2-GSM672770)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/B_57.bw
+
+
+
+
+  track tiling_rev_GSM672771
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+10_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+10_2-GSM672771)
+  color 61,143,186
+  bigDataUrl tiling-array/lifted_genome/B_5f.bw
+
+
+
+
+  track tiling_rev_GSM672772
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+15_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+15_2-GSM672772)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/B_58.bw
+
+
+
+
+  track tiling_rev_GSM672773
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+25_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+25_2-GSM672773)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/B_59.bw
+
+
+
+
+  track tiling_rev_GSM672774
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+45_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+45_2-GSM672774)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/B_5a.bw
+
+
+
+
+  track tiling_rev_GSM672775
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+60_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+60_2-GSM672775)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/B_5b.bw
+
+
+
+
+  track tiling_rev_GSM672776
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+90_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+90_2-GSM672776)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/B_5c.bw
+
+
+
+
+  track tiling_rev_GSM672777
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+150_2
+  longLabel shift from glucose to malate+glucose replicate 2 (GM+150_2-GSM672777)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/B_5e.bw
+
+
+
+
+  track tiling_rev_GSM672778
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.1_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM-0.1_3-GSM672778)
+  color 108,196,165
+  bigDataUrl tiling-array/lifted_genome/C_55.bw
+
+
+
+
+  track tiling_rev_GSM672779
+  type bigWig
+  parent tiling_rev
+  shortLabel GM-0.2_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM-0.2_3-GSM672779)
+  color 101,193,166
+  bigDataUrl tiling-array/lifted_genome/C_56.bw
+
+
+
+
+  track tiling_rev_GSM672780
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+5_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+5_3-GSM672780)
+  color 98,187,168
+  bigDataUrl tiling-array/lifted_genome/C_57.bw
+
+
+
+
+  track tiling_rev_GSM672781
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+10_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+10_3-GSM672781)
+  color 61,143,186
+  bigDataUrl tiling-array/lifted_genome/C_5f.bw
+
+
+
+
+  track tiling_rev_GSM672782
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+15_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+15_3-GSM672782)
+  color 95,182,170
+  bigDataUrl tiling-array/lifted_genome/C_58.bw
+
+
+
+
+  track tiling_rev_GSM672783
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+25_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+25_3-GSM672783)
+  color 92,176,173
+  bigDataUrl tiling-array/lifted_genome/C_59.bw
+
+
+
+
+  track tiling_rev_GSM672784
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+45_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+45_3-GSM672784)
+  color 88,171,175
+  bigDataUrl tiling-array/lifted_genome/C_5a.bw
+
+
+
+
+  track tiling_rev_GSM672785
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+60_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+60_3-GSM672785)
+  color 83,165,177
+  bigDataUrl tiling-array/lifted_genome/C_5b.bw
+
+
+
+
+  track tiling_rev_GSM672786
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+90_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+90_3-GSM672786)
+  color 79,160,180
+  bigDataUrl tiling-array/lifted_genome/C_5c.bw
+
+
+
+
+  track tiling_rev_GSM672787
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+120_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+120_3-GSM672787)
+  color 74,154,182
+  bigDataUrl tiling-array/lifted_genome/C_5d.bw
+
+
+
+
+  track tiling_rev_GSM672788
+  type bigWig
+  parent tiling_rev
+  shortLabel GM+150_3
+  longLabel shift from glucose to malate+glucose replicate 3 (GM+150_3-GSM672788)
+  color 68,149,184
+  bigDataUrl tiling-array/lifted_genome/C_5e.bw
+
+
+
+
+  track tiling_rev_GSM672789
+  type bigWig
+  parent tiling_rev
+  shortLabel MG-0.1_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG-0.1_1-GSM672789)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/A_60.bw
+
+
+
+
+  track tiling_rev_GSM672790
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+5_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+5_1-GSM672790)
+  color 55,133,187
+  bigDataUrl tiling-array/lifted_genome/A_61.bw
+
+
+
+
+  track tiling_rev_GSM672791
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+10_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+10_1-GSM672791)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/A_62.bw
+
+
+
+
+  track tiling_rev_GSM672792
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+15_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+15_1-GSM672792)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/A_63.bw
+
+
+
+
+  track tiling_rev_GSM672793
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+25_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+25_1-GSM672793)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/A_64.bw
+
+
+
+
+  track tiling_rev_GSM672794
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+45_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+45_1-GSM672794)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/A_65.bw
+
+
+
+
+  track tiling_rev_GSM672795
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+120_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+120_1-GSM672795)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/A_66.bw
+
+
+
+
+  track tiling_rev_GSM672796
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+150_1
+  longLabel shift from malate to malate+glucose replicate 1 (MG+150_1-GSM672796)
+  color 84,101,172
+  bigDataUrl tiling-array/lifted_genome/A_67.bw
+
+
+
+
+  track tiling_rev_GSM672797
+  type bigWig
+  parent tiling_rev
+  shortLabel MG-0.1_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG-0.1_2-GSM672797)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/B_60.bw
+
+
+
+
+  track tiling_rev_GSM672798
+  type bigWig
+  parent tiling_rev
+  shortLabel MG-0.2_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG-0.2_2-GSM672798)
+  color 87,96,170
+  bigDataUrl tiling-array/lifted_genome/B_68.bw
+
+
+
+
+  track tiling_rev_GSM672799
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+t5_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+t5_2-GSM672799)
+  color 90,90,167
+  bigDataUrl tiling-array/lifted_genome/B_69.bw
+
+
+
+
+  track tiling_rev_GSM672800
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+10_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+10_2-GSM672800)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/B_62.bw
+
+
+
+
+  track tiling_rev_GSM672801
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+15_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+15_2-GSM672801)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/B_63.bw
+
+
+
+
+  track tiling_rev_GSM672802
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+25_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+25_2-GSM672802)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/B_64.bw
+
+
+
+
+  track tiling_rev_GSM672803
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+45_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+45_2-GSM672803)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/B_65.bw
+
+
+
+
+  track tiling_rev_GSM672804
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+60_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+60_2-GSM672804)
+  color 92,85,165
+  bigDataUrl tiling-array/lifted_genome/B_6a.bw
+
+
+
+
+  track tiling_rev_GSM672805
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+90_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+90_2-GSM672805)
+  color 94,79,162
+  bigDataUrl tiling-array/lifted_genome/B_6b.bw
+
+
+
+
+  track tiling_rev_GSM672806
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+120_2
+  longLabel shift from malate to malate+glucose replicate 2 (MG+120_2-GSM672806)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/B_66.bw
+
+
+
+
+  track tiling_rev_GSM672807
+  type bigWig
+  parent tiling_rev
+  shortLabel MG-0.1_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG-0.1_3-GSM672807)
+  color 54,138,188
+  bigDataUrl tiling-array/lifted_genome/C_60.bw
+
+
+
+
+  track tiling_rev_GSM672808
+  type bigWig
+  parent tiling_rev
+  shortLabel MG-0.2_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG-0.2_3-GSM672808)
+  color 87,96,170
+  bigDataUrl tiling-array/lifted_genome/C_68.bw
+
+
+
+
+  track tiling_rev_GSM672809
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+5_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+5_3-GSM672809)
+  color 55,133,187
+  bigDataUrl tiling-array/lifted_genome/C_61.bw
+
+
+
+
+  track tiling_rev_GSM672810
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+10_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+10_3-GSM672810)
+  color 62,128,185
+  bigDataUrl tiling-array/lifted_genome/C_62.bw
+
+
+
+
+  track tiling_rev_GSM672811
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+15_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+15_3-GSM672811)
+  color 68,122,182
+  bigDataUrl tiling-array/lifted_genome/C_63.bw
+
+
+
+
+  track tiling_rev_GSM672812
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+25_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+25_3-GSM672812)
+  color 73,117,180
+  bigDataUrl tiling-array/lifted_genome/C_64.bw
+
+
+
+
+  track tiling_rev_GSM672813
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+45_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+45_3-GSM672813)
+  color 77,112,177
+  bigDataUrl tiling-array/lifted_genome/C_65.bw
+
+
+
+
+  track tiling_rev_GSM672814
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+60_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+60_3-GSM672814)
+  color 92,85,165
+  bigDataUrl tiling-array/lifted_genome/C_6a.bw
+
+
+
+
+  track tiling_rev_GSM672815
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+90_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+90_3-GSM672815)
+  color 94,79,162
+  bigDataUrl tiling-array/lifted_genome/C_6b.bw
+
+
+
+
+  track tiling_rev_GSM672816
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+120_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+120_3-GSM672816)
+  color 81,107,175
+  bigDataUrl tiling-array/lifted_genome/C_66.bw
+
+
+
+
+  track tiling_rev_GSM672817
+  type bigWig
+  parent tiling_rev
+  shortLabel MG+150_3
+  longLabel shift from malate to malate+glucose replicate 3 (MG+150_3-GSM672817)
+  color 84,101,172
+  bigDataUrl tiling-array/lifted_genome/C_67.bw
+
+

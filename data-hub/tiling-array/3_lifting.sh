@@ -1,3 +1,6 @@
+# Do liftover of everything from old_genome to the one used in the BSGatlas
+# Assumption: working dir is data-hub/tiling-array
+
 for i in old_genome/GSM*.bed ; do
     x=$(basename $i)
     echo $x

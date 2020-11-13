@@ -1,3 +1,6 @@
+# Creates the liftover file
+# Assumption: working dir is data-hub/tiling-array
+
 P=$(pwd -L)
 to="genome.fna.gz"
 src="old_genome.fasta.gz"

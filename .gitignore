@@ -5,6 +5,7 @@
 
 # GEO is too large
 data-raw/GEO
+data-hub/tiling-array/old_genome
 
 ### Bookdown ###
 # R package: bookdown caching files
