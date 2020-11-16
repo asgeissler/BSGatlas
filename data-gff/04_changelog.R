@@ -116,6 +116,14 @@ tbl(con, 'details') %>%
 # WHERE (`version` = 'v1.1')
 # ORDER BY `mode`, `type`, `id`
 
+tbl(con, 'details') %>%
+  filter(id == "BSGatlas-transcript-4791") %>%
+  select(mode, version) %>%
+  show_query()
+# SELECT `mode`, `version`
+# FROM `details`
+# WHERE (`id` = 'BSGatlas-transcript-4791')
+
 DBI::dbDisconnect(con)
 
 
