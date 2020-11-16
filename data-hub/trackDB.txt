@@ -106,7 +106,7 @@ shortLabel Merged Gene Annotation Resources
 longLabel Genes that were merged separated by priority
 visibility hide
 labelFields name,ID
-defaultLabelFields name
+defaultLabelFields ID
 itemRgb on
 priority 10
 subGroup1 agg Aggracation-Category bsubcyc=BsubCyc refseq=RefSeq lit=Literature rfam=Rfam nicolas=Tilling-Array
@@ -179,7 +179,7 @@ html track_description.html
   shortLabel Nicolas et al. predictions
   longLabel Nicolas et al. predictions
   subGroups agg=nicolas prio=e
-  bigDataUrl individual/Nicolas-et-al.-predictions.bb
+  bigDataUrl individual/Nicolas-et-al.-predicted.bb
   
   
   
