@@ -393,9 +393,25 @@ foo %>%
   arrange(i) %>%
   select(-set, -i) %>%
   rename(set = new.name) -> p3
+
+
+# Rfam families
+all.meta %>%
+  filter(Resource == '5 Rfam') %>%
+  select(- Resource) %>%
+  spread(meta, info) %>%
+  rename(gene = id) %>%
+  left_join(nice.name, 'gene') %>%
+  transmute(
+    group = 'Rfam',
+    gene,
+    name = sprintf('%s (%s)', name, gene),
+    set = sprintf('%s: %s (%s)', Family, Name, Type)
+  ) %>%
+  arrange(set, name) -> p4
   
 
-bind_rows(p1, p2, p3) %>%
+bind_rows(p1, p2, p3, p4) %>%
   arrange(group, set, tolower(name)) %>%
   unique -> genesets
 
@@ -405,47 +421,32 @@ bind_rows(p1, p2, p3) %>%
 
 searchable <- c(
   "Name", "Alternative Name",
-  "Locus Tag", "Alternative Locus Tag"
+  "Locus Tag", "Alternative Locus Tag", "Description"
 )
 
 all.meta %>%
-  filter(Resource == '4 BsubCyc', meta == 'Description') %>%
-  select(id, info) %>%
+  # primary info for display of search results
+  filter(((Resource == '1 BSGatlas')  & (meta == 'Name')) |
+         ((Resource == '1 BSGatlas')  & (meta == 'Type')) |
+         ((Resource == '4 BsubCyc') & (meta == 'Description'))) %>%
+  select(id, meta, info) %>%
   unique %>%
-  drop_na %>%
-  filter(info != '') %>%
-  rename(desc = info) -> txt
-
-all.meta %>%
-  filter(meta == 'Type', Resource == '1 BSGatlas') %>%
-  select(id, type = info) %>%
-  unique %>%
-  bind_rows(
-    bsg.boundaries %>%
-      `[`(c('TSS', 'terminator')) %>%
-      map2(names(.), ~ mutate(.x, type = .y)) %>%
-      map(select, id, type) %>%
-      bind_rows,
-    isoforms %>%
-      set_names(c('Operon', 'Transcript', 'TU')) %>%
-      map2(names(.), ~ mutate(.x, type = .y)) %>%
-      map(select, id, type) %>%
-      bind_rows
-  ) -> types
-  
-all.meta %>%
-  filter(meta %in% searchable) %>%
-  select(- Resource) %>%
-  unique %>%
-  group_by(id, meta) %>%
-  arrange(info) %>%
-  summarize(info = info %>% invoke(.f = str_c, sep = ';')) -> look
-
-look %>%
   spread(meta, info, fill = '') %>%
-  left_join(txt) %>%
-  left_join(types) %>%
-  mutate(desc = ifelse(is.na(desc), type, desc)) -> search
+  left_join(
+    bind_rows(
+      all.meta %>%
+        filter(meta %in% searchable) %>%
+        select(id, info) %>%
+        drop_na %>%
+        filter(info != '') %>%
+        unique,
+      all.meta %>%
+        transmute(id, info = id) %>%
+        unique
+    ),
+    'id'
+  ) %>%
+  select(id, Name, desc = Description, search = info) -> search
 
 #########################################################################
 # Make an SQLite version
