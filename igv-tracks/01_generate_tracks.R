@@ -155,9 +155,7 @@ bsg.boundaries$TSS %>%
     name = sprintf('sigma %s', sigma), score = res.limit,
     strand,
     start2 = start - 1, end2 = end,
-    rgb, src,
-    extra = sprintf('Sigma=%s<br/>Resolution limit=%s<br/>PubMed: %s',
-                    sigma, res.limit, pubmed)
+    rgb, id
   ) %>%
   arrange(start1, desc(end1)) %>%
   mutate(start1 = pmax(start1, 0)) %>%
@@ -174,8 +172,7 @@ bsg.boundaries$terminator %>%
     score = 0,
     strand,
     start2 = start3, end2 = end,
-    rgb, src,
-    extra = sprintf('Free energy: %.2f[kcal/mol]', energy)
+    rgb, id
   ) %>%
   write_tsv('igv-tracks/terminator.bed', col_names = FALSE)
 
@@ -195,7 +192,7 @@ UTRs %>%
     strand,
     start2 = start3,
     end2 = end,
-    rgb
+    rgb, id
   ) %>%
   write_tsv('igv-tracks/utrs.bed', col_names = FALSE)
 
@@ -230,11 +227,9 @@ isoforms$transcripts %>%
     name = id,
     score = 0,
     strand.trans,
-    start3 = start.tu - 1,
-    end3 = end.tu,
-    rgb,
-    src,
-    extra
+    start3 = start.trans - 1,
+    end3 = end.trans,
+    rgb, id
   ) -> trans
 
 
