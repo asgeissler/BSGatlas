@@ -127,9 +127,7 @@ foo %>%
   select(gene, locus, name, everything()) %>%
   mutate(highlight = 1:n() %% 2 == 0) -> dat
 ##################################
-# some amazin helpers
-xs <- dat
-
+# some amazing helpers
 myAdd <- function(xs, lab) {
   sheet <- createSheet(out, lab)
   
@@ -139,12 +137,12 @@ myAdd <- function(xs, lab) {
     select(-highlight) %>%
     as.matrix -> xs2
   
-  cb <- CellBlock(sheet, 1, nrow(xs) + 1, 1, ncol(xs))
+  cb <- CellBlock(sheet, 1, 1, nrow(xs2) + 1, ncol(xs2))
   
   # header
   CB.setRowData(
     cb,
-    names(xs),
+    names(xs2),
     1,
     rowStyle = CellStyle(out) + fonts$head + header
   )
@@ -154,15 +152,15 @@ myAdd <- function(xs, lab) {
     cb,
     xs2,
     2, 1,
-    cellStyle = CellStyle(out) + fonts$head + header
+    cellStyle = CellStyle(out) + fonts$data
   )
   #The row-wise highlight
-  xs3 <- matrix(FALSE, nrow(xs), ncol(xs))
+  xs3 <- matrix(FALSE, nrow(xs2), ncol(xs2))
   xs3[xs$highlight, ] <- TRUE
   xs3 <- which(xs3, arr.ind = TRUE)
   CB.setFill(cb, highlight, xs3[, 1] + 1, xs3[, 2])
   
-  autoSizeColumn(sheet, 1:ncol(xs)) 
+  autoSizeColumn(sheet, 1:ncol(xs2)) 
   return(sheet)
 }
 
