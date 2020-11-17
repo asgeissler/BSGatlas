@@ -22,7 +22,7 @@ createFonts <- function(wb) {
   list(
     data = Font(wb, heightInPoints = 16, name='Calibri'),
     head = Font(wb, heightInPoints = 18, name='Calibri',
-                color = '#FFFFFF'),
+                color = '#EEEEEE', isBold = TRUE),
     bold = Font(wb, heightInPoints = 18, name='Calibri',
                  isBold = TRUE, color = '#44546A'),
     title = Font(wb, heightInPoints = 22, name='Calibri',
@@ -50,6 +50,8 @@ more <- tribble(
   'Table of the coding/non-coding genes after the gene mergin procedure and indication from which resources the annotaiton originated.',
   'Operons',
   'Table of the operons and their contained genes and the genome coordinates of the genes. The rows are colored alternatingly between operons.',
+  'TU',
+  'Transcriptional Units (TU). The set of co-transcribed genes without indication of TSS/Terminator.',
   'Transcripts',
   "List of transcripts. The contained genes are indicated with the list of names separated by an underscore '_'. If available, the associated TSS and Terminator are shown. The length of the 5' and 3' UTR and the number internal UTRs are indicates, as well as which annotaiton resources provided evidence for co-transcription. The BSGatlas does not provide UTR lengths shorter than 15 bp, such short UTR lengths are generally stated with '<15'.",
   "5'/3' UTRs",
@@ -92,12 +94,12 @@ addDataFrame(
   col.names = TRUE, row.names = FALSE,
   startRow = 5,
   colStyle = cslist,
-  colnamesStyle = CellStyle(out) + fonts$head + header
+  colnamesStyle = CellStyle(out) + header + fonts$head
 )
 
 setRowHeight(getRows(sheet, 5 + (1:nrow(more))), multiplier = 4.5)
 
-setRowHeight(getRows(sheet, 8), multiplier = 7)
+setRowHeight(getRows(sheet, 9), multiplier = 7)
 
 setColumnWidth(sheet, 1, 50)
 setColumnWidth(sheet, 2, 100)
@@ -107,7 +109,7 @@ setColumnWidth(sheet, 2, 100)
 merging$merged_src %>%
   select(merged_id, src) %>%
   group_by(merged_id) %>%
-  summarize(src = str_c(src, collapse = ';')) -> foo
+  summarize(src = str_c(src, collapse = ', ')) -> foo
 
 merging$merged_genes %>%
   left_join(foo, 'merged_id') %>%
@@ -127,7 +129,7 @@ foo %>%
   select(gene, locus, name, everything()) %>%
   mutate(highlight = 1:n() %% 2 == 0) -> dat
 ##################################
-# some amazing helpers
+# some amazing helper
 myAdd <- function(xs, lab) {
   sheet <- createSheet(out, lab)
   
@@ -142,7 +144,7 @@ myAdd <- function(xs, lab) {
   # header
   CB.setRowData(
     cb,
-    names(xs2),
+    colnames(xs2),
     1,
     rowStyle = CellStyle(out) + fonts$head + header
   )
@@ -160,12 +162,12 @@ myAdd <- function(xs, lab) {
   xs3 <- which(xs3, arr.ind = TRUE)
   CB.setFill(cb, highlight, xs3[, 1] + 1, xs3[, 2])
   
-  autoSizeColumn(sheet, 1:ncol(xs2)) 
+  autoSizeColumn(sheet, 1:ncol(xs2))
+  
   return(sheet)
 }
 
 sheet <- myAdd(dat, 'Genes')
-saveWorkbook(out, 'xlsx-table/foo.xlsx')
 ##############################################################################
 # Operons
 isoforms$operons %>%
@@ -183,51 +185,49 @@ isoforms$operons %>%
            as.integer) %>%
   arrange(tmp, start, end) %>%
   select(-tmp) %>%
-  unique -> dat
-
-sheet <- myAdd(dat, 'Operons')
-
-# add an alternating coloration
-toggle <- replace_na(dat$operon != lag(dat$operon), FALSE)
-
-toggle %>%
-  accumulate(xor) %>%
-  myHigh(sheet, ncol(dat))
-
+  unique  %>%
+  mutate(
+    toggle = replace_na(operon != lag(operon), FALSE),
+    highlight = accumulate(toggle, xor)
+  ) %>%
+  select(-toggle) %>%
+  myAdd("Operons")
 ##############################################################################
-##############################################################################
-##############################################################################
-##############################################################################
-saveWorkbook(out, 'xlsx-table/foo.xlsx')
-##############################################################################
-
-
-
-
-##########
-# Transcripts
-
-# nice names of contained genes
+# TU 
 isoforms$tus %>%
-  select(id, src, genes) %>%
+  select(id, src, start, genes) %>%
   separate_rows(genes, sep = ';')  %>%
   inner_join(merging$merged_genes, c('genes' = 'merged_id')) %>%
   mutate_at('merged_name', replace_na, 'unnamed_gene') %>%
-  select(id, src, genes, name = merged_name) %>%
+  select(id, src, start.x, genes, name = merged_name, start.y) %>%
   unique %>%
-  mutate(tmp = genes %>%
-           strsplit('-gene-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(id, src, tmp) %>%
-  group_by(id, src) %>%
-  summarize(contained_genes = name %>%
-              invoke(.f = paste, sep = '-')) %>%
+  group_by(id, src, start.x) %>%
+  arrange(id, start.y) %>%
+  summarize(cotranscribed_genes = name %>%
+              invoke(.f = paste, sep = ', '),
+            cotranscribed_genes_id = str_c(genes, collapse = ', ')) %>%
   ungroup %>%
-  select(tu = id, contained_genes, origin = src) -> bar
+  left_join(
+    isoforms$operons %>%
+      select(operon = id, id = TUs, o.start = utr.start) %>%
+      separate_rows(id, sep = ';'),
+    'id'
+  ) %>%
+  arrange(o.start, start.x) %>%
+  mutate_at('src', str_replace_all, ';', ', ') %>%
+  select(operon, TU = id, 'annotation origin' = src,
+         'co-transcribed genes' = cotranscribed_genes,
+         'ids' = cotranscribed_genes_id) %>%
+  mutate(
+    toggle = replace_na(operon != lag(operon), FALSE),
+    highlight = accumulate(toggle, xor)
+  ) %>%
+  select(-toggle) -> tu.dat
 
-# UTR stat
+myAdd(tu.dat, 'TU')
+##############################################################################
+# Trnascripts incl. UTR stat
+
 isoforms$transcripts %>%
   select(id, features) %>%
   separate_rows(features, sep = ';')  %>%
@@ -250,154 +250,90 @@ foo %>%
       filter(type == '3\'UTR') %>%
       select(id, "3' UTR length" = len),
     'id'
-  ) -> foo
+  ) -> utr.stat
+
+
 
 # combine together with the TSS/terminators info
 isoforms$transcripts %>%
-  left_join(bar, c('TUs' = 'tu')) %>%
-  select(- features, - TUs ) %>%
-  left_join(foo, 'id') %>%
+  rename(TU = TUs) %>%
+  left_join(tu.dat, 'TU') %>%
+  left_join(utr.stat, 'id') %>%
   mutate_at('nr. of internal UTRs', replace_na, 0) %>%
   mutate_at('5\' UTR length', replace_na, '<15') %>%
   mutate_at('3\' UTR length', replace_na, '<15') %>%
   select(
     transcript = id,
-    contained_genes, 
     start, end, strand, 
     `nr. of internal UTRs`, `5\' UTR length`, `3\' UTR length`,
-    'evidence of co-transcription' = origin,
-    TSS, Terminator
-  ) -> foo
-
-foo %>%
-  mutate(tmp = transcript %>%
-           strsplit('-transcript-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', transcript),
-    transcript = sprintf('=HYPERLINK("%s","%s")', http, transcript)
+    'transcribed genes' = `co-transcribed genes`, 
+    'underlying TU' = TU,
+    TSS, Terminator,
+    operon
   ) %>%
-  select(-http) %>%
-  write_csv('transcripts.csv')
-
-##########
-  write_csv('genes.csv')
-
-##########
+  left_join(
+    isoforms$operon %>%
+      select(operon = id, o.start = utr.start)
+  ) %>%
+  arrange(o.start, start) %>%
+  select(- o.start) %>%
+  mutate(
+    toggle = replace_na(operon != lag(operon), FALSE),
+    highlight = accumulate(toggle, xor)
+  ) %>%
+  select(-toggle) %>%
+  myAdd('Transcripts')
+##############################################################################
+UTRs %>%
+  bind_rows %>%
+  select(-boundary)  %>%
+  left_join(
+    isoforms$transcripts %>%
+      select(transcript = id, id = features) %>%
+      separate_rows(id, sep = ';'),
+    'id'
+  ) %>%
+  group_by(type, id, start, end, strand) %>%
+  summarize_at('transcript', str_c, collapse = ', ') %>%
+  arrange(type, start, desc(end))  %>%
+  group_by(type) %>%
+  do(i = list(.)) %>%
+  with(set_names(i, type)) %>%
+  map(1) %>%
+  map(select, - type) %>%
+  map(mutate, highlight = 1:n() %% 2 == 0) %>%
+  map2(names(.), ~ myAdd(.x, .y))
+    
+##############################################################################
 # TSS
-
 bsg.boundaries$TSS %>%
-  mutate(tmp = id %>%
-           strsplit('-TSS-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', id),
-    id = sprintf('=HYPERLINK("%s","%s")', http, id)
-  ) %>%
-  select(-http) %>%
+  mutate_at(c('pubmed', 'src', 'sigma'), str_replace_all, ';', ', ') %>%
+  rename(TSS = start) %>%
+  arrange(TSS) %>%
   select(TSS = id, position = TSS, strand,
-         'resolution limit' = res.limit, sigma,
+         'resolution' = res.limit,
+         'binding sigma factors' = sigma,
          'related PubMed entries' = pubmed,
          'annotation origin' = src) %>%
-  write_csv('tss.csv')
-
-
-##########
+  mutate(highlight = 1:n() %% 2 == 0) %>%
+  myAdd('TSS')
+##############################################################################
 # Terminator
 
 bsg.boundaries$terminator %>%
-  mutate(tmp = id %>%
-           strsplit('-terminator-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', id),
-    id = sprintf('=HYPERLINK("%s","%s")', http, id)
-  ) %>%
-  select(-http) %>%
+  arrange(start, desc(end)) %>%
+  mutate(energy = sprintf('%.2f', energy)) %>%
   select(Terminator = id, start, end, strand,
          'Free energy [kcal/mol]' = energy,
          'annotation origin' = src) %>%
-  write_csv('terminator.csv')
-
-##########
-# UTR Features
-
-UTRs$`3'UTR` %>%
-  mutate(tmp = id %>%
-           strsplit('-3\'UTR-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', id),
-    id = sprintf('=HYPERLINK("%s","%s")', http, id)
-  ) %>%
-  select(-http) %>%
-  transmute(id, start, end, strand,
-            length = end - start + 1,
-         'associated gene' = gene,
-         'associated Terminator' = boundary) %>%
-  write_csv('3UTR.csv')
-
-UTRs$`5'UTR` %>%
-  mutate(tmp = id %>%
-           strsplit('-5\'UTR-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', id),
-    id = sprintf('=HYPERLINK("%s","%s")', http, id)
-  ) %>%
-  select(-http) %>%
-  transmute(id, start, end, strand,
-            length = end - start + 1,
-         'associated gene' = gene,
-         'associated TSS' = boundary) %>%
-  write_csv('5UTR.csv')
-
-UTRs$internal_UTR %>%
-  select(id, tu = boundary) %>%
-  separate_rows(tu, sep = ';') %>%
-  mutate_at('tu', str_replace, '-tu-', '-TU-') %>%
-  left_join(isoforms$tus, c('tu' = 'id')) %>%
-  select(id, src) %>%
-  separate_rows(src, sep = ';') %>%
-  unique %>%
-  group_by(id) %>%
-  summarise(src = invoke(paste, src, sep = ';')) -> foo
+  mutate(highlight = 1:n() %% 2 == 0) %>%
+  myAdd('Terminators')
+##############################################################################
+##############################################################################
+saveWorkbook(out, 'xlsx-table/BSGatlas-v1.1.xlsx')
+##############################################################################
 
 
-UTRs$internal_UTR %>%
-  mutate(tmp = id %>%
-           strsplit('-internal_UTR-') %>%
-           map(2) %>%
-           unlist %>%
-           as.integer) %>%
-  arrange(tmp) %>%
-  select(-tmp) %>%
-  left_join(foo, 'id') %>%
-  mutate(
-    http = sprintf('https://rth.dk/resources/bsgatlas/details.php?id=%s', id),
-    id = sprintf('=HYPERLINK("%s","%s")', http, id)
-  ) %>%
-  select(-http) %>%
-  select(id, start, end, strand,
-         'implied by co-transcription evidence from' = src) %>%
-  write_csv('intUTR.csv')
+
+
+
