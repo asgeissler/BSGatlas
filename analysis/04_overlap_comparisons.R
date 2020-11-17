@@ -66,6 +66,15 @@ cmp %>%
   filter(total.diff <= 500) %>%
   count(nice, total.diff.cat) %>%
   spread(total.diff.cat, n, fill = 0) -> stat
+# nice                         `No difference` `[1,10]` `(10,50]` `(50,100]` `(100,250]` `(250,500]`
+# 1 RefSeq coding (0)                       4324        0         0          0           1           0
+# 2 BsubCyc coding (1)                      4139       18        13         12           6           0
+# 3 RefSeq non-coding (2)                     67      143         1          1           0           0
+# 4 Rfam conservative (2)                    115       88         7          2           2           0
+# 5 BsubCyc non-coding (3)                    39      137         4          2           1           1
+# 6 Dar et al. riboswitches (3)               28        6        15         27           6           0
+# 7 Nicolas et al. predicted (4)             132        0        11          4           3           1
+# 8 Rfam medium (4)                          123       92        10          2           2           1
 
 View(stat)
 
@@ -114,6 +123,13 @@ cmp.dist %>%
   # mutate(dist.cut = c('Overlapping', '1..10', '10..100', '100..1,000',
   #                     # '1,000..10,000', '10,000+')) %>%
   #                     '1,000+')) %>%
-  rename('distance to closest gene' = dist.cut) %>%
-  View
+  rename('distance to closest gene' = dist.cut) -> foo
+View(foo)
+# `distance to closest gene` `3' UTR` `5' UTR`  intergenic internal
+# 1 Overlapping                24 (10%) 74 (11%)  18 (6%)    12 (6%) 
+# 2 0..100                     40 (16%) 210 (31%) 78 (24%)   81 (44%)
+# 3 100..500                   87 (35%) 337 (50%) 166 (52%)  83 (45%)
+# 4 500..1,000                 53 (21%) 40 (6%)   35 (11%)   8 (4%)  
+# 5 1,000..2,000               38 (15%) 8 (1%)    18 (6%)    2 (1%)  
+# 6 2,000+                     7 (3%)   7 (1%)    4 (1%)     0   
 
