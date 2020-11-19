@@ -476,10 +476,10 @@ grand.stat %>%
 tribble(
   ~ `Operon class`, ~ `Streptococcus pneumoniae`,
   ~ `Escherichia coli`, ~ `Bacillus subtilis`,
-  'Simple', 47, 45, 43,
-  'Traditional', 10, 19, 12,
+  'Simple', 47, 45, 46,
+  'Traditional', 10, 19, 13,
   'Multi TSS', 1, 21, 21,
-  'Multi TTS', 16, 7, 13,
+  'Multi TTS', 16, 7, 10,
   'Complex', 26, 8, 11
 ) %>%
   # map_if(is.numeric, sum)
