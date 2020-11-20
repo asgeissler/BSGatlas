@@ -545,16 +545,23 @@ nicolas$all.features %>%
   ) %>%
   drop_na -> over.ref
 
+# load('analysis/02_merging.rda')
 UTRs %>%
   bind_rows %>%
   mutate(len = end - start + 1) %>%
   # pull(len) %>% summary
   select(id, type, start, end, strand) %>%
+  # bind_rows(
+  #   merging$merged_genes %>%
+  #     transmute(id = merged_id, type = 'gene',
+  #               start, end, strand)
+  # ) %>%
   overlap_matching(over.ref) %>%
   filter(!antisense) %>%
   drop_na(x, y) -> cmp
 
 cmp %>%
+  # filter(overlap >= 25) %>%
   select(id = y, x.type) %>%
   unique %>%
   group_by(id) %>%
@@ -578,6 +585,41 @@ bind_rows(bar, foo) %>%
 
 write_tsv(utr.stat, 'analysis/06_utrstat.tsv')
 View(utr.stat)
+## those without overlaps
+
+over.ref %>%
+  anti_join(cmp, c('id' = 'y')) %>%
+  select(locus = id, over.type = type) %>%
+  left_join(nicolas$all.features, 'locus') %>%
+  group_by(over.type) %>%
+  top_n(3) %>%
+  select(locus, over.type, start, end, strand)
+#   select(locus, over.type, name) %>%
+#   left_join(
+#     readxl::read_excel('data-raw/nicolas/TableS4.xlsx') %>%
+#       select(id, listShort, listLong) %>%
+#       gather('k', 'name', listShort, listLong) %>%
+#       drop_na() %>%
+#       separate_rows(name, sep = ', ') %>%
+#       select(name) %>%
+#       unique %>%
+#       mutate(has.tu = TRUE),
+#     'name'
+#   ) %>%
+#   count(over.type, has.tu)
+
+cmp %>%
+  drop_na(x) %>%
+  select(x) %>%
+  unique %>%
+  nrow() %>%
+  `/`(
+    UTRs %>%
+      map(nrow) %>%
+      unlist %>%
+      sum
+  )
+
 
 ###########################################################################
 # why missed
