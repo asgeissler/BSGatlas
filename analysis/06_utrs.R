@@ -531,130 +531,48 @@ bind_rows(
 
 ###########################################################################
 # b) comparison of overlaps
+nicolas$all.features %>%
+  select(id = locus, start, end, strand, type) %>%
+  mutate(
+    type = case_when(
+      type == "5'" ~ "5'UTR",
+      type  == "3'UTR" ~ "3'UTR",
+      str_detect(type, '3') ~ "3'UTR (unclear termination)",
+      type %in% c("inter", "intra") ~ "internal_UTR + intergenic"
+    )
+  ) %>%
+  drop_na -> over.ref
+
 UTRs %>%
   bind_rows %>%
   mutate(len = end - start + 1) %>%
-  filter(len > 15) %>%
+  # pull(len) %>% summary
   select(id, type, start, end, strand) %>%
-  overlap_matching(nic.utrs) -> cmp
-
+  overlap_matching(over.ref) %>%
+  filter(!antisense) %>%
+  drop_na(x, y) -> cmp
 
 cmp %>%
-  filter(!antisense) %>%
-  mutate(
-    # ratio = overlap / y.length > 0.5,
-    s = overlap > 25,
-    mode2 = case_when(
-      (mode == 'without_overlap') & is.na(x) ~ 'missed Nicolas et al. annotation',
-      (mode == 'without_overlap') & is.na(y) ~ 'new in BSGatlas',
-      # ratio ~ 'match',
-      s ~ 'match',
-      TRUE ~ NA_character_
-    )
-  ) %>%
-  drop_na(mode2) %>%
-  select(x, y, mode2, bsgatlas = x.type, nicolas = y.type) -> possible.matches
-
-
-possible.matches %>%
-  mutate_at('nicolas', str_remove, ' ') %>%
-  mutate(nicolas = ifelse(nicolas %in% c('intergenic', 'internal'),
-                          'internal_UTR',
-                          nicolas)) %>%
-  filter(bsgatlas == nicolas) -> good.matches
-
-
-# The good matches
-nic.utrs %>%
-  semi_join(good.matches, c('id' = 'y')) %>%
-  select(nicolas = type,
-         id) %>%
-  # count(id) %>% count(n)
-  count(nicolas) %>%
-  mutate(bsgatlas = ifelse(nicolas != 'intergenic',
-                           'same',
-                           'internal_UTR')) -> mat.match
-
-possible.matches %>%
-  drop_na(y) %>%
-  # anti_join(good.matches, 'x') %>%
-  anti_join(good.matches, 'y') %>%
-  arrange(y) %>%
-  # View
-  # select(y, bsgatlas) %>% unique %>% count(y) %>% count(n)
-  # select(y, bsgatlas) %>% unique %>% count(y) %>% filter(n>1)
-  # might need grouping for it
-  select(x, y, bsgatlas, nicolas) %>%
-  drop_na -> assoc.reclass
-
-assoc.reclass %>%
-  select(-x) %>%
+  select(id = y, x.type) %>%
   unique %>%
-  group_by(y, nicolas) %>%
-  summarize_at('bsgatlas', clean_paste) %>%
+  group_by(id) %>%
+  arrange(x.type) %>%
+  summarize(over.type = str_c(x.type, collapse = ',')) %>%
   ungroup %>%
-  count(bsgatlas, nicolas) -> mat.reclass
+  right_join(over.ref, 'id') %>%
+  mutate_at('over.type', replace_na, 'withot overlap') %>%
+  count(type, over.type) %>%
+  spread(type, n, fill = 0) -> foo
 
-nic.utrs %>%
-  anti_join(good.matches, c('id' = 'y')) %>%
-  anti_join(assoc.reclass, c('id' = 'y')) %>%
+over.ref %>%
   count(type) %>%
-  rename(nicolas = type) %>%
-  mutate(bsgatlas = 'missed') -> mat.missed
+  with(set_names(n, type)) %>%
+  as.list -> bar
+bar$over.type <- 'Total'
 
-UTRs %>%
-  bind_rows() %>%
-  select(id, type) %>%
-  unique %>%
-  left_join(
-    bind_rows(
-      select(good.matches, id = x),
-      select(assoc.reclass, id = x)
-    ) %>%
-      unique %>%
-      mutate(novel = FALSE),
-    'id'
-  ) %>%
-  mutate_at('novel', replace_na, TRUE) %>%
-  count(type, novel) %>%
-  spread(novel, n) %>%
-  mutate(Total = `TRUE` + `FALSE`) %>%
-  mutate_at('type', fct_recode, 'internal UTR' = 'internal_UTR') %>%
-  select(new = `TRUE`, Total, type) -> bsg.mat
-
-bind_rows(
-  nic.utrs %>%
-    count(type) %>%
-    rename(nicolas = type) %>%
-    mutate(bsgatlas = 'Total Annotated'),
-  mat.match,
-  mat.missed,
-  mat.reclass
-) %>%
-  arrange(nicolas, desc(n)) %>%
-  mutate(nicolas = fct_recode(
-    nicolas,
-    "5'UTR" = "5' UTR",
-    "3'UTR" = "3' UTR",
-    "internal UTR" = 'internal',
-    'intergenic' = 'intergenic'
-  ) %>%
-    fct_relevel("5'UTR", "3'UTR", "internal UTR", "intergenic")) %>%
-  arrange(nicolas, desc(n)) %>%
-  left_join(bsg.mat, c('nicolas' = 'type')) %>%
-  mutate_all(replace_na, 'N/A') %>%
-  mutate_all(str_replace, '(\\d)(\\d{3})', '\\1,\\2') %>%
-  mutate_at(c('new', 'Total'),
-            ~ ifelse(.x != lag(.x) | is.na(lag(.x)), .x, '')) %>%
-  select(type = nicolas, Description = bsgatlas,
-         'Nicolas et al' = n, 'BSGatlas' = Total,
-         'new UTRs' = new) %>%
-  mutate(Description = case_when(
-    Description == 'Total Annotated' ~ 'Annotated',
-    Description == 'same' ~ 'Overlap with same type',
-    Description == 'missed' ~ 'Without/Low overlap',
-    TRUE ~ paste('Overlaps', Description)
-  )) -> utr.stat
+bind_rows(bar, foo) %>%
+  select(over.type, everything()) %>%
+  rename('Overlapping BSGatlas UTRs' = over.type) -> utr.stat
 
 write_tsv(utr.stat, 'analysis/06_utrstat.tsv')
 View(utr.stat)
