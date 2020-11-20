@@ -538,7 +538,9 @@ nicolas$all.features %>%
       type == "5'" ~ "5'UTR",
       type  == "3'UTR" ~ "3'UTR",
       str_detect(type, '3') ~ "3'UTR (unclear termination)",
-      type %in% c("inter", "intra") ~ "internal_UTR + intergenic"
+      # type %in% c("inter", "intra") ~ "internal_UTR + intergenic"
+      type %in% c("inter") ~ "internal_UTR ",
+      type %in% c("intra") ~ "intergenic"
     )
   ) %>%
   drop_na -> over.ref
@@ -560,7 +562,7 @@ cmp %>%
   summarize(over.type = str_c(x.type, collapse = ',')) %>%
   ungroup %>%
   right_join(over.ref, 'id') %>%
-  mutate_at('over.type', replace_na, 'withot overlap') %>%
+  mutate_at('over.type', replace_na, 'without overlap') %>%
   count(type, over.type) %>%
   spread(type, n, fill = 0) -> foo
 
