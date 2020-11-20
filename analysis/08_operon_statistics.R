@@ -517,5 +517,15 @@ cowplot::plot_grid(
   labels = c(NA, '(d)')
 )
 
+# > op.type.stat
+# # A tibble: 5 x 3
+# class                    n ratio
+# <chr>                <int> <dbl>
+# 1 "Simple"              1032 45.5 
+# 2 "Multi-TSS"            469 20.7 
+# 3 "Traditional"          300 13.2 
+# 4 "Multi-TSS\n& Term."   240 10.6 
+# 5 "Multi-Term."          225  9.93
+
 ggsave('analysis/08_operon.pdf',
        width = 30, height = 20, units = 'cm')
