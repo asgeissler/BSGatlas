@@ -1,0 +1,133 @@
+---
+title: "Untitled"
+output: BiocStyle::html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(magrittr)
+library(plyranges)
+
+library(conflicted)
+
+conflict_prefer("rename", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("select", "dplyr")
+```
+
+# Intro
+
+* CA and FA predicted gRNA for B. subtilis ASM904v1 genome.
+* CRISPRoff CRISPRspec version 1.1
+* In the current form the guides have predicted efficiency and specificty scores
+* However, the off-targets are not listed
+* And the off-targets are not further inspected for potential poly-cistronic off-targets
+* Purpose: Make such a list for prepration to display in some interactive way
+
+# Pre-processing
+
+```{r}
+guides <- read_tsv('ASM904v1.all.bed', col_names = FALSE) %>%
+  set_names(c('chr', 'start', 'end', 'seq', 'CRISPRspecScore',
+              'strand', 'azimuth', 'CRISPRspecScore.float')) %>%
+  mutate_at(c('start', 'end'), as.integer) %>%
+  # Needed for later comparison agains BSGatlas
+  mutate(start = start + 1) %>%
+  # if cutting/mutation experiment the cutting position is 3 nt upstream
+  # of stranded end position, but teh PAM accoutns for 3 additional nt
+  mutate(
+    cut.pos = ifelse(strand == '+', end - 6 - 1, start + 6),
+    # separate binding and PAM part from sequence
+    binding = str_remove(seq, '...$'),
+    pam = str_extract(seq, '...$')
+  )
+
+write_tsv(guides, 'guides.tsv')
+count(guides, pam)
+```
+
+There were
+* `r nrow(guides)` predicted binding suites
+* for `r guides %>% select(seq) %>% unique %>% nrow` sequences
+* of which `r guides %>% count(seq) %>% filter(n > 1) %>% nrow` had more
+  than exact one position
+* but they all had only NGG PAMs?
+
+-> Seems odd, but ignored here
+
+# Poly-cistronic map
+
+```{r}
+read_tsv('BSGatlas_v1.0.gff', skip = 39, col_names = FALSE) %>%
+  select(gff.type = X3, start = X4, end = X5, strand = X7, rest = X9) %>%
+  separate_rows(rest, sep =  ';') %>%
+  separate(rest, c('key', 'value'), '=') %>%
+  filter(gff.type %in% c('operon', 'gene')) %>%
+  filter(key %in% c('ID', 'Parent')) %>%
+  spread(key, value) %>%
+  rename(id = ID) -> ref
+
+
+guides %>%
+  transmute(id = seq, start = cut.pos, end = cut.pos, strand) -> query
+
+source('../00_BSGatlas_v1/BSGatlas/scripts/overlap_matching.R')
+
+cmp <- overlap_matching(query, ref)
+
+cmp %>%
+  select(guide = x, ref = y, gff.type = y.gff.type, parent = y.Parent) -> xs
+
+xs %>% 
+  filter(gff.type == 'gene') %>%
+  transmute(guide, ref, mode = 'direct_overlap') -> p1
+
+xs %>%
+  filter(gff.type == 'operon') %>%
+  select(guide, Parent = ref) %>%
+  left_join(ref, 'Parent') %>%
+  transmute(guide, ref = id, mode = 'operon_overlap') -> p2
+
+res <- bind_rows(p1, anti_join(p2, p1, c('guide', 'ref')))
+
+write_tsv(res, 'targets_plus_operon.tsv')
+```
+
+
+```{r}
+res %>%
+  count(guide, mode) -> foo
+
+foo %>%
+  spread(mode, n, fill = 0) %>%
+  transmute(guide, 'directly overlapping target' = direct_overlap,
+            'incl. operon genes' = direct_overlap + operon_overlap) %>%
+  gather('mode', 'nr',  - guide) %>%
+  # pull(nr) %>% summary()
+  mutate_at('nr', cut, c(0:100, Inf)) -> baz
+
+nicer <- levels(baz$nr) %>%
+  set_names(., .) %>%
+  map(~ str_extract(.x, '(?<=,).*(?=\\]$)')) %>%
+  map(~ ifelse(.x == 'Inf', '101+', .x)) %>%
+  set_names(names(.), .)
+baz %>%
+  mutate(nr.cut = fct_recode(nr, !!! nicer)) %>%
+  ggplot(aes(nr.cut, fill = mode)) +
+  geom_histogram(alpha = 0.5, position = position_dodge(),
+                 stat = 'count') +
+  ggsci::scale_fill_jama() +
+  xlab('Nr. of potential targets (without sequence mismatches)') +
+  theme_minimal(18) +
+  theme(legend.position = 'bottom',
+        axis.text.x =  element_text(angle = 90, hjust = 1))
+
+ggsave('nr_offs.pdf')
+```
+
+# Session
+
+```{r}
+sessionInfo()
+```
