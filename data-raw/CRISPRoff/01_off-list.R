@@ -1,5 +1,6 @@
 path <- '/home/projects/nextprod/results/CRISPR/gw_crispr_cas9_grnas/20190321_AEB284x_assemblies/runs/ASM904v1/'
 
+library(rslurm)
 library(tidyverse)
 library(plyranges)
 
@@ -39,7 +40,14 @@ ref %>%
   as_tibble() %>%
   select(rid, ID, type, Parent, Name) %>%
   rowwise() %>%
-  mutate_all(str_c, collapse = ';') %>%
+  mutate_all(function(i) {
+    res <- str_c(i, collapse = ';')
+    if (identical(res, character(0))) {
+      ''
+    } else {
+      res
+    }
+  }) %>%
   ungroup  -> foo
 
 foo %>%
@@ -108,18 +116,97 @@ worker <- function(guide, gid, suffix) {
   return(list(bindings = bindings, targets = targets))
 }
 
-worker <- safely(worker)
+worker.safe <- safely(worker)
 worker('AAAAAAAAAAAAAAAAACAAGGG', 1L, 'AAAA')
 
-# microbenchmark::microbenchmark({
-#   gids %>%
-#     head(n = 10) %>%
-#     pmap(worker)
-# }, times = 10L)
-# Unit: seconds
-#                                        expr      min       lq     mean   median       uq      max neval
-# {     gids %>% head(n = 10) %>% pmap(worker) } 2.706565 2.856593 3.186819 3.140312 3.420395 3.892114    10
+microbenchmark::microbenchmark({
+  gids %>%
+    head(n = 10) %>%
+    pmap(worker)
+}, times = 10L)
+# on server rstudio worst-case 8sec
 
 # Worst-case estimate
-# > nrow(guides) / 10 * 4 / 60 / 60
-# [1] 42.89167 hours, single core
+# nrow(guides) / 10 * 8 / 60 / 60
+# ~ 86 h single core
+
+slurm_apply(
+  worker, gids,
+  jobname = 'offtargets',
+  nodes = 50,
+  cpus_per_node = 1,
+  add_objects = ls(),
+  slurm_options = list(
+    partition = 'panic',
+    time = '1-00:00:00',
+    mem = '8GB'
+  ), submit = FALSE
+)
+#> _rslurm_offtargets
+#> sbatch submit.sh
+
+#
+'_rslurm_offtargets/results_*.RDS' %>%
+  Sys.glob() %>%
+  head() %>%
+  map(readRDS) -> rds
+
+rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
+  count(is.on.target, mismatches)
+
+
+guides %>%
+  dplyr::filter(guide == 'AAAAAAAAAAAAAAAAACAAGGG')
+
+
+rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
+  dplyr::filter(is.on.target)  %>%
+  arrange(mismatches)
+
+guides %>%
+  dplyr::filter(start ==  15149)
+
+rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
+  dplyr::filter(is.on.target)  %>%
+  select(start, end, strand, CRISPRspec, mismatches, cmp.pam) %>%
+  left_join(on.targets)
+
+rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
+  arrange(desc(CRISPRspec))
+
+guides %>%
+  dplyr::filter(start ==  3255452)
+
+rds[[1]] %>%
+  map('bindings') %>%
+  map(~ count(.x, gid, pos = CRISPRspec > 0, is.on.target)) %>%
+  bind_rows() -> foo
+
+
+foo %>%
+  # select(pos, is.on.target) %>%
+  # unique all 4 exists
+  mutate(
+    m = case_when(
+      pos & is.on.target ~ 'clear on.target',
+      pos & !is.on.target ~ 'masked on.target',
+      !pos & is.on.target ~ 'weired off.target',
+      !pos & !is.on.target ~ 'clear off.target'
+    )
+  )  %>%
+  select(gid, m, n) %>%
+  spread(m, n, fill = 0) %>%
+  left_join(
+    foo %>%
+      group_by(gid) %>%
+      summarize_at('n', sum),
+    'gid'
+  ) %>%
+  dplyr::rename(total = n) %>%
+  mutate_at(vars(contains('target')), ~ .x / total * 100) %>%
+  select(- total, - gid) %>%
+  map(summary)
+
+
+# > foo$gid %>% unique %>% length
+# [1] 7562

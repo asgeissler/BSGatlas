@@ -8,6 +8,7 @@ data-raw/GEO
 data-hub/tiling-array/old_genome
 # CRISPR off-targets
 #data-raw/CRISPRoff
+_rslurm_offtargets
 
 ### Bookdown ###
 # R package: bookdown caching files
