@@ -134,7 +134,7 @@ header <- paste(
   paste0('\n')
 
 con <- file('data-raw/CRISPRoff/02_targets.tab', 'w')
-offset <- 0
+offset <- 0L
 # keep track of byte offsets when writing
 custom.writer <- function(x) {
   writeLines(x, con, sep = '')
@@ -215,6 +215,7 @@ guide.info <- function(x) {
     off.target,
     sep = '\t'
   ) %>%
+    paste0('\n') %>%
     custom.writer()
   return(c(gid = i, offset = offset))
 }
