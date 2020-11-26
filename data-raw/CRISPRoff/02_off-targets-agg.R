@@ -130,19 +130,18 @@ header <- paste(
   'Potential on-targets',
   'Potential off-targets',
   sep = '\t'
-) %>%
-  paste0('\n')
+)
 
 con <- file('data-raw/CRISPRoff/02_targets.tab', 'w')
-offset <- 0L
 # keep track of byte offsets when writing
 custom.writer <- function(x) {
   writeLines(x, con, sep = '')
-  offset <<- offset + nchar(x)
+  writeLines('\n', con, sep = '')
   flush(con)
+  return(nchar(x) + 1)
 }
 
-custom.writer(header)
+header.bytes <- custom.writer(header)
 # flush(con)
 # close(con)
 
@@ -180,7 +179,7 @@ guide.info <- function(x) {
   gids %>%
     filter(gid == i) %>%
     select(guide) %>%
-    left_join(guides) -> on.guides
+    left_join(guides, 'guide') -> on.guides
   on.guides %>%
     left_join(x$bindings, c('start', 'end', 'strand', 'cut.pos')) %>%
     left_join(target.over, 'cut.pos') %>%
@@ -215,16 +214,35 @@ guide.info <- function(x) {
     off.target,
     sep = '\t'
   ) %>%
-    paste0('\n') %>%
-    custom.writer()
-  return(c(gid = i, offset = offset))
+    custom.writer() -> contribution
+  return(c(gid = i, bytes = contribution))
 }
 
 # do the work
-rds %>%
-  head %>%
-  lapply(guide.info) %>%
-  invoke(.f = bind_rows) -> offs
+# rds %>%
+#   head %>%
+#   lapply(guide.info) %>%
+#   invoke(.f = bind_rows) -> offs
+
+offs <- list()
+for (i in Sys.glob('_rslurm_offtargets/results_*.RDS')) {
+  cat(i)
+  rds <- readRDS(i)
+  rds %>%
+    head %>%
+    lapply(guide.info) %>%
+    invoke(.f = bind_rows) -> sub
+  offs <- bind_rows(offs, sub)
+  break
+}
+
+conflict_prefer("lag", "dplyr")
+offs %>%
+  mutate(
+    lagged = lag(bytes, 1, header.bytes),
+    offset = cumsum(lagged)
+  )  %>%
+  select(gid, offset) -> offs
 
 write_tsv(offs, 'data-raw/CRISPRoff/02_offsets.tsv.gz')
 
