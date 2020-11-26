@@ -19,10 +19,13 @@ guides %>%
   ) -> gids
 write_tsv(gids, 'data-raw/CRISPRoff/01_gids.tsv.gz')
 
-# lookup table to identify on-targets
+# Flag for multi on-
 guides %>%
-  select(start, end, strand) %>%
-  mutate(is.on.target = TRUE) -> on.targets
+  count(guide) %>%
+  mutate(multi.match = n > 1) %>%
+  select(-n) %>%
+  left_join(gids) %>%
+  select(gid, multi.match) -> multi.flag
 
 # Load the ref-annotation
 rtracklayer::import.gff3('data-gff/BSGatlas_v1.1.gff') %>%
@@ -96,27 +99,21 @@ worker <- function(guide, gid, suffix) {
         str_replace('(?=...$)', ' ')
     ) %>%
     select( - seq) %>%
-    mutate(cut.pos = ifelse(strand == '+', end - 6 - 1, start + 6)) %>%
-    left_join(on.targets, c('start' , 'end', 'strand')) %>%
-    mutate_at('is.on.target', replace_na, FALSE) -> bindings
+    mutate(cut.pos = ifelse(strand == '+', end - 6 - 1, start + 6)) -> bindings
   
   bindings %>%
     mutate(start = cut.pos, end = cut.pos) %>%
-    select(start, end, strand, is.on.target) %>%
+    select(start, end, strand, cut.pos) %>%
     mutate(seqnames = 'basu168') %>%
     as_granges() %>%
     plyranges::join_overlap_left(ref.range) %>%
     as_tibble %>%
-    select(is.on.target, rid) %>%
-    unique %>%
-    left_join(ref.names, 'rid') %>%
-    unique %>%
-    select(-rid) -> targets
+    transmute(gid = gid, cut.pos, rid) %>%
+    left_join(ref.names, 'rid') -> targets
   
   return(list(bindings = bindings, targets = targets))
 }
 
-worker.safe <- safely(worker)
 worker('AAAAAAAAAAAAAAAAACAAGGG', 1L, 'AAAA')
 
 microbenchmark::microbenchmark({
@@ -145,68 +142,3 @@ slurm_apply(
 #> _rslurm_offtargets
 #> sbatch submit.sh
 
-#
-'_rslurm_offtargets/results_*.RDS' %>%
-  Sys.glob() %>%
-  head() %>%
-  map(readRDS) -> rds
-
-rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
-  count(is.on.target, mismatches)
-
-
-guides %>%
-  dplyr::filter(guide == 'AAAAAAAAAAAAAAAAACAAGGG')
-
-
-rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
-  dplyr::filter(is.on.target)  %>%
-  arrange(mismatches)
-
-guides %>%
-  dplyr::filter(start ==  15149)
-
-rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
-  dplyr::filter(is.on.target)  %>%
-  select(start, end, strand, CRISPRspec, mismatches, cmp.pam) %>%
-  left_join(on.targets)
-
-rds[[1]]$AAAAAAAAAAAAAAAAACAAGGG$bindings %>%
-  arrange(desc(CRISPRspec))
-
-guides %>%
-  dplyr::filter(start ==  3255452)
-
-rds[[1]] %>%
-  map('bindings') %>%
-  map(~ count(.x, gid, pos = CRISPRspec > 0, is.on.target)) %>%
-  bind_rows() -> foo
-
-
-foo %>%
-  # select(pos, is.on.target) %>%
-  # unique all 4 exists
-  mutate(
-    m = case_when(
-      pos & is.on.target ~ 'clear on.target',
-      pos & !is.on.target ~ 'masked on.target',
-      !pos & is.on.target ~ 'weired off.target',
-      !pos & !is.on.target ~ 'clear off.target'
-    )
-  )  %>%
-  select(gid, m, n) %>%
-  spread(m, n, fill = 0) %>%
-  left_join(
-    foo %>%
-      group_by(gid) %>%
-      summarize_at('n', sum),
-    'gid'
-  ) %>%
-  dplyr::rename(total = n) %>%
-  mutate_at(vars(contains('target')), ~ .x / total * 100) %>%
-  select(- total, - gid) %>%
-  map(summary)
-
-
-# > foo$gid %>% unique %>% length
-# [1] 7562
