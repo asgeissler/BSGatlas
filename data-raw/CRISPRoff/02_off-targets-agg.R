@@ -171,7 +171,7 @@ guide.info <- function(x) {
   x$targets %>%
     group_by(cut.pos) %>%
     summarize(over = str_c(
-      sprintf('%s: %s (%s)', type, name, ID),
+      sprintf('%s: %s (<a href="https://rth.dk/resources/bsgatlas/details.php?id=%s">%s</a>)', type, name, ID, ID),
       collapse = '<br/>'
     )) %>%
     ungroup -> target.over
