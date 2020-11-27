@@ -5,6 +5,14 @@ library(tidyverse)
 library(plyranges)
 
 library(conflicted)
+conflict_prefer("select", "dplyr")
+conflict_prefer("n", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("desc", "dplyr")
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
+
+source('data-raw/CRISPRoff/01_helper.R')
 
 guides <- read_tsv('data-raw/CRISPRoff/00_guides.tsv.gz')
 
@@ -86,22 +94,27 @@ assertthat::are_equal(
 # This is the computationally expensive and is thus parallilzed
 worker <- function(guide, gid, suffix) {
   # guide <- 'AAAAAAAAAAAAAAAAACAAGGG' ; gid <- 1L ; suffix <- 'AAAA'
+  guide.short <- str_remove(guide, '...$')
   
   sprintf('%s/%s_GCF_000009045.1_ASM904v1_genomic.suff/%s.CRISPRoff.tsv',
           path, suffix, guide) %>%
     read_tsv(comment = '#',
-             col_names = c('chr', 'start', 'end', 'seq', 'CRISPRspec', 'strand')) %>%
+             col_names = c('chr', 'start', 'end', 'seq', 'CRISPRoff', 'strand')) %>%
+    mutate(seq.short = str_remove(seq, '...$')) %>%
     transmute(
       gid = gid,
-      start, end, seq, CRISPRspec, strand,
-      mismatches = stringdist::stringdist(guide, seq, 'hamming'),
-      cmp.pam = viz.helper(guide, seq) %>%
-        str_replace('(?=...$)', ' ')
+      start, end, seq, CRISPRoff, strand,
+      mismatches = stringdist::stringdist(guide.short, seq.short, 'hamming'),
+      cmp.pam = paste(
+        viz.helper(guide.short, seq.short),
+        str_sub(seq, -3L)
+      )
     ) %>%
     select( - seq) %>%
     mutate(cut.pos = ifelse(strand == '+', end - 6 - 1, start + 6)) -> bindings
   
   bindings %>%
+    dplyr::filter(mismatches <= 4) %>%
     mutate(start = cut.pos, end = cut.pos) %>%
     select(start, end, strand, cut.pos) %>%
     mutate(seqnames = 'basu168') %>%
@@ -109,18 +122,22 @@ worker <- function(guide, gid, suffix) {
     plyranges::join_overlap_left(ref.range) %>%
     as_tibble %>%
     transmute(gid = gid, cut.pos, rid) %>%
-    left_join(ref.names, 'rid') -> targets
+    left_join(ref.names, 'rid') %>%
+    drop_na -> targets
   
-  return(list(bindings = bindings, targets = targets))
+  return(list(bindings = bindings,
+              targets = targets,
+              meta = guide.meta(bindings, targets, guide, gid)))
 }
 
-worker('AAAAAAAAAAAAAAAAACAAGGG', 1L, 'AAAA')
-
-microbenchmark::microbenchmark({
-  gids %>%
-    head(n = 10) %>%
-    pmap(worker)
-}, times = 10L)
+# worker('AAAAAAAAAAAAAAAAACAAGGG', 1L, 'AAAA') -> foo
+# str(foo)
+foo$meta %>% write_lines('foo.html')
+# microbenchmark::microbenchmark({
+#   gids %>%
+#     head(n = 10) %>%
+#     pmap(worker)
+# }, times = 10L)
 # on server rstudio worst-case 8sec
 
 # Worst-case estimate
