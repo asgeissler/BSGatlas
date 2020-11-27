@@ -7,6 +7,8 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("n", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("desc", "dplyr")
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
 
 guides <- read_tsv('data-raw/CRISPRoff/00_guides.tsv.gz')
 gids <- read_tsv('data-raw/CRISPRoff/01_gids.tsv.gz')
@@ -80,29 +82,19 @@ ggsave('data-raw/CRISPRoff/02_nr.pdf', width = 8, height = 6)
 # helpers
 mk.row <- function(xs) {
   paste0(
-    '<tr><td>',
-    str_c(xs, collapse = '</td><td>'),
+    '<tr><td style="font-weight: normal; width: auto;">',
+    str_c(xs, collapse = '</td><td style="font-weight: normal; width: auto;">'),
     '</td></tr>'
   )
 }
-assertthat::are_equal(
-  mk.row(c('a', 'b')),
-  '<tr><td>a</td><td>b</td></tr>'
-)
-
 tbl.c <- function(...) {
   paste0(
-    '<table>',
+    '<table class="bedExtraTbl">',
     str_c(..., collapse = ''),
     '</table>'
   )
   
 }
-assertthat::are_equal(
-  tbl.c('a', 'b'),
-  '<table>ab</table>'
-)
-
 tbl2tbl <- function(x) {
   c(
     mk.row(names(x)),
@@ -113,13 +105,6 @@ tbl2tbl <- function(x) {
   ) %>%
     invoke(.f = tbl.c)
 }
-assertthat::are_equal(
-  tbl2tbl(tribble(
-    ~ A, ~B,
-    1, 2
-  )),
-  '<table><tr><td>A</td><td>B</td></tr><tr><td>1</td><td>2</td></tr></table>'
-)
 ####################
 
 # Aggregate the various guide off-targets results into the following files
@@ -127,8 +112,9 @@ assertthat::are_equal(
 header <- paste(
   'Guide sequence',
   'Number of potential targets',
+  'Note',
   'Potential on-targets',
-  'Potential off-targets',
+  'Potential off-targets<br/>(With up to 4 mismatches)',
   sep = '\t'
 )
 
@@ -151,7 +137,6 @@ guide.info <- function(x) {
   # x <- rds$AAAAAAAAAAAAAAAAACAAGGG
   i <- x$bindings$gid[1]
   g <- gids$guide[i]
-  multi.flag[[i]]
   
   # Collect overall mismatch info
   mis.info <- tbl.c(
@@ -183,33 +168,54 @@ guide.info <- function(x) {
   on.guides %>%
     left_join(x$bindings, c('start', 'end', 'strand', 'cut.pos')) %>%
     left_join(target.over, 'cut.pos') %>%
+    arrange(desc(CRISPRspec.y)) %>%
     transmute(
-      CRISPRoff = CRISPRspec.y %>% round(3),
+      'CRISPR off-target score<br/>(CRISPRoff)' = CRISPRspec.y %>% round(3),
       CRISPRspec = CRISPRspec.x %>% round(3),
       Azimuth = Azimuth %>% round(3),
-      Position = sprintf('%s (%s)', cut.pos, strand),
-      'Potential targets' = over
+      'Cut-Position' = sprintf(
+        '<a href=hgTracks?position=basu168:%s-%s>%s (%s)',
+        start, end, cut.pos, strand),
+      'Potential gene on-targets' = over
     ) %>%
-    arrange(desc(CRISPRoff)) %>%
     tbl2tbl() -> on.target
   
   x$bindings %>%
     filter(mismatches <= 4) %>%
     anti_join(on.guides, 'cut.pos') %>%
     left_join(target.over, 'cut.pos') %>%
+    arrange(desc(CRISPRspec)) %>%
     transmute(
-      CRISPRoff = CRISPRspec %>% round(3),
+      'CRISPR off-target score<br/>(CRISPRoff)' = CRISPRspec %>% round(3),
       mismatches,
-      'Mismatched nucleotides' = cmp.pam,
-      Position = sprintf('%s (%s)', cut.pos, strand),
-      'Potential off-targets' = over
+      # Brutal way of fixing width
+      # replace 'auto;">' with '15em;">
+      # Backspace must be manually evaluated below
+      '\b\b\b\b\b\b\b15em;">Mismatched nucleotides' = cmp.pam %>%
+        str_replace(' ', '&nbsp;') %>%
+        paste0('<tt>', ., '</tt>'),
+      'Cut-Position' = sprintf(
+        '<a href=hgTracks?position=basu168:%s-%s>%s (%s)',
+        start, end, cut.pos, strand),
+      'Potential gene off-targets' = over
     ) %>%
-    arrange(desc(CRISPRoff)) %>%
-    tbl2tbl() -> off.target
+    mutate_all(replace_na, '') %>%
+    tbl2tbl() %>%
+    # 7 times for 7 backspaces....
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') %>%
+    str_remove('[^\b]\b') -> off.target
   
   paste(
     paste('gRNA:',  str_replace(g, '(?=...$)', ' ')),
     mis.info,
+    ifelse(multi.flag[[i]],
+           'This guide had potentially multiple on-target sites (exact sequence matches)',
+           'This guide has only one potential on-target site'),
     on.target,
     off.target,
     sep = '\t'
@@ -236,7 +242,6 @@ for (i in Sys.glob('_rslurm_offtargets/results_*.RDS')) {
   break
 }
 
-conflict_prefer("lag", "dplyr")
 offs %>%
   mutate(
     lagged = lag(bytes, 1, header.bytes),

@@ -11,8 +11,8 @@ library(tidyverse)
   char[1] strand;     "+ or - for strand"
   uint thickStart;    "Start of where display should be thick (start codon)"
   uint thickEnd;      "End of where display should be thick (stop codon)"
-  uint reserved;       "Doench 2016 / Fusi et al. Score"
-  string CRISPRspec;  "CRISPR specificity score"
+  uint reserved;       "color"
+  string CRISPRspec;  "CRISPR specificity score (CRISPRspec)"
   string Azimuth;      "CRISPR efficiency score (Azimuth)"
   bigint _offset;        "Offset into tab-sep file for details page"
 )' %>%
