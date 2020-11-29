@@ -26,6 +26,12 @@ tbl2tbl <- function(x) {
 }
 ####################
 guide.meta <- function(bindings, targets, guide, gid) {
+  conflict_prefer("select", "dplyr")
+  conflict_prefer("n", "dplyr")
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("desc", "dplyr")
+  conflict_prefer("lag", "dplyr")
+  conflict_prefer("filter", "dplyr")
   
   # Collect overall mismatch info
   mis.info <- tbl.c(
@@ -68,7 +74,7 @@ guide.meta <- function(bindings, targets, guide, gid) {
     tbl2tbl() -> on.target
   
   bindings %>%
-    filter(mismatches <= 4) %>%
+    dplyr::filter(mismatches <= 4) %>%
     anti_join(on.guides, 'cut.pos') %>%
     left_join(target.over, 'cut.pos') %>%
     arrange(desc(CRISPRoff)) %>%
@@ -106,5 +112,5 @@ guide.meta <- function(bindings, targets, guide, gid) {
     on.target,
     off.target,
     sep = '\t'
-  )
+  ) 
 }

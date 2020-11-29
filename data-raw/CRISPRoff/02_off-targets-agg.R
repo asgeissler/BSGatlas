@@ -12,103 +12,8 @@ conflict_prefer("filter", "dplyr")
 
 guides <- read_tsv('data-raw/CRISPRoff/00_guides.tsv.gz')
 gids <- read_tsv('data-raw/CRISPRoff/01_gids.tsv.gz')
-guides %>%
-  count(guide) %>%
-  mutate(multi.match = n > 1) %>%
-  select(-n) %>%
-  left_join(gids) %>%
-  select(gid, multi.match) %>%
-  with(set_names(multi.match, gid)) -> multi.flag
 
-
-###########
-# Estimate a cut-off for mismatches up-to which the full off-target list
-# should be collected
-'_rslurm_offtargets/results_*.RDS' %>%
-  Sys.glob() %>%
-  `[`(1) %>%
-  readRDS() -> rds
-
-rds %>%
-  map('bindings') %>%
-  map(count, mismatches)  %>%
-  map(full_join, tibble(mismatches = 0:8), 'mismatches') %>%
-  map(arrange, mismatches) -> foo
-
-foo %>%
-  map(pull, n) %>%
-  pmap(function(...) {
-    i <- c(...)
-    i <- replace_na(i, 0L) 
-    # list(
-    #   m = mean(i),
-    #   var = var(i)
-    # )
-    summary(i)
-  }) -> bar
-bar %>%
-  map(as.list) %>%
-  bind_rows %>%
-  mutate(mis = 1:n() - 1) -> mis.stat
-# > length(foo)
-# [1] 7562
-# length(foo) / nrow(gids) * 100
-# ~ 2%
-
-mis.stat %>%
-  # ggplot(aes(as.character(mis), m,
-  #            ymin = m - sqrt(var), ymax = m + sqrt(var))) +
-  # geom_errorbar() +
-  # geom_point(size = 5) +
-  ggplot(aes(as.character(mis),
-             ymin = `Min.`,
-             lower = `1st Qu.`,
-             middle = Median,
-             upper= `3rd Qu.`,
-             ymax = `Max.`)) +
-  geom_boxplot(stat = 'identity') +
-  xlab('gRNA mismatches') +
-  ylab('Number of on-/off-target binding sites') +
-  ggforce::facet_zoom(ylim = c(0, 50)) +
-  theme_bw(18)
-
-ggsave('data-raw/CRISPRoff/02_nr.pdf', width = 8, height = 6)
-
-  
-
-# up to 4 it is
-
-####################
-# helpers
-mk.row <- function(xs) {
-  paste0(
-    '<tr><td style="font-weight: normal; width: auto;">',
-    str_c(xs, collapse = '</td><td style="font-weight: normal; width: auto;">'),
-    '</td></tr>'
-  )
-}
-tbl.c <- function(...) {
-  paste0(
-    '<table class="bedExtraTbl">',
-    str_c(..., collapse = ''),
-    '</table>'
-  )
-  
-}
-tbl2tbl <- function(x) {
-  c(
-    mk.row(names(x)),
-    x %>%
-      rowwise() %>%
-      do(i = mk.row(.)) %>%
-      pull(i)
-  ) %>%
-    invoke(.f = tbl.c)
-}
-####################
-
-# Aggregate the various guide off-targets results into the following files
-
+####
 header <- paste(
   'Guide sequence',
   'Number of potential targets',
@@ -117,7 +22,6 @@ header <- paste(
   'Potential off-targets<br/>(With up to 4 mismatches)',
   sep = '\t'
 )
-
 con <- file('data-raw/CRISPRoff/02_targets.tab', 'w')
 # keep track of byte offsets when writing
 custom.writer <- function(x) {
@@ -126,130 +30,32 @@ custom.writer <- function(x) {
   flush(con)
   return(nchar(x) + 1)
 }
-
 header.bytes <- custom.writer(header)
-# flush(con)
-# close(con)
-
-
-# The main worker to process all the info
-guide.info <- function(x) {
-  # x <- rds$AAAAAAAAAAAAAAAAACAAGGG
-  i <- x$bindings$gid[1]
-  g <- gids$guide[i]
-  
-  # Collect overall mismatch info
-  mis.info <- tbl.c(
-    mk.row(paste(0:8, 'mismatches')),
-    x$bindings %>%
-      count(mismatches) %>%
-      right_join(tibble(mismatches = 0:8), 'mismatches') %>%
-      arrange(mismatches) %>%
-      mutate_at('n', replace_na, 0L) %>%
-      pull(n) %>%
-      mk.row
-  )
-  
-  
-  # short version of potential targets
-  x$targets %>%
-    group_by(cut.pos) %>%
-    summarize(over = str_c(
-      sprintf('%s: %s (<a href="https://rth.dk/resources/bsgatlas/details.php?id=%s">%s</a>)', type, name, ID, ID),
-      collapse = '<br/>'
-    )) %>%
-    ungroup -> target.over
-  
-  
-  gids %>%
-    filter(gid == i) %>%
-    select(guide) %>%
-    left_join(guides, 'guide') -> on.guides
-  on.guides %>%
-    left_join(x$bindings, c('start', 'end', 'strand', 'cut.pos')) %>%
-    left_join(target.over, 'cut.pos') %>%
-    arrange(desc(CRISPRspec.y)) %>%
-    transmute(
-      'CRISPR off-target score<br/>(CRISPRoff)' = CRISPRspec.y %>% round(3),
-      CRISPRspec = CRISPRspec.x %>% round(3),
-      Azimuth = Azimuth %>% round(3),
-      'Cut-Position' = sprintf(
-        '<a href=hgTracks?position=basu168:%s-%s>%s (%s)',
-        start, end, cut.pos, strand),
-      'Potential gene on-targets' = over
-    ) %>%
-    tbl2tbl() -> on.target
-  
-  x$bindings %>%
-    filter(mismatches <= 4) %>%
-    anti_join(on.guides, 'cut.pos') %>%
-    left_join(target.over, 'cut.pos') %>%
-    arrange(desc(CRISPRspec)) %>%
-    transmute(
-      'CRISPR off-target score<br/>(CRISPRoff)' = CRISPRspec %>% round(3),
-      mismatches,
-      # Brutal way of fixing width
-      # replace 'auto;">' with '15em;">
-      # Backspace must be manually evaluated below
-      '\b\b\b\b\b\b\b15em;">Mismatched nucleotides' = cmp.pam %>%
-        str_replace(' ', '&nbsp;') %>%
-        paste0('<tt>', ., '</tt>'),
-      'Cut-Position' = sprintf(
-        '<a href=hgTracks?position=basu168:%s-%s>%s (%s)',
-        start, end, cut.pos, strand),
-      'Potential gene off-targets' = over
-    ) %>%
-    mutate_all(replace_na, '') %>%
-    tbl2tbl() %>%
-    # 7 times for 7 backspaces....
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') %>%
-    str_remove('[^\b]\b') -> off.target
-  
-  paste(
-    paste('gRNA:',  str_replace(g, '(?=...$)', ' ')),
-    mis.info,
-    ifelse(multi.flag[[i]],
-           'This guide had potentially multiple on-target sites (exact sequence matches)',
-           'This guide has only one potential on-target site'),
-    on.target,
-    off.target,
-    sep = '\t'
-  ) %>%
-    custom.writer() -> contribution
-  return(c(gid = i, bytes = contribution))
-}
-
-# do the work
-# rds %>%
-#   head %>%
-#   lapply(guide.info) %>%
-#   invoke(.f = bind_rows) -> offs
-
-offs <- list()
+####
+offs <- tibble(gid = 0L, guide = "A", bytes = 0L, .rows = 0)
 for (i in Sys.glob('_rslurm_offtargets/results_*.RDS')) {
   cat(i)
   rds <- readRDS(i)
   rds %>%
-    head %>%
-    lapply(guide.info) %>%
+    map2(names(.), function(xs, g) {
+      tibble(
+        gid = first(xs$bindings$gid),
+        guide = g,
+        bytes = custom.writer(xs$meta)
+      )
+    }) %>%
     invoke(.f = bind_rows) -> sub
   offs <- bind_rows(offs, sub)
-  break
+  # break
 }
-
+flush(con)
+close(con)
+####
 offs %>%
   mutate(
     lagged = lag(bytes, 1, header.bytes),
     offset = cumsum(lagged)
   )  %>%
-  select(gid, offset) -> offs
+  select(gid, guide, offset) -> offsets
+write_tsv(offsets, 'data-raw/CRISPRoff/02_offsets.tsv.gz')
 
-write_tsv(offs, 'data-raw/CRISPRoff/02_offsets.tsv.gz')
-
-flush(con)
-close(con)

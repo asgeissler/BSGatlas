@@ -33,7 +33,8 @@ guides %>%
   mutate(multi.match = n > 1) %>%
   select(-n) %>%
   left_join(gids) %>%
-  select(gid, multi.match) -> multi.flag
+  select(gid, multi.match) %>%
+  with(set_names(multi.match, gid)) -> multi.flag
 
 # Load the ref-annotation
 rtracklayer::import.gff3('data-gff/BSGatlas_v1.1.gff') %>%
@@ -93,6 +94,12 @@ assertthat::are_equal(
 # and match these against the reference annotation
 # This is the computationally expensive and is thus parallilzed
 worker <- function(guide, gid, suffix) {
+  conflict_prefer("select", "dplyr")
+  conflict_prefer("n", "dplyr")
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("desc", "dplyr")
+  conflict_prefer("lag", "dplyr")
+  conflict_prefer("filter", "dplyr")
   # guide <- 'AAAAAAAAAAAAAAAAACAAGGG' ; gid <- 1L ; suffix <- 'AAAA'
   guide.short <- str_remove(guide, '...$')
   
@@ -132,7 +139,8 @@ worker <- function(guide, gid, suffix) {
 
 # worker('AAAAAAAAAAAAAAAAACAAGGG', 1L, 'AAAA') -> foo
 # str(foo)
-foo$meta %>% write_lines('foo.html')
+# foo$meta %>% write_lines('foo.html')
+
 # microbenchmark::microbenchmark({
 #   gids %>%
 #     head(n = 10) %>%

@@ -19,12 +19,8 @@ library(tidyverse)
   write_lines('data-hub/grna.as')
   
 
-read_tsv('data-raw/CRISPRoff/01_gids.tsv.gz') %>%
-  select(guide, gid) %>%
-  inner_join(
-    read_tsv('data-raw/CRISPRoff/02_offsets.tsv.gz'),
-    'gid'
-  ) %>%
+read_tsv('data-raw/CRISPRoff/02_offsets.tsv.gz') %>%
+  select(guide, offset) %>%
   left_join(
     read_tsv('data-raw/CRISPRoff/00_guides.tsv.gz'),
     'guide'
@@ -36,7 +32,7 @@ xs %>%
     start2 = as.integer(start) - 1,
     end2 = as.integer(end),
     guide,
-    s = round(CRISPRspec),
+    s = floor(CRISPRspec),
     strand,
     tS = ifelse(strand == '+', start2, start2 + 3),
     tE = ifelse(strand == '+', end2 - 3, end2),
