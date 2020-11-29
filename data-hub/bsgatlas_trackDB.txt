@@ -302,3 +302,16 @@ itemRgb on
 priority 25
 bigDataUrl transbounds/nicolas-utrs.bb
 html track_description.html
+
+
+track crisprTargets
+shortLabel CRISPR Targets
+longLabel CRISPR/Cas9 -NGG Targets
+visibility pack
+type bigBed 9 +
+itemRgb on
+bigDataUrl grna.bb
+scoreFilter 7
+detailsTabUrls _offset=https://localhost/browser/localHubs/BSGatlas_v1.1_ac/data-hub/grna.tab
+
+
