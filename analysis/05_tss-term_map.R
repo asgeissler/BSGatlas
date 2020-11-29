@@ -382,6 +382,7 @@ bsg.boundaries <- list(TSS = named$TSS,
                        terminator = named$Terminator,
                        obsolete = obsolete)
 save(bsg.boundaries, file = 'analysis/05_bsg_boundaries.rda')
+# load('analysis/05_bsg_boundaries.rda')
 
 ##############################################################################
 ##############################################################################
