@@ -10,6 +10,7 @@ BSGatlas: An enhanced annotation integration of the Bacillus subtilis genome
     <br/>
 Geissler&nbsp;AS,
 Anthon&nbsp;C,
+Alkan&nbsp;F,
 González-Tortuero&nbsp;E,
 Poulsen&nbsp;LD,
 Kallehauge&nbsp;TK,
@@ -105,8 +106,34 @@ Gorodkin&nbsp;J .
 </P>
 
 <P>
-  <H3>Tiling-array signals</H3>
+  <H3>Tiling-array signals (not shown by default)</H3>
   This category shows the log2 raw signal of the tiling-array experiments
   conducted by Nicolas <i>et al.</i>. 
   The data was retrieved from GEO (acession GSE27219).
+</P>
+
+<P>
+  <H3>Lifted probes</H3>
+  Information of the probes design for the tiling-array experiments. The intial design was for a a former 
+ genome assembly, such that the shown information is lifter over to the genome assembly used in this browser based on a pair-wise genome alignment.
+</P>
+
+<P>
+  <H3>CRISPR Targets</H3>
+  Predictions of CRISPR-Cas9 gRNA targets for the entire genome, filtered for
+  specificity. The specificity is computed with the CRISPRspec score,
+  considering all potential off-target sites with mismatches up to 8 nts with a
+  PAM sequence of NGG, NAG and NGA. Per default, only guides with CRISPRspec
+  score larger than 7 are shown. A click on a guide reveals a detailed page of
+  its potential off-targets (with mismatches up to 4 nts), ranked by their
+  CRISPRoff off-target confidence score. Note that, G-U wobbles are not
+  considered as a mismatch in the CRISPRoff off-target confidence score
+  computation. Both on-/off targets' locations also show information of
+  potentially affected gene/operon targets by listing overlapping annotation in
+  the BSGatlas. For all predicted on-target sides, we also show the predicted
+  efficiency of the genome-editing, estimated with the Azimuth score. Please
+  note that a few guides have potentially multiple on-targets with exact
+  sequence matches. These are explicitly highlighted and accompanied by
+  information on alternative on-target sites.
+
 </P>
