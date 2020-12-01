@@ -6,11 +6,14 @@ load('analysis/05_bsg_boundaries.rda')
 load('analysis/06_utrs.rda')
 load('analysis/07_isoforms.rda')
 
+library(magrittr)
 library(xlsx)
 library(conflicted)
 conflict_scout()
 conflict_prefer("lag", "dplyr")
 conflict_prefer("filter", "dplyr")
+
+
 
 ##############################################################################
 out <- createWorkbook()
@@ -61,7 +64,9 @@ more <- tribble(
   'TSSs',
   'List of TSS positions with indication from which resource they originated. All TSSs have a resource dependent esolution limit. If available, the binding sigma factor and related PubMed Id citations are shown.',
   'Terminators',
-  'Table of Terminator annotations which resource annotated them and what free binding energy the terminating RNA structure has.'
+  'Table of Terminator annotations which resource annotated them and what free binding energy the terminating RNA structure has.',
+  'Rfam extra',
+  'Table of Rfam hits that were additionally detected in the most relaxed senseitivity level.'
 )
 
 ###
@@ -328,6 +333,41 @@ bsg.boundaries$terminator %>%
          'annotation origin' = src) %>%
   mutate(highlight = 1:n() %% 2 == 0) %>%
   myAdd('Terminators')
+##############################################################################
+read_tsv('data-raw/rfam14.1/relaxed.bed',
+         col_names = c('chr', 'start', 'end', 'meta', 'score', 'strand')) %>%
+  mutate_at(c('start', 'end'), as.integer) %>%
+  mutate(start = start + 1L) %>%
+  select(start, end, strand, meta) %>%
+  mutate_at('meta', str_remove, '^infernalRfam\\|') %>%
+  mutate_at('meta', str_remove, '!.*$') %>%
+  separate(meta,
+           c('type', 'Rfam family', 'Name', 'E-Value', 'Score'),
+           sep = '\\|') %>%
+  mutate_at(c('E-Value', 'Score'), str_remove, '^.*=') %>%
+  mutate(id = paste0('foo-', 1:n())) -> sens
+source('scripts/overlap_matching.R')
+sens %>%
+  overlap_matching(
+    merging$merged_src %>%
+      filter(str_detect(src, 'Rfam')) %>%
+      select(merged_id) %>%
+      unique %>%
+      left_join(merging$merged_genes) %>%
+      rename(id = merged_id)
+    ) %>%
+  filter(!antisense) %>%
+  filter(is.na(y)) %>%
+  select(id = x) %>%
+  unique %>%
+  left_join(sens) %>%
+  select(-id) %>%
+  arrange(start) %>%
+  unique -> extra
+extra %>%
+  select(`Rfam family`, Name, type, everything()) %>%
+  mutate(highlight = 1:n() %% 2 == 0) %>%
+  myAdd('Rfam extra hits')
 ##############################################################################
 ##############################################################################
 saveWorkbook(out, 'xlsx-table/BSGatlas-v1.1.xlsx')
