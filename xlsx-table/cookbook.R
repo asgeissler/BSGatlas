@@ -349,18 +349,16 @@ read_tsv('data-raw/rfam14.1/relaxed.bed',
 source('scripts/overlap_matching.R')
 sens %>%
   overlap_matching(
-    merging$merged_src %>%
-      filter(str_detect(src, 'Rfam')) %>%
-      select(merged_id) %>%
-      unique %>%
-      left_join(merging$merged_genes) %>%
-      rename(id = merged_id)
+    'data-raw/rfam14.1/medium.bed' %>%
+      read_tsv(col_names = c('chr', 'start', 'end', 'id', 'score', 'strand')) %>%
+      mutate_at(c('start', 'end'), as.integer) %>%
+      mutate(start = start + 1L) %>%
+      select(start, end, strand, id)
     ) %>%
-  filter(!antisense) %>%
-  filter(is.na(y)) %>%
-  select(id = x) %>%
-  unique %>%
-  left_join(sens) %>%
+  filter(!antisense) -> cmp
+
+sens %>%
+  anti_join(filter(cmp, mode == 'equal'), c('id' = 'x')) %>%
   select(-id) %>%
   arrange(start) %>%
   unique -> extra
