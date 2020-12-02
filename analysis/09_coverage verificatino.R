@@ -73,11 +73,12 @@ nicolas$all.features %>%
 
 # The negative control: Gaps in annotations
 annots.bsg$`BSGatlas v1.1` %>%
+  c(nic.annot) %>%
   reduce_ranges_directed() %>%
   gaps() -> foo
 foo$ID <- as.character(1:length(foo))
 foo$type <- 'annotation gap'
-foo$src <- 'BSGatlas v1.1'
+foo$src <- 'BSGatlas + Nicolas et al.'
     
 
 annot <- c(annots.bsg, nic.annot, foo) %>%
