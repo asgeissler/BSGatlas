@@ -78,7 +78,7 @@ annots.bsg$`BSGatlas v1.1` %>%
   gaps() -> foo
 foo$ID <- as.character(1:length(foo))
 foo$type <- 'annotation gap'
-foo$src <- 'BSGatlas + Nicolas et al.'
+foo$src <- 'BSGatlas + Nicolas'
     
 
 annot <- c(annots.bsg, nic.annot, foo) %>%
@@ -157,5 +157,5 @@ raw.coverage %>%
   theme(legend.position = 'bottom')
 
 ggsave('analysis/09_coverage.pdf',
-       width = 10, height = 8)
+       width = 11, height = 8)
 
