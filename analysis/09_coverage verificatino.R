@@ -146,13 +146,24 @@ raw.coverage %>%
   filter(type != 'transcript') %>%
   filter(src != 'BSGatlas v1') %>%
   mutate_at('lab', str_remove, ' v1.1$') %>%
+  mutate_at('lab', fct_relevel, c(
+    'annotation gap - BSGatlas + Nicolas',
+    "3'UTR - Nicolas et al.",
+    "3'UTR - BSGatlas",
+    'intra/intergenic - Nicolas et al.',
+    "5'UTR - BSGatlas",
+    'non-coding gene - BSGatlas',
+    "5'UTR - Nicolas et al.",
+    'internal_UTR - BSGatlas',
+    'coding gene - BSGatlas'
+  )) %>%
   ggplot(aes(avg.coverage, color = lab)) +
   stat_ecdf(size = 1.5) +
   ggsci::scale_color_jco(name = NULL) +
   scale_y_continuous(breaks = seq(0, 1, .1)) +
   xlab('Average coverage by tiling-array log2 signal') +
   ylab('Cumulative Distribution') +
-  guides(col = guide_legend(nrow = 3, byrow = TRUE)) +
+  guides(col = guide_legend(nrow = 3, byrow = FALSE)) +
   theme_minimal(18) +
   theme(legend.position = 'bottom')
 
