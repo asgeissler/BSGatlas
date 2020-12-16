@@ -446,7 +446,7 @@ all.meta %>%
     ),
     'id'
   ) %>%
-  select(id, Name, desc = Description, type = Type search = info) -> search
+  select(id, Name, desc = Description, type = Type, search = info) -> search
 
 #########################################################################
 # Make an SQLite version
