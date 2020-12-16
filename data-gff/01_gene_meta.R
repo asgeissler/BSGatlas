@@ -379,6 +379,7 @@ merging$merged_src %>%
   unique  %>%
   left_join(fams, 'src_locus') %>%
   mutate(key = ifelse(is.na(family), locus, family)) %>%
+  mutate_at('key', str_remove, '_match_.*$') %>%
   select(merged_id, db, key) %>%
   mutate(
     key = ifelse(db == 'subti',

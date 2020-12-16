@@ -16,8 +16,10 @@ BSGatlas-gene-20	ko00550	Peptidoglycan biosynthesis
 BSGatlas-gene-20	ko01100	Metabolic pathways
 BSGatlas-gene-21	ko00750	Vitamin B6 metabolism
 BSGatlas-gene-21	ko01100	Metabolic pathways
+BSGatlas-gene-21	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-23	ko00750	Vitamin B6 metabolism
 BSGatlas-gene-23	ko01100	Metabolic pathways
+BSGatlas-gene-23	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-25	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-26	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-27	ko00230	Purine metabolism
@@ -64,6 +66,7 @@ BSGatlas-gene-94	ko01100	Metabolic pathways
 BSGatlas-gene-94	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-96	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-96	ko01100	Metabolic pathways
+BSGatlas-gene-96	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-99	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-99	ko00920	Sulfur metabolism
 BSGatlas-gene-99	ko01100	Metabolic pathways
@@ -72,14 +75,20 @@ BSGatlas-gene-99	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-99	ko01200	Carbon metabolism
 BSGatlas-gene-99	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-100	ko00790	Folate biosynthesis
+BSGatlas-gene-100	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-101	ko00790	Folate biosynthesis
+BSGatlas-gene-101	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-102	ko00790	Folate biosynthesis
+BSGatlas-gene-102	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-103	ko00790	Folate biosynthesis
 BSGatlas-gene-103	ko01100	Metabolic pathways
+BSGatlas-gene-103	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-104	ko00790	Folate biosynthesis
 BSGatlas-gene-104	ko01100	Metabolic pathways
+BSGatlas-gene-104	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-105	ko00790	Folate biosynthesis
 BSGatlas-gene-105	ko01100	Metabolic pathways
+BSGatlas-gene-105	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-109	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-110	ko03010	Ribosome
 BSGatlas-gene-111	ko03010	Ribosome
@@ -104,6 +113,7 @@ BSGatlas-gene-133	ko01100	Metabolic pathways
 BSGatlas-gene-133	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-134	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-134	ko01100	Metabolic pathways
+BSGatlas-gene-134	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-136	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-136	ko00920	Sulfur metabolism
 BSGatlas-gene-136	ko01100	Metabolic pathways
@@ -153,6 +163,7 @@ BSGatlas-gene-182	ko00230	Purine metabolism
 BSGatlas-gene-182	ko00730	Thiamine metabolism
 BSGatlas-gene-182	ko01100	Metabolic pathways
 BSGatlas-gene-182	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-182	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-186	ko03010	Ribosome
 BSGatlas-gene-187	ko03010	Ribosome
 BSGatlas-gene-188	ko03010	Ribosome
@@ -228,6 +239,7 @@ BSGatlas-gene-311	ko01100	Metabolic pathways
 BSGatlas-gene-311	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-311	ko01210	2-Oxocarboxylic acid metabolism
 BSGatlas-gene-311	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-311	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-313	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-313	ko01100	Metabolic pathways
 BSGatlas-gene-313	ko01110	Biosynthesis of secondary metabolites
@@ -249,6 +261,7 @@ BSGatlas-gene-323	ko00053	Ascorbate and aldarate metabolism
 BSGatlas-gene-323	ko01100	Metabolic pathways
 BSGatlas-gene-338	ko00790	Folate biosynthesis
 BSGatlas-gene-338	ko01100	Metabolic pathways
+BSGatlas-gene-338	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-338	ko02020	Two-component system
 BSGatlas-gene-339	ko03060	Protein export
 BSGatlas-gene-339	ko03070	Bacterial secretion system
@@ -291,6 +304,7 @@ BSGatlas-gene-384	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-384	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-392	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-392	ko01100	Metabolic pathways
+BSGatlas-gene-392	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-395	ko00400	Phenylalanine, tyrosine and tryptophan biosynthesis
 BSGatlas-gene-395	ko01100	Metabolic pathways
 BSGatlas-gene-395	ko01110	Biosynthesis of secondary metabolites
@@ -307,6 +321,7 @@ BSGatlas-gene-409	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-409	ko01100	Metabolic pathways
 BSGatlas-gene-409	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-409	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-409	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-410	ko00910	Nitrogen metabolism
 BSGatlas-gene-410	ko01100	Metabolic pathways
 BSGatlas-gene-410	ko01120	Microbial metabolism in diverse environments
@@ -322,6 +337,7 @@ BSGatlas-gene-413	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-414	ko00910	Nitrogen metabolism
 BSGatlas-gene-415	ko00790	Folate biosynthesis
 BSGatlas-gene-415	ko01100	Metabolic pathways
+BSGatlas-gene-415	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-419	ko02010	ABC transporters
 BSGatlas-gene-420	ko02010	ABC transporters
 BSGatlas-gene-420	ko02040	Flagellar assembly
@@ -360,6 +376,7 @@ BSGatlas-gene-448	ko01100	Metabolic pathways
 BSGatlas-gene-448	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-448	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-448	ko01220	Degradation of aromatic compounds
+BSGatlas-gene-448	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-449	ko00627	Aminobenzoate degradation
 BSGatlas-gene-449	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-449	ko01220	Degradation of aromatic compounds
@@ -413,6 +430,7 @@ BSGatlas-gene-490	ko03060	Protein export
 BSGatlas-gene-494	ko00740	Riboflavin metabolism
 BSGatlas-gene-494	ko01100	Metabolic pathways
 BSGatlas-gene-494	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-494	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-495	ko00480	Glutathione metabolism
 BSGatlas-gene-495	ko01100	Metabolic pathways
 BSGatlas-gene-510	ko00040	Pentose and glucuronate interconversions
@@ -448,6 +466,7 @@ BSGatlas-gene-687	ko02010	ABC transporters
 BSGatlas-gene-701	ko00730	Thiamine metabolism
 BSGatlas-gene-701	ko00790	Folate biosynthesis
 BSGatlas-gene-701	ko01100	Metabolic pathways
+BSGatlas-gene-701	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-701	ko02020	Two-component system
 BSGatlas-gene-709	ko00500	Starch and sucrose metabolism
 BSGatlas-gene-709	ko02060	Phosphotransferase system (PTS)
@@ -467,6 +486,7 @@ BSGatlas-gene-715	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-715	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-715	ko01100	Metabolic pathways
 BSGatlas-gene-715	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-715	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-716	ko00051	Fructose and mannose metabolism
 BSGatlas-gene-716	ko01100	Metabolic pathways
 BSGatlas-gene-716	ko02024	Quorum sensing
@@ -479,8 +499,10 @@ BSGatlas-gene-725	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-726	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-727	ko00730	Thiamine metabolism
 BSGatlas-gene-727	ko01100	Metabolic pathways
+BSGatlas-gene-727	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-733	ko00790	Folate biosynthesis
 BSGatlas-gene-733	ko01100	Metabolic pathways
+BSGatlas-gene-733	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-733	ko04122	Sulfur relay system
 BSGatlas-gene-735	ko03060	Protein export
 BSGatlas-gene-735	ko03070	Bacterial secretion system
@@ -512,6 +534,7 @@ BSGatlas-gene-804	ko00230	Purine metabolism
 BSGatlas-gene-804	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-804	ko01100	Metabolic pathways
 BSGatlas-gene-804	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-804	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-805	ko00230	Purine metabolism
 BSGatlas-gene-805	ko01100	Metabolic pathways
 BSGatlas-gene-805	ko01110	Biosynthesis of secondary metabolites
@@ -647,6 +670,7 @@ BSGatlas-gene-978	ko01100	Metabolic pathways
 BSGatlas-gene-978	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-978	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-978	ko01200	Carbon metabolism
+BSGatlas-gene-978	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-988	ko00500	Starch and sucrose metabolism
 BSGatlas-gene-988	ko01100	Metabolic pathways
 BSGatlas-gene-990	ko00500	Starch and sucrose metabolism
@@ -670,6 +694,7 @@ BSGatlas-gene-1042	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1042	ko01100	Metabolic pathways
 BSGatlas-gene-1042	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1042	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1042	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1048	ko03010	Ribosome
 BSGatlas-gene-1049	ko03010	Ribosome
 BSGatlas-gene-1050	ko03010	Ribosome
@@ -691,6 +716,7 @@ BSGatlas-gene-1065	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-1066	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-1072	ko00730	Thiamine metabolism
 BSGatlas-gene-1072	ko01100	Metabolic pathways
+BSGatlas-gene-1072	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1075	ko00380	Tryptophan metabolism
 BSGatlas-gene-1075	ko00630	Glyoxylate and dicarboxylate metabolism
 BSGatlas-gene-1075	ko01100	Metabolic pathways
@@ -724,6 +750,7 @@ BSGatlas-gene-1131	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-1142	ko00730	Thiamine metabolism
 BSGatlas-gene-1142	ko00790	Folate biosynthesis
 BSGatlas-gene-1142	ko01100	Metabolic pathways
+BSGatlas-gene-1142	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1142	ko02020	Two-component system
 BSGatlas-gene-1146	ko00020	Citrate cycle (TCA cycle)
 BSGatlas-gene-1146	ko00630	Glyoxylate and dicarboxylate metabolism
@@ -763,6 +790,7 @@ BSGatlas-gene-1175	ko02010	ABC transporters
 BSGatlas-gene-1187	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1187	ko01100	Metabolic pathways
 BSGatlas-gene-1187	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1187	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1209	ko00260	Glycine, serine and threonine metabolism
 BSGatlas-gene-1209	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-1209	ko00680	Methane metabolism
@@ -772,23 +800,28 @@ BSGatlas-gene-1209	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1209	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-1209	ko01200	Carbon metabolism
 BSGatlas-gene-1209	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-1209	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1219	ko00550	Peptidoglycan biosynthesis
 BSGatlas-gene-1219	ko01100	Metabolic pathways
 BSGatlas-gene-1219	ko01501	beta-Lactam resistance
 BSGatlas-gene-1220	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1220	ko01100	Metabolic pathways
 BSGatlas-gene-1220	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1220	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1221	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1221	ko01100	Metabolic pathways
 BSGatlas-gene-1221	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1221	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1222	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1222	ko01100	Metabolic pathways
 BSGatlas-gene-1222	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1222	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1225	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-1225	ko01100	Metabolic pathways
 BSGatlas-gene-1225	ko01212	Fatty acid metabolism
 BSGatlas-gene-1233	ko00785	Lipoic acid metabolism
 BSGatlas-gene-1233	ko01100	Metabolic pathways
+BSGatlas-gene-1233	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1235	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-1235	ko00071	Fatty acid degradation
 BSGatlas-gene-1235	ko01100	Metabolic pathways
@@ -855,9 +888,11 @@ BSGatlas-gene-1304	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-1305	ko00680	Methane metabolism
 BSGatlas-gene-1305	ko01100	Metabolic pathways
 BSGatlas-gene-1305	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1305	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1306	ko00680	Methane metabolism
 BSGatlas-gene-1306	ko01100	Metabolic pathways
 BSGatlas-gene-1306	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1306	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1312	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-1312	ko00450	Selenocompound metabolism
 BSGatlas-gene-1312	ko00670	One carbon pool by folate
@@ -869,6 +904,7 @@ BSGatlas-gene-1322	ko02024	Quorum sensing
 BSGatlas-gene-1327	ko00740	Riboflavin metabolism
 BSGatlas-gene-1327	ko01100	Metabolic pathways
 BSGatlas-gene-1327	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1327	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1332	ko00220	Arginine biosynthesis
 BSGatlas-gene-1332	ko01100	Metabolic pathways
 BSGatlas-gene-1332	ko01110	Biosynthesis of secondary metabolites
@@ -894,9 +930,11 @@ BSGatlas-gene-1335	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-1336	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1336	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-1336	ko01100	Metabolic pathways
+BSGatlas-gene-1336	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1337	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1337	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-1337	ko01100	Metabolic pathways
+BSGatlas-gene-1337	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1338	ko00220	Arginine biosynthesis
 BSGatlas-gene-1338	ko01100	Metabolic pathways
 BSGatlas-gene-1338	ko01110	Biosynthesis of secondary metabolites
@@ -908,6 +946,7 @@ BSGatlas-gene-1348	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-1348	ko00780	Biotin metabolism
 BSGatlas-gene-1348	ko01100	Metabolic pathways
 BSGatlas-gene-1348	ko01212	Fatty acid metabolism
+BSGatlas-gene-1348	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1350	ko02024	Quorum sensing
 BSGatlas-gene-1351	ko02024	Quorum sensing
 BSGatlas-gene-1354	ko02024	Quorum sensing
@@ -932,25 +971,33 @@ BSGatlas-gene-1382	ko00230	Purine metabolism
 BSGatlas-gene-1382	ko01100	Metabolic pathways
 BSGatlas-gene-1383	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-1383	ko01100	Metabolic pathways
+BSGatlas-gene-1383	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1388	ko00730	Thiamine metabolism
 BSGatlas-gene-1388	ko01100	Metabolic pathways
+BSGatlas-gene-1388	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1389	ko00730	Thiamine metabolism
 BSGatlas-gene-1389	ko01100	Metabolic pathways
+BSGatlas-gene-1389	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1390	ko00730	Thiamine metabolism
 BSGatlas-gene-1390	ko01100	Metabolic pathways
+BSGatlas-gene-1390	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1391	ko04122	Sulfur relay system
 BSGatlas-gene-1392	ko00730	Thiamine metabolism
 BSGatlas-gene-1392	ko01100	Metabolic pathways
+BSGatlas-gene-1392	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1393	ko00730	Thiamine metabolism
 BSGatlas-gene-1393	ko01100	Metabolic pathways
+BSGatlas-gene-1393	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1393	ko04122	Sulfur relay system
 BSGatlas-gene-1394	ko00730	Thiamine metabolism
 BSGatlas-gene-1394	ko01100	Metabolic pathways
+BSGatlas-gene-1394	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1395	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-1395	ko00780	Biotin metabolism
 BSGatlas-gene-1395	ko01100	Metabolic pathways
 BSGatlas-gene-1395	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1395	ko01212	Fatty acid metabolism
+BSGatlas-gene-1395	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1409	ko03420	Nucleotide excision repair
 BSGatlas-gene-1409	ko03430	Mismatch repair
 BSGatlas-gene-1415	ko00270	Cysteine and methionine metabolism
@@ -974,10 +1021,12 @@ BSGatlas-gene-1433	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-1433	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-1433	ko01100	Metabolic pathways
 BSGatlas-gene-1433	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1433	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1442	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1442	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1442	ko01100	Metabolic pathways
 BSGatlas-gene-1442	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1442	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1451	ko00630	Glyoxylate and dicarboxylate metabolism
 BSGatlas-gene-1451	ko00680	Methane metabolism
 BSGatlas-gene-1451	ko01100	Metabolic pathways
@@ -987,6 +1036,7 @@ BSGatlas-gene-1459	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1459	ko01100	Metabolic pathways
 BSGatlas-gene-1459	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1459	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1459	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1465	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1466	ko00040	Pentose and glucuronate interconversions
 BSGatlas-gene-1466	ko01100	Metabolic pathways
@@ -1063,6 +1113,7 @@ BSGatlas-gene-1629	ko00790	Folate biosynthesis
 BSGatlas-gene-1629	ko01100	Metabolic pathways
 BSGatlas-gene-1630	ko00790	Folate biosynthesis
 BSGatlas-gene-1630	ko01100	Metabolic pathways
+BSGatlas-gene-1630	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1631	ko00790	Folate biosynthesis
 BSGatlas-gene-1631	ko01100	Metabolic pathways
 BSGatlas-gene-1632	ko00790	Folate biosynthesis
@@ -1096,8 +1147,10 @@ BSGatlas-gene-1695	ko01100	Metabolic pathways
 BSGatlas-gene-1696	ko04122	Sulfur relay system
 BSGatlas-gene-1697	ko00790	Folate biosynthesis
 BSGatlas-gene-1697	ko01100	Metabolic pathways
+BSGatlas-gene-1697	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1699	ko00790	Folate biosynthesis
 BSGatlas-gene-1699	ko01100	Metabolic pathways
+BSGatlas-gene-1699	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1699	ko04122	Sulfur relay system
 BSGatlas-gene-1700	ko04122	Sulfur relay system
 BSGatlas-gene-1708	ko00051	Fructose and mannose metabolism
@@ -1111,6 +1164,7 @@ BSGatlas-gene-1710	ko03060	Protein export
 BSGatlas-gene-1713	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-1713	ko01100	Metabolic pathways
 BSGatlas-gene-1713	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1713	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1719	ko02020	Two-component system
 BSGatlas-gene-1722	ko00230	Purine metabolism
 BSGatlas-gene-1722	ko01100	Metabolic pathways
@@ -1149,6 +1203,7 @@ BSGatlas-gene-1733	ko01100	Metabolic pathways
 BSGatlas-gene-1733	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1733	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-1733	ko01200	Carbon metabolism
+BSGatlas-gene-1733	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1737	ko00330	Arginine and proline metabolism
 BSGatlas-gene-1737	ko01100	Metabolic pathways
 BSGatlas-gene-1741	ko00521	Streptomycin biosynthesis
@@ -1170,11 +1225,13 @@ BSGatlas-gene-1761	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1761	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1761	ko01100	Metabolic pathways
 BSGatlas-gene-1761	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1761	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1761	ko02020	Two-component system
 BSGatlas-gene-1762	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1762	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1762	ko01100	Metabolic pathways
 BSGatlas-gene-1762	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1762	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1763	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1763	ko01100	Metabolic pathways
 BSGatlas-gene-1764	ko00190	Oxidative phosphorylation
@@ -1185,10 +1242,12 @@ BSGatlas-gene-1766	ko00190	Oxidative phosphorylation
 BSGatlas-gene-1766	ko01100	Metabolic pathways
 BSGatlas-gene-1778	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-1778	ko01100	Metabolic pathways
+BSGatlas-gene-1778	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1785	ko03010	Ribosome
 BSGatlas-gene-1788	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-1788	ko01100	Metabolic pathways
 BSGatlas-gene-1788	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1788	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1794	ko00550	Peptidoglycan biosynthesis
 BSGatlas-gene-1795	ko00550	Peptidoglycan biosynthesis
 BSGatlas-gene-1796	ko00300	Lysine biosynthesis
@@ -1215,22 +1274,30 @@ BSGatlas-gene-1830	ko01100	Metabolic pathways
 BSGatlas-gene-1834	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1834	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-1834	ko01100	Metabolic pathways
+BSGatlas-gene-1834	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1835	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1835	ko01100	Metabolic pathways
+BSGatlas-gene-1835	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1836	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1836	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-1836	ko01100	Metabolic pathways
+BSGatlas-gene-1836	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1837	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1837	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-1837	ko01100	Metabolic pathways
+BSGatlas-gene-1837	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1838	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1838	ko01100	Metabolic pathways
+BSGatlas-gene-1838	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1839	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1839	ko01100	Metabolic pathways
+BSGatlas-gene-1839	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1840	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1840	ko01100	Metabolic pathways
+BSGatlas-gene-1840	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1841	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1841	ko01100	Metabolic pathways
+BSGatlas-gene-1841	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1843	ko00920	Sulfur metabolism
 BSGatlas-gene-1843	ko01100	Metabolic pathways
 BSGatlas-gene-1843	ko01120	Microbial metabolism in diverse environments
@@ -1249,18 +1316,22 @@ BSGatlas-gene-1847	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1847	ko01100	Metabolic pathways
 BSGatlas-gene-1847	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1847	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1847	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1848	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1848	ko01100	Metabolic pathways
 BSGatlas-gene-1848	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1848	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1849	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-1849	ko01100	Metabolic pathways
 BSGatlas-gene-1849	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1849	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-1849	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1854	ko00230	Purine metabolism
 BSGatlas-gene-1854	ko01100	Metabolic pathways
 BSGatlas-gene-1855	ko03020	RNA polymerase
 BSGatlas-gene-1856	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-1856	ko01100	Metabolic pathways
+BSGatlas-gene-1856	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1858	ko03440	Homologous recombination
 BSGatlas-gene-1860	ko00670	One carbon pool by folate
 BSGatlas-gene-1860	ko00970	Aminoacyl-tRNA biosynthesis
@@ -1275,6 +1346,7 @@ BSGatlas-gene-1866	ko01200	Carbon metabolism
 BSGatlas-gene-1866	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-1867	ko00730	Thiamine metabolism
 BSGatlas-gene-1867	ko01100	Metabolic pathways
+BSGatlas-gene-1867	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1869	ko03010	Ribosome
 BSGatlas-gene-1872	ko00260	Glycine, serine and threonine metabolism
 BSGatlas-gene-1872	ko00270	Cysteine and methionine metabolism
@@ -1301,6 +1373,7 @@ BSGatlas-gene-1878	ko00780	Biotin metabolism
 BSGatlas-gene-1878	ko01100	Metabolic pathways
 BSGatlas-gene-1878	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1878	ko01212	Fatty acid metabolism
+BSGatlas-gene-1878	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1879	ko00998	Biosynthesis of various secondary metabolites - part 2
 BSGatlas-gene-1879	ko01100	Metabolic pathways
 BSGatlas-gene-1879	ko01110	Biosynthesis of secondary metabolites
@@ -1365,6 +1438,7 @@ BSGatlas-gene-1936	ko02040	Flagellar assembly
 BSGatlas-gene-1939	ko03010	Ribosome
 BSGatlas-gene-1941	ko00240	Pyrimidine metabolism
 BSGatlas-gene-1941	ko01100	Metabolic pathways
+BSGatlas-gene-1941	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1943	ko00550	Peptidoglycan biosynthesis
 BSGatlas-gene-1943	ko00900	Terpenoid backbone biosynthesis
 BSGatlas-gene-1943	ko01110	Biosynthesis of secondary metabolites
@@ -1381,6 +1455,7 @@ BSGatlas-gene-1948	ko03440	Homologous recombination
 BSGatlas-gene-1959	ko00740	Riboflavin metabolism
 BSGatlas-gene-1959	ko01100	Metabolic pathways
 BSGatlas-gene-1959	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-1959	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1960	ko03010	Ribosome
 BSGatlas-gene-1962	ko03018	RNA degradation
 BSGatlas-gene-1968	ko00260	Glycine, serine and threonine metabolism
@@ -1413,6 +1488,7 @@ BSGatlas-gene-1980	ko00780	Biotin metabolism
 BSGatlas-gene-1980	ko01100	Metabolic pathways
 BSGatlas-gene-1980	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-1980	ko01212	Fatty acid metabolism
+BSGatlas-gene-1980	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-1985	ko00564	Glycerophospholipid metabolism
 BSGatlas-gene-1985	ko01100	Metabolic pathways
 BSGatlas-gene-1986	ko00760	Nicotinate and nicotinamide metabolism
@@ -1492,6 +1568,7 @@ BSGatlas-gene-2139	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-2139	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-2139	ko01100	Metabolic pathways
 BSGatlas-gene-2139	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2139	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2144	ko00072	Synthesis and degradation of ketone bodies
 BSGatlas-gene-2144	ko00280	Valine, leucine and isoleucine degradation
 BSGatlas-gene-2144	ko00281	Geraniol degradation
@@ -1581,6 +1658,7 @@ BSGatlas-gene-2281	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-2281	ko01100	Metabolic pathways
 BSGatlas-gene-2281	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2281	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-2281	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2286	ko00020	Citrate cycle (TCA cycle)
 BSGatlas-gene-2286	ko00310	Lysine degradation
 BSGatlas-gene-2286	ko00380	Tryptophan metabolism
@@ -1640,6 +1718,7 @@ BSGatlas-gene-2562	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-2566	ko00670	One carbon pool by folate
 BSGatlas-gene-2566	ko00790	Folate biosynthesis
 BSGatlas-gene-2566	ko01100	Metabolic pathways
+BSGatlas-gene-2566	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2567	ko00240	Pyrimidine metabolism
 BSGatlas-gene-2567	ko00670	One carbon pool by folate
 BSGatlas-gene-2567	ko01100	Metabolic pathways
@@ -1703,13 +1782,16 @@ BSGatlas-gene-2638	ko00410	beta-Alanine metabolism
 BSGatlas-gene-2638	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-2638	ko01100	Metabolic pathways
 BSGatlas-gene-2638	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2638	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2639	ko00410	beta-Alanine metabolism
 BSGatlas-gene-2639	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-2639	ko01100	Metabolic pathways
 BSGatlas-gene-2639	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2639	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2640	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-2640	ko01100	Metabolic pathways
 BSGatlas-gene-2640	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2640	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2642	ko00780	Biotin metabolism
 BSGatlas-gene-2642	ko01100	Metabolic pathways
 BSGatlas-gene-2646	ko00640	Propanoate metabolism
@@ -1789,15 +1871,18 @@ BSGatlas-gene-2672	ko00230	Purine metabolism
 BSGatlas-gene-2672	ko00240	Pyrimidine metabolism
 BSGatlas-gene-2672	ko01100	Metabolic pathways
 BSGatlas-gene-2672	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2672	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2673	ko00900	Terpenoid backbone biosynthesis
 BSGatlas-gene-2673	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2674	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-2674	ko01100	Metabolic pathways
 BSGatlas-gene-2674	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2674	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2675	ko00900	Terpenoid backbone biosynthesis
 BSGatlas-gene-2675	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2677	ko00790	Folate biosynthesis
 BSGatlas-gene-2677	ko01100	Metabolic pathways
+BSGatlas-gene-2677	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2683	ko00564	Glycerophospholipid metabolism
 BSGatlas-gene-2683	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2689	ko00900	Terpenoid backbone biosynthesis
@@ -1832,16 +1917,20 @@ BSGatlas-gene-2725	ko01100	Metabolic pathways
 BSGatlas-gene-2731	ko00740	Riboflavin metabolism
 BSGatlas-gene-2731	ko01100	Metabolic pathways
 BSGatlas-gene-2731	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2731	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2732	ko00740	Riboflavin metabolism
 BSGatlas-gene-2732	ko00790	Folate biosynthesis
 BSGatlas-gene-2732	ko01100	Metabolic pathways
 BSGatlas-gene-2732	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2732	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2733	ko00740	Riboflavin metabolism
 BSGatlas-gene-2733	ko01100	Metabolic pathways
 BSGatlas-gene-2733	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2733	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2734	ko00740	Riboflavin metabolism
 BSGatlas-gene-2734	ko01100	Metabolic pathways
 BSGatlas-gene-2734	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2734	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2734	ko02024	Quorum sensing
 BSGatlas-gene-2738	ko03060	Protein export
 BSGatlas-gene-2749	ko00300	Lysine biosynthesis
@@ -1872,6 +1961,7 @@ BSGatlas-gene-2774	ko00230	Purine metabolism
 BSGatlas-gene-2774	ko01100	Metabolic pathways
 BSGatlas-gene-2791	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-2791	ko01100	Metabolic pathways
+BSGatlas-gene-2791	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2792	ko00260	Glycine, serine and threonine metabolism
 BSGatlas-gene-2792	ko01100	Metabolic pathways
 BSGatlas-gene-2796	ko00330	Arginine and proline metabolism
@@ -1934,6 +2024,7 @@ BSGatlas-gene-2826	ko01100	Metabolic pathways
 BSGatlas-gene-2826	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2826	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-2826	ko01200	Carbon metabolism
+BSGatlas-gene-2826	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2827	ko00650	Butanoate metabolism
 BSGatlas-gene-2827	ko01100	Metabolic pathways
 BSGatlas-gene-2828	ko00280	Valine, leucine and isoleucine degradation
@@ -1994,6 +2085,7 @@ BSGatlas-gene-2855	ko00670	One carbon pool by folate
 BSGatlas-gene-2855	ko01100	Metabolic pathways
 BSGatlas-gene-2855	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-2855	ko01200	Carbon metabolism
+BSGatlas-gene-2855	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2858	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-2858	ko00620	Pyruvate metabolism
 BSGatlas-gene-2858	ko00640	Propanoate metabolism
@@ -2016,6 +2108,7 @@ BSGatlas-gene-2871	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-2871	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-2877	ko00785	Lipoic acid metabolism
 BSGatlas-gene-2877	ko01100	Metabolic pathways
+BSGatlas-gene-2877	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2879	ko00260	Glycine, serine and threonine metabolism
 BSGatlas-gene-2879	ko00630	Glyoxylate and dicarboxylate metabolism
 BSGatlas-gene-2879	ko01100	Metabolic pathways
@@ -2062,6 +2155,7 @@ BSGatlas-gene-2940	ko03410	Base excision repair
 BSGatlas-gene-2943	ko00900	Terpenoid backbone biosynthesis
 BSGatlas-gene-2943	ko01100	Metabolic pathways
 BSGatlas-gene-2943	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2948	ko02040	Flagellar assembly
 BSGatlas-gene-2949	ko03030	DNA replication
 BSGatlas-gene-2954	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-2955	ko00970	Aminoacyl-tRNA biosynthesis
@@ -2074,6 +2168,7 @@ BSGatlas-gene-2979	ko03018	RNA degradation
 BSGatlas-gene-2982	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-2982	ko01100	Metabolic pathways
 BSGatlas-gene-2982	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-2982	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-2987	ko03010	Ribosome
 BSGatlas-gene-2988	ko03030	DNA replication
 BSGatlas-gene-2988	ko03430	Mismatch repair
@@ -2082,6 +2177,7 @@ BSGatlas-gene-2993	ko00240	Pyrimidine metabolism
 BSGatlas-gene-2993	ko01100	Metabolic pathways
 BSGatlas-gene-2999	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-2999	ko01100	Metabolic pathways
+BSGatlas-gene-2999	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3001	ko00400	Phenylalanine, tyrosine and tryptophan biosynthesis
 BSGatlas-gene-3001	ko01100	Metabolic pathways
 BSGatlas-gene-3001	ko01110	Biosynthesis of secondary metabolites
@@ -2163,6 +2259,7 @@ BSGatlas-gene-3226	ko03440	Homologous recombination
 BSGatlas-gene-3229	ko04122	Sulfur relay system
 BSGatlas-gene-3230	ko00730	Thiamine metabolism
 BSGatlas-gene-3230	ko01100	Metabolic pathways
+BSGatlas-gene-3230	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3230	ko04122	Sulfur relay system
 BSGatlas-gene-3235	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-3236	ko00970	Aminoacyl-tRNA biosynthesis
@@ -2189,13 +2286,17 @@ BSGatlas-gene-3259	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3259	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3270	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-3270	ko01100	Metabolic pathways
+BSGatlas-gene-3270	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3271	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-3271	ko01100	Metabolic pathways
+BSGatlas-gene-3271	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3272	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-3272	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-3272	ko01100	Metabolic pathways
+BSGatlas-gene-3272	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3273	ko00730	Thiamine metabolism
 BSGatlas-gene-3273	ko01100	Metabolic pathways
+BSGatlas-gene-3273	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3273	ko04122	Sulfur relay system
 BSGatlas-gene-3275	ko00400	Phenylalanine, tyrosine and tryptophan biosynthesis
 BSGatlas-gene-3275	ko01100	Metabolic pathways
@@ -2211,27 +2312,33 @@ BSGatlas-gene-3280	ko03010	Ribosome
 BSGatlas-gene-3282	ko03010	Ribosome
 BSGatlas-gene-3295	ko00790	Folate biosynthesis
 BSGatlas-gene-3295	ko01100	Metabolic pathways
+BSGatlas-gene-3295	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3296	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-3301	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3301	ko01100	Metabolic pathways
 BSGatlas-gene-3301	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3301	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-3301	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3302	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3302	ko01100	Metabolic pathways
 BSGatlas-gene-3302	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3302	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-3302	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3303	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3303	ko01100	Metabolic pathways
 BSGatlas-gene-3303	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3303	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-3303	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3304	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3304	ko01100	Metabolic pathways
 BSGatlas-gene-3304	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3304	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-3304	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3306	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3306	ko01100	Metabolic pathways
 BSGatlas-gene-3306	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3306	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-3306	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3314	ko00290	Valine, leucine and isoleucine biosynthesis
 BSGatlas-gene-3314	ko00660	C5-Branched dibasic acid metabolism
 BSGatlas-gene-3314	ko01100	Metabolic pathways
@@ -2375,6 +2482,7 @@ BSGatlas-gene-3405	ko00640	Propanoate metabolism
 BSGatlas-gene-3405	ko01100	Metabolic pathways
 BSGatlas-gene-3406	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-3406	ko01100	Metabolic pathways
+BSGatlas-gene-3406	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3408	ko03410	Base excision repair
 BSGatlas-gene-3409	ko03030	DNA replication
 BSGatlas-gene-3409	ko03410	Base excision repair
@@ -2415,6 +2523,7 @@ BSGatlas-gene-3418	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3418	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3418	ko01200	Carbon metabolism
 BSGatlas-gene-3418	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-3418	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3419	ko00010	Glycolysis / Gluconeogenesis
 BSGatlas-gene-3419	ko00030	Pentose phosphate pathway
 BSGatlas-gene-3419	ko00051	Fructose and mannose metabolism
@@ -2454,6 +2563,7 @@ BSGatlas-gene-3429	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3434	ko00740	Riboflavin metabolism
 BSGatlas-gene-3434	ko01100	Metabolic pathways
 BSGatlas-gene-3434	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3434	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3438	ko02010	ABC transporters
 BSGatlas-gene-3439	ko02010	ABC transporters
 BSGatlas-gene-3440	ko02010	ABC transporters
@@ -2464,6 +2574,7 @@ BSGatlas-gene-3446	ko00780	Biotin metabolism
 BSGatlas-gene-3446	ko01100	Metabolic pathways
 BSGatlas-gene-3446	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3446	ko01212	Fatty acid metabolism
+BSGatlas-gene-3446	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3449	ko00220	Arginine biosynthesis
 BSGatlas-gene-3449	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-3449	ko01100	Metabolic pathways
@@ -2476,6 +2587,7 @@ BSGatlas-gene-3450	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3450	ko01230	Biosynthesis of amino acids
 BSGatlas-gene-3451	ko00790	Folate biosynthesis
 BSGatlas-gene-3451	ko01100	Metabolic pathways
+BSGatlas-gene-3451	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3451	ko04122	Sulfur relay system
 BSGatlas-gene-3452	ko00430	Taurine and hypotaurine metabolism
 BSGatlas-gene-3452	ko00620	Pyruvate metabolism
@@ -2486,6 +2598,7 @@ BSGatlas-gene-3452	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3452	ko01200	Carbon metabolism
 BSGatlas-gene-3460	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-3460	ko01100	Metabolic pathways
+BSGatlas-gene-3460	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3462	ko00010	Glycolysis / Gluconeogenesis
 BSGatlas-gene-3462	ko00620	Pyruvate metabolism
 BSGatlas-gene-3462	ko00630	Glyoxylate and dicarboxylate metabolism
@@ -2497,9 +2610,11 @@ BSGatlas-gene-3462	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3462	ko01200	Carbon metabolism
 BSGatlas-gene-3464	ko00730	Thiamine metabolism
 BSGatlas-gene-3464	ko01100	Metabolic pathways
+BSGatlas-gene-3464	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3464	ko04122	Sulfur relay system
 BSGatlas-gene-3465	ko00730	Thiamine metabolism
 BSGatlas-gene-3465	ko01100	Metabolic pathways
+BSGatlas-gene-3465	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3465	ko04122	Sulfur relay system
 BSGatlas-gene-3468	ko00340	Histidine metabolism
 BSGatlas-gene-3468	ko01100	Metabolic pathways
@@ -2551,16 +2666,22 @@ BSGatlas-gene-3526	ko02010	ABC transporters
 BSGatlas-gene-3527	ko02010	ABC transporters
 BSGatlas-gene-3529	ko00780	Biotin metabolism
 BSGatlas-gene-3529	ko01100	Metabolic pathways
+BSGatlas-gene-3529	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3530	ko00780	Biotin metabolism
 BSGatlas-gene-3530	ko01100	Metabolic pathways
+BSGatlas-gene-3530	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3531	ko00780	Biotin metabolism
 BSGatlas-gene-3531	ko01100	Metabolic pathways
+BSGatlas-gene-3531	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3532	ko00780	Biotin metabolism
 BSGatlas-gene-3532	ko01100	Metabolic pathways
+BSGatlas-gene-3532	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3533	ko00780	Biotin metabolism
 BSGatlas-gene-3533	ko01100	Metabolic pathways
+BSGatlas-gene-3533	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3534	ko00780	Biotin metabolism
 BSGatlas-gene-3534	ko01100	Metabolic pathways
+BSGatlas-gene-3534	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3537	ko02010	ABC transporters
 BSGatlas-gene-3538	ko02010	ABC transporters
 BSGatlas-gene-3539	ko02010	ABC transporters
@@ -2589,6 +2710,7 @@ BSGatlas-gene-3568	ko00270	Cysteine and methionine metabolism
 BSGatlas-gene-3568	ko01100	Metabolic pathways
 BSGatlas-gene-3568	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-3568	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-3568	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3570	ko00010	Glycolysis / Gluconeogenesis
 BSGatlas-gene-3570	ko00020	Citrate cycle (TCA cycle)
 BSGatlas-gene-3570	ko00620	Pyruvate metabolism
@@ -2614,22 +2736,28 @@ BSGatlas-gene-3591	ko02010	ABC transporters
 BSGatlas-gene-3593	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3593	ko01100	Metabolic pathways
 BSGatlas-gene-3593	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3593	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3594	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3594	ko01100	Metabolic pathways
 BSGatlas-gene-3594	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3594	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3595	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3595	ko01100	Metabolic pathways
 BSGatlas-gene-3595	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3595	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3596	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3596	ko01100	Metabolic pathways
 BSGatlas-gene-3596	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3596	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3597	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3597	ko01100	Metabolic pathways
 BSGatlas-gene-3597	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3597	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3598	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-3598	ko01053	Biosynthesis of siderophore group nonribosomal peptides
 BSGatlas-gene-3598	ko01100	Metabolic pathways
 BSGatlas-gene-3598	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3598	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3600	ko00040	Pentose and glucuronate interconversions
 BSGatlas-gene-3600	ko00052	Galactose metabolism
 BSGatlas-gene-3600	ko00500	Starch and sucrose metabolism
@@ -2637,11 +2765,13 @@ BSGatlas-gene-3600	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-3600	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-3600	ko01100	Metabolic pathways
 BSGatlas-gene-3600	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-3600	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3601	ko00040	Pentose and glucuronate interconversions
 BSGatlas-gene-3601	ko00053	Ascorbate and aldarate metabolism
 BSGatlas-gene-3601	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-3601	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-3601	ko01100	Metabolic pathways
+BSGatlas-gene-3601	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3609	ko00500	Starch and sucrose metabolism
 BSGatlas-gene-3609	ko01100	Metabolic pathways
 BSGatlas-gene-3609	ko01110	Biosynthesis of secondary metabolites
@@ -2746,6 +2876,7 @@ BSGatlas-gene-3723	ko02024	Quorum sensing
 BSGatlas-gene-3724	ko02024	Quorum sensing
 BSGatlas-gene-3729	ko00760	Nicotinate and nicotinamide metabolism
 BSGatlas-gene-3729	ko01100	Metabolic pathways
+BSGatlas-gene-3729	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3749	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-3749	ko00430	Taurine and hypotaurine metabolism
 BSGatlas-gene-3749	ko01100	Metabolic pathways
@@ -2794,6 +2925,7 @@ BSGatlas-gene-3789	ko00627	Aminobenzoate degradation
 BSGatlas-gene-3789	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-3793	ko00785	Lipoic acid metabolism
 BSGatlas-gene-3793	ko01100	Metabolic pathways
+BSGatlas-gene-3793	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3801	ko00230	Purine metabolism
 BSGatlas-gene-3801	ko01100	Metabolic pathways
 BSGatlas-gene-3801	ko01120	Microbial metabolism in diverse environments
@@ -2876,6 +3008,7 @@ BSGatlas-gene-3884	ko02020	Two-component system
 BSGatlas-gene-3885	ko02020	Two-component system
 BSGatlas-gene-3887	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-3887	ko01100	Metabolic pathways
+BSGatlas-gene-3887	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-3899	ko00630	Glyoxylate and dicarboxylate metabolism
 BSGatlas-gene-3899	ko01100	Metabolic pathways
 BSGatlas-gene-3915	ko02010	ABC transporters
@@ -2950,6 +3083,7 @@ BSGatlas-gene-3995	ko02010	ABC transporters
 BSGatlas-gene-3996	ko02010	ABC transporters
 BSGatlas-gene-3997	ko02010	ABC transporters
 BSGatlas-gene-4001	ko02020	Two-component system
+BSGatlas-gene-4001	ko02040	Flagellar assembly
 BSGatlas-gene-4025	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-4025	ko01054	Nonribosomal peptide structures
 BSGatlas-gene-4025	ko01100	Metabolic pathways
@@ -3054,6 +3188,7 @@ BSGatlas-gene-4153	ko00053	Ascorbate and aldarate metabolism
 BSGatlas-gene-4153	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4153	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-4153	ko01100	Metabolic pathways
+BSGatlas-gene-4153	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4158	ko01503	Cationic antimicrobial peptide (CAMP) resistance
 BSGatlas-gene-4162	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4162	ko00541	O-Antigen nucleotide sugar biosynthesis
@@ -3066,6 +3201,7 @@ BSGatlas-gene-4163	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4163	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-4163	ko01100	Metabolic pathways
 BSGatlas-gene-4163	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-4163	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4171	ko02010	ABC transporters
 BSGatlas-gene-4172	ko02010	ABC transporters
 BSGatlas-gene-4175	ko00564	Glycerophospholipid metabolism
@@ -3076,9 +3212,11 @@ BSGatlas-gene-4181	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4181	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-4181	ko01100	Metabolic pathways
 BSGatlas-gene-4181	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-4181	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4187	ko00740	Riboflavin metabolism
 BSGatlas-gene-4187	ko01100	Metabolic pathways
 BSGatlas-gene-4187	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-4187	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4194	ko00030	Pentose phosphate pathway
 BSGatlas-gene-4194	ko01100	Metabolic pathways
 BSGatlas-gene-4195	ko02010	ABC transporters
@@ -3105,11 +3243,13 @@ BSGatlas-gene-4227	ko00053	Ascorbate and aldarate metabolism
 BSGatlas-gene-4227	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4227	ko00541	O-Antigen nucleotide sugar biosynthesis
 BSGatlas-gene-4227	ko01100	Metabolic pathways
+BSGatlas-gene-4227	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4228	ko02020	Two-component system
 BSGatlas-gene-4242	ko00061	Fatty acid biosynthesis
 BSGatlas-gene-4242	ko00780	Biotin metabolism
 BSGatlas-gene-4242	ko01100	Metabolic pathways
 BSGatlas-gene-4242	ko01212	Fatty acid metabolism
+BSGatlas-gene-4242	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4244	ko02040	Flagellar assembly
 BSGatlas-gene-4245	ko02040	Flagellar assembly
 BSGatlas-gene-4258	ko02020	Two-component system
@@ -3131,6 +3271,7 @@ BSGatlas-gene-4274	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-4279	ko02024	Quorum sensing
 BSGatlas-gene-4280	ko00790	Folate biosynthesis
 BSGatlas-gene-4280	ko01100	Metabolic pathways
+BSGatlas-gene-4280	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4280	ko04122	Sulfur relay system
 BSGatlas-gene-4288	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4288	ko00550	Peptidoglycan biosynthesis
@@ -3163,6 +3304,7 @@ BSGatlas-gene-4302	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-4302	ko01120	Microbial metabolism in diverse environments
 BSGatlas-gene-4302	ko01200	Carbon metabolism
 BSGatlas-gene-4302	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-4302	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4304	ko00030	Pentose phosphate pathway
 BSGatlas-gene-4304	ko00051	Fructose and mannose metabolism
 BSGatlas-gene-4304	ko01100	Metabolic pathways
@@ -3207,6 +3349,7 @@ BSGatlas-gene-4327	ko02020	Two-component system
 BSGatlas-gene-4327	ko02024	Quorum sensing
 BSGatlas-gene-4329	ko00240	Pyrimidine metabolism
 BSGatlas-gene-4329	ko01100	Metabolic pathways
+BSGatlas-gene-4329	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4331	ko03020	RNA polymerase
 BSGatlas-gene-4334	ko00564	Glycerophospholipid metabolism
 BSGatlas-gene-4334	ko01100	Metabolic pathways
@@ -3244,6 +3387,7 @@ BSGatlas-gene-4371	ko01220	Degradation of aromatic compounds
 BSGatlas-gene-4373	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-4385	ko00785	Lipoic acid metabolism
 BSGatlas-gene-4385	ko01100	Metabolic pathways
+BSGatlas-gene-4385	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4387	ko00430	Taurine and hypotaurine metabolism
 BSGatlas-gene-4387	ko00620	Pyruvate metabolism
 BSGatlas-gene-4387	ko00640	Propanoate metabolism
@@ -3254,6 +3398,7 @@ BSGatlas-gene-4387	ko01200	Carbon metabolism
 BSGatlas-gene-4388	ko00860	Porphyrin and chlorophyll metabolism
 BSGatlas-gene-4388	ko01100	Metabolic pathways
 BSGatlas-gene-4388	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-4388	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4389	ko00998	Biosynthesis of various secondary metabolites - part 2
 BSGatlas-gene-4389	ko01100	Metabolic pathways
 BSGatlas-gene-4389	ko01110	Biosynthesis of secondary metabolites
@@ -3319,9 +3464,11 @@ BSGatlas-gene-4418	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-4418	ko01100	Metabolic pathways
 BSGatlas-gene-4418	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-4418	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-4418	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4419	ko03410	Base excision repair
 BSGatlas-gene-4424	ko00750	Vitamin B6 metabolism
 BSGatlas-gene-4424	ko01100	Metabolic pathways
+BSGatlas-gene-4424	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4426	ko00052	Galactose metabolism
 BSGatlas-gene-4426	ko00500	Starch and sucrose metabolism
 BSGatlas-gene-4426	ko01100	Metabolic pathways
@@ -3346,8 +3493,10 @@ BSGatlas-gene-4442	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4442	ko01100	Metabolic pathways
 BSGatlas-gene-4452	ko00730	Thiamine metabolism
 BSGatlas-gene-4452	ko01100	Metabolic pathways
+BSGatlas-gene-4452	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4453	ko00730	Thiamine metabolism
 BSGatlas-gene-4453	ko01100	Metabolic pathways
+BSGatlas-gene-4453	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4460	ko00620	Pyruvate metabolism
 BSGatlas-gene-4460	ko01100	Metabolic pathways
 BSGatlas-gene-4462	ko00500	Starch and sucrose metabolism
@@ -3360,6 +3509,7 @@ BSGatlas-gene-4473	ko01100	Metabolic pathways
 BSGatlas-gene-4474	ko00130	Ubiquinone and other terpenoid-quinone biosynthesis
 BSGatlas-gene-4474	ko01100	Metabolic pathways
 BSGatlas-gene-4474	ko01110	Biosynthesis of secondary metabolites
+BSGatlas-gene-4474	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4477	ko00473	D-Alanine metabolism
 BSGatlas-gene-4477	ko01100	Metabolic pathways
 BSGatlas-gene-4477	ko01503	Cationic antimicrobial peptide (CAMP) resistance
@@ -3380,6 +3530,7 @@ BSGatlas-gene-4482	ko01100	Metabolic pathways
 BSGatlas-gene-4482	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-4482	ko01210	2-Oxocarboxylic acid metabolism
 BSGatlas-gene-4482	ko01230	Biosynthesis of amino acids
+BSGatlas-gene-4482	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4483	ko00010	Glycolysis / Gluconeogenesis
 BSGatlas-gene-4483	ko00500	Starch and sucrose metabolism
 BSGatlas-gene-4484	ko00500	Starch and sucrose metabolism
@@ -3417,6 +3568,7 @@ BSGatlas-gene-4511	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-4511	ko01100	Metabolic pathways
 BSGatlas-gene-4511	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-4511	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-4511	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4515	ko00052	Galactose metabolism
 BSGatlas-gene-4515	ko00520	Amino sugar and nucleotide sugar metabolism
 BSGatlas-gene-4515	ko00541	O-Antigen nucleotide sugar biosynthesis
@@ -3506,6 +3658,7 @@ BSGatlas-gene-4627	ko00770	Pantothenate and CoA biosynthesis
 BSGatlas-gene-4627	ko01100	Metabolic pathways
 BSGatlas-gene-4627	ko01110	Biosynthesis of secondary metabolites
 BSGatlas-gene-4627	ko01120	Microbial metabolism in diverse environments
+BSGatlas-gene-4627	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4634	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-4634	ko01100	Metabolic pathways
 BSGatlas-gene-4634	ko01110	Biosynthesis of secondary metabolites
@@ -3567,6 +3720,7 @@ BSGatlas-gene-4695	ko00970	Aminoacyl-tRNA biosynthesis
 BSGatlas-gene-4696	ko00230	Purine metabolism
 BSGatlas-gene-4696	ko00250	Alanine, aspartate and glutamate metabolism
 BSGatlas-gene-4696	ko01100	Metabolic pathways
+BSGatlas-gene-4696	ko01240	Biosynthesis of cofactors
 BSGatlas-gene-4698	ko03030	DNA replication
 BSGatlas-gene-4704	ko03010	Ribosome
 BSGatlas-gene-4712	ko00190	Oxidative phosphorylation
