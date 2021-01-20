@@ -503,7 +503,7 @@ tribble(
     panel.background = element_blank()
   ) +
   xlab(NULL) +
-  ylab('Proportion rel. to nr. of operons') +
+  ylab('Proportion rel. to no. of operons') +
   theme(legend.text = element_text(face = "italic"),
         legend.justification = c(1, 1), legend.position = c(0.8, 0.9)) +
   ggsci::scale_fill_jco(name = 'Organism') -> p2

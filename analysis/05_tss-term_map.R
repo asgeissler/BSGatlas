@@ -443,8 +443,8 @@ list('TSS', 'TTS') %>%
         panel.background = element_blank()
       ) +
       ylab(ifelse(i == 'TSS',
-                  'Nr. annotated TSSs',
-                  'Nr. annotated TTSs')) +
+                  'No. of annotated TSSs',
+                  'No. of annotated TTSs')) +
       xlab(NULL) +
       theme(legend.text = element_text(face = "italic"),
             legend.position = 'none',
@@ -455,25 +455,28 @@ list('TSS', 'TTS') %>%
 # comparison via venn diagrams
 
 helper <- function(i) {
-  dat.full %>%
-    filter(src != 'BSGatlas') %>%
-    filter(type == i) %>%
-    mutate_at('src', fct_recode, 'Nicolas\net al.' = 'Nicolas et al.') %>%
-    group_by(src) %>%
-    do(i = list(.$id)) %>%
-    with(set_names(map(i, 1), src)) %>%
-    `[`(c('Nicolas\net al.', 'BsubCyc', 'DBTBS')) %>%
-    venn(ilcs = 1.1,
-         sncs = 1.1,
-         opacity = 0.6,
-         zcolor =  ggsci::pal_jama()(5)[-c(1, 2)])
-  grid.echo()
+  tmp <- function() {
+    dat.full %>%
+      filter(src != 'BSGatlas') %>%
+      filter(type == i) %>%
+      mutate_at('src', fct_recode, 'Nicolas\net al.' = 'Nicolas et al.') %>%
+      group_by(src) %>%
+      do(i = list(.$id)) %>%
+      with(set_names(map(i, 1), src)) %>%
+      `[`(c('Nicolas\net al.', 'BsubCyc', 'DBTBS')) %>%
+      venn(ilcs = 1.1,
+           sncs = 1.1,
+           opacity = 0.6,
+           zcolor =  ggsci::pal_jama()(5)[-c(1, 2)])
+  }
+  # grid.echo()
   # grid.ls()
-  grid.remove('graphics-plot-1-lines-1')
-  size <- 15
+  # grid.remove('graphics-plot-1-lines-1')
+  # size <- 15
   cowplot::ggdraw() + cowplot::draw_grob(
-    grid.grab(),
-    scale = 0.8
+    cowplot::as_grob(tmp)
+    # grid.grab(),
+    # scale = 0.8
     # width = (size + 1)/2.54,
     # height = (size + 1)/2.54
   )
@@ -544,7 +547,7 @@ tss.prop %>%
             'unknown', 'A', 'E', 'F', 'G', 'K', 'other') %>%
   ggplot(aes(x = src, fill = group, y = prop)) +
   geom_bar(stat = 'identity') +
-  xlab(NULL) + ylab('Proprotion [%]') +
+  xlab(NULL) + ylab('Proportion [%]') +
   # ggsci::scale_fill_jco(name = 'Sigma Factor') +
   scale_fill_brewer(palette = 'RdYlBu', name = 'Sigma Factor') +
   # theme_bw(base_size = 14) -> p2
@@ -577,5 +580,5 @@ cowplot::plot_grid(
 )
 
 ggsave('analysis/05_stat.pdf', 
-       width = 30, height = 20, units = 'cm')
+       width = 31, height = 20, units = 'cm')
 
