@@ -444,8 +444,8 @@ grand.stat %>%
   mutate_at('what', fct_relevel,
             'Operons', 'Transcriptional Units') %>%
   mutate_at('what', fct_recode,
-            '# annotated operons' = "Operons",
-            '# annotated TUs' = "Transcriptional Units",
+            'No. of annotated operons' = "Operons",
+            'No. of annotated TUs' = "Transcriptional Units",
             '% genes with TU' = "% genes with transcripts"
             ) %>%
   group_by(what) %>%
