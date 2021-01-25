@@ -41,7 +41,15 @@ for (i in Sys.glob('_rslurm_offtargets/results_*.RDS')) {
       tibble(
         gid = first(xs$bindings$gid),
         guide = g,
-        bytes = custom.writer(xs$meta)
+        bytes = custom.writer(
+          xs$meta#%>%
+#             # crude fix, don't want to wait another 8h
+#             str_replace(
+# '<td style="font-weight: normal; width: auto;">0</td><td style="font-weight: normal; width: auto;">0</td></tr></table>',
+# '</tr></table>'
+# 's,<td style="font-weight: normal; width: auto;">0</td><td style="font-weight: normal; width: auto;">0</td></tr></table>,</tr></table>,e'
+#             )
+        )
       )
     }) %>%
     invoke(.f = bind_rows) -> sub

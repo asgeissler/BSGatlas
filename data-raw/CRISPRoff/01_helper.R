@@ -35,10 +35,10 @@ guide.meta <- function(bindings, targets, guide, gid) {
   
   # Collect overall mismatch info
   mis.info <- tbl.c(
-    mk.row(paste(0:8, 'mismatches')),
+    mk.row(paste(0:6, 'mismatches')),
     bindings %>%
       count(mismatches) %>%
-      right_join(tibble(mismatches = 0:8), 'mismatches') %>%
+      right_join(tibble(mismatches = 0:6), 'mismatches') %>%
       arrange(mismatches) %>%
       mutate_at('n', replace_na, 0L) %>%
       pull(n) %>%
@@ -50,7 +50,12 @@ guide.meta <- function(bindings, targets, guide, gid) {
   targets %>%
     group_by(cut.pos) %>%
     summarize(over = str_c(
-      sprintf('%s: %s (<a href="https://rth.dk/resources/bsgatlas/details.php?id=%s">%s</a>)', type, name, ID, ID),
+      sprintf('%s: <a href="https://rth.dk/resources/bsgatlas/details.php?id=%s">%s</a>',
+              type,
+              ID,
+              ifelse(stringr::str_trim(name) == '',
+                     'unnamed',
+                     name)),
       collapse = '<br/>'
     )) %>%
     ungroup -> target.over
@@ -64,8 +69,8 @@ guide.meta <- function(bindings, targets, guide, gid) {
     arrange(desc(CRISPRoff)) %>%
     transmute(
       'CRISPR off-target score<br/>(CRISPRoff)' = CRISPRoff %>% round(3),
-      CRISPRspec = CRISPRspec %>% round(3),
-      Azimuth = Azimuth %>% round(3),
+      'CRISPR specificity<br/>(CRISPRspec)' = CRISPRspec %>% round(3),
+      'CRISPR efficency<br/>(Azimuth)' = Azimuth %>% round(3),
       'Cut-Position' = sprintf(
         '<a href=hgTracks?position=basu168:%s-%s>%s (%s)',
         start, end, cut.pos, strand),
